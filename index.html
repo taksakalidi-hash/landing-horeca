@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<!--
+  ПРОТОТИП. Рабочая версия на русском — для согласования смыслов и структуры.
+  Продакшн-версия для сегмента «Милан Новак» должна быть на чешском,
+  текст пишет носитель. Блок «Отзывы» — заглушка, публиковать нельзя.
+-->
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Бронь приходит в WhatsApp — система для чешских бистро и пивных</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;600;700&family=Inter:wght@400;500;600&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --green:#17372C;
+  --green-deep:#0F241C;
+  --paper:#EDE6D6;
+  --paper-lit:#F6F1E4;
+  --brass:#B8862F;
+  --graphite:#2B2A26;
+  --graphite-soft:#5E5C54;
+  --chalk:rgba(237,230,214,.62);
+  --rule:rgba(43,42,38,.16);
+
+  --display:'Zilla Slab',Georgia,serif;
+  --body:'Inter',system-ui,sans-serif;
+  --mono:'Roboto Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--paper);color:var(--graphite);
+  font-family:var(--body);font-size:17px;line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{width:min(1120px,92vw);margin-inline:auto}
+section{padding:88px 0}
+h1,h2,h3{font-family:var(--display);font-weight:700;line-height:1.12;margin:0}
+h2{font-size:clamp(28px,3.6vw,44px);letter-spacing:-.01em}
+h3{font-size:20px;font-weight:600}
+p{margin:0 0 18px}
+a{color:inherit}
+
+/* ---------- eyebrow with tally strokes ---------- */
+.eyebrow{
+  display:flex;align-items:center;gap:12px;
+  font-family:var(--mono);font-size:12px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--graphite-soft);margin-bottom:22px;
+}
+.eyebrow::before{
+  content:"";width:34px;height:14px;flex:none;
+  background:
+    linear-gradient(var(--brass),var(--brass)) 0 0/2px 100% no-repeat,
+    linear-gradient(var(--brass),var(--brass)) 7px 0/2px 100% no-repeat,
+    linear-gradient(var(--brass),var(--brass)) 14px 0/2px 100% no-repeat,
+    linear-gradient(var(--brass),var(--brass)) 21px 0/2px 100% no-repeat;
+  transform:skewX(-9deg);
+}
+.on-dark .eyebrow{color:var(--chalk)}
+
+/* ---------- prototype ribbon ---------- */
+.ribbon{
+  background:var(--graphite);color:var(--paper-lit);
+  font-family:var(--mono);font-size:12px;letter-spacing:.04em;
+  padding:9px 0;text-align:center;
+}
+
+/* ---------- hero ---------- */
+.hero{background:var(--green);color:var(--paper-lit);padding:76px 0 92px;position:relative;overflow:hidden}
+.hero::after{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
+  background:radial-gradient(120% 90% at 88% 0%,rgba(184,134,47,.16),transparent 62%);
+}
+.hero .wrap{position:relative;z-index:1}
+.hero-grid{display:grid;grid-template-columns:1.08fr .92fr;gap:64px;align-items:center}
+.hero h1{
+  font-size:clamp(34px,5vw,62px);letter-spacing:-.02em;margin-bottom:26px;
+}
+.hero h1 .q{color:var(--brass)}
+.hero .sub{font-size:clamp(17px,1.4vw,19.5px);color:var(--chalk);max-width:33em}
+.hero .sub strong{color:var(--paper-lit);font-weight:600}
+
+.cta-row{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px}
+.btn{
+  display:inline-block;padding:16px 30px;border-radius:2px;text-decoration:none;
+  font-weight:600;font-size:16px;transition:transform .15s ease,background .15s ease;
+}
+.btn-primary{background:var(--brass);color:#1A1408}
+.btn-primary:hover{background:#CE9A38;transform:translateY(-1px)}
+.btn-ghost{border:1px solid rgba(237,230,214,.4);color:var(--paper-lit)}
+.btn-ghost:hover{background:rgba(237,230,214,.09)}
+.cta-note{font-family:var(--mono);font-size:12.5px;color:var(--chalk);margin-top:18px}
+
+/* ---------- phone / whatsapp signature ---------- */
+.phone{
+  background:#0B1A14;border:1px solid rgba(237,230,214,.16);border-radius:14px;
+  padding:20px 18px 24px;box-shadow:0 30px 60px rgba(0,0,0,.32);
+}
+.phone-top{
+  display:flex;justify-content:space-between;font-family:var(--mono);
+  font-size:11px;color:var(--chalk);padding-bottom:14px;margin-bottom:16px;
+  border-bottom:1px solid rgba(237,230,214,.13);letter-spacing:.06em;
+}
+.msg{
+  background:#1C4034;border-radius:10px 10px 10px 2px;padding:13px 15px;margin-bottom:11px;
+  opacity:0;transform:translateY(10px);animation:pop .5s ease forwards;
+}
+.msg:nth-child(2){animation-delay:.35s}
+.msg:nth-child(3){animation-delay:.9s}
+.msg:nth-child(4){animation-delay:1.45s}
+@keyframes pop{to{opacity:1;transform:none}}
+.msg .who{font-weight:600;font-size:14.5px;color:var(--paper-lit)}
+.msg .det{font-family:var(--mono);font-size:12.5px;color:var(--brass);margin-top:3px}
+.msg .time{font-family:var(--mono);font-size:10.5px;color:rgba(237,230,214,.45);text-align:right;margin-top:5px}
+
+/* week strip — tally marks, the counting artifact */
+.week{margin-top:22px;padding-top:18px;border-top:1px solid rgba(237,230,214,.13)}
+.week-label{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;color:var(--chalk);text-transform:uppercase;margin-bottom:12px}
+.week-days{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.day{text-align:center}
+.day .d{font-family:var(--mono);font-size:10.5px;color:rgba(237,230,214,.5)}
+.day .bar{height:38px;display:flex;align-items:flex-end;justify-content:center;gap:2.5px;margin-bottom:5px}
+.day .bar i{display:block;width:2px;background:var(--brass);transform:skewX(-9deg);border-radius:1px}
+
+/* ---------- pains ---------- */
+.pains{background:var(--paper-lit)}
+.pains h2{max-width:15em;margin-bottom:16px}
+.pains .lead{color:var(--graphite-soft);max-width:44em;margin-bottom:52px}
+.pain-list{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:2px solid var(--graphite)}
+.pain{padding:32px 26px 34px;border-right:1px solid var(--rule)}
+.pain:last-child{border-right:none}
+.pain .n{font-family:var(--mono);font-size:12px;color:var(--brass);letter-spacing:.1em;margin-bottom:14px}
+.pain h3{margin-bottom:10px}
+.pain p{font-size:15.5px;color:var(--graphite-soft);margin:0}
+.pain-close{
+  margin-top:44px;padding:30px 34px;background:var(--green);color:var(--paper-lit);
+  font-family:var(--display);font-size:clamp(19px,2.2vw,26px);line-height:1.35;
+}
+.pain-close span{color:var(--brass)}
+
+/* ---------- solution ---------- */
+.sol-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:56px;align-items:start}
+.sol-flow{list-style:none;margin:0;padding:0}
+.sol-flow li{
+  display:flex;gap:16px;align-items:baseline;padding:15px 0;border-bottom:1px solid var(--rule);
+  font-size:16.5px;
+}
+.sol-flow li::before{
+  content:"";width:9px;height:9px;flex:none;background:var(--brass);
+  transform:skewX(-9deg);
+}
+.why{margin-top:36px}
+.why div{padding:18px 0;border-top:1px solid var(--rule)}
+.why b{font-family:var(--display);font-size:17.5px;display:block;margin-bottom:5px}
+.why p{font-size:15.5px;color:var(--graphite-soft);margin:0}
+
+/* ---------- steps ---------- */
+.steps{background:var(--green);color:var(--paper-lit)}
+.steps h2{color:var(--paper-lit);margin-bottom:48px}
+.step-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:24px}
+.step{border-top:2px solid var(--brass);padding-top:20px}
+.step .n{font-family:var(--mono);font-size:12px;color:var(--brass);letter-spacing:.1em;margin-bottom:12px}
+.step h3{color:var(--paper-lit);margin-bottom:9px;font-size:18px}
+.step p{font-size:14.5px;color:var(--chalk);margin:0}
+.steps-note{
+  margin-top:40px;padding:22px 26px;border:1px solid rgba(237,230,214,.28);
+  font-size:15.5px;color:var(--chalk);
+}
+.steps-note b{color:var(--paper-lit)}
+
+/* ---------- result table ---------- */
+.res-table{width:100%;border-collapse:collapse;margin-top:40px}
+.res-table th{
+  text-align:left;font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--graphite-soft);padding:0 0 14px;font-weight:500;
+  border-bottom:2px solid var(--graphite);
+}
+.res-table td{padding:17px 0;border-bottom:1px solid var(--rule);vertical-align:top;font-size:15.5px}
+.res-table td:first-child{width:46%;padding-right:34px;color:var(--graphite-soft)}
+.res-table td:last-child{padding-left:34px;font-weight:500}
+.honest{
+  margin-top:40px;padding:26px 30px;background:var(--paper-lit);border-left:3px solid var(--brass);
+  font-size:15.5px;
+}
+.honest b{font-family:var(--display)}
+
+/* ---------- placeholder / proof ---------- */
+.proof{background:var(--paper-lit)}
+.placeholder{
+  border:2px dashed rgba(43,42,38,.3);padding:38px 34px;margin-top:32px;background:var(--paper);
+}
+.ph-tag{
+  display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.12em;
+  text-transform:uppercase;background:var(--graphite);color:var(--paper-lit);padding:5px 11px;margin-bottom:20px;
+}
+.ph-quote{font-family:var(--display);font-size:22px;color:rgba(43,42,38,.35);margin-bottom:8px}
+.ph-meta{font-family:var(--mono);font-size:12.5px;color:rgba(43,42,38,.4)}
+.ask{margin-top:30px;padding-top:26px;border-top:1px solid var(--rule)}
+.ask ol{margin:12px 0 0;padding-left:20px;font-size:15.5px;color:var(--graphite-soft)}
+.ask li{margin-bottom:7px}
+.instead{margin-top:26px;font-size:15.5px}
+.instead ul{margin:10px 0 0;padding-left:20px;color:var(--graphite-soft)}
+
+/* ---------- offer ---------- */
+.offer-grid{display:grid;grid-template-columns:1.12fr .88fr;gap:56px;align-items:start;margin-top:44px}
+.incl h3{margin:26px 0 12px;font-size:16px;font-family:var(--mono);font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--brass)}
+.incl h3:first-child{margin-top:0}
+.incl ul{list-style:none;margin:0;padding:0}
+.incl li{padding:11px 0 11px 24px;border-bottom:1px solid var(--rule);font-size:15.5px;position:relative}
+.incl li::before{content:"";position:absolute;left:0;top:19px;width:9px;height:9px;background:var(--brass);transform:skewX(-9deg)}
+
+.price-card{background:var(--green);color:var(--paper-lit);padding:36px 34px;position:sticky;top:24px}
+.price-card .cmp{width:100%;border-collapse:collapse;margin-bottom:28px}
+.price-card .cmp th{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:rgba(237,230,214,.55);text-align:left;padding-bottom:11px;font-weight:400;border-bottom:1px solid rgba(237,230,214,.2);
+}
+.price-card .cmp th:last-child{text-align:right}
+.price-card .cmp td{padding:11px 0;font-size:14px;border-bottom:1px solid rgba(237,230,214,.12);color:var(--chalk)}
+.price-card .cmp td:last-child{text-align:right;color:var(--brass);font-family:var(--mono);font-size:13px}
+.big-price{font-family:var(--display);font-size:46px;line-height:1;margin:6px 0 4px}
+.big-price small{font-size:17px;font-weight:400;color:var(--chalk)}
+.price-sub{font-family:var(--mono);font-size:12.5px;color:var(--chalk);letter-spacing:.03em}
+.price-year{margin-top:22px;padding-top:20px;border-top:1px solid rgba(237,230,214,.2);font-size:14.5px;color:var(--chalk)}
+.price-year b{color:var(--paper-lit)}
+.footnote{font-family:var(--mono);font-size:11.5px;color:var(--graphite-soft);margin-top:22px;line-height:1.5}
+
+/* ---------- guarantee ---------- */
+.guar-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:0;margin-top:42px;border-top:2px solid var(--graphite)}
+.guar{padding:30px 30px 32px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.guar:nth-child(2n){border-right:none}
+.guar h3{margin-bottom:9px}
+.guar p{font-size:15.5px;color:var(--graphite-soft);margin:0}
+
+/* ---------- final cta ---------- */
+.final{background:var(--green-deep);color:var(--paper-lit);text-align:center}
+.final h2{color:var(--paper-lit);max-width:16em;margin:0 auto 20px}
+.final p{color:var(--chalk);max-width:40em;margin:0 auto 34px;font-size:17px}
+.final .cta-row{justify-content:center}
+
+/* ---------- faq ---------- */
+.faq-list{margin-top:40px;border-top:2px solid var(--graphite)}
+details{border-bottom:1px solid var(--rule)}
+summary{
+  cursor:pointer;list-style:none;padding:24px 44px 24px 0;position:relative;
+  font-family:var(--display);font-size:19px;font-weight:600;
+}
+summary::-webkit-details-marker{display:none}
+summary::after{
+  content:"+";position:absolute;right:8px;top:22px;font-family:var(--mono);
+  font-size:24px;color:var(--brass);transition:transform .2s ease;
+}
+details[open] summary::after{content:"–"}
+details p{padding:0 60px 26px 0;color:var(--graphite-soft);font-size:16px;margin:0}
+summary:focus-visible{outline:2px solid var(--brass);outline-offset:3px}
+
+footer{background:var(--graphite);color:rgba(237,230,214,.6);padding:34px 0;font-family:var(--mono);font-size:12px}
+
+@media(max-width:900px){
+  section{padding:62px 0}
+  .hero-grid,.sol-grid,.offer-grid{grid-template-columns:1fr;gap:40px}
+  .pain-list{grid-template-columns:1fr}
+  .pain{border-right:none;border-bottom:1px solid var(--rule)}
+  .step-grid{grid-template-columns:repeat(2,1fr)}
+  .guar-grid{grid-template-columns:1fr}
+  .guar{border-right:none}
+  .price-card{position:static}
+  .res-table td:first-child,.res-table td:last-child{padding:14px 0;display:block;width:100%}
+  .res-table td:first-child{padding-bottom:2px;border-bottom:none}
+  .res-table thead{display:none}
+  details p{padding-right:0}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  .msg{opacity:1;transform:none}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<!-- 1. HERO -->
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow on-dark" style="color:rgba(237,230,214,.62)">Для бистро, пивных и трактиров · Брно и окрестности</div>
+      <h1><span class="q">«</span>Теперь бронь идёт сама.<br>Я даже не подхожу к телефону<span class="q">»</span></h1>
+      <p class="sub">Гость выбирает стол на сайте — заявка падает вам в WhatsApp. Столы на неделю вперёд видно в телефоне. <strong>Стоит как одна смена официанта в месяц — а не разово всё, что вы отложили.</strong></p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#cta">Посмотреть демо своего заведения</a>
+        <a class="btn btn-ghost" href="#how">Как это работает</a>
+      </div>
+      <p class="cta-note">Пришлите название — за день соберём страницу с бронированием и покажем. Без звонка и без обязательств.</p>
+    </div>
+
+    <div class="phone" aria-label="Пример входящих броней в WhatsApp">
+      <div class="phone-top"><span>Rezervace · WhatsApp</span><span>19:42</span></div>
+      <div class="msg"><div class="who">Petra Málková</div><div class="det">Pá 18:30 · 4 osoby · terasa</div><div class="time">19:07</div></div>
+      <div class="msg"><div class="who">Jan Dvořák</div><div class="det">So 12:00 · 2 osoby</div><div class="time">19:22</div></div>
+      <div class="msg"><div class="who">Firma Stavko s.r.o.</div><div class="det">Pá 19:00 · 9 osob · velký stůl</div><div class="time">19:41</div></div>
+      <div class="week">
+        <div class="week-label">Загрузка на неделю</div>
+        <div class="week-days">
+          <div class="day"><div class="bar"><i style="height:30%"></i><i style="height:30%"></i></div><div class="d">Po</div></div>
+          <div class="day"><div class="bar"><i style="height:44%"></i><i style="height:44%"></i><i style="height:44%"></i></div><div class="d">Út</div></div>
+          <div class="day"><div class="bar"><i style="height:38%"></i><i style="height:38%"></i></div><div class="d">St</div></div>
+          <div class="day"><div class="bar"><i style="height:60%"></i><i style="height:60%"></i><i style="height:60%"></i><i style="height:60%"></i></div><div class="d">Čt</div></div>
+          <div class="day"><div class="bar"><i style="height:100%"></i><i style="height:100%"></i><i style="height:100%"></i><i style="height:100%"></i><i style="height:100%"></i></div><div class="d">Pá</div></div>
+          <div class="day"><div class="bar"><i style="height:86%"></i><i style="height:86%"></i><i style="height:86%"></i><i style="height:86%"></i></div><div class="d">So</div></div>
+          <div class="day"><div class="bar"><i style="height:34%"></i><i style="height:34%"></i></div><div class="d">Ne</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- 2. БОЛЬ -->
+<section class="pains">
+  <div class="wrap">
+    <div class="eyebrow">То густо, то пусто</div>
+    <h2>Вы не знаете, сколько людей придёт завтра</h2>
+    <p class="lead">Три места, где заведение теряет деньги каждую неделю. Их не видно в кассе — потому что этих денег там и не было.</p>
+
+    <div class="pain-list">
+      <div class="pain">
+        <div class="n">01</div>
+        <h3>Закупка вслепую</h3>
+        <p>В четверг пусто и половина списывается, в пятницу очередь и кончилось всё к девяти. Вы закупаетесь на глаз, потому что предсказать поток нечем.</p>
+      </div>
+      <div class="pain">
+        <div class="n">02</div>
+        <h3>Телефон занят — стол ушёл</h3>
+        <p>Вы на кухне, потому что повар заболел. Кто-то звонит забронировать, но линия занята. Он не перезванивает — он идёт туда, где ответили.</p>
+      </div>
+      <div class="pain">
+        <div class="n">03</div>
+        <h3>DPH и аренда выросли — поток тот же</h3>
+        <p>Расходы поднялись, а компенсировать их нечем: те же гости, те же вечера. Каждая потерянная бронь стоит теперь дороже, чем год назад.</p>
+      </div>
+    </div>
+
+    <div class="pain-close">А за весь вечер вы <span>ни разу не сядете поужинать</span> — только на бегу между кухней и залом.</div>
+  </div>
+</section>
+
+<!-- 3. РЕШЕНИЕ -->
+<section>
+  <div class="wrap">
+    <div class="eyebrow">Решение</div>
+    <div class="sol-grid">
+      <div>
+        <h2>Не «сайт». Система, которая принимает бронь за вас</h2>
+      </div>
+      <div>
+        <ul class="sol-flow">
+          <li>Гость находит вас в Google или на Mapy.cz</li>
+          <li>Открывает страницу заведения, видит меню и свободное время</li>
+          <li>Выбирает дату, время и количество человек</li>
+          <li>Заявка приходит вам в WhatsApp — туда, где вы и так весь день</li>
+          <li>Перед визитом гость получает напоминание автоматически</li>
+        </ul>
+
+        <div class="why">
+          <div>
+            <b>Вам не нужно ничему учиться</b>
+            <p>Никакой новой программы и никакого личного кабинета. Брони приходят в WhatsApp.</p>
+          </div>
+          <div>
+            <b>Вы не платите вперёд</b>
+            <p>Разработка не стоит разового платежа. Оплата помесячная и начинается, когда система уже работает.</p>
+          </div>
+          <div>
+            <b>Домен и сайт оформлены на вас с первого дня</b>
+            <p>Доступы у вас сразу, а не «когда сдадим проект». Если мы завтра исчезнем — сайт продолжит работать, а вы ничего не потеряете.</p>
+          </div>
+          <div>
+            <b>Тексты пишет носитель чешского</b>
+            <p>Не переводчик и не Google Translate. Читается как чешское заведение, а не как перевод.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. КАК РАБОТАЕТ -->
+<section class="steps" id="how">
+  <div class="wrap">
+    <div class="eyebrow on-dark">Как проходит запуск</div>
+    <h2>Пять шагов, из них ваших — один</h2>
+    <div class="step-grid">
+      <div class="step"><div class="n">ШАГ 1</div><h3>Демо</h3><p>Присылаете название заведения. За день собираем страницу с бронированием и показываем — до всякого разговора.</p></div>
+      <div class="step"><div class="n">ШАГ 2</div><h3>Материалы</h3><p>Фото зала и блюд, меню, часы работы. Час вашего времени. Нет фото — приезжаем и снимаем сами.</p></div>
+      <div class="step"><div class="n">ШАГ 3</div><h3>Запуск · 14 дней</h3><p>Сайт, бронирование, WhatsApp, Google Business, Mapy.cz. Отсчёт идёт с момента, когда материалы у нас.</p></div>
+      <div class="step"><div class="n">ШАГ 4</div><h3>Обучение</h3><p>Проходите путь гостя своими руками. Персоналу — видео на 20 минут на чешском.</p></div>
+      <div class="step"><div class="n">ШАГ 5</div><h3>Работа</h3><p>Меню и часы меняете сами — форма на два поля. Всё остальное пишете нам в WhatsApp.</p></div>
+    </div>
+    <div class="steps-note"><b>Отсчёт 14 дней начинается не с оплаты, а с момента, когда у нас есть фото и меню.</b> Мы знаем, что вы весь день на кухне — поэтому предлагаем приехать и отснять зал самостоятельно, чтобы этот шаг не завис на месяц.</div>
+  </div>
+</section>
+
+<!-- 5. РЕЗУЛЬТАТ -->
+<section>
+  <div class="wrap">
+    <div class="eyebrow">Результат</div>
+    <h2>Что изменится через две недели</h2>
+    <table class="res-table">
+      <thead><tr><th>Сейчас</th><th>После запуска</th></tr></thead>
+      <tbody>
+        <tr><td>Бронь только по телефону — в занятое время теряется</td><td>Бронь приходит в WhatsApp круглосуточно, включая ночь и выходные</td></tr>
+        <tr><td>Загрузка зала известна на сегодня</td><td>Загрузка видна на неделю вперёд — можно закупаться по факту, а не на глаз</td></tr>
+        <tr><td>Вас находят те, кто уже знает</td><td>Вас находят по запросу «где поесть рядом» в Google и на Mapy.cz</td></tr>
+        <tr><td>Гость забыл про бронь — стол простоял пустым</td><td>Гость получает напоминание перед визитом</td></tr>
+        <tr><td>Правка меню — письмо разработчику и ожидание</td><td>Правка меню — два поля в форме или сообщение в WhatsApp</td></tr>
+        <tr><td>20 000–30 000 CZK вперёд, до всякого результата</td><td>1 990 CZK в месяц, без предоплаты, уход в любой момент</td></tr>
+      </tbody>
+    </table>
+    <div class="honest">
+      <b>Чего мы не обещаем.</b> Мы не гарантируем рост выручки на конкретный процент — он зависит от вашей кухни, цен и района, то есть от вас, а не от нас. Мы отвечаем за то, что контролируем: система работает, брони доходят, вас видно в поиске.
+    </div>
+  </div>
+</section>
+
+<!-- 6. СОЦИАЛЬНОЕ ДОКАЗАТЕЛЬСТВО (заглушка) -->
+<section class="proof">
+  <div class="wrap">
+    <div class="eyebrow">Отзывы</div>
+    <h2>Блок ждёт первых клиентов</h2>
+
+    <div class="placeholder">
+      <span class="ph-tag">Заглушка · не публиковать</span>
+      <div class="ph-quote">«______________________________________»</div>
+      <div class="ph-meta">Имя · заведение, город · с нами с ______</div>
+
+      <div class="ask">
+        <strong>Что спросить у первых клиентов, чтобы отзыв работал:</strong>
+        <ol>
+          <li>Сколько броней приходит через сайт за неделю? <em>(число сильнее любых прилагательных)</em></li>
+          <li>Что изменилось в вашем дне лично?</li>
+          <li>Чего вы боялись перед стартом и что оказалось на деле?</li>
+          <li>Что бы вы сказали владельцу заведения через дорогу?</li>
+        </ol>
+      </div>
+
+      <div class="instead">
+        <strong>Чем закрыть блок, пока отзывов нет — вместо выдуманных цитат:</strong>
+        <ul>
+          <li>Скриншот реального экрана WhatsApp с бронями (данные гостей замазаны)</li>
+          <li>Скриншот календаря загрузки зала</li>
+          <li>Видео на 40 секунд: путь гостя от Google до подтверждённой брони</li>
+          <li>Прямым текстом: «Мы запускаемся в Брно и берём первые заведения на условиях, которые не сможем повторить позже — нам нужны ваши цифры и ваш отзыв»</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 7. ОФФЕР -->
+<section>
+  <div class="wrap">
+    <div class="eyebrow">Что входит и сколько стоит</div>
+    <h2>Одна цена. Без разового платежа</h2>
+
+    <div class="offer-grid">
+      <div class="incl">
+        <h3>Основа</h3>
+        <ul>
+          <li>Сайт заведения с онлайн-бронированием</li>
+          <li>Приём заявок в WhatsApp</li>
+          <li>Календарь загрузки зала на неделю вперёд</li>
+          <li>Тексты на чешском от носителя</li>
+          <li>Настройка Google Business и Mapy.cz</li>
+        </ul>
+
+        <h3>Сопровождение · входит в месячную оплату</h3>
+        <ul>
+          <li>Хостинг, домен, обновления, резервные копии</li>
+          <li>Автонапоминания гостям перед визитом</li>
+          <li>Правки меню, часов и акций</li>
+          <li>Поддержка в рабочие часы, ответ в тот же день</li>
+        </ul>
+
+        <h3>Обучение</h3>
+        <ul>
+          <li>Видеоинструкция на чешском, 20 минут — вам и персоналу</li>
+          <li>Живой созвон после запуска</li>
+        </ul>
+      </div>
+
+      <aside class="price-card">
+        <table class="cmp">
+          <thead><tr><th>Обычно на рынке</th><th>У нас</th></tr></thead>
+          <tbody>
+            <tr><td>Сайт под ключ · 20–30 тыс. CZK вперёд</td><td>0</td></tr>
+            <tr><td>Правки · 800–1 500 CZK/час</td><td>входит</td></tr>
+            <tr><td>Хостинг и домен · 200–400 CZK/мес</td><td>входит</td></tr>
+            <tr><td>Google / Mapy.cz · 3–6 тыс. CZK</td><td>входит</td></tr>
+            <tr><td>Тексты на чешском · 2–5 тыс. CZK</td><td>входит</td></tr>
+          </tbody>
+        </table>
+
+        <div class="big-price">1 990 <small>CZK / мес</small></div>
+        <div class="price-sub">Без разового платежа · без договора на срок</div>
+
+        <div class="price-year">
+          <b>Посчитаем честно за год:</b> 23 880 CZK. Сайт под ключ стоит 20–30 тысяч сразу — и через два года его всё равно переделывать, отдельно оплачивая хостинг и каждую правку. Здесь в эту же сумму входит всё, а уйти можно в любой месяц.
+        </div>
+      </aside>
+    </div>
+
+    <p class="footnote">⚠ Диапазоны в колонке «обычно на рынке» — оценочные. Перед публикацией сверьте с 3–5 актуальными прайсами чешских студий и поставьте свои цифры: этот блок проверят первым.</p>
+  </div>
+</section>
+
+<!-- 8. ГАРАНТИЯ -->
+<section class="pains">
+  <div class="wrap">
+    <div class="eyebrow">Гарантия</div>
+    <h2>Мы не просим верить нам на слово</h2>
+    <div class="guar-grid">
+      <div class="guar"><h3>Нет предоплаты за разработку</h3><p>Вы физически не можете потерять 25 000 CZK, потому что вы их не платите. Это не обещание — это устройство сделки.</p></div>
+      <div class="guar"><h3>Первый месяц — с полным возвратом</h3><p>Не подошло по любой причине, включая «передумал» — возвращаем 1 990 CZK. Объяснять не нужно.</p></div>
+      <div class="guar"><h3>Домен и доступы у вас с первого дня</h3><p>Не после сдачи проекта, а сразу. Мы не удерживаем их как рычаг — именно так поступил прошлый подрядчик.</p></div>
+      <div class="guar"><h3>Без привязки на срок</h3><p>Уходите в любой месяц, предупредив за 30 дней. Сайт остаётся работать — сами или с другим подрядчиком.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 9. CTA -->
+<section class="final" id="cta">
+  <div class="wrap">
+    <div class="eyebrow on-dark" style="justify-content:center">Первый шаг</div>
+    <h2>Сначала посмотрите, потом разговаривайте</h2>
+    <p>Пришлите название заведения — за день соберём демо вашей страницы с бронированием. Посмотрите сами, покажете жене или партнёру, и только потом решите, нужен ли разговор.</p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="#">Написать в WhatsApp</a>
+      <a class="btn btn-ghost" href="#">Оставить название заведения</a>
+    </div>
+    <p class="cta-note">Отвечаем в рабочие часы в тот же день.</p>
+  </div>
+</section>
+
+<!-- 10. FAQ -->
+<section>
+  <div class="wrap">
+    <div class="eyebrow">Вопросы, которые задают чаще всего</div>
+    <h2>Отвечаем прямо</h2>
+
+    <div class="faq-list">
+      <details open>
+        <summary>У меня уже был разработчик. Взял предоплату и пропал. Почему с вами будет иначе?</summary>
+        <p>Потому что вы не платите вперёд. Разработка не стоит разового платежа — оплата помесячная и начинается, когда система работает. Максимум, чем вы рискуете, — 1 990 CZK за первый месяц, и те возвращаются по первой просьбе. Домен регистрируем на вас, доступы отдаём сразу, а не после сдачи.</p>
+      </details>
+
+      <details>
+        <summary>А если я сам не смогу ничего в нём поменять?</summary>
+        <p>Меню, часы работы и акции вы меняете сами — форма на два поля, ничего сложнее заполнения бланка. Всё остальное пишете нам в WhatsApp. И главное: доступы к сайту и домену у вас с первого дня. Если мы завтра исчезнем, сайт продолжит работать, а вы отдадите его любому другому специалисту — вы не окажетесь заперты, как в прошлый раз.</p>
+      </details>
+
+      <details>
+        <summary>Зачем мне сайт, если люди и так знают, где мы?</summary>
+        <p>Постоянные гости — знают, речь не о них. Речь о человеке, который в обед ищет в телефоне, где поесть рядом, и о туристе, проезжающем мимо: сейчас они видят ваших соседей. И второе — сайт здесь не витрина, а приёмник броней. Он работает ровно в тот момент, когда ваш телефон занят.</p>
+      </details>
+
+      <details>
+        <summary>1 990 в месяц — это навсегда? Сколько выйдет за год?</summary>
+        <p>23 880 CZK за год со всем включённым: хостингом, доменом, правками, поддержкой и обновлениями. Разовая разработка стоит 20–30 тысяч сразу, плюс хостинг и каждая правка отдельными счетами, плюс переделка через два года. При этом уйти вы можете в любой месяц, а сайт останется вашим — при разовой оплате такой возможности нет вообще.</p>
+      </details>
+
+      <details>
+        <summary>У меня нет времени. Я весь день на кухне, а вечером в зале.</summary>
+        <p>Ваше участие — примерно час. Отдать меню, часы и фото. Если фото нет или они старые — приезжаем и снимаем зал сами, тогда от вас нужно только открыть дверь. Дальше вы в процессе не участвуете: брони приходят туда, где вы и так сидите весь день.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">Rezervace · Brno · demo</div>
+</footer>
+
+</body>
+</html>
