@@ -1,0 +1,334 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dolní Lhota → Svinov</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1B2422;
+  --ink-soft:#57635C;
+  --paper:#F4EFE3;
+  --card:#FFFDF8;
+  --line:rgba(27,36,34,.16);
+  --rust:#C1501C;
+  --rust-soft:rgba(193,80,28,.12);
+  --teal:#2B6E64;
+  --board-bg:#1B2422;
+  --board-fg:#F4EFE3;
+  --board-fg-soft:rgba(244,239,227,.58);
+  --focus:#2B6E64;
+
+  --display:'Fraunces',Georgia,serif;
+  --body:'Work Sans',system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,'SF Mono',monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ink:#EFEAE0;
+    --ink-soft:#AFA79A;
+    --paper:#161C1A;
+    --card:#1E2725;
+    --line:rgba(239,234,224,.14);
+    --rust:#E27C49;
+    --rust-soft:rgba(226,124,73,.16);
+    --teal:#6BC2B0;
+    --board-bg:#0E1412;
+    --board-fg:#F4EFE3;
+    --board-fg-soft:rgba(244,239,227,.55);
+    --focus:#6BC2B0;
+  }
+}
+:root[data-theme="dark"]{
+  --ink:#EFEAE0;
+  --ink-soft:#AFA79A;
+  --paper:#161C1A;
+  --card:#1E2725;
+  --line:rgba(239,234,224,.14);
+  --rust:#E27C49;
+  --rust-soft:rgba(226,124,73,.16);
+  --teal:#6BC2B0;
+  --board-bg:#0E1412;
+  --board-fg:#F4EFE3;
+  --board-fg-soft:rgba(244,239,227,.55);
+  --focus:#6BC2B0;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink)}
+.page{
+  width:min(560px,92vw);margin-inline:auto;padding:56px 0 72px;
+  font-family:var(--body);color:var(--ink);
+}
+::selection{background:var(--rust-soft)}
+:focus-visible{outline:2px solid var(--focus);outline-offset:3px}
+
+.head{margin-bottom:34px}
+.eyebrow{
+  font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-soft);margin:0 0 14px;
+}
+h1{
+  font-family:var(--display);font-weight:600;font-size:clamp(30px,6vw,42px);
+  line-height:1.08;margin:0 0 12px;text-wrap:balance;letter-spacing:-.01em;
+}
+h1 .arrow{color:var(--rust);font-weight:400;padding:0 .08em}
+.dedication{margin:0;color:var(--ink-soft);font-size:15.5px;line-height:1.6;max-width:44ch}
+
+/* ---------- route diagram ---------- */
+.route{margin-bottom:38px}
+.route-track{display:flex;align-items:center;gap:10px}
+.route-point{
+  flex:none;font-family:var(--mono);font-size:12.5px;letter-spacing:.02em;
+  color:var(--ink-soft);display:flex;align-items:center;gap:7px;white-space:nowrap;
+}
+.route-point.end{flex-direction:row-reverse}
+.route-point .dot{width:7px;height:7px;border-radius:50%;background:var(--ink-soft);flex:none}
+.route-line{
+  position:relative;flex:1;height:2px;background:var(--line);border-radius:2px;
+  margin:0 2px;
+}
+.route-fill{
+  position:absolute;inset:0 auto 0 0;height:100%;width:40%;
+  background:var(--teal);border-radius:2px;transition:width .12s ease-out;
+}
+.route-marker{
+  position:absolute;top:50%;left:40%;width:11px;height:11px;border-radius:50%;
+  background:var(--teal);border:2px solid var(--paper);
+  transform:translate(-50%,-50%);transition:left .12s ease-out;
+  box-shadow:0 0 0 1px var(--teal);
+}
+.route-km{
+  margin:14px 0 0;text-align:center;font-family:var(--mono);font-size:13px;
+  color:var(--teal);font-variant-numeric:tabular-nums;
+}
+
+/* ---------- controls ---------- */
+.panel{
+  background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:26px 24px 8px;margin-bottom:22px;
+}
+.control{margin-bottom:26px}
+.control-label{
+  display:flex;justify-content:space-between;align-items:baseline;gap:12px;
+  margin-bottom:11px;
+}
+.control-label label{font-size:14.5px;font-weight:500;color:var(--ink)}
+.control-label output{
+  font-family:var(--mono);font-size:13.5px;color:var(--rust);
+  font-variant-numeric:tabular-nums;
+}
+
+input[type="range"]{
+  -webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:4px;
+  background:var(--line);outline:none;cursor:pointer;
+}
+input[type="range"]::-webkit-slider-thumb{
+  -webkit-appearance:none;appearance:none;width:20px;height:20px;border-radius:50%;
+  background:var(--rust);border:3px solid var(--card);
+  box-shadow:0 0 0 1.5px var(--rust);cursor:pointer;margin-top:0;
+}
+input[type="range"]::-moz-range-thumb{
+  width:20px;height:20px;border-radius:50%;background:var(--rust);
+  border:3px solid var(--card);box-shadow:0 0 0 1.5px var(--rust);cursor:pointer;
+}
+input[type="range"]::-moz-range-track{background:var(--line);height:6px;border-radius:4px}
+
+input[type="time"],input[type="number"]{
+  font-family:var(--mono);font-size:16px;color:var(--ink);background:var(--paper);
+  border:1px solid var(--line);border-radius:9px;padding:10px 12px;
+  width:100%;font-variant-numeric:tabular-nums;
+}
+input[type="time"]:focus,input[type="number"]:focus{border-color:var(--rust)}
+.price-input{position:relative}
+.price-input input{padding-right:42px}
+.price-input span{
+  position:absolute;right:14px;top:50%;transform:translateY(-50%);
+  font-family:var(--mono);font-size:14px;color:var(--ink-soft);pointer-events:none;
+}
+
+/* ---------- results board ---------- */
+.board{
+  display:grid;grid-template-columns:1fr 1fr;gap:2px;
+  background:var(--line);border-radius:16px;overflow:hidden;margin-bottom:26px;
+  border:1px solid var(--line);
+}
+.board-card{
+  background:var(--board-bg);color:var(--board-fg);padding:18px 16px;
+}
+.board-card.highlight{grid-column:1 / -1;background:var(--rust);padding:22px 16px}
+.board-label{
+  margin:0 0 8px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--board-fg-soft);
+}
+.board-card.highlight .board-label{color:rgba(255,255,255,.75)}
+.board-value{
+  margin:0;font-family:var(--mono);font-weight:500;font-size:22px;
+  font-variant-numeric:tabular-nums;letter-spacing:.01em;
+}
+.board-value.big{font-size:34px;font-weight:700;color:#fff}
+.board-card.highlight .board-value{color:#fff}
+
+.note{
+  font-size:13px;line-height:1.65;color:var(--ink-soft);margin:0;
+  padding-top:4px;border-top:1px solid var(--line);padding-top:18px;
+}
+.note strong{color:var(--ink);font-weight:600}
+
+@media (prefers-reduced-motion: reduce){
+  .route-fill,.route-marker{transition:none}
+}
+</style>
+
+<div class="page">
+  <header class="head">
+    <p class="eyebrow">ODIS · Moravskoslezský kraj</p>
+    <h1>Dolní Lhota<span class="arrow">→</span>Svinov</h1>
+    <p class="dedication">Osobní kalkulačka cesty do práce pro Rebeku — nastav si vzdálenost, rychlost autobusu i čas odjezdu a hned uvidíš, kdy dorazíš a kolik tě to bude stát.</p>
+  </header>
+
+  <section class="route">
+    <div class="route-track">
+      <span class="route-point start"><span class="dot"></span>Dolní Lhota</span>
+      <div class="route-line">
+        <div class="route-fill" id="routeFill"></div>
+        <div class="route-marker" id="routeMarker"></div>
+      </div>
+      <span class="route-point end">Svinov<span class="dot"></span></span>
+    </div>
+    <p class="route-km"><span id="kmLabel">6,0</span> km</p>
+  </section>
+
+  <section class="panel">
+    <div class="control">
+      <div class="control-label"><label for="distance">Vzdálenost trasy</label><output id="distanceOut">6,0 km</output></div>
+      <input type="range" id="distance" min="1" max="15" step="0.1" value="6">
+    </div>
+    <div class="control">
+      <div class="control-label"><label for="speed">Průměrná rychlost autobusu</label><output id="speedOut">22 km/h</output></div>
+      <input type="range" id="speed" min="10" max="45" step="1" value="22">
+    </div>
+    <div class="control">
+      <div class="control-label"><label for="departure">Odjezd z Dolní Lhoty</label></div>
+      <input type="time" id="departure" value="07:15">
+    </div>
+    <div class="control">
+      <div class="control-label"><label for="trips">Jízd měsíčně (tam i zpět)</label><output id="tripsOut">42</output></div>
+      <input type="range" id="trips" min="0" max="62" step="1" value="42">
+    </div>
+    <div class="control">
+      <div class="control-label"><label for="price">Cena jedné jízdenky</label></div>
+      <div class="price-input"><input type="number" id="price" min="0" step="1" value="25"><span>Kč</span></div>
+    </div>
+  </section>
+
+  <section class="board" aria-label="Výsledky výpočtu">
+    <div class="board-card">
+      <p class="board-label">Doba jízdy</p>
+      <p class="board-value" id="timeValue">16 min</p>
+    </div>
+    <div class="board-card">
+      <p class="board-label">Vzdálenost</p>
+      <p class="board-value" id="distValue">6,0 km</p>
+    </div>
+    <div class="board-card highlight">
+      <p class="board-label">Příjezd na Svinov</p>
+      <p class="board-value big" id="arrivalValue">07:31</p>
+    </div>
+    <div class="board-card">
+      <p class="board-label">Jedna jízdenka</p>
+      <p class="board-value" id="oneWayValue">25 Kč</p>
+    </div>
+    <div class="board-card">
+      <p class="board-label">Tam a zpět / den</p>
+      <p class="board-value" id="dailyValue">50 Kč</p>
+    </div>
+    <div class="board-card" style="grid-column:1 / -1">
+      <p class="board-label">Měsíčně · <span id="tripsInline">42</span> jízd</p>
+      <p class="board-value" id="monthlyValue" style="font-size:26px">1 050 Kč</p>
+    </div>
+  </section>
+
+  <p class="note">Výchozí čísla jsou jen odhad — skutečná vzdálenost, rychlost spoje i cena jízdenky ODIS se mohou lišit. Přesný spoj ověř na <strong>idos.cz</strong>, aktuální tarif na <strong>odis.cz</strong>, a hodnoty si tu uprav podle skutečnosti.</p>
+</div>
+
+<script>
+(function(){
+  const distanceEl = document.getElementById('distance');
+  const speedEl = document.getElementById('speed');
+  const departureEl = document.getElementById('departure');
+  const tripsEl = document.getElementById('trips');
+  const priceEl = document.getElementById('price');
+
+  const distanceOut = document.getElementById('distanceOut');
+  const speedOut = document.getElementById('speedOut');
+  const tripsOut = document.getElementById('tripsOut');
+  const tripsInline = document.getElementById('tripsInline');
+
+  const routeFill = document.getElementById('routeFill');
+  const routeMarker = document.getElementById('routeMarker');
+  const kmLabel = document.getElementById('kmLabel');
+
+  const timeValue = document.getElementById('timeValue');
+  const distValue = document.getElementById('distValue');
+  const arrivalValue = document.getElementById('arrivalValue');
+  const oneWayValue = document.getElementById('oneWayValue');
+  const dailyValue = document.getElementById('dailyValue');
+  const monthlyValue = document.getElementById('monthlyValue');
+
+  const czNum = (n, digits) => n.toLocaleString('cs-CZ', {minimumFractionDigits: digits || 0, maximumFractionDigits: digits || 0});
+  const czMoney = (n) => Math.round(n).toLocaleString('cs-CZ') + ' Kč';
+
+  function fillSlider(el){
+    const min = parseFloat(el.min), max = parseFloat(el.max), val = parseFloat(el.value);
+    const pct = ((val - min) / (max - min)) * 100;
+    el.style.background = `linear-gradient(to right, var(--rust) ${pct}%, var(--line) ${pct}%)`;
+  }
+
+  function formatTime(h, m){
+    return String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0');
+  }
+
+  function recalc(){
+    const distance = parseFloat(distanceEl.value);
+    const speed = parseFloat(speedEl.value);
+    const trips = parseInt(tripsEl.value, 10);
+    const price = Math.max(0, parseFloat(priceEl.value) || 0);
+    const [depH, depM] = departureEl.value.split(':').map(Number);
+
+    // route diagram
+    const routePct = Math.min(100, Math.max(3, ((distance - 1) / (15 - 1)) * 100));
+    routeFill.style.width = routePct + '%';
+    routeMarker.style.left = routePct + '%';
+    kmLabel.textContent = czNum(distance, 1);
+
+    // controls readouts
+    distanceOut.textContent = czNum(distance, 1) + ' km';
+    speedOut.textContent = speed + ' km/h';
+    tripsOut.textContent = trips;
+    tripsInline.textContent = trips;
+
+    // travel time + arrival
+    const minutes = Math.round((distance / speed) * 60);
+    const totalMin = depH * 60 + depM + minutes;
+    const arrH = Math.floor(totalMin / 60) % 24;
+    const arrM = totalMin % 60;
+
+    timeValue.textContent = minutes + ' min';
+    distValue.textContent = czNum(distance, 1) + ' km';
+    arrivalValue.textContent = formatTime(arrH, arrM);
+    oneWayValue.textContent = czMoney(price);
+    dailyValue.textContent = czMoney(price * 2);
+    monthlyValue.textContent = czMoney(price * trips);
+
+    [distanceEl, speedEl, tripsEl].forEach(fillSlider);
+  }
+
+  [distanceEl, speedEl, departureEl, tripsEl, priceEl].forEach(el => {
+    el.addEventListener('input', recalc);
+  });
+
+  recalc();
+})();
+</script>
