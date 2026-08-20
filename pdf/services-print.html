@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<!--
+  Печатный макет буклета «Услуги нутрициолога» (A4).
+  Собирается в PDF скриптом pdf/build.js: node pdf/build.js
+  Плейсхолдеры: ИМЯ специалиста, контакты, цены (сейчас «по запросу»).
+-->
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Услуги нутрициолога — буклет</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+@page{size:A4;margin:0}
+:root{
+  --moss:#22402F; --moss-deep:#16291E; --cream:#F5F0E4; --cream-lit:#FCFAF3;
+  --clay:#C2703C; --clay-lit:#D98A52; --ink:#23261F; --ink-soft:#5D6357;
+  --chalk:rgba(245,240,228,.68); --rule:rgba(35,38,31,.16); --rule-dark:rgba(245,240,228,.18);
+  --display:'Lora',Georgia,serif; --body:'Inter',system-ui,sans-serif; --mono:'Roboto Mono',monospace;
+}
+*{box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{margin:0;font-family:var(--body);color:var(--ink);font-size:10pt;line-height:1.55}
+h1,h2,h3{font-family:var(--display);font-weight:600;margin:0;line-height:1.16}
+p{margin:0 0 8pt}
+ul{margin:0;padding:0;list-style:none}
+
+.page{
+  width:210mm;height:297mm;padding:17mm 16mm 20mm;background:var(--cream-lit);
+  position:relative;overflow:hidden;page-break-after:always;display:flex;flex-direction:column;
+}
+.page:last-child{page-break-after:auto}
+.page.dark{background:var(--moss);color:var(--cream-lit)}
+
+.eyebrow{
+  font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--ink-soft);display:flex;align-items:center;gap:8pt;margin-bottom:7pt;
+}
+.eyebrow::before{content:"";width:16pt;height:1px;background:var(--clay);flex:none}
+.dark .eyebrow{color:var(--chalk)}
+
+/* ---------- обложка ---------- */
+.cover-brand{
+  display:flex;justify-content:space-between;align-items:center;
+  padding-bottom:6mm;border-bottom:1px solid var(--rule-dark);
+}
+.cover-brand .mark{display:flex;align-items:center;gap:3mm;font-family:var(--display);font-size:13pt;font-weight:600}
+.cover-brand .tag{font-family:var(--mono);font-size:8pt;letter-spacing:.16em;text-transform:uppercase;color:var(--chalk)}
+.cover-top{flex:1;display:grid;grid-template-columns:1fr 70mm;gap:12mm;align-items:center}
+.cover-photo{width:70mm;height:87mm;border-radius:4mm;overflow:hidden;margin:0;background:var(--moss-deep)}
+.cover-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 42%;display:block}
+.cover h1{font-size:30pt;letter-spacing:-.02em;margin-bottom:7mm}
+.cover h1 em{font-style:italic;color:var(--clay-lit)}
+.cover .intro{font-size:11pt;color:var(--chalk)}
+.toc{margin-bottom:10mm}
+.toc .cap{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;text-transform:uppercase;color:var(--chalk);margin-bottom:3mm}
+.toc-row{
+  display:flex;align-items:baseline;gap:3mm;padding:2.6mm 0;
+  border-bottom:1px solid rgba(245,240,228,.10);font-size:9.5pt;
+}
+.toc-row:last-child{border-bottom:none}
+.toc-row .t{flex:1}
+.toc-row .pg{font-family:var(--mono);font-size:8.5pt;color:var(--clay-lit);flex:none}
+.cover-foot{
+  padding-top:6mm;border-top:1px solid var(--rule-dark);
+  display:flex;justify-content:space-between;align-items:flex-end;font-size:9pt;
+}
+.cover-foot .who{font-family:var(--display);font-size:12.5pt;font-weight:600}
+.cover-foot .who span{font-family:var(--body);font-size:9pt;font-weight:400;color:var(--chalk)}
+.cover-foot .contacts{font-family:var(--mono);font-size:8.5pt;color:var(--chalk);text-align:right;line-height:1.7}
+
+/* ---------- общие блоки ---------- */
+.page-title{font-size:20pt;letter-spacing:-.01em;margin-bottom:4mm}
+.page-lead{color:var(--ink-soft);font-size:10pt;max-width:150mm;margin-bottom:6mm}
+.dark .page-lead{color:var(--chalk)}
+
+/* ---------- карточка услуги ---------- */
+.svc{
+  border:1px solid var(--rule);border-radius:4mm;padding:6mm 6.5mm;margin-bottom:5mm;
+  background:#fff;break-inside:avoid;
+}
+.svc.hi{background:var(--moss);color:var(--cream-lit);border-color:transparent}
+.svc-head{display:flex;justify-content:space-between;align-items:flex-start;gap:8mm;margin-bottom:3mm}
+.svc .n{font-family:var(--mono);font-size:7.5pt;letter-spacing:.16em;color:var(--clay);margin-bottom:1.5mm}
+.svc.hi .n{color:var(--clay-lit)}
+.svc h3{font-size:14.5pt;letter-spacing:-.01em}
+.svc.hi h3{font-size:16pt}
+.svc .fmt{font-size:9.5pt;color:var(--ink-soft);margin-bottom:4mm}
+.svc.hi .fmt{color:var(--chalk)}
+.depth{text-align:right;flex:none}
+.depth .lb{font-family:var(--mono);font-size:6.5pt;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);display:block;margin-bottom:1.5mm}
+.svc.hi .depth .lb{color:var(--chalk)}
+.dots{display:flex;gap:1.4mm;justify-content:flex-end}
+.dots i{width:1.9mm;height:1.9mm;border-radius:50%;background:rgba(35,38,31,.17);display:block}
+.dots i.on{background:var(--clay)}
+.svc.hi .dots i{background:rgba(245,240,228,.22)}
+.svc.hi .dots i.on{background:var(--clay-lit)}
+.sub-h{font-family:var(--mono);font-size:7pt;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:2.5mm}
+.svc.hi .sub-h{color:var(--chalk)}
+.inc{columns:2;column-gap:8mm;margin-bottom:4mm}
+.inc.one{columns:1}
+.inc li{display:flex;gap:2.5mm;align-items:baseline;font-size:9.5pt;padding:1mm 0;break-inside:avoid}
+.inc li::before{content:"";width:1.6mm;height:1.6mm;flex:none;border-radius:50%;border:.4mm solid var(--clay);transform:translateY(-.3mm)}
+.res{display:flex;gap:4mm;align-items:baseline;padding-top:3.5mm;border-top:1px solid var(--rule)}
+.svc.hi .res{border-top-color:var(--rule-dark)}
+.res .lbl{font-family:var(--mono);font-size:6.5pt;letter-spacing:.14em;text-transform:uppercase;color:var(--clay);flex:none}
+.svc.hi .res .lbl{color:var(--clay-lit)}
+.res .txt{font-family:var(--display);font-size:11pt;line-height:1.35}
+.price{font-family:var(--mono);font-size:8pt;color:var(--ink-soft);margin-top:3mm;letter-spacing:.04em}
+.svc.hi .price{color:var(--chalk)}
+
+/* ---------- легенда «глубины» ---------- */
+.legend{margin-top:auto;padding-top:6mm;border-top:1px solid var(--rule);display:flex;flex-direction:column;gap:3mm}
+.legend-dots{display:flex;align-items:center;gap:5mm;font-size:9pt;color:var(--ink-soft)}
+.legend-dots .dots{justify-content:flex-start;flex:none;width:22mm}
+
+/* ---------- навигатор ---------- */
+.rows{border-top:1.2pt solid var(--moss)}
+.row{display:flex;justify-content:space-between;gap:8mm;align-items:center;padding:3.4mm 0;border-bottom:1px solid var(--rule)}
+.row .q{font-family:var(--display);font-size:11pt;line-height:1.3}
+.row .a{font-weight:600;font-size:9.5pt;text-align:right;flex:none;color:var(--moss)}
+.row .a::before{content:"→ ";color:var(--clay)}
+
+/* ---------- шаги ---------- */
+.steps{display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:1px solid var(--rule-dark)}
+.step{padding:4.2mm 6mm 4.2mm 0;border-bottom:1px solid var(--rule-dark)}
+.step:nth-child(even){padding-left:6mm;border-left:1px solid var(--rule-dark)}
+.step .n{font-family:var(--mono);font-size:7.5pt;letter-spacing:.16em;color:var(--clay-lit);margin-bottom:2mm}
+.step h3{font-size:12pt;margin-bottom:1.5mm}
+.step p{font-size:9.5pt;color:var(--chalk);margin:0}
+
+/* ---------- принципы / faq ---------- */
+.principles li{display:flex;gap:4mm;align-items:baseline;padding:2.4mm 0;border-bottom:1px solid var(--rule-dark);font-size:10pt}
+.principles li:last-child{border-bottom:none}
+.principles li b{font-family:var(--display);color:var(--clay-lit);flex:none}
+.qa{padding:3.6mm 0;border-bottom:1px solid var(--rule);break-inside:avoid}
+.qa:last-child{border-bottom:none}
+.qa h3{font-size:11pt;margin-bottom:1.5mm}
+.qa p{font-size:9.5pt;color:var(--ink-soft);margin:0}
+
+/* ---------- финал ---------- */
+.cta-box{
+  margin-top:auto;background:var(--moss);color:var(--cream-lit);border-radius:4mm;padding:8mm 8mm 7mm;text-align:center;
+}
+.cta-box h2{font-size:17pt;margin-bottom:3mm}
+.cta-box p{color:var(--chalk);font-size:10pt;max-width:120mm;margin:0 auto 5mm}
+.cta-box .lines{font-family:var(--mono);font-size:10pt;letter-spacing:.04em;line-height:2}
+.cta-box .lines b{color:var(--clay-lit);font-weight:500}
+.disclaimer{font-size:7.5pt;color:var(--ink-soft);line-height:1.55;margin-top:6mm;padding-top:4mm;border-top:1px solid var(--rule)}
+
+/* ---------- колонтитул ---------- */
+.foot{
+  position:absolute;left:16mm;right:16mm;bottom:9mm;display:flex;justify-content:space-between;
+  font-family:var(--mono);font-size:7pt;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);
+}
+.dark .foot{color:var(--chalk)}
+</style>
+</head>
+<body>
+
+<!-- ======== 1. ОБЛОЖКА ======== -->
+<section class="page cover dark">
+  <div class="cover-brand">
+    <div class="mark">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+        <path d="M20 4c0 9-5.5 14-13 14M20 4C11 4 6 8.5 6 15c0 1.3.2 2.4.6 3.4" stroke="#D98A52" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M4 21c.6-1.6 1.4-3 2.6-4.3" stroke="#F5F0E4" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+      нутрициолог
+    </div>
+    <div class="tag">буклет услуг</div>
+  </div>
+  <div class="cover-top">
+    <div>
+      <div class="eyebrow">сопровождение · консультации · разборы</div>
+      <h1>Питание, которое <em>работает</em> в вашей обычной жизни</h1>
+      <p class="intro">Пять форматов работы — от готового меню на неделю до ежедневного сопровождения за руку. Этот буклет поможет выбрать тот, с которого вам комфортно начать.</p>
+    </div>
+    <figure class="cover-photo"><img src="../assets/photo.jpg" alt=""></figure>
+  </div>
+  <div class="toc">
+    <div class="cap">в буклете</div>
+    <div class="toc-row"><span class="t">Индивидуальное сопровождение · разовая консультация</span><span class="pg">02</span></div>
+    <div class="toc-row"><span class="t">Разбор анализов · групповое наставничество · конструктор рациона</span><span class="pg">03</span></div>
+    <div class="toc-row"><span class="t">Как выбрать формат · четыре шага работы · подход</span><span class="pg">04</span></div>
+    <div class="toc-row"><span class="t">Вопросы и ответы · контакты</span><span class="pg">05</span></div>
+  </div>
+  <div class="cover-foot">
+    <div class="who">ИМЯ ФАМИЛИЯ<br><span>нутрициолог · работаю онлайн</span></div>
+    <div class="contacts">t.me/username<br>hello@example.com</div>
+  </div>
+</section>
+
+<!-- ======== 2. ФОРМАТЫ 01–02 ======== -->
+<section class="page">
+  <div class="eyebrow">услуги · 1 из 2</div>
+  <h2 class="page-title">Пять форматов. Один из них точно про вас</h2>
+  <p class="page-lead">Форматы отличаются не «объёмом пользы», а тем, сколько поддержки вам нужно. Точки справа показывают, насколько плотно я включаюсь в процесс.</p>
+
+  <article class="svc hi">
+    <div class="svc-head">
+      <div><div class="n">01 — ФЛАГМАНСКИЙ ФОРМАТ</div><h3>Индивидуальное сопровождение</h3></div>
+      <div class="depth"><span class="lb">глубина</span><span class="dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></div>
+    </div>
+    <p class="fmt">Самый глубокий формат работы — обычно 1–3 месяца. Я рядом всё время, пока новые привычки не станут вашими собственными.</p>
+    <div class="sub-h">что входит</div>
+    <ul class="inc">
+      <li>Подробный анализ анкеты и текущего питания</li>
+      <li>Постановка целей — измеримых и реалистичных</li>
+      <li>Еженедельные созвоны</li>
+      <li>Ежедневная поддержка в мессенджерах</li>
+      <li>Корректировка плана по ходу работы</li>
+      <li>Разбор сложных ситуаций: поездки, застолья, срывы</li>
+    </ul>
+    <div class="res"><span class="lbl">результат</span><span class="txt">Формирование устойчивых привычек и доведение до цели за руку.</span></div>
+    <div class="price">Цена — по запросу</div>
+  </article>
+
+  <article class="svc">
+    <div class="svc-head">
+      <div><div class="n">02</div><h3>Разовая консультация</h3></div>
+      <div class="depth"><span class="lb">глубина</span><span class="dots"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></span></div>
+    </div>
+    <p class="fmt">Формат «вопрос — ответ» для решения одной конкретной проблемы.</p>
+    <div class="sub-h">что входит</div>
+    <ul class="inc">
+      <li>Одна встреча 60–90 минут</li>
+      <li>Разбор вашего запроса по шагам</li>
+      <li>Краткий PDF с рекомендациями после созвона</li>
+    </ul>
+    <div class="res"><span class="lbl">результат</span><span class="txt">Понятный план действий для самостоятельной работы.</span></div>
+    <div class="price">Цена — по запросу</div>
+  </article>
+
+  <div class="legend">
+    <div class="legend-dots"><span class="dots"><i class="on"></i><i></i><i></i><i></i><i></i></span><span>готовое решение: беру и делаю сам(а)</span></div>
+    <div class="legend-dots"><span class="dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span><span>есть поддержка и обратная связь</span></div>
+    <div class="legend-dots"><span class="dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span><span>веду за руку каждый день</span></div>
+  </div>
+
+  <div class="foot"><span>услуги нутрициолога</span><span>02</span></div>
+</section>
+
+<!-- ======== 3. ФОРМАТЫ 03–05 ======== -->
+<section class="page">
+  <div class="eyebrow">услуги · 2 из 2</div>
+
+  <article class="svc">
+    <div class="svc-head">
+      <div><div class="n">03</div><h3>Разбор анализов</h3></div>
+      <div class="depth"><span class="lb">глубина</span><span class="dots"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></span></div>
+    </div>
+    <p class="fmt">Смотрю показатели с точки зрения нутрициологических оптимумов, а не только «референсов» лаборатории: формально «в норме» и «хорошо себя чувствую» — не одно и то же.</p>
+    <div class="sub-h">что входит</div>
+    <ul class="inc">
+      <li>Оценка дефицитов витаминов и минералов</li>
+      <li>Подбор рабочих форм БАДов и дозировок</li>
+      <li>Понятное объяснение каждого показателя</li>
+    </ul>
+    <div class="res"><span class="lbl">результат</span><span class="txt">Восполнение дефицитов и улучшение общего самочувствия.</span></div>
+    <div class="price">Цена — по запросу</div>
+  </article>
+
+  <article class="svc">
+    <div class="svc-head">
+      <div><div class="n">04</div><h3>Групповое наставничество</h3></div>
+      <div class="depth"><span class="lb">глубина</span><span class="dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span></div>
+    </div>
+    <p class="fmt">Работа в мини-группе 5–10 человек на определённую тему — например, «Сахарный детокс» или «Энергия».</p>
+    <div class="sub-h">что входит</div>
+    <ul class="inc">
+      <li>Общий чат с участниками и со мной</li>
+      <li>Короткие обучающие уроки</li>
+      <li>Проверка ваших тарелок</li>
+      <li>Поддержка единомышленников</li>
+    </ul>
+    <div class="res"><span class="lbl">результат</span><span class="txt">Достижение цели в мотивирующей среде и по более доступной цене.</span></div>
+    <div class="price">Цена — по запросу</div>
+  </article>
+
+  <article class="svc">
+    <div class="svc-head">
+      <div><div class="n">05</div><h3>Конструктор рациона / Меню</h3></div>
+      <div class="depth"><span class="lb">глубина</span><span class="dots"><i class="on"></i><i></i><i></i><i></i><i></i></span></div>
+    </div>
+    <p class="fmt">Готовое практическое решение для тех, кто не знает, что готовить.</p>
+    <div class="sub-h">что входит</div>
+    <ul class="inc">
+      <li>Примеры сбалансированных завтраков, обедов и ужинов</li>
+      <li>Простые рецепты без редких ингредиентов</li>
+      <li>Готовый список покупок на неделю</li>
+    </ul>
+    <div class="res"><span class="lbl">результат</span><span class="txt">Экономия времени на кухне и разнообразное питание без лишних раздумий.</span></div>
+    <div class="price">Цена — по запросу</div>
+  </article>
+
+  <div class="foot"><span>услуги нутрициолога</span><span>03</span></div>
+</section>
+
+<!-- ======== 4. НАВИГАТОР + ШАГИ ======== -->
+<section class="page dark">
+  <div class="eyebrow">навигатор</div>
+  <h2 class="page-title">Найдите себя в одной строке</h2>
+  <p class="page-lead">Сомневаетесь между двумя форматами — напишите, разберёмся на бесплатном созвоне. Работает только то, что вы реально готовы делать.</p>
+
+  <div class="rows" style="border-top-color:var(--clay)">
+    <div class="row" style="border-bottom-color:var(--rule-dark)"><span class="q" style="color:var(--cream-lit)">«Знаю, что делать, но один(одна) не дохожу до конца»</span><span class="a" style="color:var(--cream-lit)">Индивидуальное сопровождение</span></div>
+    <div class="row" style="border-bottom-color:var(--rule-dark)"><span class="q" style="color:var(--cream-lit)">«Есть один конкретный вопрос, нужен ответ специалиста»</span><span class="a" style="color:var(--cream-lit)">Разовая консультация</span></div>
+    <div class="row" style="border-bottom-color:var(--rule-dark)"><span class="q" style="color:var(--cream-lit)">«Анализы „в норме“, а сил и энергии нет»</span><span class="a" style="color:var(--cream-lit)">Разбор анализов</span></div>
+    <div class="row" style="border-bottom-color:var(--rule-dark)"><span class="q" style="color:var(--cream-lit)">«Нужны поддержка и среда, бюджет ограничен»</span><span class="a" style="color:var(--cream-lit)">Групповое наставничество</span></div>
+    <div class="row" style="border-bottom-color:var(--rule-dark)"><span class="q" style="color:var(--cream-lit)">«Каждый вечер стою у холодильника и не знаю, что готовить»</span><span class="a" style="color:var(--cream-lit)">Конструктор рациона</span></div>
+  </div>
+
+  <div class="eyebrow" style="margin-top:9mm">как мы работаем</div>
+  <h2 class="page-title">Четыре шага от заявки до результата</h2>
+  <div class="steps">
+    <div class="step"><div class="n">ШАГ 01</div><h3>Заявка</h3><p>Пишете мне в мессенджер в двух словах, что беспокоит и чего хотите.</p></div>
+    <div class="step"><div class="n">ШАГ 02</div><h3>Созвон 15 минут</h3><p>Бесплатно. Я честно говорю, какой формат вам нужен — и нужен ли вообще.</p></div>
+    <div class="step"><div class="n">ШАГ 03</div><h3>Анкета и старт</h3><p>Вы заполняете подробную анкету, я готовлю план под ваш график, вкусы и бюджет.</p></div>
+    <div class="step"><div class="n">ШАГ 04</div><h3>Работа и корректировки</h3><p>Внедряем по шагам, смотрим на самочувствие и меняем то, что не прижилось.</p></div>
+  </div>
+
+  <div class="eyebrow" style="margin-top:9mm">подход</div>
+  <ul class="principles">
+    <li><b>01</b><span>Сначала базовые вещи — сон, вода, белок, регулярность. Экзотика потом и только если нужна.</span></li>
+    <li><b>02</b><span>Любимые продукты остаются в рационе. Убираем не еду, а хаос вокруг неё.</span></li>
+    <li><b>03</b><span>БАДы — не первый ответ на все вопросы, а точечный инструмент под конкретный дефицит.</span></li>
+    <li><b>04</b><span>Если запрос за пределами нутрициологии — честно говорю об этом и рекомендую обратиться к врачу.</span></li>
+  </ul>
+
+  <div class="foot"><span>услуги нутрициолога</span><span>04</span></div>
+</section>
+
+<!-- ======== 5. ВОПРОСЫ + КОНТАКТЫ ======== -->
+<section class="page">
+  <div class="eyebrow">вопросы</div>
+  <h2 class="page-title">Отвечаю прямо</h2>
+
+  <div style="margin-bottom:8mm">
+    <div class="qa"><h3>Нутрициолог — это врач?</h3><p>Нет. Я не ставлю диагнозы, не отменяю и не назначаю лечение. Работаю с питанием, образом жизни и дефицитами, а при подозрении на заболевание направляю к профильному врачу.</p></div>
+    <div class="qa"><h3>Какие анализы сдавать перед разбором?</h3><p>Если анализов ещё нет — на коротком созвоне подскажу базовый список под ваш запрос, чтобы не платить за лишние исследования. Свежими считаются анализы младше 3–6 месяцев.</p></div>
+    <div class="qa"><h3>Придётся считать калории и взвешивать еду?</h3><p>Как правило, нет. Основной инструмент — принцип сбалансированной тарелки и режим. Подсчёты подключаем точечно и на короткий срок.</p></div>
+    <div class="qa"><h3>Можно начать с малого и потом перейти на сопровождение?</h3><p>Да, так делают чаще всего. Стоимость первой встречи в этом случае учитываю в пакете.</p></div>
+    <div class="qa"><h3>Работаете онлайн?</h3><p>Да, все форматы онлайн: созвоны в видеосвязи, поддержка в мессенджере, материалы и меню — в PDF. Часовой пояс подстраиваю под вас.</p></div>
+  </div>
+
+  <div class="cta-box">
+    <h2>Начнём с разговора, а не с оплаты</h2>
+    <p>15 минут, чтобы понять ваш запрос и подобрать формат. Если нутрициолог вам сейчас не нужен, я так и скажу.</p>
+    <div class="lines"><b>t.me/username</b><br><b>hello@example.com</b></div>
+  </div>
+
+  <p class="disclaimer">Информация в буклете носит рекомендательный характер и не является медицинской услугой. Нутрициолог не ставит диагнозы и не назначает лечение — при наличии заболеваний проконсультируйтесь с врачом.</p>
+
+  <div class="foot"><span>услуги нутрициолога</span><span>05</span></div>
+</section>
+
+</body>
+</html>
