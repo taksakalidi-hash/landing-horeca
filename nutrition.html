@@ -219,6 +219,7 @@ h2 + .lead{margin-top:18px}
 /* ---------- about ---------- */
 .about-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:56px;align-items:center}
 .portrait{
+  position:relative;overflow:hidden;margin:0;
   aspect-ratio:4/5;border-radius:20px;border:1px solid var(--rule);
   background:
     radial-gradient(60% 50% at 30% 24%,rgba(147,169,140,.55),transparent 70%),
@@ -226,7 +227,13 @@ h2 + .lead{margin-top:18px}
     var(--cream-lit);
   display:flex;align-items:flex-end;padding:26px;
 }
-.portrait span{font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;color:var(--ink-soft);text-transform:uppercase}
+.portrait img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 30%}
+.portrait figcaption{
+  position:relative;z-index:1;
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;color:var(--ink-soft);text-transform:uppercase;
+}
+/* подпись-заглушка нужна, только пока нет настоящего фото */
+.portrait:has(img) figcaption{display:none}
 .principles{margin-top:30px}
 .principles li{
   display:flex;gap:14px;align-items:baseline;padding:14px 0;border-bottom:1px solid var(--rule);font-size:16px;
@@ -607,7 +614,16 @@ html.reveal-on .rv.in{opacity:1;transform:none}
 <section>
   <div class="wrap">
     <div class="about-grid">
-      <div class="portrait rv"><span>фото специалиста</span></div>
+      <!--
+        Фото специалиста: положите файл в assets/photo.jpg — и он подставится сюда.
+        Портрет 4:5, минимум 1000×1250, взгляд в камеру, спокойный фон.
+        Пока файла нет, остаётся мягкая заглушка — «битой картинки» не будет.
+        Кадрирование по вертикали правится через object-position в .portrait img.
+      -->
+      <figure class="portrait rv">
+        <img src="assets/photo.jpg" alt="Фото нутрициолога" onerror="this.remove()">
+        <figcaption>фото специалиста</figcaption>
+      </figure>
       <div class="rv">
         <div class="eyebrow">подход</div>
         <h2>Без запретов, чувства вины и списков «нельзя»</h2>
