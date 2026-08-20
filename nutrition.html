@@ -262,8 +262,9 @@ footer{background:var(--moss-deep);color:var(--chalk);padding:38px 0;font-size:1
 .disclaimer{font-size:13px;color:rgba(245,240,228,.45);max-width:52em;margin-top:16px;line-height:1.6}
 
 /* ---------- reveal ---------- */
-.rv{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
-.rv.in{opacity:1;transform:none}
+.rv{transition:opacity .6s ease,transform .6s ease}
+html.reveal-on .rv{opacity:0;transform:translateY(18px)}
+html.reveal-on .rv.in{opacity:1;transform:none}
 
 /* ---------- responsive ---------- */
 @media(max-width:980px){
@@ -296,9 +297,13 @@ footer{background:var(--moss-deep);color:var(--chalk);padding:38px 0;font-size:1
 @media(prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   *{animation:none!important;transition:none!important}
-  .rv{opacity:1;transform:none}
+  html.reveal-on .rv{opacity:1;transform:none}
 }
 </style>
+<script>
+  /* Прятать блоки можно только если есть чем показать их обратно. */
+  if ('IntersectionObserver' in window) document.documentElement.className += ' reveal-on';
+</script>
 </head>
 <body>
 
@@ -682,15 +687,20 @@ footer{background:var(--moss-deep);color:var(--chalk);padding:38px 0;font-size:1
 document.getElementById('yr').textContent = new Date().getFullYear();
 
 var items = document.querySelectorAll('.rv');
+function showAll(){ items.forEach(function(el){ el.classList.add('in'); }); }
+
 if ('IntersectionObserver' in window) {
   var io = new IntersectionObserver(function(entries){
     entries.forEach(function(e){
       if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
     });
-  }, {rootMargin: '0px 0px -8% 0px', threshold: 0.08});
+  }, {rootMargin: '200px 0px 0px 0px', threshold: 0});
   items.forEach(function(el){ io.observe(el); });
+  /* страховка: если наблюдатель не сработал (превью, iframe, печать) — просто показываем */
+  setTimeout(showAll, 2500);
+  window.addEventListener('beforeprint', showAll);
 } else {
-  items.forEach(function(el){ el.classList.add('in'); });
+  showAll();
 }
 </script>
 </body>
