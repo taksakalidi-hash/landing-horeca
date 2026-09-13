@@ -1,0 +1,589 @@
+<title>Досье Леонида</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root{
+  color-scheme:dark;
+  --ink:#0A0C18;
+  --ink-2:#0F1424;
+  --panel:#141B2E;
+  --panel-2:#1B2440;
+  --line:rgba(237,231,218,.14);
+  --bone:#EDE7DA;
+  --muted:#8C93AB;
+  --magenta:#FF2E88;
+  --amber:#FFB03A;
+  --teal:#2EE6C5;
+  --display:'Archivo Black',Impact,sans-serif;
+  --body:'Barlow',system-ui,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--ink);color:var(--bone);
+  font-family:var(--body);font-size:17px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  background-image:
+    radial-gradient(90vw 60vh at 78% -8%,rgba(255,46,136,.22),transparent 62%),
+    radial-gradient(70vw 50vh at 8% 4%,rgba(46,230,197,.12),transparent 60%);
+  background-repeat:no-repeat;
+}
+body::after{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:60;
+  background:repeating-linear-gradient(rgba(0,0,0,.22) 0 1px,transparent 1px 3px);
+  opacity:.35;mix-blend-mode:multiply;
+}
+.wrap{width:min(1160px,100% - 40px);margin-inline:auto}
+section{padding-block:84px}
+h1,h2,h3{font-family:var(--display);font-weight:400;line-height:1.02;margin:0;text-wrap:balance;text-transform:uppercase}
+h1{font-size:clamp(38px,7.4vw,84px);letter-spacing:-.02em}
+h2{font-size:clamp(26px,4.2vw,46px);letter-spacing:-.015em}
+h3{font-size:19px;letter-spacing:0}
+p{margin:0 0 16px}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
+
+.tag{
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--muted);display:inline-flex;align-items:center;gap:9px;
+}
+.tag::before{content:"";width:26px;height:2px;background:var(--magenta);flex:none}
+
+/* ---------- nav ---------- */
+.nav{
+  position:sticky;top:0;z-index:50;backdrop-filter:blur(12px);
+  background:rgba(10,12,24,.82);border-bottom:1px solid var(--line);
+}
+.nav-in{display:flex;align-items:center;gap:20px;min-height:62px}
+.brand{font-family:var(--display);font-size:17px;letter-spacing:.02em;text-decoration:none;text-transform:uppercase}
+.brand span{color:var(--magenta)}
+.nav-links{display:flex;gap:22px;margin-left:auto;font-family:var(--mono);font-size:12.5px;letter-spacing:.08em;text-transform:uppercase}
+.nav-links a{text-decoration:none;color:var(--muted)}
+.nav-links a:hover{color:var(--bone)}
+@media(max-width:760px){.nav-links{display:none}}
+
+/* ---------- buttons ---------- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  font-family:var(--mono);font-size:13px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  padding:14px 22px;border-radius:2px;border:1px solid transparent;cursor:pointer;text-decoration:none;
+  transition:transform .12s ease,background .15s ease,color .15s ease;
+}
+.btn-primary{background:var(--magenta);color:#12030A;border-color:var(--magenta)}
+.btn-primary:hover{transform:translateY(-2px)}
+.btn-ghost{background:transparent;color:var(--bone);border-color:var(--line)}
+.btn-ghost:hover{border-color:var(--teal);color:var(--teal)}
+
+/* ---------- hero ---------- */
+.hero{padding-top:56px;padding-bottom:64px}
+.hero-grid{display:grid;grid-template-columns:1.25fr .85fr;gap:52px;align-items:start}
+.hero h1 em{font-style:normal;color:var(--magenta)}
+.lede{font-size:clamp(17px,2vw,20px);color:#C9CEDD;max-width:56ch}
+.hero-cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
+.hero-note{font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:16px}
+
+.count{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin:30px 0 0;
+  background:var(--line);border:1px solid var(--line);
+}
+.count div{background:var(--ink-2);padding:14px 10px;text-align:center}
+.count b{
+  display:block;font-family:var(--mono);font-weight:600;font-size:clamp(24px,4vw,34px);
+  font-variant-numeric:tabular-nums;color:var(--amber);line-height:1.1;
+}
+.count small{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+
+/* case file card */
+.file{border:1px solid var(--line);background:linear-gradient(180deg,var(--panel),var(--ink-2));padding:22px}
+.file-head{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px dashed var(--line);padding-bottom:12px;margin-bottom:16px}
+.file-head span{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.file-row{display:flex;justify-content:space-between;gap:14px;padding:9px 0;border-bottom:1px solid rgba(237,231,218,.07);font-size:15px}
+.file-row dt{color:var(--muted);font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+.file-row dd{margin:0;text-align:right;font-weight:600}
+.stamp{
+  margin-top:18px;display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--teal);border:1px solid var(--teal);padding:6px 11px;transform:rotate(-2.2deg);
+}
+@media(max-width:900px){.hero-grid{grid-template-columns:1fr;gap:34px}}
+
+/* ---------- ticker ---------- */
+.ticker{border-block:1px solid var(--line);background:var(--ink-2);overflow:hidden;padding:12px 0}
+.ticker-track{display:flex;gap:38px;width:max-content;animation:slide 38s linear infinite}
+.ticker span{font-family:var(--mono);font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.ticker span b{color:var(--amber);font-weight:600}
+@keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media(prefers-reduced-motion:reduce){.ticker-track{animation:none}}
+
+/* ---------- section head ---------- */
+.shead{max-width:62ch;margin-bottom:34px;display:flex;flex-direction:column;gap:14px}
+.shead p{margin:0;color:#C9CEDD}
+
+/* ---------- map ---------- */
+.map-grid{display:grid;grid-template-columns:minmax(280px,1fr) 1.05fr;gap:38px;align-items:start}
+.map-stage{position:relative;border:1px solid var(--line);background:
+  linear-gradient(180deg,#0C1426,#0A0F1E);padding:16px;display:flex;justify-content:center}
+.map-stage svg{width:100%;max-width:100%;height:auto;display:block}
+.land{fill:#16223C;stroke:var(--teal);stroke-width:1.2;stroke-opacity:.55}
+.grid-line{stroke:rgba(237,231,218,.06);stroke-width:1}
+.pin{cursor:pointer}
+.pin circle.dot{fill:var(--amber);stroke:var(--ink);stroke-width:2;transition:r .15s ease}
+.pin circle.halo{fill:rgba(255,176,58,.16)}
+.pin text{font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;fill:#C9CEDD;text-transform:uppercase}
+.pin:hover circle.dot,.pin[aria-selected="true"] circle.dot{fill:var(--magenta);r:7}
+.pin[aria-selected="true"] circle.halo{fill:rgba(255,46,136,.22)}
+.map-panel{border:1px solid var(--line);background:var(--panel);padding:26px;display:flex;flex-direction:column;gap:14px}
+.map-panel .kicker{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--teal)}
+.map-panel h3{font-size:26px}
+.map-panel p{margin:0;color:#C9CEDD}
+.facts{display:grid;gap:2px;background:var(--line);border:1px solid var(--line);margin-top:auto}
+.facts div{background:var(--ink-2);padding:11px 13px;display:flex;justify-content:space-between;gap:12px;font-size:14px}
+.facts dt{color:var(--muted);font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase}
+.facts dd{margin:0;font-weight:600;text-align:right}
+@media(max-width:900px){.map-grid{grid-template-columns:1fr}}
+
+/* ---------- dossier ---------- */
+.tabs{display:flex;flex-wrap:wrap;gap:2px;background:var(--line);border:1px solid var(--line);margin-bottom:0}
+.tabs button{
+  flex:1 1 160px;background:var(--ink-2);color:var(--muted);border:0;cursor:pointer;
+  font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;padding:15px 12px;
+}
+.tabs button[aria-selected="true"]{background:var(--magenta);color:#12030A;font-weight:600}
+.dossier{border:1px solid var(--line);border-top:0;background:var(--panel);padding:30px;display:grid;grid-template-columns:1fr 1fr;gap:30px}
+.dossier .quote{font-family:var(--display);font-size:clamp(20px,2.6vw,28px);line-height:1.16;text-transform:none;margin:0 0 14px}
+.dossier .quote::before{content:"«"}.dossier .quote::after{content:"»"}
+.meter{display:flex;flex-direction:column;gap:12px}
+.meter-row{display:grid;grid-template-columns:120px 1fr 44px;gap:12px;align-items:center;font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.bar{height:8px;background:var(--ink-2);border:1px solid var(--line);position:relative;overflow:hidden}
+.bar i{position:absolute;inset:0 auto 0 0;background:var(--teal);display:block}
+.meter-row b{color:var(--bone);text-align:right;font-variant-numeric:tabular-nums}
+@media(max-width:820px){.dossier{grid-template-columns:1fr;padding:22px}}
+
+/* ---------- modules ---------- */
+.mods{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:2px;background:var(--line);border:1px solid var(--line)}
+.mod{background:var(--ink-2);padding:24px;display:flex;flex-direction:column;gap:10px}
+.mod .no{font-family:var(--mono);font-size:12px;color:var(--magenta);letter-spacing:.16em}
+.mod p{margin:0;color:#C9CEDD;font-size:15.5px}
+.mod .len{margin-top:auto;font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding-top:10px}
+
+/* ---------- pricing ---------- */
+.switch{display:inline-flex;gap:2px;background:var(--line);border:1px solid var(--line);margin-bottom:28px}
+.switch button{background:var(--ink-2);border:0;color:var(--muted);cursor:pointer;padding:11px 18px;font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase}
+.switch button[aria-pressed="true"]{background:var(--bone);color:var(--ink);font-weight:600}
+.plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(268px,1fr));gap:18px}
+.plan{border:1px solid var(--line);background:var(--panel);padding:26px;display:flex;flex-direction:column;gap:14px}
+.plan.pick{border-color:var(--magenta);background:linear-gradient(180deg,rgba(255,46,136,.10),var(--panel))}
+.plan .name{font-family:var(--display);font-size:20px;text-transform:uppercase}
+.plan .price{font-family:var(--mono);font-weight:600;font-size:34px;font-variant-numeric:tabular-nums;color:var(--amber);line-height:1}
+.plan .price s{display:block;font-size:14px;color:var(--muted);font-weight:400}
+.plan ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px;font-size:15px}
+.plan li{display:flex;gap:10px;align-items:flex-start;color:#C9CEDD}
+.plan li::before{content:"→";color:var(--teal);font-family:var(--mono);flex:none}
+.plan li.off{color:var(--muted);text-decoration:line-through;text-decoration-color:rgba(140,147,171,.5)}
+.plan li.off::before{content:"×";color:var(--muted);text-decoration:none}
+.plan .btn{margin-top:auto}
+.plan .ribbon{font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--magenta)}
+
+/* ---------- faq ---------- */
+.faq{border-top:1px solid var(--line)}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{
+  cursor:pointer;list-style:none;padding:20px 0;display:flex;gap:16px;align-items:center;
+  font-family:var(--display);font-size:clamp(16px,2.1vw,20px);text-transform:uppercase;
+}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";margin-left:auto;color:var(--magenta);font-family:var(--mono);font-size:22px;line-height:1}
+.faq details[open] summary::after{content:"–"}
+.faq .a{padding:0 0 22px;color:#C9CEDD;max-width:70ch}
+.faq .q-no{font-family:var(--mono);font-size:12px;color:var(--muted);flex:none}
+
+/* ---------- lead ---------- */
+.lead{border:1px solid var(--line);background:linear-gradient(135deg,var(--panel-2),var(--ink-2));padding:clamp(24px,4vw,44px);display:grid;grid-template-columns:1fr 1fr;gap:34px;align-items:center}
+.lead form{display:flex;flex-direction:column;gap:12px}
+.lead input{
+  background:var(--ink);border:1px solid var(--line);color:var(--bone);padding:14px 15px;
+  font-family:var(--body);font-size:16px;border-radius:2px;width:100%;
+}
+.lead input::placeholder{color:var(--muted)}
+.form-note{font-family:var(--mono);font-size:11.5px;color:var(--muted);margin:0}
+.form-msg{font-family:var(--mono);font-size:12.5px;margin:0;min-height:1.2em}
+.form-msg.ok{color:var(--teal)}
+.form-msg.err{color:var(--magenta)}
+@media(max-width:820px){.lead{grid-template-columns:1fr}}
+
+footer{border-top:1px solid var(--line);padding-block:34px;color:var(--muted);font-size:14px}
+.disclaim{font-family:var(--mono);font-size:11.5px;line-height:1.7;max-width:80ch}
+</style>
+
+<nav class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="#top">Досье <span>Леонида</span></a>
+    <div class="nav-links">
+      <a href="#map">Карта</a>
+      <a href="#heroes">Герои</a>
+      <a href="#inside">Что внутри</a>
+      <a href="#price">Доступ</a>
+      <a href="#faq">Вопросы</a>
+    </div>
+  </div>
+</nav>
+
+<header class="wrap hero" id="top">
+  <div class="hero-grid">
+    <div>
+      <span class="tag">Независимый разбор · не Rockstar Games</span>
+      <h1>Вся GTA VI <em>на одной полке</em></h1>
+      <p class="lede">Каждый кадр трейлеров, каждая вывеска на фоне и каждое официальное заявление — собраны, проверены и разложены по папкам. Без «сливов от дяди из тестерской» и без ролика на сорок минут ради двух фактов.</p>
+
+      <div class="count" id="countdown" aria-label="Обратный отсчёт до релиза">
+        <div><b data-c="d">—</b><small>дней</small></div>
+        <div><b data-c="h">—</b><small>часов</small></div>
+        <div><b data-c="m">—</b><small>минут</small></div>
+        <div><b data-c="s">—</b><small>секунд</small></div>
+      </div>
+
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#price">Забрать досье</a>
+        <a class="btn btn-ghost" href="#map">Открыть карту Леониды</a>
+      </div>
+      <p class="hero-note">Отсчёт идёт до 19 ноября 2026 — даты из официального анонса. Перенесут — таймер и материалы обновятся в тот же день.</p>
+    </div>
+
+    <aside class="file">
+      <div class="file-head"><span>Дело №</span><span>LEO-06/26</span></div>
+      <dl>
+        <div class="file-row"><dt>Штат</dt><dd>Леонида</dd></div>
+        <div class="file-row"><dt>Опорный город</dt><dd>Вайс-Сити</dd></div>
+        <div class="file-row"><dt>Протагонисты</dt><dd>Двое</dd></div>
+        <div class="file-row"><dt>Платформы</dt><dd>PS5 · Xbox Series</dd></div>
+        <div class="file-row"><dt>Трейлеров разобрано</dt><dd>3</dd></div>
+        <div class="file-row"><dt>Кадров в архиве</dt><dd>1 418</dd></div>
+        <div class="file-row"><dt>Обновление досье</dt><dd>раз в неделю</dd></div>
+      </dl>
+      <span class="stamp">Источники подписаны</span>
+    </aside>
+  </div>
+</header>
+
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track" id="ticker"></div>
+</div>
+
+<section class="wrap" id="map">
+  <div class="shead">
+    <span class="tag">Раздел 01 · География</span>
+    <h2>Карта штата — кликните по точке</h2>
+    <p>Шесть районов, которые Rockstar показала публично. По каждому — что видно в кадре, что подтверждено официально, а что пока остаётся догадкой сообщества (и мы честно это помечаем).</p>
+  </div>
+
+  <div class="map-grid">
+    <div class="map-stage">
+      <svg viewBox="0 0 380 520" role="img" aria-label="Схематичная карта штата Леонида с шестью отмеченными районами">
+        <g>
+          <line class="grid-line" x1="0" y1="130" x2="380" y2="130"/>
+          <line class="grid-line" x1="0" y1="260" x2="380" y2="260"/>
+          <line class="grid-line" x1="0" y1="390" x2="380" y2="390"/>
+          <line class="grid-line" x1="95" y1="0" x2="95" y2="520"/>
+          <line class="grid-line" x1="190" y1="0" x2="190" y2="520"/>
+          <line class="grid-line" x1="285" y1="0" x2="285" y2="520"/>
+        </g>
+        <path class="land" d="M22 96 C 48 58, 96 52, 140 62 C 184 72, 214 66, 262 58 C 300 52, 336 64, 350 92 C 362 116, 344 142, 318 152 C 296 160, 286 182, 288 214 C 290 258, 278 300, 262 344 C 248 384, 232 424, 210 456 C 196 476, 176 492, 160 486 C 146 480, 140 456, 138 430 C 134 386, 146 344, 152 302 C 156 272, 148 246, 126 226 C 100 202, 62 188, 40 162 C 24 143, 14 116, 22 96 Z"/>
+        <path class="land" d="M176 470 l10 12 -8 8 -10 -10 Z"/>
+        <path class="land" d="M162 494 l9 10 -8 8 -9 -10 Z"/>
+
+        <g class="pin" data-id="vice" tabindex="0" role="button" aria-selected="true" aria-label="Вайс-Сити">
+          <circle class="halo" cx="250" cy="300" r="16"/><circle class="dot" cx="250" cy="300" r="6"/>
+          <text x="266" y="304">Вайс-Сити</text>
+        </g>
+        <g class="pin" data-id="keys" tabindex="0" role="button" aria-selected="false" aria-label="Леонида-Кис">
+          <circle class="halo" cx="172" cy="484" r="16"/><circle class="dot" cx="172" cy="484" r="6"/>
+          <text x="188" y="488">Кис</text>
+        </g>
+        <g class="pin" data-id="port" tabindex="0" role="button" aria-selected="false" aria-label="Порт-Геллхорн">
+          <circle class="halo" cx="62" cy="112" r="16"/><circle class="dot" cx="62" cy="112" r="6"/>
+          <text x="78" y="116">Порт-Геллхорн</text>
+        </g>
+        <g class="pin" data-id="swamp" tabindex="0" role="button" aria-selected="false" aria-label="Грассриверс">
+          <circle class="halo" cx="196" cy="372" r="16"/><circle class="dot" cx="196" cy="372" r="6"/>
+          <text x="212" y="376">Грассриверс</text>
+        </g>
+        <g class="pin" data-id="ambrosia" tabindex="0" role="button" aria-selected="false" aria-label="Амброзия">
+          <circle class="halo" cx="150" cy="188" r="16"/><circle class="dot" cx="150" cy="188" r="6"/>
+          <text x="166" y="192">Амброзия</text>
+        </g>
+        <g class="pin" data-id="kalaga" tabindex="0" role="button" aria-selected="false" aria-label="Маунт-Калага">
+          <circle class="halo" cx="286" cy="118" r="16"/><circle class="dot" cx="286" cy="118" r="6"/>
+          <text x="238" y="102">Маунт-Калага</text>
+        </g>
+      </svg>
+    </div>
+
+    <div class="map-panel" id="mapPanel" aria-live="polite">
+      <span class="kicker" data-f="kicker">—</span>
+      <h3 data-f="title">—</h3>
+      <p data-f="text">—</p>
+      <dl class="facts">
+        <div><dt>Статус данных</dt><dd data-f="status">—</dd></div>
+        <div><dt>Видно в</dt><dd data-f="seen">—</dd></div>
+        <div><dt>Кадров в архиве</dt><dd data-f="frames">—</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<section class="wrap" id="heroes">
+  <div class="shead">
+    <span class="tag">Раздел 02 · Персонажи</span>
+    <h2>Досье на действующих лиц</h2>
+    <p>Только то, что произнесено вслух в трейлерах или написано на официальной странице игры. Шкалы — наша оценка экранного времени и роли в показанных сценах, а не «характеристики» из игры.</p>
+  </div>
+
+  <div class="tabs" id="tabs" role="tablist"></div>
+  <div class="dossier" id="dossier"></div>
+</section>
+
+<section class="wrap" id="inside">
+  <div class="shead">
+    <span class="tag">Раздел 03 · Состав</span>
+    <h2>Что лежит в папке</h2>
+    <p>Шесть блоков. Каждый — самостоятельный документ: можно читать с любого места, можно искать по тексту, можно скопировать таймкод и проверить самому.</p>
+  </div>
+  <div class="mods">
+    <article class="mod"><span class="no">01</span><h3>Разбор трейлеров покадрово</h3><p>Каждая сцена с таймкодом: кто в кадре, где снято, какая машина, какая вывеска. Со ссылкой на исходник, чтобы вы могли остановить на том же кадре.</p><span class="len">62 страницы · 1 418 кадров</span></article>
+    <article class="mod"><span class="no">02</span><h3>Карта Леониды в высоком разрешении</h3><p>Сводная схема штата: подтверждённые районы сплошной линией, предполагаемые — пунктиром. Обновляется после каждого нового материала.</p><span class="len">PNG 8000 px · PDF</span></article>
+    <article class="mod"><span class="no">03</span><h3>Хронология разработки</h3><p>От первого официального подтверждения до последнего переноса: даты, цитаты, источники. Видно, кто из «инсайдеров» попадал, а кто выдумывал.</p><span class="len">лента из 84 событий</span></article>
+    <article class="mod"><span class="no">04</span><h3>Фильтр слухов</h3><p>Главное. Каждый громкий слух — со статусом: подтверждён, опровергнут, без подтверждения. С аргументом в одну строку, а не «ну так все говорят».</p><span class="len">обновляется еженедельно</span></article>
+    <article class="mod"><span class="no">05</span><h3>Что нужно для запуска</h3><p>Консоли, места на диске, предзаказы и региональные цены — сравнительная таблица без партнёрских ссылок. Плюс план «что купить заранее, а что подождёт».</p><span class="len">таблица + памятка</span></article>
+    <article class="mod"><span class="no">06</span><h3>Закрытый разбор в день релиза</h3><p>В течение 48 часов после выхода — сверка: что из показанного оказалось правдой, что вырезали, что изменилось. Тем же файлом, без доплат.</p><span class="len">19–21 ноября</span></article>
+  </div>
+</section>
+
+<section class="wrap" id="price">
+  <div class="shead">
+    <span class="tag">Раздел 04 · Доступ</span>
+    <h2>Выберите глубину погружения</h2>
+    <p>Один платёж, никаких автосписаний. Файлы остаются у вас навсегда — даже если сайт когда-нибудь закроется.</p>
+  </div>
+
+  <div class="switch" id="switch" role="group" aria-label="Вариант доступа">
+    <button type="button" data-mode="once" aria-pressed="true">Разово</button>
+    <button type="button" data-mode="season" aria-pressed="false">До релиза + 3 месяца</button>
+  </div>
+
+  <div class="plans" id="plans"></div>
+</section>
+
+<section class="wrap" id="faq">
+  <div class="shead">
+    <span class="tag">Раздел 05 · Вопросы</span>
+    <h2>Спрашивают перед покупкой</h2>
+  </div>
+  <div class="faq">
+    <details open><summary><span class="q-no">01</span>Это же всё есть бесплатно в интернете?</summary><div class="a">Да, по кускам — в сотне роликов, тредов и постов, половина из которых противоречит друг другу. Мы платим временем: собираем, сверяем с первоисточником и помечаем, что подтверждено, а что нет. Вы платите деньгами и экономите вечера.</div></details>
+    <details><summary><span class="q-no">02</span>У вас есть инсайдерская информация?</summary><div class="a">Нет, и мы этого не обещаем. Всё в досье — из публичных материалов: трейлеры, официальная страница игры, отчёты издателя, интервью. Слухи мы разбираем, но всегда подписываем как слухи.</div></details>
+    <details><summary><span class="q-no">03</span>Что будет, если релиз снова перенесут?</summary><div class="a">Досье продолжит обновляться до фактического выхода игры, доплат не будет. Перенос — это, наоборот, новые материалы: заявления, причины, изменения в планах.</div></details>
+    <details><summary><span class="q-no">04</span>В каком формате приходят материалы?</summary><div class="a">PDF и веб-версия со ссылкой, которая не протухает. Карта отдельно в PNG и PDF. Всё можно открыть на телефоне, планшете и читалке.</div></details>
+    <details><summary><span class="q-no">05</span>Можно вернуть деньги?</summary><div class="a">Да, в течение 14 дней и без объяснений — напишите на почту из подвала страницы. Возврат делаем тем же способом, каким прошла оплата.</div></details>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="lead" id="lead">
+    <div>
+      <span class="tag">Бесплатно</span>
+      <h2 style="margin:12px 0 14px">Пробный выпуск на почту</h2>
+      <p style="color:#C9CEDD;margin:0">Пришлём разбор первого трейлера целиком — 12 страниц с таймкодами. Этого хватит, чтобы понять, нужна ли вам вся папка. Одно письмо, отписка в один клик.</p>
+    </div>
+    <form id="leadForm" novalidate>
+      <label class="form-note" for="leadEmail">Электронная почта</label>
+      <input id="leadEmail" name="email" type="email" placeholder="you@example.com" autocomplete="email">
+      <button class="btn btn-primary" type="submit">Прислать пробный выпуск</button>
+      <p class="form-msg" id="leadMsg" role="status"></p>
+      <p class="form-note">Демо-форма прототипа: письма пока никуда не уходят — подключите свой обработчик в функции <code>submitLead()</code>.</p>
+    </form>
+  </div>
+</section>
+
+<footer class="wrap">
+  <p class="disclaim">Независимый фанатский проект. Не связан с Rockstar Games, Take-Two Interactive и их партнёрами, не представляет их интересы и не использует их товарные знаки в оформлении. Grand Theft Auto — торговая марка правообладателя; все названия локаций и персонажей упомянуты в порядке цитирования публичных материалов. Продаётся авторская аналитика, а не доступ к игре.</p>
+  <p style="margin-top:14px">Вопросы и возвраты: hello@leonida-dossier.example · © 2026</p>
+</footer>
+
+<script>
+/* ---------- обратный отсчёт ---------- */
+var RELEASE = Date.UTC(2026, 10, 19, 0, 0, 0);
+var cells = {};
+document.querySelectorAll('#countdown b').forEach(function (el) { cells[el.dataset.c] = el; });
+function pad(n) { return String(n).padStart(2, '0'); }
+function tick() {
+  var left = Math.max(0, RELEASE - Date.now());
+  var s = Math.floor(left / 1000);
+  cells.d.textContent = Math.floor(s / 86400);
+  cells.h.textContent = pad(Math.floor(s % 86400 / 3600));
+  cells.m.textContent = pad(Math.floor(s % 3600 / 60));
+  cells.s.textContent = pad(s % 60);
+}
+tick(); setInterval(tick, 1000);
+
+/* ---------- бегущая строка ---------- */
+var TICKER = [
+  ['Штат', 'Леонида'], ['Город', 'Вайс-Сити'], ['Героев', 'двое'],
+  ['Трейлеров', 'три'], ['Платформы', 'PS5 · Xbox Series'],
+  ['Обновление досье', 'каждую пятницу'], ['Слухов проверено', '211']
+];
+var track = document.getElementById('ticker');
+var line = TICKER.map(function (i) { return '<span>' + i[0] + ' <b>' + i[1] + '</b></span>'; }).join('');
+track.innerHTML = line + line;
+
+/* ---------- карта ---------- */
+var PLACES = {
+  vice: { kicker: 'Мегаполис · побережье', title: 'Вайс-Сити', status: 'Подтверждено официально',
+    seen: 'Трейлеры 1–3', frames: '612',
+    text: 'Опорная точка игры: набережная с отелями, пляж, центр со стеклянными башнями и жилые кварталы за ним. В кадрах видно ночную жизнь клубов и дневную суету пляжа — два разных города в одних декорациях.' },
+  keys: { kicker: 'Острова · юг штата', title: 'Леонида-Кис', status: 'Подтверждено официально',
+    seen: 'Трейлер 1', frames: '86',
+    text: 'Цепочка островов, соединённых мостами. В трейлере — катера, рыбацкие лодки и бирюзовая вода. Логично ждать водного транспорта как полноценного способа передвижения, но отдельного заявления об этом не было.' },
+  port: { kicker: 'Промзона · северо-запад', title: 'Порт-Геллхорн', status: 'Подтверждено официально',
+    seen: 'Трейлер 2', frames: '148',
+    text: 'Портовый город с складами, судами и грузовыми кранами. Визуально самый «небогатый» район из показанных: одноэтажные дома, мотели вдоль трассы, заправки.' },
+  swamp: { kicker: 'Болота · центр', title: 'Грассриверс', status: 'Подтверждено официально',
+    seen: 'Трейлеры 1–2', frames: '203',
+    text: 'Заболоченная низина с аэролодками, аллигаторами и тропинками на сваях. В кадре мелькают трейлерные посёлки на краю болот — судя по всему, отдельная сюжетная территория, а не просто фон.' },
+  ambrosia: { kicker: 'Малый город · север', title: 'Амброзия', status: 'Подтверждено официально',
+    seen: 'Трейлер 2', frames: '94',
+    text: 'Провинциальный городок с главной улицей, закусочной и церковью. Ровно та Америка, которую в серии обычно показывают между большими городами — но здесь ей уделено заметно больше экранного времени.' },
+  kalaga: { kicker: 'Возвышенность · северо-восток', title: 'Маунт-Калага', status: 'Упомянуто, кадров мало',
+    seen: 'Трейлер 3 (фрагмент)', frames: '31',
+    text: 'Холмистая местность с лесом и смотровой площадкой. Показано меньше всего: несколько секунд общего плана. Всё, что говорят об этом районе сверх этого, пока держим в разделе «без подтверждения».' }
+};
+var panel = document.getElementById('mapPanel');
+var fields = {};
+panel.querySelectorAll('[data-f]').forEach(function (el) { fields[el.dataset.f] = el; });
+function showPlace(id) {
+  var p = PLACES[id]; if (!p) return;
+  Object.keys(fields).forEach(function (k) { fields[k].textContent = p[k]; });
+  document.querySelectorAll('.pin').forEach(function (pin) {
+    pin.setAttribute('aria-selected', String(pin.dataset.id === id));
+  });
+}
+document.querySelectorAll('.pin').forEach(function (pin) {
+  pin.addEventListener('click', function () { showPlace(pin.dataset.id); });
+  pin.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); showPlace(pin.dataset.id); }
+  });
+});
+showPlace('vice');
+
+/* ---------- досье персонажей ---------- */
+var HEROES = [
+  { id: 'jason', name: 'Джейсон Дюваль',
+    quote: 'Мы с тобой против всего штата — так и задумано',
+    role: 'Протагонист',
+    text: 'Вырос в Леониде, служил в армии, вернулся и осел на побережье. В трейлерах — спокойный, немногословный, чаще реагирует, чем начинает. Показан как человек, который ввязывается в историю за компанию, а не из азарта.',
+    meters: [['Экранное время', 74], ['Реплик в трейлерах', 46], ['Сцен за рулём', 62]] },
+  { id: 'lucia', name: 'Люсия Каминос',
+    quote: 'Единственное, что я умею делать хорошо, — не сдаваться',
+    role: 'Протагонист',
+    text: 'Вторая играбельная героиня и первая женщина-протагонист в основной линейке серии. Выходит из исправительного учреждения в первых же кадрах первого трейлера — с этого момента и раскручивается сюжет.',
+    meters: [['Экранное время', 88], ['Реплик в трейлерах', 63], ['Сцен за рулём', 41]] },
+  { id: 'cal', name: 'Кэл Хэмптон',
+    quote: 'Я знаю про этот штат больше, чем полиция',
+    role: 'Второстепенный',
+    text: 'Приятель Джейсона, сетевой конспиролог и добытчик сомнительных сведений. Появляется в сценах в помещении — судя по всему, выполняет роль связного и источника заданий.',
+    meters: [['Экранное время', 22], ['Реплик в трейлерах', 18], ['Сцен за рулём', 4]] },
+  { id: 'boobie', name: 'Буби Айхерст',
+    quote: 'Бизнес есть бизнес, даже когда он выглядит так',
+    role: 'Второстепенный',
+    text: 'Местный предприниматель с недвижимостью, студией и клубом. В кадрах — вечеринки, бассейн, дорогие машины. Классическая для серии фигура: легальный фасад и не очень легальное содержание.',
+    meters: [['Экранное время', 19], ['Реплик в трейлерах', 11], ['Сцен за рулём', 2]] }
+];
+var tabs = document.getElementById('tabs');
+var dossier = document.getElementById('dossier');
+HEROES.forEach(function (h, i) {
+  var b = document.createElement('button');
+  b.type = 'button'; b.textContent = h.name; b.id = 'tab-' + h.id;
+  b.setAttribute('role', 'tab');
+  b.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
+  b.addEventListener('click', function () { pickHero(h.id); });
+  tabs.appendChild(b);
+});
+function pickHero(id) {
+  var h = HEROES.filter(function (x) { return x.id === id; })[0];
+  Array.prototype.forEach.call(tabs.children, function (b) {
+    b.setAttribute('aria-selected', String(b.id === 'tab-' + id));
+  });
+  var meters = h.meters.map(function (m) {
+    return '<div class="meter-row"><span>' + m[0] + '</span>' +
+      '<span class="bar"><i style="width:' + m[1] + '%"></i></span><b>' + m[1] + '</b></div>';
+  }).join('');
+  dossier.innerHTML =
+    '<div><p class="quote">' + h.quote + '</p>' +
+    '<p style="color:#C9CEDD">' + h.text + '</p></div>' +
+    '<div class="meter"><div class="meter-row" style="grid-template-columns:1fr"><span>' + h.role +
+    ' · оценка по публичным материалам</span></div>' + meters + '</div>';
+}
+pickHero('jason');
+
+/* ---------- тарифы ---------- */
+var PLANS = [
+  { name: 'Досье', ribbon: '', once: 490, season: 890,
+    lines: [[1, 'Разбор трейлеров покадрово'], [1, 'Карта Леониды, PNG + PDF'], [1, 'Хронология разработки'],
+            [0, 'Фильтр слухов'], [0, 'Разбор в день релиза']] },
+  { name: 'Оперативник', ribbon: 'Берут чаще всего', once: 1490, season: 2290,
+    lines: [[1, 'Всё из «Досье»'], [1, 'Фильтр слухов с обновлением'], [1, 'Таблица «что нужно для запуска»'],
+            [1, 'Разбор в день релиза'], [0, 'Личные вопросы автору']] },
+  { name: 'Инсайдер', ribbon: '', once: 3900, season: 5400,
+    lines: [[1, 'Всё из «Оперативника»'], [1, 'Закрытый чат с автором'], [1, 'Личные вопросы, ответ за сутки'],
+            [1, 'Ранний доступ к обновлениям'], [1, 'Годовой архив после релиза']] }
+];
+var mode = 'once';
+var plansEl = document.getElementById('plans');
+function money(n) { return n.toLocaleString('ru-RU') + ' ₽'; }
+function renderPlans() {
+  plansEl.innerHTML = PLANS.map(function (p, i) {
+    var price = money(p[mode]);
+    var was = mode === 'season' ? '<s>разово ' + money(p.once) + '</s>' : '<s>единоразово, без подписки</s>';
+    var lines = p.lines.map(function (l) {
+      return '<li class="' + (l[0] ? '' : 'off') + '">' + l[1] + '</li>';
+    }).join('');
+    return '<article class="plan' + (i === 1 ? ' pick' : '') + '">' +
+      (p.ribbon ? '<span class="ribbon">' + p.ribbon + '</span>' : '') +
+      '<span class="name">' + p.name + '</span>' +
+      '<span class="price">' + price + was + '</span>' +
+      '<ul>' + lines + '</ul>' +
+      '<a class="btn ' + (i === 1 ? 'btn-primary' : 'btn-ghost') + '" href="#lead">Выбрать</a></article>';
+  }).join('');
+}
+document.getElementById('switch').addEventListener('click', function (e) {
+  var b = e.target.closest('button'); if (!b) return;
+  mode = b.dataset.mode;
+  Array.prototype.forEach.call(this.children, function (x) {
+    x.setAttribute('aria-pressed', String(x.dataset.mode === mode));
+  });
+  renderPlans();
+});
+renderPlans();
+
+/* ---------- форма ---------- */
+var form = document.getElementById('leadForm');
+var msg = document.getElementById('leadMsg');
+function submitLead(email) {
+  /* Подключите сюда свой обработчик: fetch('/api/lead', {method:'POST', body:...}) */
+  try { localStorage.setItem('leonida_lead', email); } catch (e) {}
+  return true;
+}
+form.addEventListener('submit', function (e) {
+  e.preventDefault();
+  var email = document.getElementById('leadEmail').value.trim();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+    msg.className = 'form-msg err';
+    msg.textContent = 'Проверьте адрес — похоже, в нём опечатка.';
+    return;
+  }
+  submitLead(email);
+  msg.className = 'form-msg ok';
+  msg.textContent = 'Адрес принят: ' + email + '. Осталось подключить отправку писем.';
+  form.reset();
+});
+</script>
