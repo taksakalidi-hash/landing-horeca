@@ -1,3 +1,4 @@
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Конверты бюджета</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -82,27 +83,20 @@ button,input,select{font:inherit;color:inherit}
 .card-head h2{white-space:nowrap}
 
 /* ---------- доходы ---------- */
-.inc{display:grid;grid-template-columns:minmax(90px,1fr) 118px 28px;gap:8px;align-items:center;
+.inc{display:grid;grid-template-columns:minmax(90px,1fr) 128px 34px;gap:8px;align-items:center;
   padding:7px 0;border-bottom:1px solid var(--line-soft)}
-.inc input[type=text]{border:0;background:transparent;border-bottom:1px dashed transparent;padding:3px 0;width:100%}
-.inc input[type=text]:hover{border-bottom-color:var(--line)}
-.inc input[type=number]{
-  border:1px solid var(--line);background:var(--surface-2);border-radius:7px;padding:6px 8px;width:100%;
-  font-family:var(--mono);font-size:14px;font-variant-numeric:tabular-nums;text-align:right;
-}
-.inc .del{border:0;background:transparent;color:var(--muted);cursor:pointer;font-size:17px;line-height:1;border-radius:6px}
-.inc .del:hover{color:var(--bad)}
-.inc-total{display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding-top:12px}
+.inc-total{display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding-top:14px}
 .inc-total b{font-family:var(--mono);font-size:26px;font-weight:600;font-variant-numeric:tabular-nums}
 .cur-pick{display:flex;align-items:center;gap:8px}
-.cur-pick select{border:1px solid var(--line);background:var(--surface-2);border-radius:8px;padding:7px 10px;cursor:pointer}
+.cur-pick select{border:1px solid var(--line);background:var(--surface-2);border-radius:8px;
+  padding:8px 10px;cursor:pointer;min-height:40px}
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
 .chip{
-  border:1px solid var(--line);background:var(--surface-2);border-radius:999px;padding:6px 12px;
+  border:1px solid var(--line);background:var(--surface-2);border-radius:999px;padding:8px 14px;
   font-family:var(--mono);font-size:12px;cursor:pointer;color:var(--muted);
 }
 .chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:500}
-.add{margin-top:10px;font-size:13.5px;color:var(--accent);background:none;border:0;cursor:pointer;padding:4px 0}
+.add{margin-top:10px;font-size:14px;color:var(--accent);background:none;border:0;cursor:pointer;padding:8px 0}
 .add:hover{text-decoration:underline}
 
 /* ---------- ползунки ---------- */
@@ -139,26 +133,33 @@ table.data th:first-child,table.data td:first-child{text-align:left}
 table.data th{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:400}
 table.data td.n{font-family:var(--mono);font-variant-numeric:tabular-nums}
 
+/* ---------- поля ---------- */
+.f{display:flex;align-items:center;gap:8px;min-width:0}
+.f-plan{justify-content:flex-end}
+.flab{display:none;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.f input[type=text]{border:0;background:transparent;border-bottom:1px dashed transparent;padding:4px 0;width:100%;min-width:0}
+.f input[type=text]:hover,.f input[type=text]:focus{border-bottom-color:var(--line)}
+.f input[type=number]{
+  border:1px solid var(--line);background:var(--surface-2);border-radius:8px;padding:8px 9px;width:100%;min-width:0;
+  font-family:var(--mono);font-size:15px;font-variant-numeric:tabular-nums;text-align:right;min-height:40px;
+}
+.del{border:0;background:transparent;color:var(--muted);cursor:pointer;font-size:20px;line-height:1;
+  border-radius:8px;width:34px;height:34px;flex:none}
+.del:hover{color:var(--bad);background:var(--surface-2)}
+
 /* ---------- цели ---------- */
 .goal{padding:14px 0;border-bottom:1px solid var(--line-soft)}
 .goal:last-of-type{border-bottom:0}
-.goal-top{display:grid;grid-template-columns:minmax(110px,1.4fr) 118px 118px 74px 28px;gap:9px;align-items:center}
-.goal-top input[type=text]{border:0;background:transparent;border-bottom:1px dashed transparent;padding:3px 0;width:100%;font-weight:500}
-.goal-top input[type=text]:hover{border-bottom-color:var(--line)}
-.goal-top input[type=number]{
-  border:1px solid var(--line);background:var(--surface-2);border-radius:7px;padding:6px 8px;width:100%;
-  font-family:var(--mono);font-size:14px;font-variant-numeric:tabular-nums;text-align:right;
-}
-.goal-top .del{border:0;background:transparent;color:var(--muted);cursor:pointer;font-size:17px;line-height:1}
-.goal-top .del:hover{color:var(--bad)}
+.goal-top{display:grid;grid-template-columns:minmax(110px,1.4fr) 118px 118px 74px 34px;gap:9px;align-items:center}
 .goal .track{height:8px;border-radius:99px;background:var(--surface-2);overflow:hidden;margin-top:10px}
 .goal .track i{display:block;height:100%;border-radius:99px;background:var(--s3)}
 .goal .eta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:7px;font-size:13px;color:var(--muted)}
-.goal-head{display:grid;grid-template-columns:minmax(110px,1.4fr) 118px 118px 74px 28px;gap:9px;
+.goal-head{display:grid;grid-template-columns:minmax(110px,1.4fr) 118px 118px 74px 34px;gap:9px;
   padding:6px 0;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 .goal-head span:not(:first-child){text-align:right}
 .pill{border-radius:999px;padding:1px 9px;font-family:var(--mono);font-size:11px;letter-spacing:.04em}
 .pill.ok{background:var(--good-bg);color:var(--good)}
+.pill.neutral{background:var(--surface-2);color:var(--muted)}
 .pill.near{background:var(--warn-bg);color:var(--warn)}
 .pill.over{background:var(--bad-bg);color:var(--bad)}
 
@@ -176,31 +177,55 @@ table.data td.n{font-family:var(--mono);font-variant-numeric:tabular-nums}
 .group{margin-top:18px}
 .group-head{display:flex;align-items:center;gap:9px;padding-bottom:9px;border-bottom:2px solid var(--line)}
 .group-head .amt{margin-left:auto;font-family:var(--mono);font-variant-numeric:tabular-nums;font-weight:600}
-.cat{display:grid;grid-template-columns:minmax(120px,1.5fr) 74px 118px 118px 30px;gap:10px;align-items:center;
+.cat{display:grid;grid-template-columns:minmax(120px,1.5fr) 84px 118px 118px 34px;gap:10px;align-items:center;
   padding:10px 0;border-bottom:1px solid var(--line-soft)}
-.cat input[type=text]{border:0;background:transparent;border-bottom:1px dashed transparent;padding:3px 0;width:100%}
-.cat input[type=text]:hover{border-bottom-color:var(--line)}
-.cat input[type=number]{
-  border:1px solid var(--line);background:var(--surface-2);border-radius:7px;padding:6px 8px;width:100%;
-  font-family:var(--mono);font-size:14px;font-variant-numeric:tabular-nums;text-align:right;
-}
-.cat .plan{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right;font-weight:500}
-.cat .del{border:0;background:transparent;color:var(--muted);cursor:pointer;font-size:17px;line-height:1;border-radius:6px}
-.cat .del:hover{color:var(--bad)}
+.cat .plan{font-family:var(--mono);font-variant-numeric:tabular-nums;font-weight:500}
 .cat .track{grid-column:1 / -1;height:6px;border-radius:99px;background:var(--surface-2);overflow:hidden}
 .cat .track i{display:block;height:100%;border-radius:99px}
 .cat .state{grid-column:1 / -1;display:flex;gap:8px;align-items:center;font-size:12.5px;color:var(--muted)}
-.cat-head{display:grid;grid-template-columns:minmax(120px,1.5fr) 74px 118px 118px 30px;gap:10px;
+.cat-head{display:grid;grid-template-columns:minmax(120px,1.5fr) 84px 118px 118px 34px;gap:10px;
   padding:8px 0;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 .cat-head span:not(:first-child){text-align:right}
-@media(max-width:680px){
-  .cat,.cat-head{grid-template-columns:minmax(88px,1.4fr) 56px 92px 92px 26px;gap:7px;font-size:14px}
-  .goal-top,.goal-head{grid-template-columns:minmax(88px,1.3fr) 92px 92px 58px 26px;gap:7px}
+
+/* ---------- телефон ---------- */
+@media(max-width:720px){
+  .page{padding-block:18px 48px}
+  .top{gap:12px}
+  .top-actions{width:100%}
+  .top-actions .btn{flex:1 1 auto;min-height:42px}
+  .card{padding:16px}
+  .tiles{grid-template-columns:1fr 1fr}
+  .tile b{font-size:19px}
+  .cat-head,.goal-head{display:none}
+  .flab{display:block}
+  .f{flex-direction:column;align-items:stretch;gap:3px}
+  .f-plan .plan{padding:8px 0;display:block}
+  .cat,.goal-top{grid-template-columns:1fr 1fr 1fr;align-items:end;gap:10px 9px}
+  .cat{grid-template-areas:"name name del" "share plan fact" "track track track" "state state state"}
+  .goal-top{grid-template-areas:"name name del" "target saved share"}
+  .cat > .f-name,.goal-top > .f-name{grid-area:name}
+  .cat > .f-share,.goal-top > .f-share{grid-area:share}
+  .cat > .f-plan{grid-area:plan}
+  .cat > .f-fact{grid-area:fact}
+  .goal-top > .f-target{grid-area:target}
+  .goal-top > .f-saved{grid-area:saved}
+  .cat > .del,.goal-top > .del{grid-area:del;justify-self:end;align-self:center}
+  .cat > .track{grid-area:track;margin-top:4px}
+  .cat > .state{grid-area:state}
+  .inc{grid-template-columns:1fr 122px 34px;align-items:end}
+  .inc > .del{align-self:center}
+  .inc-total b{font-size:23px}
+  input[type=range]{height:30px}
+  .legend-row{font-size:14px}
+  .donut{width:180px;height:180px}
 }
 .foot{margin-top:26px;color:var(--muted);font-size:13px;display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between}
 .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--text);color:var(--bg);
   padding:10px 18px;border-radius:999px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .2s ease;z-index:9}
-.toast.show{opacity:1}
+.toast{display:flex;align-items:center;gap:12px;pointer-events:none}
+.toast.show{opacity:1;pointer-events:auto}
+.toast .undo{background:none;border:0;color:var(--bg);font-weight:600;text-decoration:underline;
+  cursor:pointer;padding:4px;font-size:14px}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 
@@ -211,8 +236,10 @@ table.data td.n{font-family:var(--mono);font-variant-numeric:tabular-nums}
       <p>Соберите доход из всех источников, разложите его по трём конвертам, поставьте цели и вписывайте факт по ходу месяца. Считает в кронах, кронами и не отправляет ничего наружу.</p>
     </div>
     <div class="top-actions">
+      <button class="btn btn-solid" id="monthBtn" type="button">Новый месяц</button>
+      <button class="btn" id="clearBtn" type="button">Ввести своё</button>
       <button class="btn" id="copyBtn" type="button">Скопировать план</button>
-      <button class="btn" id="resetBtn" type="button">Сбросить к примеру</button>
+      <button class="btn" id="resetBtn" type="button">Пример</button>
     </div>
   </div>
 
@@ -398,17 +425,45 @@ function monthLong(offset) {
   var d = new Date(); d.setDate(1); d.setMonth(d.getMonth() + offset);
   return d.toLocaleDateString('ru-RU', { month: 'long', year: 'numeric' });
 }
-function toast(text) {
+function toast(text, undoLabel, onUndo) {
   var t = document.getElementById('toast');
-  t.textContent = text; t.classList.add('show');
-  clearTimeout(toast._t); toast._t = setTimeout(function () { t.classList.remove('show'); }, 2200);
+  t.innerHTML = '';
+  t.appendChild(document.createTextNode(text));
+  if (onUndo) {
+    var u = document.createElement('button');
+    u.type = 'button'; u.className = 'undo'; u.textContent = undoLabel;
+    u.addEventListener('click', function () { onUndo(); t.classList.remove('show'); });
+    t.appendChild(u);
+  }
+  t.classList.add('show');
+  clearTimeout(toast._t);
+  toast._t = setTimeout(function () { t.classList.remove('show'); }, onUndo ? 7000 : 2200);
+}
+/* действие с возможностью вернуть предыдущее состояние */
+function withUndo(text, mutate) {
+  var before = JSON.stringify(S);
+  mutate();
+  renderAll();
+  toast(text, 'Вернуть', function () { S = JSON.parse(before); renderAll(); });
 }
 function numInput(value, aria, step, onInput) {
   var el = document.createElement('input');
   el.type = 'number'; el.min = 0; el.step = step || 1; el.value = value;
+  el.inputMode = 'numeric';
   el.setAttribute('aria-label', aria);
+  el.addEventListener('focus', function () { el.select(); });
   el.addEventListener('input', function () { onInput(Math.max(0, +el.value || 0)); });
   return el;
+}
+/* поле = подпись (видна на телефоне) + контрол */
+function field(cls, labelText, control) {
+  var wrap = document.createElement('div');
+  wrap.className = 'f ' + cls;
+  var lab = document.createElement('span');
+  lab.className = 'flab'; lab.textContent = labelText;
+  lab.setAttribute('aria-hidden', 'true');
+  wrap.appendChild(lab); wrap.appendChild(control);
+  return wrap;
 }
 function textInput(value, aria, onChange) {
   var el = document.createElement('input');
@@ -447,7 +502,9 @@ function renderIncomes() {
       S.incomes = S.incomes.filter(function (x) { return x.id !== inc.id; });
       renderAll();
     });
-    row.appendChild(n); row.appendChild(a); row.appendChild(d);
+    row.appendChild(field('f-name', 'Источник', n));
+    row.appendChild(field('f-amount', 'Сумма', a));
+    row.appendChild(d);
     host.appendChild(row);
   });
   document.getElementById('incomeTotal').textContent = money(income());
@@ -620,7 +677,11 @@ function renderGoals() {
       S.goals = S.goals.filter(function (x) { return x.id !== g.id; });
       renderAll();
     });
-    [n, t, s, sh, d].forEach(function (el) { top.appendChild(el); });
+    top.appendChild(field('f-name', 'Цель', n));
+    top.appendChild(field('f-target', 'Нужно', t));
+    top.appendChild(field('f-saved', 'Уже есть', s));
+    top.appendChild(field('f-share', 'Доля, %', sh));
+    top.appendChild(d);
 
     var track = document.createElement('div');
     track.className = 'track';
@@ -628,7 +689,7 @@ function renderGoals() {
 
     var eta_el = document.createElement('div');
     eta_el.className = 'eta';
-    eta_el.innerHTML = '<span class="pill ' + (ratio >= 1 ? 'ok' : 'near') + '">' + Math.round(ratio * 100) + '%</span>' +
+    eta_el.innerHTML = '<span class="pill ' + (ratio >= 1 ? 'ok' : 'neutral') + '">' + Math.round(ratio * 100) + '%</span>' +
       '<span>' + eta.text + '</span>';
 
     wrap.appendChild(top); wrap.appendChild(track); wrap.appendChild(eta_el);
@@ -640,7 +701,11 @@ function renderGoals() {
 var FC = { pts: [] };
 function renderForecast() {
   var svg = document.getElementById('forecast');
-  var W = 720, H = 250, L = 78, R = 688, T = 18, B = 208;
+  var box = document.getElementById('plot').clientWidth || 720;
+  var narrow = box < 520;
+  var W = narrow ? 360 : 720, H = narrow ? 230 : 250;
+  var L = narrow ? 56 : 78, R = W - (narrow ? 14 : 32), T = narrow ? 26 : 18, B = H - 42;
+  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
   var monthly = bucketSum('future');
   var start = S.goals.reduce(function (a, g) { return a + (+g.saved || 0); }, 0);
   var pts = [];
@@ -654,13 +719,18 @@ function renderForecast() {
 
   var ticks = [0, niceMax / 2, niceMax];
   var grid = ticks.map(function (v) {
-    return '<line x1="' + L + '" x2="' + R + '" y1="' + y(v).toFixed(1) + '" y2="' + y(v).toFixed(1) +
-      '" style="stroke:var(--line-soft)" stroke-width="1"/>' +
-      '<text x="' + (L - 10) + '" y="' + (y(v) + 4).toFixed(1) + '" text-anchor="end" font-size="12" ' +
-      'font-family="IBM Plex Mono, monospace" style="fill:var(--muted)">' + fmt(v) + '</text>';
+    var line = '<line x1="' + L + '" x2="' + R + '" y1="' + y(v).toFixed(1) + '" y2="' + y(v).toFixed(1) +
+      '" style="stroke:var(--line-soft)" stroke-width="1"/>';
+    /* на узком экране разряды сокращаем, иначе подпись не влезает в поле слева */
+    var txt = (narrow && niceMax >= 100000 && v > 0) ? fmt(v / 1000) + ' т.' : fmt(v);
+    var lab = '<text x="' + (L - (narrow ? 8 : 10)) + '" y="' + (y(v) + 4).toFixed(1) +
+      '" text-anchor="end" font-size="' + (narrow ? 11 : 12) + '" ' +
+      'font-family="IBM Plex Mono, monospace" style="fill:var(--muted)">' + txt + '</text>';
+    return line + lab;
   }).join('');
-  var xlab = [0, 3, 6, 9, 12].map(function (m) {
-    return '<text x="' + x(m).toFixed(1) + '" y="' + (B + 24) + '" text-anchor="middle" font-size="12" ' +
+  var xlab = (narrow ? [0, 6, 12] : [0, 3, 6, 9, 12]).map(function (m) {
+    var anchor = m === 0 ? 'start' : (m === 12 ? 'end' : 'middle');
+    return '<text x="' + x(m).toFixed(1) + '" y="' + (B + 24) + '" text-anchor="' + anchor + '" font-size="12" ' +
       'font-family="IBM Plex Mono, monospace" style="fill:var(--muted)">' + monthLabel(m) + '</text>';
   }).join('');
   var line = FC.pts.map(function (p, i) { return (i ? 'L' : 'M') + p.x.toFixed(1) + ' ' + p.y.toFixed(1); }).join(' ');
@@ -676,7 +746,8 @@ function renderForecast() {
     '<path d="' + area + '" style="fill:var(--s1)" opacity=".12"/>' +
     '<path d="' + line + '" fill="none" style="stroke:var(--s1)" stroke-width="2" stroke-linejoin="round"/>' +
     '<circle id="fcDot" cx="' + last.x.toFixed(1) + '" cy="' + last.y.toFixed(1) + '" r="5" style="fill:var(--s1);stroke:var(--surface)" stroke-width="2"/>' +
-    '<text x="' + (last.x - 6).toFixed(1) + '" y="' + Math.max(T + 12, last.y - 12).toFixed(1) + '" text-anchor="end" ' +
+    '<text x="' + (narrow ? R : last.x - 6).toFixed(1) + '" y="' +
+      (narrow ? T - 10 : Math.max(T + 12, last.y - 12)).toFixed(1) + '" text-anchor="end" ' +
     'font-size="13" font-weight="600" font-family="IBM Plex Mono, monospace" style="fill:var(--text)">' + money(last.v) + '</text>' +
     '<line id="fcCross" x1="0" x2="0" y1="' + T + '" y2="' + B + '" style="stroke:var(--line)" stroke-width="1" opacity="0"/>' +
     hits;
@@ -755,7 +826,13 @@ function catRow(c) {
   st.className = 'state';
   st.innerHTML = '<span class="pill ' + state + '">' + Math.round(ratio * 100) + '%</span><span>' + word + '</span>';
 
-  [nameI, shareI, planS, factI, del, track, st].forEach(function (el) { row.appendChild(el); });
+  row.appendChild(field('f-name', 'Категория', nameI));
+  row.appendChild(field('f-share', 'Доля, %', shareI));
+  row.appendChild(field('f-plan', 'План', planS));
+  row.appendChild(field('f-fact', 'Факт', factI));
+  row.appendChild(del);
+  row.appendChild(track);
+  row.appendChild(st);
   return row;
 }
 
@@ -782,7 +859,22 @@ document.getElementById('copyBtn').addEventListener('click', function () {
   } else { toast('Браузер не дал скопировать'); }
 });
 document.getElementById('resetBtn').addEventListener('click', function () {
-  S = example(); renderAll(); toast('Вернули пример');
+  withUndo('Вернули пример', function () { S = example(); });
+});
+/* новый месяц: факт обнуляем, накопленное по целям увеличиваем на месячный взнос */
+document.getElementById('monthBtn').addEventListener('click', function () {
+  withUndo('Новый месяц начат: факт обнулён, взносы по целям учтены', function () {
+    S.goals.forEach(function (g) { g.saved = Math.round((+g.saved || 0) + goalMonthly(g)); });
+    S.cats.forEach(function (c) { c.fact = 0; });
+  });
+});
+/* свой бюджет: структура остаётся, цифры обнуляются */
+document.getElementById('clearBtn').addEventListener('click', function () {
+  withUndo('Поля очищены — впишите свои суммы', function () {
+    S.incomes = [{ id: 'i' + Date.now(), name: 'Зарплата', amount: 0 }];
+    S.cats.forEach(function (c) { c.fact = 0; });
+    S.goals.forEach(function (g) { g.saved = 0; });
+  });
 });
 
 /* ===== общий рендер ===== */
@@ -804,4 +896,10 @@ function renderAll(keepFocus) {
   }
 }
 renderAll();
+
+var rt;
+window.addEventListener('resize', function () {
+  clearTimeout(rt);
+  rt = setTimeout(renderForecast, 180);
+});
 </script>
