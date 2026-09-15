@@ -1,0 +1,1213 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Forever Launch Kit</title>
+<style>
+  :root{
+    --bg:#0b0f16;
+    --bg2:#111826;
+    --panel:#141d2c;
+    --panel2:#1a2435;
+    --line:#26334a;
+    --line2:#33435f;
+    --ink:#e8edf5;
+    --ink-dim:#a3b1c6;
+    --ink-faint:#6f8099;
+    --gold:#d8ae5f;
+    --gold-dim:#8d7238;
+    --blue:#5aa9e6;
+    --green:#4fc38a;
+    --red:#e2685f;
+    --purple:#a479d8;
+    --radius:14px;
+    --maxw:1080px;
+  }
+  *{box-sizing:border-box}
+  html{color-scheme:dark}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  img{max-width:100%}
+  [hidden]{display:none!important}
+  h1,h2,h3,h4{margin:0 0 .5em;line-height:1.2;font-weight:650;letter-spacing:-.01em}
+  p{margin:0 0 1em}
+  a{color:var(--blue)}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding-inline:18px}
+
+  /* ---------- header ---------- */
+  .top{
+    background:linear-gradient(180deg,#131c2b 0%,#0b0f16 100%);
+    border-bottom:1px solid var(--line);
+  }
+  .top-in{padding-block:26px 22px}
+  .brandrow{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+  .sigil{
+    width:36px;height:36px;border-radius:9px;flex:none;
+    background:linear-gradient(145deg,var(--gold),#8a6d2c);
+    display:grid;place-items:center;color:#1a1408;font-weight:800;font-size:17px;
+  }
+  .brand{font-size:17px;font-weight:700;letter-spacing:.02em}
+  .brand small{display:block;font-size:11px;font-weight:500;color:var(--ink-faint);letter-spacing:.09em;text-transform:uppercase}
+  .edition{
+    margin-left:auto;font-size:11px;color:var(--gold);border:1px solid var(--gold-dim);
+    padding:4px 10px;border-radius:99px;letter-spacing:.07em;text-transform:uppercase;white-space:nowrap;
+  }
+
+  .countdown{display:flex;gap:10px;flex-wrap:wrap}
+  .cd-unit{
+    flex:1 1 72px;background:var(--panel);border:1px solid var(--line);
+    border-radius:12px;padding:12px 8px;text-align:center;
+  }
+  .cd-num{font-size:30px;font-weight:700;font-variant-numeric:tabular-nums;color:var(--gold);line-height:1}
+  .cd-lab{font-size:10px;text-transform:uppercase;letter-spacing:.11em;color:var(--ink-faint);margin-top:6px}
+  .cd-note{margin-top:12px;font-size:13px;color:var(--ink-dim)}
+  .cd-note b{color:var(--ink)}
+
+  /* ---------- tabs ---------- */
+  .tabbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:rgba(11,15,22,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .tabs{display:flex;gap:4px;overflow-x:auto;padding:8px 18px;max-width:var(--maxw);margin:0 auto;scrollbar-width:thin}
+  .tab{
+    flex:none;background:none;border:1px solid transparent;color:var(--ink-dim);
+    padding:8px 13px;border-radius:9px;font:inherit;font-size:13.5px;cursor:pointer;white-space:nowrap;
+  }
+  .tab:hover{color:var(--ink);background:var(--panel)}
+  .tab[aria-selected="true"]{background:var(--panel2);color:var(--gold);border-color:var(--line2)}
+
+  /* ---------- sections ---------- */
+  main{padding-block:28px 60px}
+  .sec-head{margin-bottom:22px}
+  .sec-head h2{font-size:25px}
+  .sec-head p{color:var(--ink-dim);margin:0;max-width:62ch}
+  .kicker{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:7px}
+
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:20px;margin-bottom:16px}
+  .card h3{font-size:17px}
+  .card h4{font-size:14px;color:var(--ink-dim);text-transform:uppercase;letter-spacing:.07em;font-weight:600}
+  .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+  .grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+
+  /* ---------- form ---------- */
+  .field{margin-bottom:18px}
+  .field > label{display:block;font-size:13px;font-weight:600;color:var(--ink);margin-bottom:9px}
+  .hint{font-size:12.5px;color:var(--ink-faint);font-weight:400;margin-top:-4px;margin-bottom:9px}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{
+    background:var(--bg2);border:1px solid var(--line);color:var(--ink-dim);
+    padding:8px 13px;border-radius:9px;font:inherit;font-size:13.5px;cursor:pointer;
+  }
+  .chip:hover{border-color:var(--line2);color:var(--ink)}
+  .chip[aria-pressed="true"]{background:rgba(216,174,95,.13);border-color:var(--gold-dim);color:var(--gold)}
+  input[type=range]{width:100%;accent-color:var(--gold)}
+  input[type=number]{
+    width:100%;background:var(--bg2);border:1px solid var(--line);color:var(--ink);
+    padding:9px 11px;border-radius:9px;font:inherit;
+  }
+  .rangerow{display:flex;justify-content:space-between;font-size:12.5px;color:var(--ink-faint);margin-top:4px}
+  .rangeval{color:var(--gold);font-weight:600}
+
+  .btn{
+    background:linear-gradient(145deg,var(--gold),#b78f43);color:#1a1408;border:0;
+    padding:12px 22px;border-radius:10px;font:inherit;font-weight:700;cursor:pointer;
+  }
+  .btn:hover{filter:brightness(1.08)}
+  .btn-ghost{background:none;border:1px solid var(--line2);color:var(--ink-dim);font-weight:500}
+  .btn-ghost:hover{color:var(--ink);background:var(--panel2);filter:none}
+  .btnrow{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+
+  /* ---------- results ---------- */
+  .pick{
+    display:flex;gap:14px;align-items:flex-start;
+    background:var(--panel2);border:1px solid var(--line2);border-radius:12px;padding:16px;margin-bottom:11px;
+  }
+  .pick.top{border-color:var(--gold-dim);background:linear-gradient(145deg,rgba(216,174,95,.1),var(--panel2))}
+  .rank{
+    width:30px;height:30px;flex:none;border-radius:8px;background:var(--bg2);border:1px solid var(--line2);
+    display:grid;place-items:center;font-weight:700;font-size:14px;color:var(--ink-dim);
+  }
+  .pick.top .rank{background:var(--gold);color:#1a1408;border-color:var(--gold)}
+  .pick-body{flex:1;min-width:0}
+  .pick-name{font-weight:700;font-size:16px;margin-bottom:2px}
+  .pick-name span{font-weight:500;font-size:13px;color:var(--ink-faint)}
+  .pick-why{font-size:13.5px;color:var(--ink-dim);margin:6px 0 0}
+  .score{font-size:12px;color:var(--gold);font-weight:600;white-space:nowrap}
+
+  .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+  .tag{font-size:11.5px;padding:3px 9px;border-radius:99px;background:var(--bg2);border:1px solid var(--line);color:var(--ink-dim)}
+  .tag.good{color:var(--green);border-color:rgba(79,195,138,.35)}
+  .tag.warn{color:var(--red);border-color:rgba(226,104,95,.35)}
+  .tag.new{color:var(--purple);border-color:rgba(164,121,216,.4)}
+
+  /* ---------- timeline ---------- */
+  .tl{position:relative;padding-left:26px}
+  .tl::before{content:"";position:absolute;left:8px;top:6px;bottom:6px;width:2px;background:var(--line)}
+  .tl-item{position:relative;margin-bottom:18px}
+  .tl-item::before{
+    content:"";position:absolute;left:-22px;top:6px;width:10px;height:10px;border-radius:50%;
+    background:var(--bg);border:2px solid var(--gold-dim);
+  }
+  .tl-item.now::before{background:var(--gold);border-color:var(--gold);box-shadow:0 0 0 4px rgba(216,174,95,.16)}
+  .tl-item.done::before{background:var(--line2);border-color:var(--line2)}
+  .tl-time{font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--gold);font-weight:600}
+  .tl-title{font-weight:650;margin:2px 0 3px}
+  .tl-desc{font-size:13.5px;color:var(--ink-dim)}
+
+  /* ---------- checklist ---------- */
+  .phase{border:1px solid var(--line);border-radius:12px;margin-bottom:12px;overflow:hidden;background:var(--panel)}
+  .phase-head{
+    display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer;
+    background:var(--panel2);border:0;width:100%;text-align:left;font:inherit;color:var(--ink);
+  }
+  .phase-head:hover{background:#1f2a3d}
+  .phase-when{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);font-weight:600}
+  .phase-name{font-weight:650;font-size:15px}
+  .phase-meta{margin-left:auto;display:flex;align-items:center;gap:10px;flex:none}
+  .bar{width:64px;height:5px;background:var(--bg2);border-radius:99px;overflow:hidden}
+  .bar i{display:block;height:100%;background:var(--gold);border-radius:99px;transition:width .25s}
+  .phase-pct{font-size:12px;color:var(--ink-faint);font-variant-numeric:tabular-nums;min-width:34px;text-align:right}
+  .phase-body{padding:6px 16px 14px}
+  .chk{display:flex;gap:11px;align-items:flex-start;padding:9px 0;border-bottom:1px solid var(--line);cursor:pointer}
+  .chk:last-child{border-bottom:0}
+  .chk input{margin:2px 0 0;accent-color:var(--gold);width:17px;height:17px;flex:none;cursor:pointer}
+  .chk span{font-size:14px}
+  .chk input:checked + span{color:var(--ink-faint);text-decoration:line-through}
+
+  /* ---------- tables ---------- */
+  .tablewrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  table{border-collapse:collapse;width:100%;min-width:520px;font-size:13.5px}
+  th,td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint);font-weight:600;white-space:nowrap}
+  tbody tr:hover{background:var(--panel2)}
+  td b{color:var(--ink)}
+
+  /* ---------- stat / callout ---------- */
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:16px}
+  .stat{background:var(--panel2);border:1px solid var(--line);border-radius:11px;padding:14px}
+  .stat-num{font-size:23px;font-weight:700;color:var(--gold);font-variant-numeric:tabular-nums;line-height:1.1}
+  .stat-lab{font-size:12px;color:var(--ink-dim);margin-top:5px}
+
+  .note{
+    border-left:3px solid var(--blue);background:rgba(90,169,230,.07);
+    padding:13px 15px;border-radius:0 10px 10px 0;font-size:13.5px;color:var(--ink-dim);margin-bottom:16px;
+  }
+  .note.warn{border-color:var(--gold);background:rgba(216,174,95,.07)}
+  .note b{color:var(--ink)}
+
+  .verdict{
+    background:linear-gradient(145deg,rgba(216,174,95,.12),var(--panel2));
+    border:1px solid var(--gold-dim);border-radius:12px;padding:18px;
+  }
+  .verdict .kicker{margin-bottom:5px}
+  .verdict-main{font-size:19px;font-weight:700;margin-bottom:6px}
+  .verdict-sub{font-size:13.5px;color:var(--ink-dim);margin:0}
+
+  footer{border-top:1px solid var(--line);padding-block:26px 40px;color:var(--ink-faint);font-size:12.5px}
+  footer p{margin:0 0 .6em}
+
+  @media (max-width:560px){
+    .cd-num{font-size:24px}
+    .sec-head h2{font-size:21px}
+    .edition{margin-left:0;order:3}
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap top-in">
+    <div class="brandrow">
+      <div class="sigil">F</div>
+      <div class="brand">FOREVER LAUNCH KIT<small>Unofficial Day-One Planner</small></div>
+      <div class="edition" id="phaseBadge">Loading…</div>
+    </div>
+    <div class="countdown" id="cd">
+      <div class="cd-unit"><div class="cd-num" id="cdD">–</div><div class="cd-lab">Days</div></div>
+      <div class="cd-unit"><div class="cd-num" id="cdH">–</div><div class="cd-lab">Hours</div></div>
+      <div class="cd-unit"><div class="cd-num" id="cdM">–</div><div class="cd-lab">Minutes</div></div>
+      <div class="cd-unit"><div class="cd-num" id="cdS">–</div><div class="cd-lab">Seconds</div></div>
+    </div>
+    <p class="cd-note" id="cdNote">until <b>World of Warcraft: Forever</b> goes live — November 4, 2026</p>
+  </div>
+</header>
+
+<div class="tabbar">
+  <div class="tabs" role="tablist">
+    <button class="tab" role="tab" data-panel="plan" aria-selected="true">1 · Build My Plan</button>
+    <button class="tab" role="tab" data-panel="editions" aria-selected="false">2 · What To Buy</button>
+    <button class="tab" role="tab" data-panel="dayone" aria-selected="false">3 · Day One</button>
+    <button class="tab" role="tab" data-panel="prep" aria-selected="false">4 · Prep Checklist</button>
+    <button class="tab" role="tab" data-panel="gold" aria-selected="false">5 · Gold Plan</button>
+    <button class="tab" role="tab" data-panel="atlas" aria-selected="false">6 · Content Atlas</button>
+  </div>
+</div>
+
+<main class="wrap">
+
+  <!-- ================= PLAN ================= -->
+  <section id="plan" role="tabpanel">
+    <div class="sec-head">
+      <div class="kicker">Step One</div>
+      <h2>Build your Forever plan</h2>
+      <p>Answer six questions. You get a scored class shortlist, a Day-One schedule sized to your actual playtime, and a gold target that reaches an epic mount before the raids open.</p>
+    </div>
+
+    <div class="card">
+      <div class="field">
+        <label>What do you actually want out of launch?</label>
+        <div class="hint">Pick up to two. This drives everything else.</div>
+        <div class="chips" id="goals">
+          <button class="chip" data-v="speed" aria-pressed="false">Hit 60 fast</button>
+          <button class="chip" data-v="group" aria-pressed="false">Always get invited</button>
+          <button class="chip" data-v="solo" aria-pressed="false">Play mostly solo</button>
+          <button class="chip" data-v="gold" aria-pressed="false">Make gold</button>
+          <button class="chip" data-v="pvp" aria-pressed="false">World PvP &amp; BGs</button>
+          <button class="chip" data-v="chill" aria-pressed="false">Explore, no rush</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Preferred role</label>
+        <div class="chips" id="role">
+          <button class="chip" data-v="any" aria-pressed="true">No preference</button>
+          <button class="chip" data-v="tank" aria-pressed="false">Tank</button>
+          <button class="chip" data-v="healer" aria-pressed="false">Healer</button>
+          <button class="chip" data-v="melee" aria-pressed="false">Melee DPS</button>
+          <button class="chip" data-v="ranged" aria-pressed="false">Ranged DPS</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Faction</label>
+        <div class="chips" id="faction">
+          <button class="chip" data-v="any" aria-pressed="true">Undecided</button>
+          <button class="chip" data-v="alliance" aria-pressed="false">Alliance</button>
+          <button class="chip" data-v="horde" aria-pressed="false">Horde</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>How experienced are you with vanilla-era WoW?</label>
+        <div class="chips" id="exp">
+          <button class="chip" data-v="new" aria-pressed="false">New to it</button>
+          <button class="chip" data-v="some" aria-pressed="true">Played some Classic</button>
+          <button class="chip" data-v="vet" aria-pressed="false">I know the routes</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Hours you can play on launch day <span class="rangeval" id="h1out">8</span></label>
+        <input type="range" id="h1" min="1" max="16" step="1" value="8">
+        <div class="rangerow"><span>1h</span><span>16h</span></div>
+      </div>
+
+      <div class="field">
+        <label>Hours per week after launch <span class="rangeval" id="hwout">20</span></label>
+        <input type="range" id="hw" min="3" max="60" step="1" value="20">
+        <div class="rangerow"><span>3h</span><span>60h</span></div>
+      </div>
+
+      <div class="btnrow">
+        <button class="btn" id="build">Build my plan</button>
+        <button class="btn btn-ghost" id="reset">Reset saved data</button>
+      </div>
+    </div>
+
+    <div id="planOut" hidden>
+      <div class="card">
+        <h3>Your class shortlist</h3>
+        <p style="color:var(--ink-dim);font-size:13.5px;margin-bottom:16px">Scored against your goals, role and faction. Vanilla class fundamentals still apply in Forever — the talent trees gain a node at 16 points, but the core identity of each class is unchanged.</p>
+        <div id="picks"></div>
+      </div>
+
+      <div class="card">
+        <h3>Skyborne check</h3>
+        <div id="skyborne"></div>
+      </div>
+
+      <div class="card">
+        <h3>Your numbers</h3>
+        <div class="stats" id="planStats"></div>
+        <p style="color:var(--ink-dim);font-size:13px;margin:0">Estimates assume quest-efficient play with rested XP used on your main. The Legacy tree's <b>Adventure</b> line extends rested duration — worth early points if your weekly hours are low.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= EDITIONS ================= -->
+  <section id="editions" role="tabpanel" hidden>
+    <div class="sec-head">
+      <div class="kicker">Step Two</div>
+      <h2>What you actually need to buy</h2>
+      <p>This is the most confused topic in every Forever thread right now. Here is the honest version.</p>
+    </div>
+
+    <div class="note warn">
+      <b>The one rule that matters:</b> when Forever launches on November 4, access is included with an active
+      World of Warcraft subscription or Game Time. You do <b>not</b> need to buy any edition to play the game.
+      The paid packs buy you two things only: <b>the Skyborne race</b> and <b>beta access</b>.
+    </div>
+
+    <div class="card">
+      <h3>Answer three questions</h3>
+      <div class="field">
+        <label>Do you want to play the Skyborne race?</label>
+        <div class="chips" id="q_sky">
+          <button class="chip" data-v="yes" aria-pressed="false">Yes, that's my main</button>
+          <button class="chip" data-v="maybe" aria-pressed="false">Maybe later</button>
+          <button class="chip" data-v="no" aria-pressed="false">No, rolling a classic race</button>
+        </div>
+      </div>
+      <div class="field">
+        <label>Do you want beta access from September 17?</label>
+        <div class="chips" id="q_beta">
+          <button class="chip" data-v="yes" aria-pressed="false">Yes — I want to test first</button>
+          <button class="chip" data-v="no" aria-pressed="false">No — I'll wait for launch</button>
+        </div>
+      </div>
+      <div class="field">
+        <label>Do cosmetics (mount, pets, transmog) matter to you?</label>
+        <div class="chips" id="q_cos">
+          <button class="chip" data-v="yes" aria-pressed="false">Yes, I collect</button>
+          <button class="chip" data-v="no" aria-pressed="false">Not really</button>
+        </div>
+      </div>
+      <div id="edVerdict"></div>
+    </div>
+
+    <div class="card">
+      <h3>The tiers, side by side</h3>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Option</th><th>Price</th><th>Skyborne</th><th>Beta</th><th>What it's really for</th></tr></thead>
+          <tbody>
+            <tr><td><b>Subscription / Game Time</b></td><td>Your normal sub</td><td>No</td><td>No</td><td>Everything except the new race. This is enough for most players.</td></tr>
+            <tr><td><b>Skyborne race pack</b></td><td>~$29.99</td><td>Yes</td><td>No</td><td>You want the new elf, you don't care about beta.</td></tr>
+            <tr><td><b>Skyborne Epic Pack</b></td><td>$59.99</td><td>Yes</td><td>Yes</td><td>Race + beta + 30 days game time + mount, pets, transmog.</td></tr>
+            <tr><td><b>Warcraft Forever Collection</b></td><td>$79.99</td><td>Yes</td><td>Yes</td><td>The Epic Pack plus the wider Warcraft bundle contents.</td></tr>
+            <tr><td><b>Collector's Edition</b></td><td>$149.99</td><td>Yes</td><td>Yes</td><td>Physical box: statue, art prints, pins, journal + the Collection.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size:12.5px;color:var(--ink-faint);margin:14px 0 0">Prices as announced at BlizzCon 2026 and reported in launch-week coverage. Regional pricing varies — confirm on the official shop before buying.</p>
+    </div>
+
+    <div class="card">
+      <h3>Beta reality check</h3>
+      <p style="margin-bottom:12px">The beta that opens on <b>September 17</b> is capped at <b>level 30</b>. That shapes what it's worth to you:</p>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>You can test</th><th>You cannot test</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Skyborne racials in real play · Zephras Isle 1–12 · early class feel with the 16-point talent node · profession perks and camping · the Legacy tree's opening tiers</td>
+              <td>The Riverglades at its intended 30–45 range · Mount Hyjal · any of the 9 new dungeons at level · both raids · the new battleground at 60</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size:13.5px;color:var(--ink-dim);margin:14px 0 0">Translation: beta is for deciding <b>which class feels good</b>, not for learning endgame. If you already know what you're rolling, the $60 pack buys you cosmetics and a head start on muscle memory — not competitive information.</p>
+    </div>
+  </section>
+
+  <!-- ================= DAY ONE ================= -->
+  <section id="dayone" role="tabpanel" hidden>
+    <div class="sec-head">
+      <div class="kicker">Step Three</div>
+      <h2>Your Day-One schedule</h2>
+      <p>Launch day is where most people lose four hours to queues, addon errors and indecision. This is your hour-by-hour.</p>
+    </div>
+
+    <div class="note">Build your plan on <b>Step One</b> first and this schedule resizes to the hours you actually have.</div>
+
+    <div class="card">
+      <h4>Before you log in — T-minus 60 minutes</h4>
+      <div class="tl" id="tlPre"></div>
+    </div>
+
+    <div class="card">
+      <h4>Launch day, hour by hour</h4>
+      <div class="tl" id="tlDay"></div>
+    </div>
+
+    <div class="card">
+      <h3>The five mistakes that cost the most time</h3>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Mistake</th><th>What it costs</th><th>Do this instead</th></tr></thead>
+          <tbody>
+            <tr><td><b>Taking both gathering professions "for later"</b></td><td>Hours of detours at the exact moment XP per hour matters most</td><td>Skip professions until your route has a natural lull, or take them only if gold is a stated goal</td></tr>
+            <tr><td><b>Fighting for the same starting zone as everyone else</b></td><td>Tagged mobs, contested quest objectives, 30–40% slower early levels</td><td>Expect Zephras Isle to be the most crowded zone in the game on Nov 4. A classic starting zone is measurably faster on day one</td></tr>
+            <tr><td><b>Full clearing every dungeon that pops</b></td><td>Dungeon XP per hour is usually below quest XP per hour while leveling</td><td>Run dungeons for specific gear upgrades and quest turn-ins, then go back outside</td></tr>
+            <tr><td><b>Not reserving a name plan</b></td><td>Ten minutes at the character screen while the server fills</td><td>Have five names written down before you queue</td></tr>
+            <tr><td><b>Levelling without rested XP discipline</b></td><td>Roughly a full level per week thrown away on a limited schedule</td><td>Log out in an inn every session. Put early Legacy points into Adventure for extended rested duration</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= PREP ================= -->
+  <section id="prep" role="tabpanel" hidden>
+    <div class="sec-head">
+      <div class="kicker">Step Four</div>
+      <h2>Seven weeks to launch</h2>
+      <p>Your progress saves in this browser. Work top to bottom — each phase is timed against the real calendar.</p>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="stat-num" id="prepPct">0%</div><div class="stat-lab">Overall readiness</div></div>
+      <div class="stat"><div class="stat-num" id="prepDone">0</div><div class="stat-lab">Tasks completed</div></div>
+      <div class="stat"><div class="stat-num" id="prepLeft">–</div><div class="stat-lab">Days until launch</div></div>
+    </div>
+    <div id="phases"></div>
+  </section>
+
+  <!-- ================= GOLD ================= -->
+  <section id="gold" role="tabpanel" hidden>
+    <div class="sec-head">
+      <div class="kicker">Step Five</div>
+      <h2>Gold plan</h2>
+      <p>Two deadlines matter: your level 40 mount, and being liquid enough to raid when Barrow Deeps and Hyjal Summit open on December 9.</p>
+    </div>
+
+    <div class="card">
+      <h3>Calculator</h3>
+      <div class="grid2">
+        <div class="field">
+          <label>Gold you'll farm per hour at 60</label>
+          <div class="chips" id="gph">
+            <button class="chip" data-v="8" aria-pressed="false">Casual · ~8g</button>
+            <button class="chip" data-v="18" aria-pressed="true">Gathering · ~18g</button>
+            <button class="chip" data-v="30" aria-pressed="false">Focused farm · ~30g</button>
+            <button class="chip" data-v="45" aria-pressed="false">AH trading · ~45g</button>
+          </div>
+          <div class="hint" style="margin-top:9px">Rough vanilla-economy rates. Early servers run lower; prices settle upward as the economy matures.</div>
+        </div>
+        <div class="field">
+          <label>Share of your weekly hours spent on gold</label>
+          <input type="range" id="gshare" min="5" max="60" step="5" value="20">
+          <div class="rangerow"><span>5%</span><span class="rangeval" id="gshareout">20%</span><span>60%</span></div>
+        </div>
+      </div>
+      <div class="stats" id="goldStats"></div>
+    </div>
+
+    <div class="card">
+      <h3>Profession pairs that pay</h3>
+      <p style="color:var(--ink-dim);font-size:13.5px">Forever adds <b>600+ new recipes</b> and, unlike Classic, gives every primary profession a <b>perk for the character who learns it</b>. That changes the old "gather on your main, craft on an alt" logic — a crafting profession is now worth carrying for its own passive benefit.</p>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Pair</th><th>Best for</th><th>Why it works in Forever</th></tr></thead>
+          <tbody>
+            <tr><td><b>Mining + Herbalism</b></td><td>Pure gold, any class</td><td>Zero material cost, and three new zones mean three fresh node populations that nobody has routed yet. Highest early-server income.</td></tr>
+            <tr><td><b>Mining + Blacksmithing</b></td><td>Melee and tanks</td><td>Self-supplied gear through the level ranges where drops are thin, plus the profession perk on your main.</td></tr>
+            <tr><td><b>Herbalism + Alchemy</b></td><td>Raiders</td><td>Consumables are the single largest recurring raid cost. Supplying yourself from December 9 onward is worth more than the gold you'd farm instead.</td></tr>
+            <tr><td><b>Skinning + Leatherworking</b></td><td>Solo levelers</td><td>Skinning pays you for mobs you were already killing — no route detours, which is what makes it good on a tight schedule.</td></tr>
+            <tr><td><b>Enchanting + Tailoring</b></td><td>Casters, gold on a slow burn</td><td>Disenchant income scales with how much green gear the server produces, which peaks in the first two months.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note" style="margin-top:16px;margin-bottom:0">Put Legacy points into the <b>Resourcefulness</b> tree once available — removing skill reagent requirements cuts the running cost of every crafting profession, and into <b>Professions</b> for milestone value. These are account-wide, so they pay out again on every alt.</div>
+    </div>
+
+    <div class="card">
+      <h3>Camping — the new mechanic nobody has priced yet</h3>
+      <p style="margin-bottom:0;color:var(--ink-dim);font-size:13.5px">Forever lets you build campfires out in the world and use professions to craft buff items for everyone at the camp. It's designed to push players together socially — but it also means <b>buff food and camp consumables become a sellable service</b> in high-traffic leveling zones. On a fresh server in November, parking a cook at a contested crossroads is an income stream that doesn't exist in Classic. Watch beta for which items are campsite-only.</p>
+    </div>
+  </section>
+
+  <!-- ================= ATLAS ================= -->
+  <section id="atlas" role="tabpanel" hidden>
+    <div class="sec-head">
+      <div class="kicker">Step Six</div>
+      <h2>Content atlas</h2>
+      <p>Everything confirmed for Forever, with level ranges where they've been stated. Items marked <span class="tag">TBD</span> are unconfirmed and get filled in as beta data lands.</p>
+    </div>
+
+    <div class="card">
+      <h3>New zones</h3>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Zone</th><th>Levels</th><th>What's in it</th></tr></thead>
+          <tbody>
+            <tr><td><b>Zephras Isle</b></td><td>1–12</td><td>The Skyborne starting zone. Expect it to be the single most crowded place in the game on launch day.</td></tr>
+            <tr><td><b>The Riverglades</b></td><td>30–45</td><td>Eastern Kingdoms. 150+ new quests, a neutral goblin port, and the Krol'dok Stronghold outdoor dungeon. This fills the range where Classic leveling traditionally drags hardest.</td></tr>
+            <tr><td><b>Mount Hyjal</b></td><td>Endgame leveling</td><td>Feeds directly into the Hyjal Summit raid. Your last stretch to 60 and your first raid attunement path in one zone.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size:13px;color:var(--ink-dim);margin:14px 0 0">Across all three, Forever adds <b>1,000 new quests spread over the whole 1–60 bracket</b> — not stacked at endgame. That is the headline change to leveling: the old dead zones have content now.</p>
+    </div>
+
+    <div class="card">
+      <h3>The nine new dungeons</h3>
+      <div class="grid3">
+        <div class="stat"><div class="stat-lab" style="margin:0"><b style="color:var(--ink)">Hall of Thanes</b></div></div>
+        <div class="stat"><div class="stat-lab" style="margin:0"><b style="color:var(--ink)">Ruins of Lordaeron</b></div></div>
+        <div class="stat"><div class="stat-lab" style="margin:0"><b style="color:var(--ink)">Excavation Site</b></div></div>
+        <div class="stat"><div class="stat-lab" style="margin:0"><b style="color:var(--ink)">City of Dalaran</b></div></div>
+        <div class="stat"><div class="stat-lab" style="margin:0"><b style="color:var(--ink)">Blackmaw Hold</b></div></div>
+        <div class="stat"><div class="stat-lab" style="margin:0"><b style="color:var(--ink)">The Drowned City</b></div></div>
+        <div class="stat"><div class="stat-lab" style="margin:0"><b style="color:var(--ink)">Krol'dok Stronghold</b></div></div>
+        <div class="stat"><div class="stat-lab" style="margin:0"><b style="color:var(--ink)">Alcaz Prison</b></div></div>
+        <div class="stat"><div class="stat-lab" style="margin:0"><b style="color:var(--ink)">Shaper's Terrace</b></div></div>
+      </div>
+      <p style="font-size:13px;color:var(--ink-dim);margin:16px 0 0">Individual level ranges and loot tables are <span class="tag">TBD</span> until beta testing reaches them — the beta's level 30 cap means most stay unseen until launch week.</p>
+    </div>
+
+    <div class="card">
+      <h3>Raids &amp; PvP</h3>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Content</th><th>Size</th><th>Opens</th></tr></thead>
+          <tbody>
+            <tr><td><b>Barrow Deeps</b></td><td>10-player</td><td>December 9, 2026</td></tr>
+            <tr><td><b>Hyjal Summit</b></td><td>20-player</td><td>December 9, 2026</td></tr>
+            <tr><td><b>Onyxia's Lair</b></td><td>40-player</td><td>December 9, 2026</td></tr>
+            <tr><td><b>Darkspear Islands</b></td><td>Battleground</td><td>New battleground <span class="tag">TBD</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note" style="margin-top:16px;margin-bottom:0">You have <b>35 days between launch and the first raid wave</b>. That is your real deadline — not November 4. A 10-player raid as the entry tier means small guilds and friend groups are viable in a way Classic's 40-player wall never allowed.</div>
+    </div>
+
+    <div class="card">
+      <h3>Systems that change how you play</h3>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>System</th><th>What it does</th><th>Why it matters to you</th></tr></thead>
+          <tbody>
+            <tr><td><b>Legacy System</b> <span class="tag new">New</span></td><td>Earn Legacy points from challenges — levelling classes, hitting profession milestones — and spend them across three trees: <b>Adventure</b>, <b>Professions</b>, <b>Resourcefulness</b>.</td><td>Account-wide progression in a vanilla-style game. Every point you earn on your main makes every future alt faster. Front-load the cheap Adventure nodes.</td></tr>
+            <tr><td><b>16-point talent node</b> <span class="tag new">New</span></td><td>A new major talent joins the existing 11 / 21 / 31-point nodes in every tree.</td><td>Classic leveling builds are no longer optimal. Every guide written before September 2026 has the wrong spend order.</td></tr>
+            <tr><td><b>Profession perks</b> <span class="tag new">New</span></td><td>Each primary profession grants a perk to the character who learns it — Classic had none.</td><td>Crafting professions are now worth keeping on your main rather than parking on a bank alt.</td></tr>
+            <tr><td><b>Camping</b> <span class="tag new">New</span></td><td>Build campfires in the world; professions can craft buffs for everyone at the camp.</td><td>Group buffs out in the field, and a social loop that rewards playing near other people rather than around them.</td></tr>
+            <tr><td><b>SD / HD toggle</b></td><td>Switch character models between original and updated art.</td><td>Pure preference — but it's per-character, so decide before you get attached.</td></tr>
+            <tr><td><b>Level cap 60, permanently</b></td><td>Forever grows through patches, never expansions. It runs alongside retail WoW and Classic rather than replacing either.</td><td>Gear and reputation you earn doesn't get invalidated by an expansion in two years. Long-horizon investments are actually rational here.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Skyborne at a glance</h3>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Detail</th><th>Confirmed</th></tr></thead>
+          <tbody>
+            <tr><td><b>Race type</b></td><td>Neutral elven race — you choose Alliance or Horde during character creation</td></tr>
+            <tr><td><b>Classes</b></td><td>Warrior, Hunter, Rogue, Druid, plus <b>Mage</b> (Alliance) or <b>Shaman</b> (Horde)</td></tr>
+            <tr><td><b>Walk on Air</b></td><td>Active — glide downward for 10 seconds</td></tr>
+            <tr><td><b>Wind Blessed</b></td><td>Passive — +1% melee, ranged and spell haste</td></tr>
+            <tr><td><b>Elemental Insight</b></td><td>Passive — +5% damage against elementals</td></tr>
+            <tr><td><b>Read Ley Line</b> (Alliance)</td><td>+100% health and mana regeneration</td></tr>
+            <tr><td><b>Skysight</b> (Horde)</td><td>+10% run speed</td></tr>
+            <tr><td><b>Starting zone</b></td><td>Zephras Isle, levels 1–12</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note" style="margin-top:16px;margin-bottom:0"><b>Reading the racials honestly:</b> Skysight's +10% run speed is the strongest of the five for levelling and world PvP — movement speed compounds over hundreds of hours. Read Ley Line's regen doubles your downtime recovery, which matters most for mana classes without a pet. Wind Blessed at +1% haste is small but universal. None of them are so strong that Skyborne is mandatory — which is the point of the honest answer in Step Two.</div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="wrap">
+  <p><b>Forever Launch Kit</b> — an unofficial fan-made planning tool.</p>
+  <p>Not affiliated with, endorsed by, or sponsored by Blizzard Entertainment, Inc. World of Warcraft is a trademark of Blizzard Entertainment, Inc. All game names, prices and dates are drawn from BlizzCon 2026 announcements and public launch coverage, and may change before release — always confirm current pricing on the official shop.</p>
+  <p>Your inputs and checklist progress are stored only in this browser. Nothing is sent anywhere.</p>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  var LAUNCH = new Date("2026-11-04T15:00:00Z");
+  var BETA   = new Date("2026-09-17T17:00:00Z");
+  var RAIDS  = new Date("2026-12-09T15:00:00Z");
+  var KEY    = "flk.v1";
+
+  /* ---------- tiny store ---------- */
+  var store = {};
+  try { store = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch(e){ store = {}; }
+  function save(){ try { localStorage.setItem(KEY, JSON.stringify(store)); } catch(e){} }
+
+  function $(s,r){ return (r||document).querySelector(s); }
+  function $$(s,r){ return Array.prototype.slice.call((r||document).querySelectorAll(s)); }
+
+  /* ---------- countdown ---------- */
+  function tick(){
+    var now = new Date();
+    var target = LAUNCH, label = "until <b>World of Warcraft: Forever</b> goes live — November 4, 2026";
+    var badge = "Pre-launch";
+
+    if (now < BETA){
+      badge = "Beta in " + Math.ceil((BETA-now)/86400000) + "d";
+    } else if (now < LAUNCH){
+      badge = "Beta live · cap 30";
+    } else if (now < RAIDS){
+      target = RAIDS; badge = "Live";
+      label = "until the first raid wave — <b>Barrow Deeps</b>, <b>Hyjal Summit</b> and <b>Onyxia's Lair</b>, December 9";
+    } else {
+      target = null; badge = "Raids open";
+      label = "Forever is live and the raids are open. Go.";
+    }
+
+    $("#phaseBadge").textContent = badge;
+    $("#cdNote").innerHTML = label;
+
+    var d=0,h=0,m=0,s=0;
+    if (target){
+      var diff = Math.max(0, target - now);
+      d = Math.floor(diff/86400000);
+      h = Math.floor(diff/3600000)%24;
+      m = Math.floor(diff/60000)%60;
+      s = Math.floor(diff/1000)%60;
+    }
+    $("#cdD").textContent = d;
+    $("#cdH").textContent = String(h).padStart(2,"0");
+    $("#cdM").textContent = String(m).padStart(2,"0");
+    $("#cdS").textContent = String(s).padStart(2,"0");
+
+    var left = Math.max(0, Math.ceil((LAUNCH - now)/86400000));
+    var pl = $("#prepLeft"); if (pl) pl.textContent = left;
+  }
+  tick(); setInterval(tick, 1000);
+
+  /* ---------- tabs ---------- */
+  $$(".tab").forEach(function(t){
+    t.addEventListener("click", function(){
+      $$(".tab").forEach(function(x){ x.setAttribute("aria-selected","false"); });
+      t.setAttribute("aria-selected","true");
+      $$("main > section").forEach(function(sec){ sec.hidden = (sec.id !== t.dataset.panel); });
+      window.scrollTo({top:0, behavior:"smooth"});
+    });
+  });
+
+  /* ---------- chip groups ---------- */
+  function chipGroup(sel, multi, max, onChange){
+    var root = $(sel); if(!root) return;
+    root.addEventListener("click", function(e){
+      var b = e.target.closest(".chip"); if(!b) return;
+      var on = b.getAttribute("aria-pressed") === "true";
+      if (multi){
+        if (!on && max){
+          var cur = $$('.chip[aria-pressed="true"]', root);
+          if (cur.length >= max) cur[0].setAttribute("aria-pressed","false");
+        }
+        b.setAttribute("aria-pressed", on ? "false" : "true");
+      } else {
+        $$(".chip", root).forEach(function(x){ x.setAttribute("aria-pressed","false"); });
+        b.setAttribute("aria-pressed","true");
+      }
+      if (onChange) onChange();
+    });
+  }
+  function picked(sel){
+    var root = $(sel); if(!root) return [];
+    return $$('.chip[aria-pressed="true"]', root).map(function(b){ return b.dataset.v; });
+  }
+  function pickedOne(sel, dflt){ var p = picked(sel); return p.length ? p[0] : dflt; }
+
+  chipGroup("#goals", true, 2);
+  chipGroup("#role", false);
+  chipGroup("#faction", false);
+  chipGroup("#exp", false);
+
+  /* ---------- class model ---------- */
+  /* scores 1-5 on vanilla fundamentals; these carry into Forever unchanged */
+  var CLASSES = [
+    { n:"Hunter",  fac:"both", roles:["ranged"],
+      s:{speed:5,solo:5,group:3,gold:5,pvp:4,chill:5}, diff:1,
+      why:"The fastest and most forgiving leveller in the game. Pet tanks, you never drink, and you can skin everything you kill.",
+      tags:[["Fastest to 60","good"],["Easiest to play","good"],["Crowded class — expect competition for gear","warn"]] },
+    { n:"Warlock", fac:"both", roles:["ranged"],
+      s:{speed:4,solo:5,group:4,gold:4,pvp:5,chill:4}, diff:4,
+      why:"Voidwalker tanking makes it near-unkillable solo, and it's one of the strongest duelling classes in a vanilla ruleset.",
+      tags:[["Best solo survivability","good"],["Strong world PvP","good"],["Steep early levels","warn"]] },
+    { n:"Mage",    fac:"both", roles:["ranged"],
+      s:{speed:4,solo:3,group:4,gold:5,pvp:4,chill:3}, diff:3,
+      why:"Portals, water and AoE farming make it the most liquid class in any vanilla economy. Always wanted in groups.",
+      tags:[["Top gold earner","good"],["Always invited","good"],["Fragile while levelling","warn"]] },
+    { n:"Rogue",   fac:"both", roles:["melee"],
+      s:{speed:4,solo:4,group:3,gold:5,pvp:5,chill:3}, diff:3,
+      why:"Stealth turns every dungeon into a shortcut, lockboxes are free gold, and it is the strongest 1v1 class in the format.",
+      tags:[["Best 1v1","good"],["Stealth saves hours","good"],["Gear-hungry","warn"]] },
+    { n:"Druid",   fac:"both", roles:["tank","healer","melee","ranged"],
+      s:{speed:3,solo:4,group:4,gold:3,pvp:3,chill:5}, diff:5,
+      why:"The only class that can fill any role in the group. Travel form alone is worth real time before your level 40 mount.",
+      tags:[["Any role, one character","good"],["Free travel speed","good"],["Hardest to master","warn"]] },
+    { n:"Paladin", fac:"alliance", roles:["tank","healer","melee"],
+      s:{speed:3,solo:5,group:4,gold:4,pvp:3,chill:5}, diff:2,
+      why:"Extremely hard to kill and nearly impossible to fail with. The safest choice if your playtime is unpredictable.",
+      tags:[["Very forgiving","good"],["Healers always find groups","good"],["Slow kill speed","warn"]] },
+    { n:"Shaman",  fac:"horde", roles:["healer","melee","ranged"],
+      s:{speed:4,solo:4,group:4,gold:3,pvp:4,chill:4}, diff:3,
+      why:"Totems, self-healing and a real damage kit. Flexible enough to change role without rerolling.",
+      tags:[["Flexible role","good"],["Solid solo","good"],["Mana-hungry early","warn"]] },
+    { n:"Priest",  fac:"both", roles:["healer","ranged"],
+      s:{speed:2,solo:3,group:5,gold:3,pvp:3,chill:3}, diff:3,
+      why:"The most in-demand healer in the game. You will never wait for a group, at any hour, on any server.",
+      tags:[["Instant group invites","good"],["Raid-critical","good"],["Slow solo levelling","warn"]] },
+    { n:"Warrior", fac:"both", roles:["tank","melee"],
+      s:{speed:2,solo:2,group:5,gold:2,pvp:4,chill:2}, diff:4,
+      why:"Miserable to level alone, dominant at 60. The tank every group is short of, and the top melee damage in raids.",
+      tags:[["Best at endgame","good"],["Tanks never wait","good"],["Hardest levelling road","warn"]] }
+  ];
+
+  var SKYBORNE_CLASSES = ["Warrior","Hunter","Rogue","Druid","Mage","Shaman"];
+
+  function scoreClasses(cfg){
+    var goals = cfg.goals.length ? cfg.goals : ["speed"];
+    /* the first goal you picked counts for more than the second */
+    var weights = [1, 0.65];
+
+    return CLASSES.map(function(c){
+      var sc = 0, wsum = 0;
+      goals.forEach(function(g,i){
+        var w = weights[i] || 0.5;
+        sc += (c.s[g] || 3) * 10 * w;
+        wsum += w;
+      });
+      sc = sc / wsum;
+
+      /* secondary signal breaks ties between classes that score identically on the chosen goals */
+      var allAvg = (c.s.speed + c.s.solo + c.s.group + c.s.gold + c.s.pvp + c.s.chill) / 6;
+      sc += allAvg * 1.2;
+
+      if (cfg.exp === "new") sc += (6 - c.diff) * 3.2;
+      if (cfg.exp === "vet") sc += c.diff * 1.4;
+      if (cfg.hw < 12) sc += (c.s.solo - 3) * 2.6;   /* low playtime favours self-sufficiency */
+      if (cfg.hw > 35) sc += (c.s.group - 3) * 2.2;  /* high playtime favours group demand */
+
+      return { c:c, score:sc };
+    })
+    .filter(function(r){
+      var c = r.c;
+      /* a chosen faction or role removes classes outright rather than burying them at a fake low score */
+      if (cfg.faction !== "any" && c.fac !== "both" && c.fac !== cfg.faction) return false;
+      if (cfg.role !== "any" && c.roles.indexOf(cfg.role) < 0) return false;
+      return true;
+    })
+    .sort(function(a,b){ return b.score - a.score; });
+  }
+
+  var ROLE_LABEL = { tank:"tank", healer:"healing", melee:"melee DPS", ranged:"ranged DPS" };
+
+  function renderPicks(ranked, cfg){
+    var top = ranked.slice(0,4);
+    var max = top[0].score;
+
+    var filters = [];
+    if (cfg.role !== "any") filters.push(ROLE_LABEL[cfg.role] + "-capable classes");
+    if (cfg.faction !== "any") filters.push(cfg.faction === "horde" ? "Horde" : "Alliance");
+    var note = filters.length
+      ? '<p style="font-size:13px;color:var(--ink-faint);margin:0 0 14px">Filtered to '
+        + filters.join(" on ") + ' — ' + ranked.length + ' of 9 classes qualify.</p>'
+      : '';
+
+    var prevFit = 100;
+    $("#picks").innerHTML = note + top.map(function(r,i){
+      var c = r.c;
+      /* compressed so a weak fourth doesn't read as broken, then forced strictly
+         decreasing so two near-identical scores never print the same number */
+      var fit = Math.round(Math.min(97, 58 + (r.score / max) * 39));
+      if (fit >= prevFit) fit = prevFit - 1;
+      prevFit = fit;
+      var fac = c.fac === "both" ? "Either faction"
+              : c.fac === "alliance" ? "Alliance only" : "Horde only";
+      var sky = SKYBORNE_CLASSES.indexOf(c.n) >= 0;
+      var tags = c.tags.map(function(t){ return '<span class="tag '+t[1]+'">'+t[0]+'</span>'; }).join("");
+      if (sky) tags += '<span class="tag new">Skyborne can play this</span>';
+      return '<div class="pick'+(i===0?' top':'')+'">'
+        + '<div class="rank">'+(i+1)+'</div>'
+        + '<div class="pick-body">'
+        +   '<div class="pick-name">'+c.n+' <span>· '+fac+'</span></div>'
+        +   '<div class="score">'+fit+'% fit</div>'
+        +   '<p class="pick-why">'+c.why+'</p>'
+        +   '<div class="tags">'+tags+'</div>'
+        + '</div></div>';
+    }).join("");
+  }
+
+  function renderSkyborne(ranked, cfg){
+    var best = ranked[0].c.n;
+    var can = SKYBORNE_CLASSES.indexOf(best) >= 0;
+    var fac = cfg.faction;
+    var racial = fac === "horde"
+      ? "<b>Skysight</b> (+10% run speed) — the strongest Skyborne racial for levelling and world PvP, because movement speed compounds across every hour you play."
+      : fac === "alliance"
+      ? "<b>Read Ley Line</b> (+100% health and mana regeneration) — halves your downtime between pulls, which is worth the most on mana classes without a pet."
+      : "Alliance Skyborne get <b>Read Ley Line</b> (+100% health and mana regen); Horde Skyborne get <b>Skysight</b> (+10% run speed). Skysight is the better levelling racial of the two.";
+
+    var html;
+    if (can){
+      html = '<div class="verdict">'
+        + '<div class="kicker">Verdict</div>'
+        + '<div class="verdict-main">Skyborne is compatible with '+best+'</div>'
+        + '<p class="verdict-sub">Your top pick is one of the six classes Skyborne can play, so the race pack is a real option rather than a dead end. '+racial+'</p>'
+        + '</div>'
+        + '<p style="font-size:13.5px;color:var(--ink-dim);margin:14px 0 0">It is still optional. See <b>Step Two</b> for whether the $30–60 is worth it in your case — and remember Zephras Isle will be the most contested zone in the game on November 4, which works directly against a "hit 60 fast" goal.</p>';
+    } else {
+      html = '<div class="verdict" style="border-color:var(--line2);background:var(--panel2)">'
+        + '<div class="kicker">Verdict</div>'
+        + '<div class="verdict-main">Skyborne can\'t play '+best+'</div>'
+        + '<p class="verdict-sub">Skyborne is limited to Warrior, Hunter, Rogue, Druid, plus Mage on Alliance or Shaman on Horde. Your best-fit class isn\'t on that list, so the race pack buys you nothing for your main.</p>'
+        + '</div>'
+        + '<p style="font-size:13.5px;color:var(--ink-dim);margin:14px 0 0">Save the money, or treat it as an alt purchase later. Nothing about Forever\'s core content is locked behind the race.</p>';
+    }
+    $("#skyborne").innerHTML = html;
+  }
+
+  /* ---------- levelling model ---------- */
+  /* cumulative hours to reach a level, quest-efficient vanilla pacing, "some experience" baseline */
+  var CURVE = [
+    [10,4],[20,12],[30,24],[40,45],[45,60],[50,80],[55,105],[58,122],[60,140]
+  ];
+  function hoursTo60(cfg){
+    var base = 140;
+    if (cfg.exp === "new") base *= 1.5;
+    if (cfg.exp === "vet") base *= 0.78;
+    if (cfg.goals.indexOf("speed") >= 0) base *= 0.88;
+    if (cfg.goals.indexOf("chill") >= 0) base *= 1.35;
+    if (cfg.goals.indexOf("gold") >= 0) base *= 1.12;
+    return base;
+  }
+  function levelAtHours(h, cfg){
+    var mult = hoursTo60(cfg) / 140;
+    var prevL = 1, prevH = 0;
+    for (var i=0;i<CURVE.length;i++){
+      var L = CURVE[i][0], H = CURVE[i][1] * mult;
+      if (h < H){
+        var t = (h - prevH) / (H - prevH || 1);
+        return Math.max(1, Math.round(prevL + t * (L - prevL)));
+      }
+      prevL = L; prevH = H;
+    }
+    return 60;
+  }
+
+  function renderStats(cfg){
+    var total = hoursTo60(cfg);
+    var weeks = total / Math.max(1, cfg.hw);
+    var d1 = levelAtHours(cfg.h1, cfg);
+    var sixty = new Date(LAUNCH.getTime() + weeks * 7 * 86400000);
+    var raidDays = Math.round((RAIDS - sixty) / 86400000);
+
+    var fmt = sixty.toLocaleDateString("en-US", {month:"short", day:"numeric"});
+    var verdict = raidDays >= 14
+      ? ["Comfortable", "You reach 60 with " + raidDays + " days to spare before the raids open — enough time for pre-raid gear and reputation."]
+      : raidDays >= 0
+      ? ["Tight", "You reach 60 about " + raidDays + " days before the raids open. Doable, but you'll be gearing right up to the wire."]
+      : ["Behind the wave", "You reach 60 roughly " + Math.abs(raidDays) + " days after raids open. Fine for a casual run — just don't expect a spot in a launch-week raid roster."];
+
+    $("#planStats").innerHTML = ''
+      + '<div class="stat"><div class="stat-num">'+Math.round(total)+'h</div><div class="stat-lab">Estimated /played to 60</div></div>'
+      + '<div class="stat"><div class="stat-num">'+d1+'</div><div class="stat-lab">Level by end of day one</div></div>'
+      + '<div class="stat"><div class="stat-num">'+weeks.toFixed(1)+'</div><div class="stat-lab">Weeks to 60 at your pace</div></div>'
+      + '<div class="stat"><div class="stat-num">'+fmt+'</div><div class="stat-lab">Projected date you hit 60</div></div>'
+      + '<div class="stat" style="grid-column:1/-1;border-color:var(--gold-dim);background:linear-gradient(145deg,rgba(216,174,95,.1),var(--panel2))">'
+      +   '<div class="stat-num" style="font-size:18px">'+verdict[0]+' for the December 9 raid opening</div>'
+      +   '<div class="stat-lab">'+verdict[1]+'</div></div>';
+  }
+
+  /* ---------- day one timeline ---------- */
+  var PRE = [
+    ["T-60","Patch and verify the client","Do not discover a 12GB download at launch. Launch the game once, fully, the night before."],
+    ["T-45","Update every addon, then load in once","Addons written for Classic will break on Forever's new talent node and Legacy UI. Confirm they load clean before it matters."],
+    ["T-30","Write down five character names","Servers fill fastest in the first hour. Deciding at the character screen is the most expensive ten minutes of the day."],
+    ["T-20","Set keybinds and UI on an existing character","Muscle memory transfers. Rebuilding your bars at level 3 does not."],
+    ["T-10","Food, water, Discord, phone on silent","Your first uninterrupted block is worth more than any later one — the world is emptiest and quest mobs are contested least."],
+    ["T-0","Queue early","Log in before the exact unlock time. Queue position is first-come, and on a fresh launch it is the single biggest variable you control."]
+  ];
+
+  function renderTimelines(cfg){
+    $("#tlPre").innerHTML = PRE.map(function(p){
+      return '<div class="tl-item"><div class="tl-time">'+p[0]+'</div><div class="tl-title">'+p[1]+'</div><div class="tl-desc">'+p[2]+'</div></div>';
+    }).join("");
+
+    var h = cfg.h1;
+    var speed = cfg.goals.indexOf("speed") >= 0;
+    var goldGoal = cfg.goals.indexOf("gold") >= 0;
+    var chill = cfg.goals.indexOf("chill") >= 0;
+    var blocks = [];
+
+    blocks.push([fmtH(0), "Queue, create, and get moving",
+      "Name already chosen. Skip the intro cinematic. Your only job in the first twenty minutes is to be out in the world while everyone else is still at the character screen."]);
+
+    var k = Math.max(1, h/8);
+    var marks = [
+      [0.25*h, "First quest hub cleared",
+        "Take every quest in the hub before turning any in. Batching turn-ins is the single biggest XP-per-hour gain available to you, and it costs nothing."],
+      [0.5*h,  "Bags, vendor, and your first real decision point",
+        goldGoal
+          ? "Pick up your gathering professions now — you've committed to gold, and the first days of a fresh server are when raw materials are worth the most they will ever be."
+          : "Skip professions for now. Every trainer detour on day one costs more than it returns, and you can pick them up any time."],
+      [0.72*h, "Second zone, rested XP burning",
+        "Move on before the quests in your first zone turn grey. Overstaying a zone is the most common way experienced players lose an hour without noticing."],
+      [0.9*h,  speed ? "Push to the next round level" : "Bank trip and inventory reset",
+        speed
+          ? "Don't stop mid-level. Finishing a level before you log is worth more than the sleep you trade for it, because the first quest of a new tier is always the slowest."
+          : "Clear your bags, bank your greens rather than vendoring them — the auction house economy on a fresh server is thin and prices for levelling greens peak in week one."]
+    ];
+    marks.forEach(function(m){ blocks.push([fmtH(m[0]), m[1], m[2]]); });
+
+    blocks.push([fmtH(h), "Log out — in an inn",
+      "You will end the day around level " + levelAtHours(h, cfg) + ". Logging out anywhere else throws away rested XP, which on a "
+      + cfg.hw + "h-per-week schedule is worth roughly a full level over the coming week."]);
+
+    if (chill){
+      blocks.splice(2, 0, [fmtH(0.38*h), "Actually look at the new zones",
+        "You said no rush — so take the detour. A thousand new quests are spread across the whole 1–60 range, and the ones nobody has datamined yet are the only genuinely new WoW content you'll see this decade."]);
+    }
+
+    $("#tlDay").innerHTML = blocks.map(function(b,i){
+      return '<div class="tl-item'+(i===0?' now':'')+'"><div class="tl-time">'+b[0]+'</div><div class="tl-title">'+b[1]+'</div><div class="tl-desc">'+b[2]+'</div></div>';
+    }).join("");
+  }
+  function fmtH(x){
+    var hh = Math.floor(x), mm = Math.round((x-hh)*60/15)*15;
+    if (mm === 60){ hh += 1; mm = 0; }
+    return "Hour " + hh + (mm ? ":"+String(mm).padStart(2,"0") : ":00");
+  }
+
+  /* ---------- build ---------- */
+  function readCfg(){
+    return {
+      goals:   picked("#goals"),
+      role:    pickedOne("#role","any"),
+      faction: pickedOne("#faction","any"),
+      exp:     pickedOne("#exp","some"),
+      h1:      +$("#h1").value,
+      hw:      +$("#hw").value
+    };
+  }
+
+  function build(){
+    var cfg = readCfg();
+    if (!cfg.goals.length){
+      var f = $('#goals .chip[data-v="speed"]');
+      f.setAttribute("aria-pressed","true");
+      cfg.goals = ["speed"];
+    }
+    var ranked = scoreClasses(cfg);
+    renderPicks(ranked, cfg);
+    renderSkyborne(ranked, cfg);
+    renderStats(cfg);
+    renderTimelines(cfg);
+    renderGold();
+    $("#planOut").hidden = false;
+    store.cfg = cfg; save();
+  }
+
+  $("#h1").addEventListener("input", function(){ $("#h1out").textContent = this.value; });
+  $("#hw").addEventListener("input", function(){ $("#hwout").textContent = this.value; });
+  $("#build").addEventListener("click", function(){
+    build();
+    $("#planOut").scrollIntoView({behavior:"smooth", block:"start"});
+  });
+  $("#reset").addEventListener("click", function(){
+    store = {}; save();
+    location.reload();
+  });
+
+  /* ---------- editions helper ---------- */
+  chipGroup("#q_sky", false, 0, edVerdict);
+  chipGroup("#q_beta", false, 0, edVerdict);
+  chipGroup("#q_cos", false, 0, edVerdict);
+
+  function edVerdict(){
+    var sky = pickedOne("#q_sky",""), beta = pickedOne("#q_beta",""), cos = pickedOne("#q_cos","");
+    if (!sky || !beta || !cos){ $("#edVerdict").innerHTML = ""; return; }
+
+    var title, body, price;
+    if (sky === "no" && beta === "no"){
+      title = "Buy nothing"; price = "Your subscription only";
+      body = "You don't want the race and you don't want beta. Every zone, dungeon, raid, the Legacy system and the new battleground come with your normal subscription on November 4. Spending money here buys you cosmetics you already said you don't care about.";
+      if (cos === "yes") body = "You don't want the race and you don't want beta, so nothing here is required. If you collect, the Epic Pack's mount, pets and transmog are the only reason to spend — treat that as a $60 cosmetic purchase and judge it as one, not as a gameplay upgrade.";
+    } else if (sky !== "no" && beta === "yes"){
+      title = "Skyborne Epic Pack — $59.99"; price = "$59.99";
+      body = "Beta access is the deciding factor: it's only available through the Epic Pack or the Collection, and the Epic Pack is $20 cheaper. You also get 30 days of game time, which claws back roughly $15 of that. Go to the $79.99 Collection only if you want the wider Warcraft bundle contents for their own sake.";
+    } else if (sky === "yes" && beta === "no"){
+      title = "Skyborne race pack — around $29.99"; price = "~$29.99";
+      body = "You want the elf, not the beta. The standalone race pack is the cheapest route to it. The extra $30 for the Epic Pack buys beta access and cosmetics — and since beta is capped at level 30, it won't teach you anything about the endgame you're actually preparing for.";
+    } else if (sky === "maybe" && beta === "no"){
+      title = "Wait — buy nothing yet"; price = "$0 for now";
+      body = "\"Maybe later\" is the right instinct. The race isn't going anywhere, and you can buy it after launch once you've seen Skyborne played on your own server. Your subscription covers everything else. Deciding in December costs you nothing that deciding today would save.";
+    } else {
+      title = "Skyborne Epic Pack — $59.99"; price = "$59.99";
+      body = "Beta access only comes with the Epic Pack or the $79.99 Collection, and the Epic Pack is the cheaper of the two. Worth knowing before you commit: the beta is capped at level 30, so it's useful for deciding which class feels right, not for learning the endgame.";
+    }
+
+    $("#edVerdict").innerHTML = '<div class="verdict">'
+      + '<div class="kicker">Your answer</div>'
+      + '<div class="verdict-main">'+title+'</div>'
+      + '<p class="verdict-sub">'+body+'</p></div>';
+  }
+
+  /* ---------- gold ---------- */
+  chipGroup("#gph", false, 0, renderGold);
+  $("#gshare").addEventListener("input", function(){
+    $("#gshareout").textContent = this.value + "%";
+    renderGold();
+  });
+
+  function renderGold(){
+    var rate  = +pickedOne("#gph","18");
+    var share = +$("#gshare").value / 100;
+    var hw    = +$("#hw").value;
+    var gpw   = rate * hw * share;
+
+    var MOUNT = 100, EPIC = 1000, RAIDWK = 150;
+    function weeks(target){ return gpw > 0 ? target / gpw : Infinity; }
+    function when(w){
+      if (!isFinite(w)) return "—";
+      var d = new Date(LAUNCH.getTime() + w * 7 * 86400000);
+      return d.toLocaleDateString("en-US",{month:"short",day:"numeric"});
+    }
+    var wEpic = weeks(EPIC);
+    var covers = gpw >= RAIDWK;
+
+    $("#goldStats").innerHTML = ''
+      + '<div class="stat"><div class="stat-num">'+Math.round(gpw)+'g</div><div class="stat-lab">Gold per week at this pace</div></div>'
+      + '<div class="stat"><div class="stat-num">'+weeks(MOUNT).toFixed(1)+'w</div><div class="stat-lab">To your 100g level-40 mount</div></div>'
+      + '<div class="stat"><div class="stat-num">'+(isFinite(wEpic)?wEpic.toFixed(1)+"w":"—")+'</div><div class="stat-lab">To a 1000g epic mount</div></div>'
+      + '<div class="stat"><div class="stat-num">'+when(wEpic)+'</div><div class="stat-lab">Projected epic mount date</div></div>'
+      + '<div class="stat" style="grid-column:1/-1;'+(covers?'border-color:var(--gold-dim);background:linear-gradient(145deg,rgba(216,174,95,.1),var(--panel2))':'')+'">'
+      +   '<div class="stat-num" style="font-size:17px">'+(covers ? 'Raid-ready income' : 'Short for raid consumables')+'</div>'
+      +   '<div class="stat-lab">A raiding week costs roughly 150g in consumables and repairs once Barrow Deeps and Hyjal Summit open on December 9. '
+      +   (covers
+          ? 'You clear that with ' + Math.round(gpw - RAIDWK) + 'g per week left over to bank toward your epic mount.'
+          : 'You are about ' + Math.round(RAIDWK - gpw) + 'g per week short — raise your farming share, move to a higher-value activity, or plan on a guild that subsidises consumables.')
+      +   '</div></div>';
+  }
+
+  /* ---------- prep checklist ---------- */
+  var PHASES = [
+    { id:"p1", when:"Now — Sep 17", name:"Decide and commit", items:[
+      "Work through Step Two and settle whether you're buying anything at all",
+      "If you want beta, pre-purchase before September 17 — beta access is not sold separately",
+      "Install or reinstall the client now, while there's no launch-day queue on the CDN",
+      "Check your subscription or Game Time actually covers November 4",
+      "Pick your realm type — PvE, PvP, and whether your friends are going there"
+    ]},
+    { id:"p2", when:"Sep 17 — Sep 30", name:"Beta intelligence", items:[
+      "Play three candidate classes to level 10 and keep the one that feels best in the hand",
+      "Test the new 16-point talent node in each tree — old Classic levelling builds are now wrong",
+      "If you bought Skyborne, run Zephras Isle end to end and judge the racials in real play",
+      "Try camping and the profession perks — both are new and neither is documented yet",
+      "Note which of your addons break, and find replacements before launch week"
+    ]},
+    { id:"p3", when:"Oct 1 — Oct 14", name:"Lock your main", items:[
+      "Final call: class, race, faction. Stop rerolling — indecision is the real cost",
+      "Write down five character names and check none are obviously contested",
+      "Choose your realm and confirm it with everyone you plan to play with",
+      "Find a guild before launch, not after — the good ones fill their roster in October",
+      "Plan your profession pair against your gold goal from Step Five"
+    ]},
+    { id:"p4", when:"Oct 15 — Oct 28", name:"Squad and setup", items:[
+      "Lock a group of 3–5 people — a stable levelling group is worth more than any guide",
+      "Set up Discord, roles, and agree what time everyone logs in on November 4",
+      "Build your UI and keybinds on a live character so the muscle memory is already there",
+      "Write your macros now: focus, target-of-target, one-button consumables",
+      "Agree who takes which profession so the group covers its own needs"
+    ]},
+    { id:"p5", when:"Oct 29 — Nov 3", name:"Final approach", items:[
+      "Pre-download and launch the game once, fully, to force any remaining patching",
+      "Book the time off. Day one is worth more than day five and it is not close",
+      "Sort the IRL logistics — food, sleep, anyone who might interrupt you",
+      "Read your levelling route one last time and have it on a second screen",
+      "Test your hardware under load — a crash at hour two on launch day is unrecoverable"
+    ]},
+    { id:"p6", when:"Nov 4", name:"Launch day", items:[
+      "Queue early — before the unlock time, not at it",
+      "Run your Day-One schedule from Step Three",
+      "Batch every quest turn-in. Never hand in one quest at a time",
+      "Log out in an inn, every single session, without exception",
+      "Do not reroll after day three. Sunk cost is real but a fresh level 1 in week two is worse"
+    ]},
+    { id:"p7", when:"Nov 5 — Dec 9", name:"Road to the raids", items:[
+      "Hit 60 with at least two weeks of margin before December 9",
+      "Grind pre-raid gear through the nine new dungeons as they open up to you",
+      "Bank 150g per week of raid consumables before the first lockout, not during it",
+      "Spend Legacy points: Adventure first for rested XP, then Resourcefulness for crafting costs",
+      "Secure your raid spot in October's guild, not in December's pickup group"
+    ]}
+  ];
+
+  function renderPhases(){
+    store.chk = store.chk || {};
+    $("#phases").innerHTML = PHASES.map(function(p){
+      var items = p.items.map(function(txt,i){
+        var k = p.id+"_"+i;
+        var on = !!store.chk[k];
+        return '<label class="chk"><input type="checkbox" data-k="'+k+'"'+(on?" checked":"")+'><span>'+txt+'</span></label>';
+      }).join("");
+      return '<div class="phase" data-p="'+p.id+'">'
+        + '<button class="phase-head" type="button">'
+        +   '<div><div class="phase-when">'+p.when+'</div><div class="phase-name">'+p.name+'</div></div>'
+        +   '<div class="phase-meta"><div class="bar"><i style="width:0%"></i></div><div class="phase-pct">0%</div></div>'
+        + '</button>'
+        + '<div class="phase-body">'+items+'</div></div>';
+    }).join("");
+
+    $$(".phase-head").forEach(function(h){
+      h.addEventListener("click", function(){
+        var body = h.nextElementSibling;
+        body.hidden = !body.hidden;
+      });
+    });
+    $$('.chk input').forEach(function(cb){
+      cb.addEventListener("change", function(){
+        store.chk[cb.dataset.k] = cb.checked;
+        save(); updateProgress();
+      });
+    });
+    updateProgress();
+  }
+
+  function updateProgress(){
+    var total = 0, done = 0;
+    PHASES.forEach(function(p){
+      var el = $('.phase[data-p="'+p.id+'"]');
+      var n = p.items.length, d = 0;
+      p.items.forEach(function(_,i){ if (store.chk[p.id+"_"+i]) d++; });
+      total += n; done += d;
+      var pct = Math.round(d/n*100);
+      $(".bar i", el).style.width = pct + "%";
+      $(".phase-pct", el).textContent = pct + "%";
+    });
+    $("#prepPct").textContent = Math.round(done/total*100) + "%";
+    $("#prepDone").textContent = done + " / " + total;
+  }
+
+  /* ---------- restore ---------- */
+  function restore(){
+    var cfg = store.cfg;
+    if (!cfg) return;
+    function setGroup(sel, vals){
+      $$(sel + " .chip").forEach(function(b){
+        b.setAttribute("aria-pressed", vals.indexOf(b.dataset.v) >= 0 ? "true" : "false");
+      });
+    }
+    setGroup("#goals", cfg.goals || []);
+    setGroup("#role", [cfg.role]);
+    setGroup("#faction", [cfg.faction]);
+    setGroup("#exp", [cfg.exp]);
+    $("#h1").value = cfg.h1; $("#h1out").textContent = cfg.h1;
+    $("#hw").value = cfg.hw; $("#hwout").textContent = cfg.hw;
+    build();
+  }
+
+  renderPhases();
+  renderGold();
+  renderTimelines(readCfg());
+  restore();
+})();
+</script>
+</body>
+</html>
