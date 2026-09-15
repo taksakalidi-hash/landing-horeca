@@ -122,11 +122,22 @@ Open `index.html`, find the `CHECKOUT` object near the bottom of the `<script>` 
 product URLs:
 
 ```js
-var CHECKOUT = { solo:"https://yourstore.gumroad.com/l/xxxx", guild:"https://..." };
+var CHECKOUT = { solo:"https://yourstore.lemonsqueezy.com/buy/xxxx", guild:"https://..." };
 ```
 
-Until you do, the buy buttons show an explanatory alert instead of silently failing. Gumroad, Lemon Squeezy
-and Payhip all handle EU VAT as merchant of record, which matters for a global audience.
+Until you do, the buy buttons show an explanatory alert instead of silently failing.
+
+**Pick a merchant of record**, not a plain payment processor. Selling a digital product to EU consumers
+means VAT is owed in the *buyer's* country, and past €10,000 of cross-border EU sales you'd have to
+register for OSS and file for it yourself. Lemon Squeezy, Paddle and Gumroad act as the legal seller to
+the end customer and handle all of that — you just receive a payout.
+
+Seller is based in **Czechia**, so the full setup — trade licence, OSVČ as a side activity, the 2026
+thresholds, and why the flat-tax regime is the wrong choice at this scale — is written up in
+[`ОПЛАТА-И-НАЛОГИ-ЧЕХИЯ.md`](./ОПЛАТА-И-НАЛОГИ-ЧЕХИЯ.md) (in Russian).
+
+Being in the EU also settles the language question: payouts are not a constraint, so the **English
+version is the primary product** and the Russian one in `ru/` is a second channel.
 
 ---
 
