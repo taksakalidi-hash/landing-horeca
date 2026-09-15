@@ -1,0 +1,490 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Forever: план старта</title>
+<meta name="description" content="Планировщик для World of Warcraft: Forever. Выберите класс, разберитесь, что покупать, и выйдите на 60-й до открытия рейдов 9 декабря.">
+<style>
+  :root{
+    --bg:#0b0f16; --bg2:#111826; --panel:#141d2c; --panel2:#1a2435;
+    --line:#26334a; --line2:#33435f;
+    --ink:#e8edf5; --dim:#a3b1c6; --faint:#6f8099;
+    --gold:#d8ae5f; --gold-dim:#8d7238;
+    --green:#4fc38a; --red:#e2685f; --purple:#a479d8; --blue:#5aa9e6;
+    --maxw:1080px;
+  }
+  *{box-sizing:border-box}
+  html{color-scheme:dark;scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  img{max-width:100%}
+  [hidden]{display:none!important}
+  h1,h2,h3{margin:0 0 .5em;line-height:1.15;letter-spacing:-.02em;font-weight:700}
+  p{margin:0 0 1em}
+  a{color:var(--gold)}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding-inline:20px}
+  .kicker{font-size:11.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:10px}
+
+  nav{border-bottom:1px solid var(--line);position:sticky;top:0;z-index:30;background:rgba(11,15,22,.92);backdrop-filter:blur(10px)}
+  .nav-in{display:flex;align-items:center;gap:12px;padding-block:14px}
+  .sigil{width:32px;height:32px;border-radius:8px;flex:none;background:linear-gradient(145deg,var(--gold),#8a6d2c);display:grid;place-items:center;color:#1a1408;font-weight:800}
+  .navbrand{font-weight:700;font-size:15px}
+  .nav-cta{margin-left:auto;display:flex;gap:10px;align-items:center}
+  .navlink{font-size:14px;color:var(--dim);text-decoration:none}
+  .navlink:hover{color:var(--ink)}
+  @media(max-width:700px){.navlink{display:none}}
+
+  .btn{
+    display:inline-block;background:linear-gradient(145deg,var(--gold),#b78f43);color:#1a1408;
+    border:0;padding:14px 26px;border-radius:11px;font:inherit;font-weight:700;font-size:15px;
+    cursor:pointer;text-decoration:none;text-align:center;
+  }
+  .btn:hover{filter:brightness(1.08)}
+  .btn.sm{padding:9px 16px;font-size:14px;border-radius:9px}
+  .btn.ghost{background:none;border:1px solid var(--line2);color:var(--ink)}
+  .btn.ghost:hover{background:var(--panel2);filter:none}
+  .btnrow{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+
+  .hero{padding-block:64px 56px;background:radial-gradient(1200px 400px at 50% -10%,rgba(216,174,95,.1),transparent 70%)}
+  .hero h1{font-size:clamp(30px,5.2vw,50px);max-width:18ch;margin-bottom:18px}
+  .hero h1 em{font-style:normal;color:var(--gold)}
+  .lede{font-size:clamp(16px,2.2vw,19px);color:var(--dim);max-width:58ch;margin-bottom:28px}
+  .cdstrip{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:26px}
+  .cdbox{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:11px 15px;text-align:center;min-width:80px}
+  .cdbox b{display:block;font-size:25px;color:var(--gold);font-variant-numeric:tabular-nums;line-height:1.1}
+  .cdbox span{font-size:10.5px;text-transform:uppercase;letter-spacing:.09em;color:var(--faint)}
+  .microcopy{font-size:13.5px;color:var(--faint);margin:14px 0 0}
+
+  .facts{border-block:1px solid var(--line);background:var(--bg2)}
+  .facts-in{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1px;background:var(--line)}
+  .fact{background:var(--bg2);padding:20px 18px}
+  .fact b{display:block;font-size:20px;color:var(--gold);font-variant-numeric:tabular-nums;margin-bottom:3px}
+  .fact span{font-size:13px;color:var(--dim)}
+
+  section{padding-block:60px}
+  .sec-title{font-size:clamp(23px,3.4vw,33px);max-width:22ch;margin-bottom:14px}
+  .sec-lede{color:var(--dim);max-width:62ch;font-size:16.5px}
+
+  .probs{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:34px}
+  .prob{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px}
+  .prob-icon{font-size:22px;margin-bottom:10px}
+  .prob h3{font-size:17px;margin-bottom:8px}
+  .prob p{font-size:14.5px;color:var(--dim);margin:0}
+
+  .feats{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:16px;margin-top:34px}
+  .feat{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:24px}
+  .feat-n{font-size:11.5px;font-weight:700;color:var(--gold);letter-spacing:.11em;margin-bottom:10px}
+  .feat h3{font-size:18px;margin-bottom:9px}
+  .feat p{font-size:14.5px;color:var(--dim);margin:0}
+  .feat.wide{grid-column:1/-1;background:linear-gradient(145deg,rgba(216,174,95,.09),var(--panel));border-color:var(--gold-dim)}
+
+  .sample{background:var(--panel);border:1px solid var(--line2);border-radius:14px;padding:22px;margin-top:30px}
+  .sample-head{font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin-bottom:16px;font-weight:600}
+  .srow{display:flex;gap:13px;align-items:flex-start;padding:13px 0;border-bottom:1px solid var(--line)}
+  .srow:last-child{border-bottom:0}
+  .srank{width:28px;height:28px;flex:none;border-radius:7px;background:var(--gold);color:#1a1408;display:grid;place-items:center;font-weight:700;font-size:13px}
+  .srank.alt{background:var(--bg2);color:var(--dim);border:1px solid var(--line2)}
+  .sname{font-weight:650;font-size:15px}
+  .sdesc{font-size:13.5px;color:var(--dim);margin:3px 0 0}
+  .sfit{margin-left:auto;font-size:12.5px;color:var(--gold);font-weight:600;white-space:nowrap;flex:none}
+
+  /* доставка после оплаты */
+  .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;margin-top:32px;counter-reset:s}
+  .step{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px;position:relative}
+  .step-n{
+    width:30px;height:30px;border-radius:8px;background:var(--gold);color:#1a1408;
+    display:grid;place-items:center;font-weight:700;font-size:14px;margin-bottom:13px;
+  }
+  .step h3{font-size:16px;margin-bottom:8px}
+  .step p{font-size:14px;color:var(--dim);margin:0}
+
+  .fit2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:30px}
+  .fitcard{border:1px solid var(--line);border-radius:14px;padding:22px;background:var(--panel)}
+  .fitcard h3{font-size:16px;margin-bottom:14px}
+  .fitcard ul{margin:0;padding-left:20px}
+  .fitcard li{font-size:14.5px;color:var(--dim);margin-bottom:9px}
+  .fitcard.yes{border-color:rgba(79,195,138,.3)}
+  .fitcard.yes h3{color:var(--green)}
+  .fitcard.no{border-color:rgba(226,104,95,.28)}
+  .fitcard.no h3{color:var(--red)}
+
+  .prices{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:18px;margin-top:34px;align-items:start}
+  .price{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:28px;position:relative}
+  .price.hot{border-color:var(--gold-dim);background:linear-gradient(160deg,rgba(216,174,95,.1),var(--panel))}
+  .badge{position:absolute;top:-11px;left:24px;background:var(--gold);color:#1a1408;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:4px 11px;border-radius:99px}
+  .pname{font-size:15px;font-weight:650;margin-bottom:6px}
+  .pfor{font-size:13.5px;color:var(--faint);margin-bottom:18px}
+  .pamt{display:flex;align-items:baseline;gap:9px;margin-bottom:6px;flex-wrap:wrap}
+  .pamt b{font-size:38px;font-weight:700;letter-spacing:-.03em;line-height:1}
+  .pwas{font-size:17px;color:var(--faint);text-decoration:line-through}
+  .pnote{font-size:12.5px;color:var(--gold);margin-bottom:20px}
+  .price ul{margin:0 0 22px;padding:0;list-style:none}
+  .price li{font-size:14.5px;color:var(--dim);padding:8px 0 8px 26px;position:relative;border-bottom:1px solid var(--line)}
+  .price li:last-child{border-bottom:0}
+  .price li::before{content:"✓";position:absolute;left:0;color:var(--gold);font-weight:700}
+  .price .btn{width:100%}
+
+  details{border:1px solid var(--line);border-radius:12px;margin-bottom:10px;background:var(--panel);overflow:hidden}
+  summary{padding:17px 20px;cursor:pointer;font-weight:600;font-size:15.5px;list-style:none;display:flex;align-items:center;gap:12px}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"+";margin-left:auto;color:var(--gold);font-size:19px;font-weight:400;flex:none}
+  details[open] summary::after{content:"−"}
+  summary:hover{background:var(--panel2)}
+  .faq-body{padding:0 20px 18px;color:var(--dim);font-size:14.5px}
+  .faq-body p:last-child{margin-bottom:0}
+
+  .final{background:linear-gradient(160deg,var(--panel2),var(--bg));border:1px solid var(--gold-dim);border-radius:18px;padding:clamp(28px,5vw,48px);text-align:center}
+  .final h2{font-size:clamp(23px,3.4vw,33px);max-width:24ch;margin-inline:auto}
+  .final p{color:var(--dim);max-width:54ch;margin-inline:auto;margin-bottom:26px}
+  .final .btnrow{justify-content:center}
+
+  footer{border-top:1px solid var(--line);padding-block:32px 48px;color:var(--faint);font-size:13px}
+  footer p{margin:0 0 .7em;max-width:80ch}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap nav-in">
+    <div class="sigil">F</div>
+    <div class="navbrand">Forever: план старта</div>
+    <div class="nav-cta">
+      <a class="navlink" href="#inside">Что внутри</a>
+      <a class="navlink" href="#delivery">Как получу</a>
+      <a class="navlink" href="#pricing">Цена</a>
+      <a class="btn sm" href="#pricing">Забрать</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">World of Warcraft: Forever · 4 ноября 2026</div>
+    <h1>Большинство сольёт <em>первую неделю</em>. Вам это не обязательно.</h1>
+    <p class="lede">
+      Forever — это старт с нуля и жёстким дедлайном: первые рейды открываются <b>9 декабря</b>.
+      На всё про всё 35 дней: выбрать класс, дойти до 60-го и одеться. План старта превращает это
+      в расписание под то количество часов, которое у вас реально есть.
+    </p>
+
+    <div class="cdstrip" id="cd">
+      <div class="cdbox"><b id="cdD">–</b><span>Дней</span></div>
+      <div class="cdbox"><b id="cdH">–</b><span>Часов</span></div>
+      <div class="cdbox"><b id="cdM">–</b><span>Мин</span></div>
+      <div class="cdbox"><b id="cdS">–</b><span>Сек</span></div>
+    </div>
+
+    <div class="btnrow">
+      <a class="btn" href="#pricing">Забрать за 1 490 ₽</a>
+      <a class="btn ghost" href="forever-launch-kit.html">Открыть демо</a>
+    </div>
+    <p class="microcopy">Доступ сразу после оплаты · Бесплатные обновления до 9 декабря · Работает офлайн в любом браузере</p>
+  </div>
+</header>
+
+<div class="facts">
+  <div class="wrap facts-in">
+    <div class="fact"><b>1 000</b><span>новых квестов по всему диапазону 1–60</span></div>
+    <div class="fact"><b>9</b><span>новых подземелий, 2 новых рейда</span></div>
+    <div class="fact"><b>3</b><span>новые локации и новая играбельная раса</span></div>
+    <div class="fact"><b>35</b><span>дней от старта до первого рейда</span></div>
+  </div>
+</div>
+
+<section id="problem">
+  <div class="wrap">
+    <div class="kicker">Зачем это нужно</div>
+    <h2 class="sec-title">Любой сайт с гайдами расскажет, что есть в игре. Никто не скажет, что делать <em>именно вам</em>.</h2>
+    <p class="sec-lede">У Wowhead будут данные по квестам. У Icy Veins — билды талантов. Чего не даёт никто — это решение, которое учитывает ваш график, вашу роль и деньги, которые вы собираетесь потратить.</p>
+
+    <div class="probs">
+      <div class="prob">
+        <div class="prob-icon">💸</div>
+        <h3>Вопрос на $60</h3>
+        <p>Epic Pack? Collection? Или хватит подписки? В магазине Blizzard не написано, что бета ограничена 30-м уровнем — и что подписка уже покрывает все локации, подземелья и рейды в день старта.</p>
+      </div>
+      <div class="prob">
+        <div class="prob-icon">⚔️</div>
+        <h3>Ловушка перекача</h3>
+        <p>Неверно выбранный класс стоит 30+ часов, прежде чем вы себе в этом признаетесь. В Forever добавлен узел талантов на 16 очках, который тихо обнуляет все билды для прокачки, написанные до сентября 2026.</p>
+      </div>
+      <div class="prob">
+        <div class="prob-icon">⏳</div>
+        <h3>Стена 9 декабря</h3>
+        <p>Рейды открываются через 35 дней после старта. При 20 часах в неделю вы не успеете выйти на 60-й — и почти никто не делает этот расчёт заранее.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="inside" style="background:var(--bg2);border-block:1px solid var(--line)">
+  <div class="wrap">
+    <div class="kicker">Что внутри</div>
+    <h2 class="sec-title">Шесть инструментов, одна вкладка браузера, без регистрации</h2>
+    <p class="sec-lede">Это один самодостаточный файл. Открываете, отвечаете на шесть вопросов — и всё ниже заполняется вашими цифрами.</p>
+
+    <div class="feats">
+      <div class="feat">
+        <div class="feat-n">01</div>
+        <h3>Подбор класса</h3>
+        <p>Девять классов оцениваются по вашим целям, роли, фракции и часам в неделю. На выходе — список с процентом совпадения и прямым объяснением почему, включая то, доступен ли ваш выбор расе Skyborne.</p>
+      </div>
+      <div class="feat">
+        <div class="feat-n">02</div>
+        <h3>Решение «что покупать»</h3>
+        <p>Три вопроса — один вывод. Часто вывод звучит как <em>не покупайте ничего</em>: подписка закрывает больше, чем кажется из магазина. Внутри полное сравнение изданий и трезвая оценка того, что даёт бета.</p>
+      </div>
+      <div class="feat">
+        <div class="feat-n">03</div>
+        <h3>Расписание дня старта</h3>
+        <p>План по часам под то время, которое у вас реально будет 4 ноября, — вместе с чек-листом «минус 60 минут», который уберегает от очередей и сломанных аддонов.</p>
+      </div>
+      <div class="feat">
+        <div class="feat-n">04</div>
+        <h3>Чек-лист на семь недель</h3>
+        <p>Привязан к реальному календарю: от сегодня до волны рейдов 9 декабря. Прогресс сохраняется в браузере, по каждой фазе — процент готовности.</p>
+      </div>
+      <div class="feat">
+        <div class="feat-n">05</div>
+        <h3>Планировщик золота</h3>
+        <p>Задаёте темп фарма и долю недели на него. Получаете даты маунтов и прямой ответ «да/нет» на вопрос, хватит ли вам на рейдовые расходники к первым заходам.</p>
+      </div>
+      <div class="feat">
+        <div class="feat-n">06</div>
+        <h3>Атлас контента</h3>
+        <p>Все подтверждённые локации, подземелья, рейды, расовые способности и новые системы в одном справочнике — с уровнями там, где они названы, и честной пометкой <em>TBD</em> там, где данных ещё нет.</p>
+      </div>
+      <div class="feat wide">
+        <div class="feat-n">ВКЛЮЧЕНО</div>
+        <h3>Бесплатные обновления до 9 декабря</h3>
+        <p>Бета открылась 17 сентября и идёт с ограничением в 30 уровней. По мере появления реальных данных — уровни подземелий, стоимость веток Наследия, какие предметы из лагерей стоит продавать — файл обновляется, и новую версию вы получаете бесплатно. Купить сегодня — это купить по самой низкой цене, какая будет.</p>
+      </div>
+    </div>
+
+    <div class="sample">
+      <div class="sample-head">Пример вывода — «быстро до 60» + «золото», дальний бой, Орда, 20 ч в неделю</div>
+      <div class="srow">
+        <div class="srank">1</div>
+        <div><div class="sname">Охотник</div><p class="sdesc">Самый быстрый и прощающий ошибки класс для прокачки. Питомец танкует, пить не нужно, со всего убитого снимаются шкуры.</p></div>
+        <div class="sfit">97%</div>
+      </div>
+      <div class="srow">
+        <div class="srank alt">2</div>
+        <div><div class="sname">Маг</div><p class="sdesc">Порталы, вода и фарм по площади делают его самым «ликвидным» классом в любой ванильной экономике.</p></div>
+        <div class="sfit">92%</div>
+      </div>
+      <div class="srow">
+        <div class="srank alt">3</div>
+        <div><div class="sname">Чернокнижник</div><p class="sdesc">Пустотник в роли танка делает его почти неубиваемым соло, и это один из сильнейших классов в дуэлях.</p></div>
+        <div class="sfit">90%</div>
+      </div>
+      <div class="srow" style="border-top:1px solid var(--line2);margin-top:6px;padding-top:16px">
+        <div>
+          <div class="sname" style="color:var(--gold)">Вывод: не успеваете к первой волне</div>
+          <p class="sdesc">138 часов /played до 60-го в вашем темпе — выход на 60-й около <b>22 декабря</b>, примерно через 13 дней после открытия рейдов. Для спокойной игры нормально, для рейда первой недели — нет.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="delivery">
+  <div class="wrap">
+    <div class="kicker">После оплаты</div>
+    <h2 class="sec-title">Как вы получите доступ</h2>
+    <p class="sec-lede">Никаких аккаунтов, подписок и логинов. Оплата — письмо — файл, который остаётся у вас навсегда.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-n">1</div>
+        <h3>Оплачиваете картой</h3>
+        <p>Нажимаете кнопку и попадаете на страницу оплаты. Вводите карту и почту. Оплата проходит на стороне платёжного сервиса — данные карты не проходят через этот сайт и нигде здесь не хранятся.</p>
+      </div>
+      <div class="step">
+        <div class="step-n">2</div>
+        <h3>Сразу получаете письмо</h3>
+        <p>В течение минуты на указанную почту приходит письмо со ссылкой на скачивание и чеком. Ссылка личная и работает бессрочно — по ней же вы заберёте все будущие обновления.</p>
+      </div>
+      <div class="step">
+        <div class="step-n">3</div>
+        <h3>Открываете файл</h3>
+        <p>Скачиваете один HTML-файл и открываете двойным щелчком в любом браузере — на компьютере, планшете или телефоне. Интернет для работы не нужен, всё считается прямо на вашем устройстве.</p>
+      </div>
+    </div>
+
+    <div class="steps" style="margin-top:16px">
+      <div class="step" style="grid-column:1/-1;background:linear-gradient(145deg,rgba(216,174,95,.09),var(--panel));border-color:var(--gold-dim)">
+        <h3 style="margin-bottom:8px">Обновления приходят на ту же почту</h3>
+        <p>Когда после беты выходит новая версия, вам приходит письмо со свежим файлом. Доплачивать не нужно — обновления до 9 декабря входят в цену, которую вы заплатили один раз.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="fit" style="background:var(--bg2);border-block:1px solid var(--line)">
+  <div class="wrap">
+    <div class="kicker">Без прикрас</div>
+    <h2 class="sec-title">Это подойдёт не всем</h2>
+    <p class="sec-lede">Лучше вы пройдёте мимо, чем потом будете просить возврат.</p>
+    <div class="fit2">
+      <div class="fitcard yes">
+        <h3>Берите, если</h3>
+        <ul>
+          <li>Возвращаетесь в WoW ради Forever и давно не играли в ваниль</li>
+          <li>Времени на игру мало и важно, чтобы часы не пропадали зря</li>
+          <li>Ещё не решили с классом, фракцией или изданием для покупки</li>
+          <li>Собираете группу или небольшую гильдию к старту</li>
+          <li>Хотите быть на 60-м и в шмоте до 9 декабря</li>
+        </ul>
+      </div>
+      <div class="fitcard no">
+        <h3>Пропустите, если</h3>
+        <ul>
+          <li>Прошли Classic не по одному разу и знаете маршруты наизусть</li>
+          <li>Уже купили издание и определились с основным персонажем</li>
+          <li>Нужны точные маршруты по квестам — их сейчас нет ни у кого, бета ограничена 30-м уровнем</li>
+          <li>Нужны таблицы добычи и тактики боссов</li>
+          <li>Вам нормально разбираться по ходу дела</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="wrap">
+    <div class="kicker">Цена</div>
+    <h2 class="sec-title">Дешевле всего до старта. С 4 ноября цена вырастет.</h2>
+    <p class="sec-lede">Кто покупает раньше, берёт на себя риск, что бета что-то изменит, — поэтому платит меньше и всё равно получает все обновления.</p>
+
+    <div class="prices">
+      <div class="price hot">
+        <div class="badge">Цена до старта</div>
+        <div class="pname">План старта</div>
+        <div class="pfor">Один игрок, один браузер</div>
+        <div class="pamt"><b>1 490 ₽</b><span class="pwas">2 290 ₽</span></div>
+        <div class="pnote">С 4 ноября — 2 290 ₽</div>
+        <ul>
+          <li>Все шесть инструментов без ограничений</li>
+          <li>Подбор класса и проверка Skyborne</li>
+          <li>Персональное расписание дня старта</li>
+          <li>Чек-лист подготовки на семь недель</li>
+          <li>Планировщик золота и связки профессий</li>
+          <li>Бесплатные обновления до 9 декабря</li>
+        </ul>
+        <!-- Вставьте сюда ссылку на товар: Boosty / Digiseller / Telegram-бот -->
+        <a class="btn" href="#" data-buy="solo">Забрать за 1 490 ₽</a>
+      </div>
+
+      <div class="price">
+        <div class="pname">Пак для группы</div>
+        <div class="pfor">Пять игроков — на вашу группу к старту</div>
+        <div class="pamt"><b>3 900 ₽</b><span class="pwas">7 450 ₽</span></div>
+        <div class="pnote">Пять копий, меньше 800 ₽ за каждую</div>
+        <ul>
+          <li>Всё из «Плана старта», ×5</li>
+          <li>Ссылки для раздачи вашей группе</li>
+          <li>Лист состава группы — закрыть танка, хила и профессии до старта</li>
+          <li>Расписание первой недели для гильдии</li>
+          <li>Бесплатные обновления до 9 декабря</li>
+        </ul>
+        <!-- Вставьте сюда ссылку на товар: Boosty / Digiseller / Telegram-бот -->
+        <a class="btn ghost" href="#" data-buy="guild">Забрать за 3 900 ₽</a>
+      </div>
+    </div>
+    <p class="microcopy" style="margin-top:22px">Оплата один раз. Без подписки, без аккаунта, без логина. Если не помогло — верну деньги в течение 14 дней.</p>
+  </div>
+</section>
+
+<section id="faq" style="background:var(--bg2);border-block:1px solid var(--line)">
+  <div class="wrap">
+    <div class="kicker">Вопросы</div>
+    <h2 class="sec-title">Перед покупкой</h2>
+    <div style="margin-top:30px">
+      <details open>
+        <summary>Это официальный продукт Blizzard?</summary>
+        <div class="faq-body"><p>Нет. Это неофициальный фанатский инструмент для планирования, собранный по анонсам BlizzCon 2026 и публичным материалам. В нём нет игровых файлов, графики и ассетов. World of Warcraft — торговая марка Blizzard Entertainment.</p></div>
+      </details>
+      <details>
+        <summary>Игра ещё не вышла. Откуда гайд?</summary>
+        <div class="faq-body">
+          <p>Потому что это не прохождение, а инструмент принятия решений. Что уже подтверждено и не изменится: список классов, узел талантов на 16 очках, расовые способности Skyborne, диапазоны уровней локаций, системы профессий и Наследия, цены изданий и все даты от беты до волны рейдов.</p>
+          <p>То, чего пока нет ни у кого — точные маршруты по квестам, добыча в подземельях, тактики боссов, — помечено внутри как <em>TBD</em>, а не выдумано. Лучше показать пробел, чем заполнить его фантазией.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Что именно я получу и как?</summary>
+        <div class="faq-body"><p>Один HTML-файл. Ссылка на скачивание приходит на почту сразу после оплаты. Открывается в любом браузере на любом устройстве, работает без интернета, сохраняет ваш прогресс локально, не требует установки и аккаунта. Обновления приходят новым файлом по той же ссылке. Подробнее — в разделе <a href="#delivery">«Как вы получите доступ»</a>.</p></div>
+      </details>
+      <details>
+        <summary>Останутся ли советы верными после беты?</summary>
+        <div class="faq-body"><p>Бета открылась 17 сентября с ограничением в 30 уровней, поэтому она может уточнить детали по ранней прокачке и ощущению классов. Ровно для этого и нужны бесплатные обновления до 9 декабря. Всё, что бета способна опровергнуть, внутри помечено как неподтверждённое, а не подано как факт.</p></div>
+      </details>
+      <details>
+        <summary>Нужно ли покупать дорогое издание, чтобы играть в Forever?</summary>
+        <div class="faq-body"><p>Нет — и инструмент скажет вам это прямо. На старте 4 ноября доступ идёт с активной подпиской или оплаченным игровым временем. Платные паки дают расу Skyborne и доступ к бете, больше ничего. Для многих игроков честный ответ — «не покупать ничего», и внутри он так и звучит.</p></div>
+      </details>
+      <details>
+        <summary>Пригодится ли, если я никогда не играл в ванильный WoW?</summary>
+        <div class="faq-body"><p>Это как раз тот случай, где пользы больше всего. Поставьте опыт «Впервые» — и все расчёты пересчитаются: кривая прокачки, цель на день старта, прогноз даты выхода на 60-й. Ваниль намного медленнее современного WoW, и знать это заранее — разница между спокойным темпом и выгоранием на второй неделе.</p></div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="final">
+      <div class="kicker">4 ноября 2026</div>
+      <h2>Свежая Азерот бывает один раз. Не тратьте её на догадки.</h2>
+      <p>Шесть вопросов — и вы знаете свой класс, свои траты, план на день старта и успеваете ли к волне рейдов. Десять минут сейчас против тридцати часов потом.</p>
+      <div class="btnrow">
+        <a class="btn" href="#pricing">Забрать за 1 490 ₽</a>
+        <a class="btn ghost" href="forever-launch-kit.html">Сначала открыть демо</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p><b>Forever: план старта</b> — неофициальный фанатский инструмент для планирования по World of Warcraft: Forever.</p>
+    <p>Не связан с Blizzard Entertainment, Inc., не поддерживается и не спонсируется ею. World of Warcraft и Warcraft — торговые марки Blizzard Entertainment, Inc. Все даты, цены и характеристики взяты из анонсов BlizzCon 2026 и публичных материалов и могут измениться. Актуальные цены на издания игры проверяйте в официальном магазине.</p>
+    <p>Продукт не содержит игровых файлов, графики и ассетов.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var LAUNCH = new Date("2026-11-04T15:00:00Z");
+  function pad(n){ return String(n).padStart(2,"0"); }
+  function tick(){
+    var diff = Math.max(0, LAUNCH - new Date());
+    var d = document.getElementById("cdD");
+    if(!d) return;
+    d.textContent = Math.floor(diff/86400000);
+    document.getElementById("cdH").textContent = pad(Math.floor(diff/3600000)%24);
+    document.getElementById("cdM").textContent = pad(Math.floor(diff/60000)%60);
+    document.getElementById("cdS").textContent = pad(Math.floor(diff/1000)%60);
+  }
+  tick(); setInterval(tick,1000);
+
+  // Подключение оплаты: вставьте ссылки на товары — и кнопки заработают.
+  var CHECKOUT = { solo:"", guild:"" };
+  Array.prototype.forEach.call(document.querySelectorAll("[data-buy]"), function(a){
+    var url = CHECKOUT[a.dataset.buy];
+    if (url) { a.href = url; return; }
+    a.addEventListener("click", function(e){
+      e.preventDefault();
+      alert("Оплата ещё не подключена.\n\nОткройте index.html, найдите объект CHECKOUT внизу файла и вставьте ссылку на товар (Boosty, Digiseller, Telegram-бот или Gumroad).");
+    });
+  });
+})();
+</script>
+</body>
+</html>

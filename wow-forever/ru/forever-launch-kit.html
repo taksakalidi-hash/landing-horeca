@@ -1,0 +1,1169 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Forever: план старта</title>
+<style>
+  :root{
+    --bg:#0b0f16;
+    --bg2:#111826;
+    --panel:#141d2c;
+    --panel2:#1a2435;
+    --line:#26334a;
+    --line2:#33435f;
+    --ink:#e8edf5;
+    --ink-dim:#a3b1c6;
+    --ink-faint:#6f8099;
+    --gold:#d8ae5f;
+    --gold-dim:#8d7238;
+    --blue:#5aa9e6;
+    --green:#4fc38a;
+    --red:#e2685f;
+    --purple:#a479d8;
+    --radius:14px;
+    --maxw:1080px;
+  }
+  *{box-sizing:border-box}
+  html{color-scheme:dark}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  img{max-width:100%}
+  [hidden]{display:none!important}
+  h1,h2,h3,h4{margin:0 0 .5em;line-height:1.2;font-weight:650;letter-spacing:-.01em}
+  p{margin:0 0 1em}
+  a{color:var(--blue)}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding-inline:18px}
+
+  .top{background:linear-gradient(180deg,#131c2b 0%,#0b0f16 100%);border-bottom:1px solid var(--line)}
+  .top-in{padding-block:26px 22px}
+  .brandrow{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+  .sigil{width:36px;height:36px;border-radius:9px;flex:none;background:linear-gradient(145deg,var(--gold),#8a6d2c);display:grid;place-items:center;color:#1a1408;font-weight:800;font-size:17px}
+  .brand{font-size:17px;font-weight:700;letter-spacing:.02em}
+  .brand small{display:block;font-size:11px;font-weight:500;color:var(--ink-faint);letter-spacing:.06em;text-transform:uppercase}
+  .edition{margin-left:auto;font-size:11px;color:var(--gold);border:1px solid var(--gold-dim);padding:4px 10px;border-radius:99px;letter-spacing:.05em;text-transform:uppercase;white-space:nowrap}
+
+  .countdown{display:flex;gap:10px;flex-wrap:wrap}
+  .cd-unit{flex:1 1 72px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 8px;text-align:center}
+  .cd-num{font-size:30px;font-weight:700;font-variant-numeric:tabular-nums;color:var(--gold);line-height:1}
+  .cd-lab{font-size:10px;text-transform:uppercase;letter-spacing:.09em;color:var(--ink-faint);margin-top:6px}
+  .cd-note{margin-top:12px;font-size:13px;color:var(--ink-dim)}
+  .cd-note b{color:var(--ink)}
+
+  .tabbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:rgba(11,15,22,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .tabs{display:flex;gap:4px;overflow-x:auto;padding:8px 18px;max-width:var(--maxw);margin:0 auto;scrollbar-width:thin}
+  .tab{flex:none;background:none;border:1px solid transparent;color:var(--ink-dim);padding:8px 13px;border-radius:9px;font:inherit;font-size:13.5px;cursor:pointer;white-space:nowrap}
+  .tab:hover{color:var(--ink);background:var(--panel)}
+  .tab[aria-selected="true"]{background:var(--panel2);color:var(--gold);border-color:var(--line2)}
+
+  main{padding-block:28px 60px}
+  .sec-head{margin-bottom:22px}
+  .sec-head h2{font-size:25px}
+  .sec-head p{color:var(--ink-dim);margin:0;max-width:62ch}
+  .kicker{font-size:11px;letter-spacing:.11em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:7px}
+
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:20px;margin-bottom:16px}
+  .card h3{font-size:17px}
+  .card h4{font-size:14px;color:var(--ink-dim);text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+  .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+  .grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+
+  .field{margin-bottom:18px}
+  .field > label{display:block;font-size:13px;font-weight:600;color:var(--ink);margin-bottom:9px}
+  .hint{font-size:12.5px;color:var(--ink-faint);font-weight:400;margin-top:-4px;margin-bottom:9px}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{background:var(--bg2);border:1px solid var(--line);color:var(--ink-dim);padding:8px 13px;border-radius:9px;font:inherit;font-size:13.5px;cursor:pointer}
+  .chip:hover{border-color:var(--line2);color:var(--ink)}
+  .chip[aria-pressed="true"]{background:rgba(216,174,95,.13);border-color:var(--gold-dim);color:var(--gold)}
+  input[type=range]{width:100%;accent-color:var(--gold)}
+  .rangerow{display:flex;justify-content:space-between;font-size:12.5px;color:var(--ink-faint);margin-top:4px}
+  .rangeval{color:var(--gold);font-weight:600}
+
+  .btn{background:linear-gradient(145deg,var(--gold),#b78f43);color:#1a1408;border:0;padding:12px 22px;border-radius:10px;font:inherit;font-weight:700;cursor:pointer}
+  .btn:hover{filter:brightness(1.08)}
+  .btn-ghost{background:none;border:1px solid var(--line2);color:var(--ink-dim);font-weight:500}
+  .btn-ghost:hover{color:var(--ink);background:var(--panel2);filter:none}
+  .btnrow{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+
+  .pick{display:flex;gap:14px;align-items:flex-start;background:var(--panel2);border:1px solid var(--line2);border-radius:12px;padding:16px;margin-bottom:11px}
+  .pick.top{border-color:var(--gold-dim);background:linear-gradient(145deg,rgba(216,174,95,.1),var(--panel2))}
+  .rank{width:30px;height:30px;flex:none;border-radius:8px;background:var(--bg2);border:1px solid var(--line2);display:grid;place-items:center;font-weight:700;font-size:14px;color:var(--ink-dim)}
+  .pick.top .rank{background:var(--gold);color:#1a1408;border-color:var(--gold)}
+  .pick-body{flex:1;min-width:0}
+  .pick-name{font-weight:700;font-size:16px;margin-bottom:2px}
+  .pick-name span{font-weight:500;font-size:13px;color:var(--ink-faint)}
+  .pick-why{font-size:13.5px;color:var(--ink-dim);margin:6px 0 0}
+  .score{font-size:12px;color:var(--gold);font-weight:600;white-space:nowrap}
+
+  .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+  .tag{font-size:11.5px;padding:3px 9px;border-radius:99px;background:var(--bg2);border:1px solid var(--line);color:var(--ink-dim)}
+  .tag.good{color:var(--green);border-color:rgba(79,195,138,.35)}
+  .tag.warn{color:var(--red);border-color:rgba(226,104,95,.35)}
+  .tag.new{color:var(--purple);border-color:rgba(164,121,216,.4)}
+
+  .tl{position:relative;padding-left:26px}
+  .tl::before{content:"";position:absolute;left:8px;top:6px;bottom:6px;width:2px;background:var(--line)}
+  .tl-item{position:relative;margin-bottom:18px}
+  .tl-item::before{content:"";position:absolute;left:-22px;top:6px;width:10px;height:10px;border-radius:50%;background:var(--bg);border:2px solid var(--gold-dim)}
+  .tl-item.now::before{background:var(--gold);border-color:var(--gold);box-shadow:0 0 0 4px rgba(216,174,95,.16)}
+  .tl-time{font-size:11.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--gold);font-weight:600}
+  .tl-title{font-weight:650;margin:2px 0 3px}
+  .tl-desc{font-size:13.5px;color:var(--ink-dim)}
+
+  .phase{border:1px solid var(--line);border-radius:12px;margin-bottom:12px;overflow:hidden;background:var(--panel)}
+  .phase-head{display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer;background:var(--panel2);border:0;width:100%;text-align:left;font:inherit;color:var(--ink)}
+  .phase-head:hover{background:#1f2a3d}
+  .phase-when{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);font-weight:600}
+  .phase-name{font-weight:650;font-size:15px}
+  .phase-meta{margin-left:auto;display:flex;align-items:center;gap:10px;flex:none}
+  .bar{width:64px;height:5px;background:var(--bg2);border-radius:99px;overflow:hidden}
+  .bar i{display:block;height:100%;background:var(--gold);border-radius:99px;transition:width .25s}
+  .phase-pct{font-size:12px;color:var(--ink-faint);font-variant-numeric:tabular-nums;min-width:34px;text-align:right}
+  .phase-body{padding:6px 16px 14px}
+  .chk{display:flex;gap:11px;align-items:flex-start;padding:9px 0;border-bottom:1px solid var(--line);cursor:pointer}
+  .chk:last-child{border-bottom:0}
+  .chk input{margin:2px 0 0;accent-color:var(--gold);width:17px;height:17px;flex:none;cursor:pointer}
+  .chk span{font-size:14px}
+  .chk input:checked + span{color:var(--ink-faint);text-decoration:line-through}
+
+  .tablewrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  table{border-collapse:collapse;width:100%;min-width:520px;font-size:13.5px}
+  th,td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint);font-weight:600;white-space:nowrap}
+  tbody tr:hover{background:var(--panel2)}
+  td b{color:var(--ink)}
+
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:16px}
+  .stat{background:var(--panel2);border:1px solid var(--line);border-radius:11px;padding:14px}
+  .stat-num{font-size:23px;font-weight:700;color:var(--gold);font-variant-numeric:tabular-nums;line-height:1.1}
+  .stat-lab{font-size:12px;color:var(--ink-dim);margin-top:5px}
+
+  .note{border-left:3px solid var(--blue);background:rgba(90,169,230,.07);padding:13px 15px;border-radius:0 10px 10px 0;font-size:13.5px;color:var(--ink-dim);margin-bottom:16px}
+  .note.warn{border-color:var(--gold);background:rgba(216,174,95,.07)}
+  .note b{color:var(--ink)}
+
+  .verdict{background:linear-gradient(145deg,rgba(216,174,95,.12),var(--panel2));border:1px solid var(--gold-dim);border-radius:12px;padding:18px}
+  .verdict .kicker{margin-bottom:5px}
+  .verdict-main{font-size:19px;font-weight:700;margin-bottom:6px}
+  .verdict-sub{font-size:13.5px;color:var(--ink-dim);margin:0}
+
+  footer{border-top:1px solid var(--line);padding-block:26px 40px;color:var(--ink-faint);font-size:12.5px}
+  footer p{margin:0 0 .6em}
+
+  @media (max-width:560px){
+    .cd-num{font-size:24px}
+    .sec-head h2{font-size:21px}
+    .edition{margin-left:0;order:3}
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap top-in">
+    <div class="brandrow">
+      <div class="sigil">F</div>
+      <div class="brand">FOREVER: ПЛАН СТАРТА<small>Неофициальный планировщик</small></div>
+      <div class="edition" id="phaseBadge">Загрузка…</div>
+    </div>
+    <div class="countdown" id="cd">
+      <div class="cd-unit"><div class="cd-num" id="cdD">–</div><div class="cd-lab">Дней</div></div>
+      <div class="cd-unit"><div class="cd-num" id="cdH">–</div><div class="cd-lab">Часов</div></div>
+      <div class="cd-unit"><div class="cd-num" id="cdM">–</div><div class="cd-lab">Минут</div></div>
+      <div class="cd-unit"><div class="cd-num" id="cdS">–</div><div class="cd-lab">Секунд</div></div>
+    </div>
+    <p class="cd-note" id="cdNote">до запуска <b>World of Warcraft: Forever</b> — 4 ноября 2026</p>
+  </div>
+</header>
+
+<div class="tabbar">
+  <div class="tabs" role="tablist">
+    <button class="tab" role="tab" data-panel="plan" aria-selected="true">1 · Мой план</button>
+    <button class="tab" role="tab" data-panel="editions" aria-selected="false">2 · Что покупать</button>
+    <button class="tab" role="tab" data-panel="dayone" aria-selected="false">3 · День старта</button>
+    <button class="tab" role="tab" data-panel="prep" aria-selected="false">4 · Подготовка</button>
+    <button class="tab" role="tab" data-panel="gold" aria-selected="false">5 · План по золоту</button>
+    <button class="tab" role="tab" data-panel="atlas" aria-selected="false">6 · Атлас контента</button>
+  </div>
+</div>
+
+<main class="wrap">
+
+  <!-- ================= ПЛАН ================= -->
+  <section id="plan" role="tabpanel">
+    <div class="sec-head">
+      <div class="kicker">Шаг первый</div>
+      <h2>Соберите свой план на Forever</h2>
+      <p>Шесть вопросов. На выходе — список классов с оценкой совпадения, расписание дня старта под ваши реальные часы и цель по золоту, которая доводит до эпического маунта раньше открытия рейдов.</p>
+    </div>
+
+    <div class="card">
+      <div class="field">
+        <label>Что вам на самом деле нужно от старта?</label>
+        <div class="hint">Выберите до двух пунктов. От этого зависит всё остальное.</div>
+        <div class="chips" id="goals">
+          <button class="chip" data-v="speed" aria-pressed="false">Быстро дойти до 60</button>
+          <button class="chip" data-v="group" aria-pressed="false">Чтобы всегда звали в группу</button>
+          <button class="chip" data-v="solo" aria-pressed="false">Играть в основном соло</button>
+          <button class="chip" data-v="gold" aria-pressed="false">Зарабатывать золото</button>
+          <button class="chip" data-v="pvp" aria-pressed="false">Мир-PvP и поля боя</button>
+          <button class="chip" data-v="chill" aria-pressed="false">Исследовать без спешки</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Предпочитаемая роль</label>
+        <div class="chips" id="role">
+          <button class="chip" data-v="any" aria-pressed="true">Без разницы</button>
+          <button class="chip" data-v="tank" aria-pressed="false">Танк</button>
+          <button class="chip" data-v="healer" aria-pressed="false">Хил</button>
+          <button class="chip" data-v="melee" aria-pressed="false">Ближний бой</button>
+          <button class="chip" data-v="ranged" aria-pressed="false">Дальний бой</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Фракция</label>
+        <div class="chips" id="faction">
+          <button class="chip" data-v="any" aria-pressed="true">Ещё не решил</button>
+          <button class="chip" data-v="alliance" aria-pressed="false">Альянс</button>
+          <button class="chip" data-v="horde" aria-pressed="false">Орда</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Насколько хорошо вы знаете ванильный WoW?</label>
+        <div class="chips" id="exp">
+          <button class="chip" data-v="new" aria-pressed="false">Впервые</button>
+          <button class="chip" data-v="some" aria-pressed="true">Играл в Classic</button>
+          <button class="chip" data-v="vet" aria-pressed="false">Знаю маршруты наизусть</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Сколько часов сможете играть в день старта <span class="rangeval" id="h1out">8</span></label>
+        <input type="range" id="h1" min="1" max="16" step="1" value="8">
+        <div class="rangerow"><span>1 ч</span><span>16 ч</span></div>
+      </div>
+
+      <div class="field">
+        <label>Часов в неделю после старта <span class="rangeval" id="hwout">20</span></label>
+        <input type="range" id="hw" min="3" max="60" step="1" value="20">
+        <div class="rangerow"><span>3 ч</span><span>60 ч</span></div>
+      </div>
+
+      <div class="btnrow">
+        <button class="btn" id="build">Собрать план</button>
+        <button class="btn btn-ghost" id="reset">Сбросить сохранённое</button>
+      </div>
+    </div>
+
+    <div id="planOut" hidden>
+      <div class="card">
+        <h3>Ваш шорт-лист классов</h3>
+        <p style="color:var(--ink-dim);font-size:13.5px;margin-bottom:16px">Оценка по вашим целям, роли и фракции. Базовая механика классов в Forever не изменилась — в ветках талантов появился узел на 16 очках, но суть каждого класса прежняя.</p>
+        <div id="picks"></div>
+      </div>
+
+      <div class="card">
+        <h3>Проверка Skyborne</h3>
+        <div id="skyborne"></div>
+      </div>
+
+      <div class="card">
+        <h3>Ваши цифры</h3>
+        <div class="stats" id="planStats"></div>
+        <p style="color:var(--ink-dim);font-size:13px;margin:0">Расчёт исходит из эффективной игры по квестам с использованием отдохнувшего опыта на основном персонаже. Ветка <b>Приключения</b> в системе Наследия продлевает отдохнувший опыт — есть смысл вложиться туда рано, если часов в неделю мало.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ИЗДАНИЯ ================= -->
+  <section id="editions" role="tabpanel" hidden>
+    <div class="sec-head">
+      <div class="kicker">Шаг второй</div>
+      <h2>Что на самом деле нужно покупать</h2>
+      <p>Самая запутанная тема в каждом обсуждении Forever прямо сейчас. Вот честный ответ.</p>
+    </div>
+
+    <div class="note warn">
+      <b>Главное правило:</b> когда Forever выйдет 4 ноября, доступ будет включён в активную подписку
+      World of Warcraft или в оплаченное игровое время. Покупать отдельное издание, чтобы играть,
+      <b>не нужно</b>. Платные паки дают ровно две вещи: <b>расу Skyborne</b> и <b>доступ к бете</b>.
+    </div>
+
+    <div class="card">
+      <h3>Ответьте на три вопроса</h3>
+      <div class="field">
+        <label>Хотите играть за расу Skyborne?</label>
+        <div class="chips" id="q_sky">
+          <button class="chip" data-v="yes" aria-pressed="false">Да, это мой основной персонаж</button>
+          <button class="chip" data-v="maybe" aria-pressed="false">Может быть, позже</button>
+          <button class="chip" data-v="no" aria-pressed="false">Нет, беру классическую расу</button>
+        </div>
+      </div>
+      <div class="field">
+        <label>Нужен доступ к бете с 17 сентября?</label>
+        <div class="chips" id="q_beta">
+          <button class="chip" data-v="yes" aria-pressed="false">Да, хочу потестировать заранее</button>
+          <button class="chip" data-v="no" aria-pressed="false">Нет, подожду релиза</button>
+        </div>
+      </div>
+      <div class="field">
+        <label>Важна ли косметика — маунт, питомцы, трансмог?</label>
+        <div class="chips" id="q_cos">
+          <button class="chip" data-v="yes" aria-pressed="false">Да, я коллекционирую</button>
+          <button class="chip" data-v="no" aria-pressed="false">Не особо</button>
+        </div>
+      </div>
+      <div id="edVerdict"></div>
+    </div>
+
+    <div class="card">
+      <h3>Издания рядом друг с другом</h3>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Вариант</th><th>Цена</th><th>Skyborne</th><th>Бета</th><th>Для чего он на самом деле</th></tr></thead>
+          <tbody>
+            <tr><td><b>Подписка / игровое время</b></td><td>Обычная подписка</td><td>Нет</td><td>Нет</td><td>Всё, кроме новой расы. Большинству игроков этого достаточно.</td></tr>
+            <tr><td><b>Пак с расой Skyborne</b></td><td>≈ $29.99</td><td>Да</td><td>Нет</td><td>Нужен новый эльф, бета не интересует.</td></tr>
+            <tr><td><b>Skyborne Epic Pack</b></td><td>$59.99</td><td>Да</td><td>Да</td><td>Раса + бета + 30 дней игрового времени + маунт, питомцы, трансмог.</td></tr>
+            <tr><td><b>Warcraft Forever Collection</b></td><td>$79.99</td><td>Да</td><td>Да</td><td>Epic Pack плюс содержимое более широкого набора Warcraft.</td></tr>
+            <tr><td><b>Коллекционное издание</b></td><td>$149.99</td><td>Да</td><td>Да</td><td>Физическая коробка: статуэтка, артпринты, значки, дневник + Collection.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size:12.5px;color:var(--ink-faint);margin:14px 0 0">Цены — по анонсу на BlizzCon 2026 и публикациям недели анонса. В разных регионах цены отличаются, проверяйте в официальном магазине перед покупкой.</p>
+    </div>
+
+    <div class="card">
+      <h3>Трезво о бете</h3>
+      <p style="margin-bottom:12px">Бета, которая открывается <b>17 сентября</b>, ограничена <b>30-м уровнем</b>. Это определяет, чего она стоит лично вам:</p>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Что можно проверить</th><th>Что проверить нельзя</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Расовые способности Skyborne в реальной игре · Zephras Isle 1–12 · ощущение класса на ранних уровнях с узлом на 16 очках · бонусы профессий и лагеря · первые ступени ветки Наследия</td>
+              <td>The Riverglades на своём диапазоне 30–45 · Mount Hyjal · любое из 9 новых подземелий на уровне · оба рейда · новое поле боя на 60-м</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size:13.5px;color:var(--ink-dim);margin:14px 0 0">Проще говоря: бета нужна, чтобы решить, <b>какой класс приятен в руках</b>, а не чтобы изучить эндгейм. Если вы уже знаете, за кого играете, пак за $60 покупает косметику и мышечную память, но не преимущество в информации.</p>
+    </div>
+  </section>
+
+  <!-- ================= ДЕНЬ СТАРТА ================= -->
+  <section id="dayone" role="tabpanel" hidden>
+    <div class="sec-head">
+      <div class="kicker">Шаг третий</div>
+      <h2>Расписание дня старта</h2>
+      <p>В день релиза большинство теряет четыре часа на очереди, сломанные аддоны и метания. Вот ваш план по часам.</p>
+    </div>
+
+    <div class="note">Сначала соберите план на <b>шаге 1</b> — расписание подстроится под ваши реальные часы.</div>
+
+    <div class="card">
+      <h4>До входа в игру — минус 60 минут</h4>
+      <div class="tl" id="tlPre"></div>
+    </div>
+
+    <div class="card">
+      <h4>День старта по часам</h4>
+      <div class="tl" id="tlDay"></div>
+    </div>
+
+    <div class="card">
+      <h3>Пять ошибок, которые стоят дороже всего</h3>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Ошибка</th><th>Во что обходится</th><th>Что делать вместо этого</th></tr></thead>
+          <tbody>
+            <tr><td><b>Взять обе собирательские профессии «на потом»</b></td><td>Часы на крюки по карте ровно в тот момент, когда опыт в час важнее всего</td><td>Отложить профессии до естественной паузы в маршруте или брать их, только если золото — заявленная цель</td></tr>
+            <tr><td><b>Идти в ту же стартовую локацию, что и все</b></td><td>Занятые мобы, очередь за целями квестов, ранние уровни медленнее на 30–40%</td><td>Zephras Isle будет самой забитой локацией в игре 4 ноября. Классическая стартовая зона в день старта объективно быстрее</td></tr>
+            <tr><td><b>Полностью зачищать каждое подземелье</b></td><td>Опыт в час в подземельях обычно ниже, чем на квестах во время прокачки</td><td>Ходить в подземелья за конкретными предметами и сдачей квестов, потом возвращаться в открытый мир</td></tr>
+            <tr><td><b>Не придумать имена заранее</b></td><td>Десять минут на экране создания персонажа, пока сервер наполняется</td><td>Записать пять имён до того, как встанете в очередь</td></tr>
+            <tr><td><b>Прокачка без дисциплины по отдохнувшему опыту</b></td><td>Примерно целый уровень в неделю выброшен, если график ограничен</td><td>Выходить из игры только в таверне. Ранние очки Наследия — в ветку «Приключения» ради продления отдохнувшего опыта</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ПОДГОТОВКА ================= -->
+  <section id="prep" role="tabpanel" hidden>
+    <div class="sec-head">
+      <div class="kicker">Шаг четвёртый</div>
+      <h2>Семь недель до старта</h2>
+      <p>Прогресс сохраняется в этом браузере. Идите сверху вниз — каждая фаза привязана к реальному календарю.</p>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="stat-num" id="prepPct">0%</div><div class="stat-lab">Общая готовность</div></div>
+      <div class="stat"><div class="stat-num" id="prepDone">0</div><div class="stat-lab">Задач выполнено</div></div>
+      <div class="stat"><div class="stat-num" id="prepLeft">–</div><div class="stat-lab">Дней до старта</div></div>
+    </div>
+    <div id="phases"></div>
+  </section>
+
+  <!-- ================= ЗОЛОТО ================= -->
+  <section id="gold" role="tabpanel" hidden>
+    <div class="sec-head">
+      <div class="kicker">Шаг пятый</div>
+      <h2>План по золоту</h2>
+      <p>Важны два срока: маунт на 40-м уровне и наличие денег на рейды, когда 9 декабря откроются Barrow Deeps и Hyjal Summit.</p>
+    </div>
+
+    <div class="card">
+      <h3>Калькулятор</h3>
+      <div class="grid2">
+        <div class="field">
+          <label>Сколько золота будете фармить в час на 60-м</label>
+          <div class="chips" id="gph">
+            <button class="chip" data-v="8" aria-pressed="false">Спокойно · ~8 з</button>
+            <button class="chip" data-v="18" aria-pressed="true">Сбор ресурсов · ~18 з</button>
+            <button class="chip" data-v="30" aria-pressed="false">Плотный фарм · ~30 з</button>
+            <button class="chip" data-v="45" aria-pressed="false">Торговля на АУ · ~45 з</button>
+          </div>
+          <div class="hint" style="margin-top:9px">Примерные ставки ванильной экономики. На свежих серверах ниже, со временем цены растут.</div>
+        </div>
+        <div class="field">
+          <label>Какая доля недельных часов уходит на золото</label>
+          <input type="range" id="gshare" min="5" max="60" step="5" value="20">
+          <div class="rangerow"><span>5%</span><span class="rangeval" id="gshareout">20%</span><span>60%</span></div>
+        </div>
+      </div>
+      <div class="stats" id="goldStats"></div>
+    </div>
+
+    <div class="card">
+      <h3>Связки профессий, которые приносят деньги</h3>
+      <p style="color:var(--ink-dim);font-size:13.5px">В Forever добавлено <b>более 600 новых рецептов</b>, и, в отличие от Classic, каждая основная профессия даёт <b>бонус самому персонажу</b>, который её изучил. Это ломает старую логику «собираю основным, крафчу альтом» — крафтовую профессию теперь есть смысл держать ради самого бонуса.</p>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Связка</th><th>Кому подходит</th><th>Почему работает именно в Forever</th></tr></thead>
+          <tbody>
+            <tr><td><b>Горное дело + травничество</b></td><td>Чистое золото, любой класс</td><td>Нулевые затраты на материалы, а три новые локации — это три свежих россыпи точек сбора, маршруты по которым ещё никто не выстроил. Самый высокий доход на старте сервера.</td></tr>
+            <tr><td><b>Горное дело + кузнечное дело</b></td><td>Ближний бой и танки</td><td>Сами обеспечиваете себя экипировкой на тех уровнях, где с дропом туго, плюс бонус профессии на основном персонаже.</td></tr>
+            <tr><td><b>Травничество + алхимия</b></td><td>Рейдерам</td><td>Расходники — самая крупная постоянная статья расходов в рейдах. Обеспечивать себя самому с 9 декабря выгоднее, чем фармить золото вместо этого.</td></tr>
+            <tr><td><b>Снятие шкур + кожевничество</b></td><td>Соло-игрокам</td><td>Шкуры платят за мобов, которых вы и так убиваете, — без крюков по карте, что и делает связку хорошей при плотном графике.</td></tr>
+            <tr><td><b>Наложение чар + портняжное дело</b></td><td>Заклинателям, золото вдолгую</td><td>Доход с распыления зависит от того, сколько зелёных вещей производит сервер, а это пик первых двух месяцев.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note" style="margin-top:16px;margin-bottom:0">Как только откроется система Наследия, вкладывайте очки в ветку <b>Находчивость</b> — снятие требований к реагентам снижает постоянные расходы любой крафтовой профессии, — и в ветку <b>Профессии</b> ради бонусов за вехи. Очки общие на аккаунт, поэтому окупятся заново на каждом персонаже.</div>
+    </div>
+
+    <div class="card">
+      <h3>Лагеря — механика, которую ещё никто не оценил в деньгах</h3>
+      <p style="margin-bottom:0;color:var(--ink-dim);font-size:13.5px">В Forever можно разжигать костры в открытом мире и с помощью профессий делать предметы с баффами для всех, кто в лагере. Задумано это ради общения — но это же означает, что <b>еда с баффами и расходники лагеря становятся услугой на продажу</b> в оживлённых локациях для прокачки. На свежем сервере в ноябре кулинар, стоящий на людном перекрёстке, — это источник дохода, которого в Classic просто нет. Смотрите на бете, какие предметы доступны только в лагере.</p>
+    </div>
+  </section>
+
+  <!-- ================= АТЛАС ================= -->
+  <section id="atlas" role="tabpanel" hidden>
+    <div class="sec-head">
+      <div class="kicker">Шаг шестой</div>
+      <h2>Атлас контента</h2>
+      <p>Всё подтверждённое по Forever, с диапазонами уровней там, где они названы. Пункты с меткой <span class="tag">TBD</span> не подтверждены и будут заполняться по мере появления данных с беты.</p>
+    </div>
+
+    <div class="card">
+      <h3>Новые локации</h3>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Локация</th><th>Уровни</th><th>Что внутри</th></tr></thead>
+          <tbody>
+            <tr><td><b>Zephras Isle</b></td><td>1–12</td><td>Стартовая зона Skyborne. Скорее всего, самое многолюдное место в игре в день старта.</td></tr>
+            <tr><td><b>The Riverglades</b></td><td>30–45</td><td>Восточные королевства. 150+ новых квестов, нейтральный гоблинский порт и открытое подземелье Krol'dok Stronghold. Закрывает диапазон, где прокачка в Classic традиционно провисает сильнее всего.</td></tr>
+            <tr><td><b>Mount Hyjal</b></td><td>Финальная прокачка</td><td>Ведёт напрямую в рейд Hyjal Summit. Последний отрезок до 60-го и первый путь к допуску в рейд в одной локации.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size:13px;color:var(--ink-dim);margin:14px 0 0">В сумме по трём локациям Forever добавляет <b>1000 новых квестов, распределённых по всему диапазону 1–60</b>, а не сваленных в эндгейм. Это главное изменение в прокачке: в старых «мёртвых зонах» теперь есть контент.</p>
+    </div>
+
+    <div class="card">
+      <h3>Девять новых подземелий</h3>
+      <div class="grid3">
+        <div class="stat"><div class="stat-lab" style="margin:0"><b style="color:var(--ink)">Hall of Thanes</b></div></div>
+        <div class="stat"><div class="stat-lab" style="margin:0"><b style="color:var(--ink)">Ruins of Lordaeron</b></div></div>
+        <div class="stat"><div class="stat-lab" style="margin:0"><b style="color:var(--ink)">Excavation Site</b></div></div>
+        <div class="stat"><div class="stat-lab" style="margin:0"><b style="color:var(--ink)">City of Dalaran</b></div></div>
+        <div class="stat"><div class="stat-lab" style="margin:0"><b style="color:var(--ink)">Blackmaw Hold</b></div></div>
+        <div class="stat"><div class="stat-lab" style="margin:0"><b style="color:var(--ink)">The Drowned City</b></div></div>
+        <div class="stat"><div class="stat-lab" style="margin:0"><b style="color:var(--ink)">Krol'dok Stronghold</b></div></div>
+        <div class="stat"><div class="stat-lab" style="margin:0"><b style="color:var(--ink)">Alcaz Prison</b></div></div>
+        <div class="stat"><div class="stat-lab" style="margin:0"><b style="color:var(--ink)">Shaper's Terrace</b></div></div>
+      </div>
+      <p style="font-size:13px;color:var(--ink-dim);margin:16px 0 0">Диапазоны уровней и таблицы добычи по каждому — <span class="tag">TBD</span>, пока до них не дойдёт тестирование. Из-за ограничения беты 30-м уровнем большинство останется неувиденным до недели релиза.</p>
+    </div>
+
+    <div class="card">
+      <h3>Рейды и PvP</h3>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Контент</th><th>Размер</th><th>Открытие</th></tr></thead>
+          <tbody>
+            <tr><td><b>Barrow Deeps</b></td><td>10 игроков</td><td>9 декабря 2026</td></tr>
+            <tr><td><b>Hyjal Summit</b></td><td>20 игроков</td><td>9 декабря 2026</td></tr>
+            <tr><td><b>Onyxia's Lair</b></td><td>40 игроков</td><td>9 декабря 2026</td></tr>
+            <tr><td><b>Darkspear Islands</b></td><td>Поле боя</td><td>Новое поле боя <span class="tag">TBD</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note" style="margin-top:16px;margin-bottom:0">Между стартом и первой волной рейдов у вас <b>35 дней</b>. Это и есть настоящий дедлайн, а не 4 ноября. Рейд на 10 человек как входная ступень означает, что малые гильдии и компании друзей жизнеспособны так, как никогда не позволяла стена из 40 человек в Classic.</div>
+    </div>
+
+    <div class="card">
+      <h3>Системы, которые меняют то, как вы играете</h3>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Система</th><th>Что делает</th><th>Почему это важно вам</th></tr></thead>
+          <tbody>
+            <tr><td><b>Система Наследия</b> <span class="tag new">Новое</span></td><td>Очки Наследия начисляются за достижения — прокачку классов, вехи в профессиях — и тратятся в трёх ветках: <b>Приключения</b>, <b>Профессии</b>, <b>Находчивость</b>.</td><td>Прогресс на весь аккаунт в игре ванильного образца. Каждое очко, заработанное основным персонажем, ускоряет всех будущих. Дешёвые узлы «Приключений» берите первыми.</td></tr>
+            <tr><td><b>Узел талантов на 16 очках</b> <span class="tag new">Новое</span></td><td>Новый крупный талант добавляется к существующим узлам на 11, 21 и 31 очке в каждой ветке.</td><td>Классические билды для прокачки больше не оптимальны. Во всех гайдах, написанных до сентября 2026, неверный порядок вложения очков.</td></tr>
+            <tr><td><b>Бонусы профессий</b> <span class="tag new">Новое</span></td><td>Каждая основная профессия даёт бонус персонажу, который её изучил, — в Classic такого не было.</td><td>Крафтовые профессии теперь выгоднее держать на основном персонаже, а не сбрасывать на банковского альта.</td></tr>
+            <tr><td><b>Лагеря</b> <span class="tag new">Новое</span></td><td>Костры в открытом мире; профессии позволяют делать баффы для всех, кто в лагере.</td><td>Групповые баффы прямо в поле и социальная петля, которая вознаграждает игру рядом с другими людьми, а не в обход них.</td></tr>
+            <tr><td><b>Переключатель SD / HD</b></td><td>Смена моделей персонажей между оригинальными и обновлёнными.</td><td>Чистое дело вкуса — но настройка на каждого персонажа, так что решайте до того, как привыкнете.</td></tr>
+            <tr><td><b>Максимум 60-го уровня навсегда</b></td><td>Forever развивается патчами, а не дополнениями. Работает параллельно с обычным WoW и Classic, не заменяя ни один из них.</td><td>Экипировка и репутация не обесценятся дополнением через два года. Вложения вдолгую здесь действительно имеют смысл.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Skyborne — кратко</h3>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Параметр</th><th>Подтверждено</th></tr></thead>
+          <tbody>
+            <tr><td><b>Тип расы</b></td><td>Нейтральная эльфийская раса — фракция выбирается при создании персонажа</td></tr>
+            <tr><td><b>Классы</b></td><td>Воин, охотник, разбойник, друид, плюс <b>маг</b> (Альянс) или <b>шаман</b> (Орда)</td></tr>
+            <tr><td><b>Walk on Air</b></td><td>Активная — планирование вниз в течение 10 секунд</td></tr>
+            <tr><td><b>Wind Blessed</b></td><td>Пассивная — +1% к скорости ближнего боя, дальнего боя и заклинаний</td></tr>
+            <tr><td><b>Elemental Insight</b></td><td>Пассивная — +5% урона по элементалям</td></tr>
+            <tr><td><b>Read Ley Line</b> (Альянс)</td><td>+100% к восстановлению здоровья и маны</td></tr>
+            <tr><td><b>Skysight</b> (Орда)</td><td>+10% к скорости бега</td></tr>
+            <tr><td><b>Стартовая зона</b></td><td>Zephras Isle, уровни 1–12</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note" style="margin-top:16px;margin-bottom:0"><b>Честно о расовых способностях:</b> +10% к скорости бега у Skysight — сильнейшая из пяти для прокачки и мир-PvP, потому что скорость передвижения накапливается за сотни часов. Восстановление у Read Ley Line вдвое сокращает простой и важнее всего классам на мане без питомца. Wind Blessed с его +1% мал, но универсален. Ни одна из них не настолько сильна, чтобы Skyborne была обязательной, — в этом и смысл честного ответа на шаге 2.</div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="wrap">
+  <p><b>Forever: план старта</b> — неофициальный фанатский инструмент для планирования.</p>
+  <p>Не связан с Blizzard Entertainment, Inc., не поддерживается и не спонсируется ею. World of Warcraft — торговая марка Blizzard Entertainment, Inc. Все названия, цены и даты взяты из анонсов BlizzCon 2026 и публичных материалов и могут измениться до релиза — актуальные цены всегда проверяйте в официальном магазине.</p>
+  <p>Ваши ответы и прогресс по чек-листу хранятся только в этом браузере. Никуда не отправляются.</p>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  var LAUNCH = new Date("2026-11-04T15:00:00Z");
+  var BETA   = new Date("2026-09-17T17:00:00Z");
+  var RAIDS  = new Date("2026-12-09T15:00:00Z");
+  var KEY    = "flk.ru.v1";
+
+  var store = {};
+  try { store = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch(e){ store = {}; }
+  function save(){ try { localStorage.setItem(KEY, JSON.stringify(store)); } catch(e){} }
+
+  function $(s,r){ return (r||document).querySelector(s); }
+  function $$(s,r){ return Array.prototype.slice.call((r||document).querySelectorAll(s)); }
+
+  /* склонение русских существительных при числах */
+  function plural(n, one, few, many){
+    var n10 = n % 10, n100 = n % 100;
+    if (n10 === 1 && n100 !== 11) return one;
+    if (n10 >= 2 && n10 <= 4 && (n100 < 12 || n100 > 14)) return few;
+    return many;
+  }
+
+  var MONTHS = ["янв","фев","мар","апр","мая","июн","июл","авг","сен","окт","ноя","дек"];
+  function shortDate(d){ return d.getDate() + " " + MONTHS[d.getMonth()]; }
+
+  /* ---------- таймер ---------- */
+  function tick(){
+    var now = new Date();
+    var target = LAUNCH;
+    var label = "до запуска <b>World of Warcraft: Forever</b> — 4 ноября 2026";
+    var badge = "До старта";
+
+    if (now < BETA){
+      var d = Math.ceil((BETA-now)/86400000);
+      badge = "Бета через " + d + " " + plural(d,"день","дня","дней");
+    } else if (now < LAUNCH){
+      badge = "Бета идёт · кап 30";
+    } else if (now < RAIDS){
+      target = RAIDS; badge = "Игра запущена";
+      label = "до первой волны рейдов — <b>Barrow Deeps</b>, <b>Hyjal Summit</b> и <b>Onyxia's Lair</b>, 9 декабря";
+    } else {
+      target = null; badge = "Рейды открыты";
+      label = "Forever запущен, рейды открыты. Вперёд.";
+    }
+
+    $("#phaseBadge").textContent = badge;
+    $("#cdNote").innerHTML = label;
+
+    var dd=0,hh=0,mm=0,ss=0;
+    if (target){
+      var diff = Math.max(0, target - now);
+      dd = Math.floor(diff/86400000);
+      hh = Math.floor(diff/3600000)%24;
+      mm = Math.floor(diff/60000)%60;
+      ss = Math.floor(diff/1000)%60;
+    }
+    $("#cdD").textContent = dd;
+    $("#cdH").textContent = String(hh).padStart(2,"0");
+    $("#cdM").textContent = String(mm).padStart(2,"0");
+    $("#cdS").textContent = String(ss).padStart(2,"0");
+
+    var left = Math.max(0, Math.ceil((LAUNCH - now)/86400000));
+    var pl = $("#prepLeft"); if (pl) pl.textContent = left;
+  }
+  tick(); setInterval(tick, 1000);
+
+  /* ---------- вкладки ---------- */
+  $$(".tab").forEach(function(t){
+    t.addEventListener("click", function(){
+      $$(".tab").forEach(function(x){ x.setAttribute("aria-selected","false"); });
+      t.setAttribute("aria-selected","true");
+      $$("main > section").forEach(function(sec){ sec.hidden = (sec.id !== t.dataset.panel); });
+      window.scrollTo({top:0, behavior:"smooth"});
+    });
+  });
+
+  /* ---------- группы кнопок ---------- */
+  function chipGroup(sel, multi, max, onChange){
+    var root = $(sel); if(!root) return;
+    root.addEventListener("click", function(e){
+      var b = e.target.closest(".chip"); if(!b) return;
+      var on = b.getAttribute("aria-pressed") === "true";
+      if (multi){
+        if (!on && max){
+          var cur = $$('.chip[aria-pressed="true"]', root);
+          if (cur.length >= max) cur[0].setAttribute("aria-pressed","false");
+        }
+        b.setAttribute("aria-pressed", on ? "false" : "true");
+      } else {
+        $$(".chip", root).forEach(function(x){ x.setAttribute("aria-pressed","false"); });
+        b.setAttribute("aria-pressed","true");
+      }
+      if (onChange) onChange();
+    });
+  }
+  function picked(sel){
+    var root = $(sel); if(!root) return [];
+    return $$('.chip[aria-pressed="true"]', root).map(function(b){ return b.dataset.v; });
+  }
+  function pickedOne(sel, dflt){ var p = picked(sel); return p.length ? p[0] : dflt; }
+
+  chipGroup("#goals", true, 2);
+  chipGroup("#role", false);
+  chipGroup("#faction", false);
+  chipGroup("#exp", false);
+
+  /* ---------- модель классов ---------- */
+  var CLASSES = [
+    { n:"Охотник",   fac:"both", roles:["ranged"],
+      s:{speed:5,solo:5,group:3,gold:5,pvp:4,chill:5}, diff:1,
+      why:"Самый быстрый и прощающий ошибки класс для прокачки. Питомец танкует, пить не нужно, а со всего убитого снимаются шкуры.",
+      tags:[["Быстрее всех до 60","good"],["Проще всего в игре","good"],["Класс популярный — конкуренция за шмот","warn"]] },
+    { n:"Чернокнижник", fac:"both", roles:["ranged"],
+      s:{speed:4,solo:5,group:4,gold:4,pvp:5,chill:4}, diff:4,
+      why:"Пустотник в роли танка делает его почти неубиваемым в одиночку, и это один из сильнейших классов в дуэлях на ванильных правилах.",
+      tags:[["Лучшая выживаемость соло","good"],["Силён в мир-PvP","good"],["Тяжёлые первые уровни","warn"]] },
+    { n:"Маг", fac:"both", roles:["ranged"],
+      s:{speed:4,solo:3,group:4,gold:5,pvp:4,chill:3}, diff:3,
+      why:"Порталы, вода и фарм по площади делают его самым «ликвидным» классом в любой ванильной экономике. В группы зовут всегда.",
+      tags:[["Больше всех зарабатывает","good"],["Всегда зовут в группу","good"],["Хрупкий при прокачке","warn"]] },
+    { n:"Разбойник", fac:"both", roles:["melee"],
+      s:{speed:4,solo:4,group:3,gold:5,pvp:5,chill:3}, diff:3,
+      why:"Незаметность превращает каждое подземелье в короткий путь, замки́ — это бесплатное золото, а в бою один на один он сильнейший в формате.",
+      tags:[["Лучший в дуэлях","good"],["Скрытность экономит часы","good"],["Сильно зависит от шмота","warn"]] },
+    { n:"Друид", fac:"both", roles:["tank","healer","melee","ranged"],
+      s:{speed:3,solo:4,group:4,gold:3,pvp:3,chill:5}, diff:5,
+      why:"Единственный класс, закрывающий любую роль в группе. Одна только форма странника стоит реального времени до маунта на 40-м.",
+      tags:[["Любая роль на одном персонаже","good"],["Бесплатная скорость","good"],["Сложнее всех в освоении","warn"]] },
+    { n:"Паладин", fac:"alliance", roles:["tank","healer","melee"],
+      s:{speed:3,solo:5,group:4,gold:4,pvp:3,chill:5}, diff:2,
+      why:"Крайне живучий, провалить игру за него почти невозможно. Самый безопасный выбор, если график непредсказуем.",
+      tags:[["Прощает ошибки","good"],["Хилов всегда зовут","good"],["Медленно убивает","warn"]] },
+    { n:"Шаман", fac:"horde", roles:["healer","melee","ranged"],
+      s:{speed:4,solo:4,group:4,gold:3,pvp:4,chill:4}, diff:3,
+      why:"Тотемы, самолечение и настоящий урон. Достаточно гибкий, чтобы сменить роль без перекача заново.",
+      tags:[["Гибкая роль","good"],["Уверенно соло","good"],["Рано много ест ману","warn"]] },
+    { n:"Жрец", fac:"both", roles:["healer","ranged"],
+      s:{speed:2,solo:3,group:5,gold:3,pvp:3,chill:3}, diff:3,
+      why:"Самый востребованный хил в игре. Вы не будете ждать группу никогда — ни в какое время, ни на каком сервере.",
+      tags:[["Мгновенно зовут в группу","good"],["Критичен для рейда","good"],["Медленная прокачка соло","warn"]] },
+    { n:"Воин", fac:"both", roles:["tank","melee"],
+      s:{speed:2,solo:2,group:5,gold:2,pvp:4,chill:2}, diff:4,
+      why:"Мучительная прокачка в одиночку и доминирование на 60-м. Танк, которого не хватает каждой группе, и лучший ближний урон в рейдах.",
+      tags:[["Лучший в эндгейме","good"],["Танки не ждут группу","good"],["Самая тяжёлая прокачка","warn"]] }
+  ];
+
+  var SKYBORNE_CLASSES = ["Воин","Охотник","Разбойник","Друид","Маг","Шаман"];
+
+  function scoreClasses(cfg){
+    var goals = cfg.goals.length ? cfg.goals : ["speed"];
+    var weights = [1, 0.65];
+
+    return CLASSES.map(function(c){
+      var sc = 0, wsum = 0;
+      goals.forEach(function(g,i){
+        var w = weights[i] || 0.5;
+        sc += (c.s[g] || 3) * 10 * w;
+        wsum += w;
+      });
+      sc = sc / wsum;
+
+      var allAvg = (c.s.speed + c.s.solo + c.s.group + c.s.gold + c.s.pvp + c.s.chill) / 6;
+      sc += allAvg * 1.2;
+
+      if (cfg.exp === "new") sc += (6 - c.diff) * 3.2;
+      if (cfg.exp === "vet") sc += c.diff * 1.4;
+      if (cfg.hw < 12) sc += (c.s.solo - 3) * 2.6;
+      if (cfg.hw > 35) sc += (c.s.group - 3) * 2.2;
+
+      return { c:c, score:sc };
+    })
+    .filter(function(r){
+      var c = r.c;
+      if (cfg.faction !== "any" && c.fac !== "both" && c.fac !== cfg.faction) return false;
+      if (cfg.role !== "any" && c.roles.indexOf(cfg.role) < 0) return false;
+      return true;
+    })
+    .sort(function(a,b){ return b.score - a.score; });
+  }
+
+  var ROLE_LABEL = { tank:"танка", healer:"хила", melee:"ближнего боя", ranged:"дальнего боя" };
+
+  function renderPicks(ranked, cfg){
+    var top = ranked.slice(0,4);
+    var max = top[0].score;
+
+    var parts = [];
+    if (cfg.role !== "any") parts.push("классы для роли " + ROLE_LABEL[cfg.role]);
+    if (cfg.faction !== "any") parts.push(cfg.faction === "horde" ? "Орда" : "Альянс");
+    var note = parts.length
+      ? '<p style="font-size:13px;color:var(--ink-faint);margin:0 0 14px">Отобраны: ' + parts.join(" · ")
+        + ' — подходят ' + ranked.length + ' из 9 классов.</p>'
+      : '';
+
+    var prevFit = 100;
+    $("#picks").innerHTML = note + top.map(function(r,i){
+      var c = r.c;
+      var fit = Math.round(Math.min(97, 58 + (r.score / max) * 39));
+      if (fit >= prevFit) fit = prevFit - 1;
+      prevFit = fit;
+
+      var fac = c.fac === "both" ? "Любая фракция"
+              : c.fac === "alliance" ? "Только Альянс" : "Только Орда";
+      var sky = SKYBORNE_CLASSES.indexOf(c.n) >= 0;
+      var tags = c.tags.map(function(t){ return '<span class="tag '+t[1]+'">'+t[0]+'</span>'; }).join("");
+      if (sky) tags += '<span class="tag new">Доступен для Skyborne</span>';
+      return '<div class="pick'+(i===0?' top':'')+'">'
+        + '<div class="rank">'+(i+1)+'</div>'
+        + '<div class="pick-body">'
+        +   '<div class="pick-name">'+c.n+' <span>· '+fac+'</span></div>'
+        +   '<div class="score">совпадение '+fit+'%</div>'
+        +   '<p class="pick-why">'+c.why+'</p>'
+        +   '<div class="tags">'+tags+'</div>'
+        + '</div></div>';
+    }).join("");
+  }
+
+  function renderSkyborne(ranked, cfg){
+    var best = ranked[0].c.n;
+    var can = SKYBORNE_CLASSES.indexOf(best) >= 0;
+    var fac = cfg.faction;
+    var racial = fac === "horde"
+      ? "<b>Skysight</b> (+10% к скорости бега) — сильнейшая расовая способность Skyborne для прокачки и мир-PvP, потому что скорость передвижения накапливается за каждый сыгранный час."
+      : fac === "alliance"
+      ? "<b>Read Ley Line</b> (+100% к восстановлению здоровья и маны) — вдвое сокращает простой между боями, что ценнее всего классам на мане без питомца."
+      : "У Skyborne Альянса — <b>Read Ley Line</b> (+100% к восстановлению здоровья и маны), у Орды — <b>Skysight</b> (+10% к скорости бега). Для прокачки Skysight полезнее.";
+
+    var html;
+    if (can){
+      html = '<div class="verdict">'
+        + '<div class="kicker">Вывод</div>'
+        + '<div class="verdict-main">Skyborne доступна для класса «'+best+'»</div>'
+        + '<p class="verdict-sub">Ваш главный вариант входит в шестёрку классов, доступных Skyborne, так что пак с расой — реальная опция, а не тупик. '+racial+'</p>'
+        + '</div>'
+        + '<p style="font-size:13.5px;color:var(--ink-dim);margin:14px 0 0">Покупка всё равно необязательна. На <b>шаге 2</b> смотрите, стоят ли $30–60 того именно в вашем случае, — и помните, что Zephras Isle будет самой забитой локацией 4 ноября, а это прямо противоречит цели «быстро дойти до 60».</p>';
+    } else {
+      html = '<div class="verdict" style="border-color:var(--line2);background:var(--panel2)">'
+        + '<div class="kicker">Вывод</div>'
+        + '<div class="verdict-main">Skyborne не может играть за класс «'+best+'»</div>'
+        + '<p class="verdict-sub">Skyborne ограничена воином, охотником, разбойником, друидом, плюс магом у Альянса или шаманом у Орды. Вашего лучшего класса в этом списке нет, поэтому для основного персонажа пак с расой не даёт ничего.</p>'
+        + '</div>'
+        + '<p style="font-size:13.5px;color:var(--ink-dim);margin:14px 0 0">Сэкономьте деньги или считайте это покупкой под будущего альта. Ничего из основного контента Forever за расой не заперто.</p>';
+    }
+    $("#skyborne").innerHTML = html;
+  }
+
+  /* ---------- модель прокачки ---------- */
+  var CURVE = [
+    [10,4],[20,12],[30,24],[40,45],[45,60],[50,80],[55,105],[58,122],[60,140]
+  ];
+  function hoursTo60(cfg){
+    var base = 140;
+    if (cfg.exp === "new") base *= 1.5;
+    if (cfg.exp === "vet") base *= 0.78;
+    if (cfg.goals.indexOf("speed") >= 0) base *= 0.88;
+    if (cfg.goals.indexOf("chill") >= 0) base *= 1.35;
+    if (cfg.goals.indexOf("gold") >= 0) base *= 1.12;
+    return base;
+  }
+  function levelAtHours(h, cfg){
+    var mult = hoursTo60(cfg) / 140;
+    var prevL = 1, prevH = 0;
+    for (var i=0;i<CURVE.length;i++){
+      var L = CURVE[i][0], H = CURVE[i][1] * mult;
+      if (h < H){
+        var t = (h - prevH) / (H - prevH || 1);
+        return Math.max(1, Math.round(prevL + t * (L - prevL)));
+      }
+      prevL = L; prevH = H;
+    }
+    return 60;
+  }
+
+  function renderStats(cfg){
+    var total = hoursTo60(cfg);
+    var weeks = total / Math.max(1, cfg.hw);
+    var d1 = levelAtHours(cfg.h1, cfg);
+    var sixty = new Date(LAUNCH.getTime() + weeks * 7 * 86400000);
+    var raidDays = Math.round((RAIDS - sixty) / 86400000);
+
+    var verdict;
+    if (raidDays >= 14){
+      verdict = ["С запасом", "Вы выходите на 60-й за " + raidDays + " " + plural(raidDays,"день","дня","дней")
+        + " до открытия рейдов — этого хватит на пред-рейдовый шмот и репутацию."];
+    } else if (raidDays >= 0){
+      verdict = ["Впритык", "Вы выходите на 60-й примерно за " + raidDays + " " + plural(raidDays,"день","дня","дней")
+        + " до открытия рейдов. Успеваете, но собирать шмот придётся до последнего дня."];
+    } else {
+      var lateD = Math.abs(raidDays);
+      verdict = ["Не успеваете", "Вы выходите на 60-й примерно через " + lateD + " "
+        + plural(lateD,"день","дня","дней") + " после открытия рейдов. Для спокойной игры это нормально — "
+        + "просто не рассчитывайте на место в рейде первой недели."];
+    }
+
+    $("#planStats").innerHTML = ''
+      + '<div class="stat"><div class="stat-num">'+Math.round(total)+' ч</div><div class="stat-lab">Оценка /played до 60-го</div></div>'
+      + '<div class="stat"><div class="stat-num">'+d1+'</div><div class="stat-lab">Уровень к концу дня старта</div></div>'
+      + '<div class="stat"><div class="stat-num">'+weeks.toFixed(1)+'</div><div class="stat-lab">Недель до 60-го в вашем темпе</div></div>'
+      + '<div class="stat"><div class="stat-num">'+shortDate(sixty)+'</div><div class="stat-lab">Прогноз даты выхода на 60-й</div></div>'
+      + '<div class="stat" style="grid-column:1/-1;border-color:var(--gold-dim);background:linear-gradient(145deg,rgba(216,174,95,.1),var(--panel2))">'
+      +   '<div class="stat-num" style="font-size:18px">'+verdict[0]+' к открытию рейдов 9 декабря</div>'
+      +   '<div class="stat-lab">'+verdict[1]+'</div></div>';
+  }
+
+  /* ---------- расписание дня старта ---------- */
+  var PRE = [
+    ["−60 мин","Обновить и проверить клиент","Не надо обнаруживать закачку на 12 ГБ в момент старта. Запустите игру полностью один раз накануне вечером."],
+    ["−45 мин","Обновить все аддоны и зайти в игру один раз","Аддоны, написанные под Classic, сломаются об новый узел талантов и интерфейс Наследия в Forever. Убедитесь, что всё грузится чисто, пока это ничего не стоит."],
+    ["−30 мин","Записать пять имён персонажа","Серверы заполняются быстрее всего в первый час. Выбирать имя на экране создания — самые дорогие десять минут дня."],
+    ["−20 мин","Настроить бинды и интерфейс на существующем персонаже","Мышечная память переносится. Перестройка панелей на 3-м уровне — нет."],
+    ["−10 мин","Еда, вода, Discord, телефон на беззвучный","Первый непрерывный отрезок ценнее любого последующего: мир ещё пустой, а за квестовых мобов почти нет конкуренции."],
+    ["0","Встать в очередь заранее","Заходите до точного времени открытия. Очередь работает по принципу «кто первым встал», и на старте это самая важная переменная, на которую вы влияете."]
+  ];
+
+  function renderTimelines(cfg){
+    $("#tlPre").innerHTML = PRE.map(function(p){
+      return '<div class="tl-item"><div class="tl-time">'+p[0]+'</div><div class="tl-title">'+p[1]+'</div><div class="tl-desc">'+p[2]+'</div></div>';
+    }).join("");
+
+    var h = cfg.h1;
+    var speed = cfg.goals.indexOf("speed") >= 0;
+    var goldGoal = cfg.goals.indexOf("gold") >= 0;
+    var chill = cfg.goals.indexOf("chill") >= 0;
+    var blocks = [];
+
+    blocks.push([fmtH(0), "Очередь, создание персонажа, в путь",
+      "Имя уже выбрано. Вступительный ролик — пропустить. Единственная задача первых двадцати минут: оказаться в мире, пока остальные ещё на экране создания персонажа."]);
+
+    var marks = [
+      [0.25*h, "Первый квестовый хаб зачищен",
+        "Берите все квесты в хабе до того, как сдавать хоть один. Сдача пачкой — самый крупный прирост опыта в час из доступных, и он ничего не стоит."],
+      [0.5*h, "Сумки, торговец и первая настоящая развилка",
+        goldGoal
+          ? "Берите собирательские профессии сейчас — вы выбрали золото как цель, а первые дни свежего сервера это момент, когда сырьё стоит дороже всего, что будет потом."
+          : "Профессии пока пропустите. Каждый крюк к учителю в день старта стоит больше, чем приносит, а взять их можно в любой момент."],
+      [0.72*h, "Вторая локация, отдохнувший опыт горит",
+        "Уходите дальше до того, как квесты в первой локации станут серыми. Пересидеть в зоне — самый частый способ незаметно потерять час даже для опытных игроков."],
+      [0.9*h, speed ? "Дожать до круглого уровня" : "Заход в банк и разбор сумок",
+        speed
+          ? "Не останавливайтесь на середине уровня. Добить уровень перед выходом ценнее, чем сон, который вы на это меняете: первый квест нового этапа всегда самый медленный."
+          : "Разберите сумки, зелёные вещи кладите в банк, а не торговцу — экономика свежего сервера пустая, и цены на зелёные вещи для прокачки на пике именно в первую неделю."]
+    ];
+    marks.forEach(function(m){ blocks.push([fmtH(m[0]), m[1], m[2]]); });
+
+    blocks.push([fmtH(h), "Выход из игры — в таверне",
+      "К концу дня вы будете примерно на " + levelAtHours(h, cfg) + "-м уровне. Выход в любом другом месте выбрасывает отдохнувший опыт, а при графике "
+      + cfg.hw + " ч в неделю это примерно целый уровень за ближайшую неделю."]);
+
+    if (chill){
+      blocks.splice(2, 0, [fmtH(0.38*h), "Посмотреть новые локации",
+        "Вы выбрали игру без спешки — значит, сверните с маршрута. Тысяча новых квестов распределена по всему диапазону 1–60, и те, что ещё никто не разобрал, — единственный по-настоящему новый контент WoW за десятилетие."]);
+    }
+
+    $("#tlDay").innerHTML = blocks.map(function(b,i){
+      return '<div class="tl-item'+(i===0?' now':'')+'"><div class="tl-time">'+b[0]+'</div><div class="tl-title">'+b[1]+'</div><div class="tl-desc">'+b[2]+'</div></div>';
+    }).join("");
+  }
+  function fmtH(x){
+    var hh = Math.floor(x), mm = Math.round((x-hh)*60/15)*15;
+    if (mm === 60){ hh += 1; mm = 0; }
+    return "Час " + hh + (mm ? ":"+String(mm).padStart(2,"0") : ":00");
+  }
+
+  /* ---------- сборка ---------- */
+  function readCfg(){
+    return {
+      goals:   picked("#goals"),
+      role:    pickedOne("#role","any"),
+      faction: pickedOne("#faction","any"),
+      exp:     pickedOne("#exp","some"),
+      h1:      +$("#h1").value,
+      hw:      +$("#hw").value
+    };
+  }
+
+  function build(){
+    var cfg = readCfg();
+    if (!cfg.goals.length){
+      $('#goals .chip[data-v="speed"]').setAttribute("aria-pressed","true");
+      cfg.goals = ["speed"];
+    }
+    var ranked = scoreClasses(cfg);
+    renderPicks(ranked, cfg);
+    renderSkyborne(ranked, cfg);
+    renderStats(cfg);
+    renderTimelines(cfg);
+    renderGold();
+    $("#planOut").hidden = false;
+    store.cfg = cfg; save();
+  }
+
+  $("#h1").addEventListener("input", function(){ $("#h1out").textContent = this.value; });
+  $("#hw").addEventListener("input", function(){ $("#hwout").textContent = this.value; });
+  $("#build").addEventListener("click", function(){
+    build();
+    $("#planOut").scrollIntoView({behavior:"smooth", block:"start"});
+  });
+  $("#reset").addEventListener("click", function(){
+    store = {}; save();
+    location.reload();
+  });
+
+  /* ---------- помощник по изданиям ---------- */
+  chipGroup("#q_sky", false, 0, edVerdict);
+  chipGroup("#q_beta", false, 0, edVerdict);
+  chipGroup("#q_cos", false, 0, edVerdict);
+
+  function edVerdict(){
+    var sky = pickedOne("#q_sky",""), beta = pickedOne("#q_beta",""), cos = pickedOne("#q_cos","");
+    if (!sky || !beta || !cos){ $("#edVerdict").innerHTML = ""; return; }
+
+    var title, body;
+    if (sky === "no" && beta === "no"){
+      title = "Не покупайте ничего";
+      body = "Вам не нужна раса и не нужна бета. Все локации, подземелья, рейды, система Наследия и новое поле боя приходят с обычной подпиской 4 ноября. Тратить деньги здесь — значит покупать косметику, которая вам, по вашим же словам, не важна.";
+      if (cos === "yes") body = "Вам не нужна раса и не нужна бета, так что обязательного тут ничего нет. Если вы коллекционируете, то маунт, питомцы и трансмог из Epic Pack — единственная причина платить. Считайте это покупкой косметики за $60 и оценивайте как косметику, а не как усиление в игре.";
+    } else if (sky !== "no" && beta === "yes"){
+      title = "Skyborne Epic Pack — $59.99";
+      body = "Решает доступ к бете: он есть только в Epic Pack и в Collection, а Epic Pack на $20 дешевле. Плюс 30 дней игрового времени, которые возвращают примерно $15 из этой суммы. Брать Collection за $79.99 стоит, только если вам нужно содержимое более широкого набора Warcraft само по себе.";
+    } else if (sky === "yes" && beta === "no"){
+      title = "Пак с расой Skyborne — около $29.99";
+      body = "Вам нужен эльф, а не бета. Отдельный пак с расой — самый дешёвый путь к нему. Доплата в $30 за Epic Pack покупает бету и косметику, но бета ограничена 30-м уровнем и ничего не расскажет вам про эндгейм, к которому вы готовитесь.";
+    } else if (sky === "maybe" && beta === "no"){
+      title = "Подождите — пока не покупайте ничего";
+      body = "«Может быть, позже» — правильное чутьё. Раса никуда не денется, и купить её можно после старта, когда вы увидите Skyborne в игре на своём сервере. Всё остальное закрывает подписка. Решение в декабре не будет стоить вам ничего из того, что сэкономило бы решение сегодня.";
+    } else {
+      title = "Skyborne Epic Pack — $59.99";
+      body = "Доступ к бете есть только в Epic Pack и в Collection за $79.99, из них Epic Pack дешевле. Что стоит знать до покупки: бета ограничена 30-м уровнем, поэтому она полезна для выбора класса, а не для изучения эндгейма.";
+    }
+
+    $("#edVerdict").innerHTML = '<div class="verdict">'
+      + '<div class="kicker">Ваш ответ</div>'
+      + '<div class="verdict-main">'+title+'</div>'
+      + '<p class="verdict-sub">'+body+'</p></div>';
+  }
+
+  /* ---------- золото ---------- */
+  chipGroup("#gph", false, 0, renderGold);
+  $("#gshare").addEventListener("input", function(){
+    $("#gshareout").textContent = this.value + "%";
+    renderGold();
+  });
+
+  function renderGold(){
+    var rate  = +pickedOne("#gph","18");
+    var share = +$("#gshare").value / 100;
+    var hw    = +$("#hw").value;
+    var gpw   = rate * hw * share;
+
+    var MOUNT = 100, EPIC = 1000, RAIDWK = 150;
+    function weeks(target){ return gpw > 0 ? target / gpw : Infinity; }
+    function when(w){
+      if (!isFinite(w)) return "—";
+      return shortDate(new Date(LAUNCH.getTime() + w * 7 * 86400000));
+    }
+    var wEpic = weeks(EPIC);
+    var covers = gpw >= RAIDWK;
+
+    $("#goldStats").innerHTML = ''
+      + '<div class="stat"><div class="stat-num">'+Math.round(gpw)+' з</div><div class="stat-lab">Золота в неделю в таком темпе</div></div>'
+      + '<div class="stat"><div class="stat-num">'+weeks(MOUNT).toFixed(1)+' нед</div><div class="stat-lab">До маунта за 100 з на 40-м</div></div>'
+      + '<div class="stat"><div class="stat-num">'+(isFinite(wEpic)?wEpic.toFixed(1)+" нед":"—")+'</div><div class="stat-lab">До эпического маунта за 1000 з</div></div>'
+      + '<div class="stat"><div class="stat-num">'+when(wEpic)+'</div><div class="stat-lab">Прогноз даты эпического маунта</div></div>'
+      + '<div class="stat" style="grid-column:1/-1;'+(covers?'border-color:var(--gold-dim);background:linear-gradient(145deg,rgba(216,174,95,.1),var(--panel2))':'')+'">'
+      +   '<div class="stat-num" style="font-size:17px">'+(covers ? 'На рейды хватает' : 'На рейдовые расходники не хватает')+'</div>'
+      +   '<div class="stat-lab">Неделя рейдов обходится примерно в 150 з на расходники и ремонт, когда 9 декабря откроются Barrow Deeps и Hyjal Summit. '
+      +   (covers
+          ? 'Вы это закрываете, и ещё ' + Math.round(gpw - RAIDWK) + ' з в неделю остаётся откладывать на эпического маунта.'
+          : 'Вам не хватает около ' + Math.round(RAIDWK - gpw) + ' з в неделю — увеличьте долю времени на фарм, перейдите на более доходное занятие или рассчитывайте на гильдию, которая частично покрывает расходники.')
+      +   '</div></div>';
+  }
+
+  /* ---------- чек-лист подготовки ---------- */
+  var PHASES = [
+    { id:"p1", when:"Сейчас — 17 сен", name:"Определиться и зафиксировать", items:[
+      "Пройти шаг 2 и решить, покупаете ли вы вообще что-нибудь",
+      "Если нужна бета — оформить предзаказ до 17 сентября, отдельно доступ к бете не продаётся",
+      "Установить или переустановить клиент сейчас, пока нет очереди на скачивание в день старта",
+      "Проверить, что подписка или игровое время реально покрывают 4 ноября",
+      "Выбрать тип сервера — PvE, PvP — и куда идут ваши друзья"
+    ]},
+    { id:"p2", when:"17 — 30 сен", name:"Разведка на бете", items:[
+      "Прокачать три кандидата до 10-го уровня и оставить тот, что приятнее в руках",
+      "Проверить новый узел талантов на 16 очках в каждой ветке — старые билды Classic теперь неверны",
+      "Если купили Skyborne — пройти Zephras Isle целиком и оценить расовые способности в бою",
+      "Попробовать лагеря и бонусы профессий — это новое и пока нигде не описано",
+      "Записать, какие аддоны ломаются, и найти замену до недели релиза"
+    ]},
+    { id:"p3", when:"1 — 14 окт", name:"Зафиксировать основного персонажа", items:[
+      "Окончательно: класс, раса, фракция. Хватит перекатываться — метания и есть главная цена",
+      "Записать пять имён и проверить, что они не очевидно занятые",
+      "Выбрать сервер и согласовать его со всеми, с кем собираетесь играть",
+      "Найти гильдию до старта, а не после — хорошие набирают состав в октябре",
+      "Спланировать связку профессий под вашу цель по золоту из шага 5"
+    ]},
+    { id:"p4", when:"15 — 28 окт", name:"Группа и настройка", items:[
+      "Собрать группу из 3–5 человек — стабильная группа для прокачки ценнее любого гайда",
+      "Настроить Discord, распределить роли, договориться, во сколько все заходят 4 ноября",
+      "Собрать интерфейс и бинды на живом персонаже, чтобы мышечная память уже была",
+      "Написать макросы заранее: фокус, цель цели, расходники в одну кнопку",
+      "Договориться, кто какую профессию берёт, чтобы группа закрывала свои нужды"
+    ]},
+    { id:"p5", when:"29 окт — 3 ноя", name:"Финальный заход", items:[
+      "Предзагрузить и один раз полностью запустить игру, чтобы догнать остатки патчей",
+      "Взять отгул. День старта стоит дороже пятого дня, и намного",
+      "Разобраться с бытом — еда, сон, все, кто может вас отвлечь",
+      "Ещё раз прочитать маршрут прокачки и держать его на втором экране",
+      "Проверить железо под нагрузкой — вылет на втором часу дня старта не отыграть"
+    ]},
+    { id:"p6", when:"4 ноября", name:"День старта", items:[
+      "Встать в очередь заранее — до времени открытия, а не в момент открытия",
+      "Идти по расписанию дня старта из шага 3",
+      "Сдавать квесты только пачками. Никогда по одному",
+      "Выходить из игры в таверне. Каждый раз, без исключений",
+      "Не перекатываться после третьего дня. Жалко потраченного — понятно, но новая единица на второй неделе хуже"
+    ]},
+    { id:"p7", when:"5 ноя — 9 дек", name:"Дорога к рейдам", items:[
+      "Выйти на 60-й минимум за две недели до 9 декабря",
+      "Собирать пред-рейдовый шмот в девяти новых подземельях по мере их открытия",
+      "Отложить 150 з в неделю на рейдовые расходники до первого захода, а не во время него",
+      "Тратить очки Наследия: сначала «Приключения» ради отдохнувшего опыта, потом «Находчивость» ради расходов на крафт",
+      "Обеспечить себе место в рейде в октябрьской гильдии, а не в декабрьской случайной группе"
+    ]}
+  ];
+
+  function renderPhases(){
+    store.chk = store.chk || {};
+    $("#phases").innerHTML = PHASES.map(function(p){
+      var items = p.items.map(function(txt,i){
+        var k = p.id+"_"+i;
+        var on = !!store.chk[k];
+        return '<label class="chk"><input type="checkbox" data-k="'+k+'"'+(on?" checked":"")+'><span>'+txt+'</span></label>';
+      }).join("");
+      return '<div class="phase" data-p="'+p.id+'">'
+        + '<button class="phase-head" type="button">'
+        +   '<div><div class="phase-when">'+p.when+'</div><div class="phase-name">'+p.name+'</div></div>'
+        +   '<div class="phase-meta"><div class="bar"><i style="width:0%"></i></div><div class="phase-pct">0%</div></div>'
+        + '</button>'
+        + '<div class="phase-body">'+items+'</div></div>';
+    }).join("");
+
+    $$(".phase-head").forEach(function(h){
+      h.addEventListener("click", function(){
+        var body = h.nextElementSibling;
+        body.hidden = !body.hidden;
+      });
+    });
+    $$('.chk input').forEach(function(cb){
+      cb.addEventListener("change", function(){
+        store.chk[cb.dataset.k] = cb.checked;
+        save(); updateProgress();
+      });
+    });
+    updateProgress();
+  }
+
+  function updateProgress(){
+    var total = 0, done = 0;
+    PHASES.forEach(function(p){
+      var el = $('.phase[data-p="'+p.id+'"]');
+      var n = p.items.length, d = 0;
+      p.items.forEach(function(_,i){ if (store.chk[p.id+"_"+i]) d++; });
+      total += n; done += d;
+      var pct = Math.round(d/n*100);
+      $(".bar i", el).style.width = pct + "%";
+      $(".phase-pct", el).textContent = pct + "%";
+    });
+    $("#prepPct").textContent = Math.round(done/total*100) + "%";
+    $("#prepDone").textContent = done + " / " + total;
+  }
+
+  /* ---------- восстановление ---------- */
+  function restore(){
+    var cfg = store.cfg;
+    if (!cfg) return;
+    function setGroup(sel, vals){
+      $$(sel + " .chip").forEach(function(b){
+        b.setAttribute("aria-pressed", vals.indexOf(b.dataset.v) >= 0 ? "true" : "false");
+      });
+    }
+    setGroup("#goals", cfg.goals || []);
+    setGroup("#role", [cfg.role]);
+    setGroup("#faction", [cfg.faction]);
+    setGroup("#exp", [cfg.exp]);
+    $("#h1").value = cfg.h1; $("#h1out").textContent = cfg.h1;
+    $("#hw").value = cfg.hw; $("#hwout").textContent = cfg.hw;
+    build();
+  }
+
+  renderPhases();
+  renderGold();
+  renderTimelines(readCfg());
+  restore();
+})();
+</script>
+</body>
+</html>
