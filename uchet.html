@@ -262,7 +262,7 @@ select.period{font:inherit;font-size:13.5px;font-weight:500;color:var(--ink);bac
     </div>
   </section>
 
-  <p class="note"><b id="build">сборка 6</b> · Всё сохраняется само — отдельной кнопки не нужно. Период идёт с 21-го по 21-е;
+  <p class="note"><b id="build">сборка 7</b> · Всё сохраняется само — отдельной кнопки не нужно. Период идёт с 21-го по 21-е;
     «Новый период» открывает следующий и переносит остаток в его начало.</p>
 </div>
 
@@ -436,6 +436,7 @@ function flushSave(){
     setSync("", "на этом устройстве");
   });
 }
+function clone(v){ try { return JSON.parse(JSON.stringify(v)); } catch(e){ return null; } }
 /* ключи от сервера приходят отсортированными — сравниваем одинаково */
 function canon(v){
   if(v === null || typeof v !== "object") return JSON.stringify(v);
@@ -462,7 +463,7 @@ function connectCloud(){
     setSync("saving", "подключаемся…");
     docRef.onSnapshot(function(snap){
       if(snap.exists){
-        var data = migrate(snap.data());
+        var data = migrate(clone(snap.data()));   /* снимок заморожен — только копия */
         if(!data) return;
         if(snap.metadata.hasPendingWrites){ setSync("cloud", "сохранено"); return; }
         var mine = (state && state.updatedAt) || "";
@@ -649,12 +650,27 @@ els.rows.addEventListener("input", function(ev){
   if(!row) return;
   var e = null;
   for(var i=0;i<state.entries.length;i++){ if(state.entries[i].id === row.dataset.id) e = state.entries[i]; }
-  if(!e) return;
-  var f = inp.dataset.f;
-  if(f === "note" || f === "date") e[f] = inp.value;
-  else e[f] = parseNum(inp.value);
-  renderDerived();
-  queueSave();
+  if(!e){ renderAll(); return; }          /* таблица разошлась с данными — пересобираем */
+  try {
+    var f = inp.dataset.f;
+    if(f === "note" || f === "date") e[f] = inp.value;
+    else e[f] = parseNum(inp.value);
+    renderDerived();
+    queueSave();
+  } catch(err){                            /* молча ввод больше не теряем */
+    state = clone(state) || state;
+    try {
+      var f2 = inp.dataset.f;
+      for(var j=0;j<state.entries.length;j++){
+        if(state.entries[j].id === row.dataset.id){
+          state.entries[j][f2] = (f2 === "note" || f2 === "date") ? inp.value : parseNum(inp.value);
+        }
+      }
+      renderDerived(); queueSave();
+    } catch(err2){
+      toast("Не удалось записать — обновите страницу", "", null);
+    }
+  }
 });
 els.rows.addEventListener("change", function(ev){
   if(ev.target.dataset && ev.target.dataset.f === "date") sortRows();
