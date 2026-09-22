@@ -110,24 +110,27 @@ select.period{font:inherit;font-size:13.5px;font-weight:500;color:var(--ink);bac
   padding:13px 16px;border-bottom:1px solid var(--rule)}
 .ledger-title{font-family:var(--display);font-weight:600;font-size:17px}
 .ledger-hint{font-size:12px;color:var(--ink-faint)}
+.ledger-sub{display:block;font-size:12px;color:var(--ink-faint);margin-top:3px}
 .scroll{overflow-x:auto}
-.grid{min-width:1010px}
+.grid{min-width:1026px}
 .row{display:grid;
   grid-template-columns:118px 100px 100px minmax(110px,1fr) 96px 112px 92px 106px 116px 32px;
-  align-items:stretch;border-bottom:1px solid var(--ruling);position:relative}
-.row::before{content:"";position:absolute;left:88px;top:0;bottom:0;width:1px;background:var(--margin);opacity:.5}
+  align-items:stretch;border-bottom:1px solid var(--ruling);position:relative;padding-left:6px}
+.row::before{content:"";position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--margin);opacity:.45}
 .row-head{position:sticky;top:env(safe-area-inset-top,0px);z-index:3;background:var(--card-2);
   border-bottom:1px solid var(--rule-strong)}
 .row-head .cell{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;
-  color:var(--ink-soft);padding:9px 10px;display:flex;align-items:center}
+  color:var(--ink-soft);padding:8px 12px;display:flex;align-items:center}
 .row-head .cell.num{justify-content:flex-end;text-align:right}
-.cell{padding:0;min-width:0}
+.cell{padding:3px;min-width:0}
 .cell.num{text-align:right}
 .cell-label{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
-.f{width:100%;font:inherit;font-size:14px;color:var(--ink);background:transparent;border:0;
-  border-radius:0;padding:9px 10px;min-height:40px}
-.f:hover{background:var(--brass-soft)}
-.f:focus{background:var(--field);outline:2px solid var(--brass);outline-offset:-2px;position:relative;z-index:2}
+.f{width:100%;font:inherit;font-size:14px;color:var(--ink);background:var(--field);
+  border:1px solid var(--field-line);border-radius:2px;padding:8px 9px;min-height:38px;
+  transition:border-color .12s,box-shadow .12s}
+.f:hover{border-color:var(--brass)}
+.f:focus{outline:2px solid var(--brass);outline-offset:-1px;border-color:var(--brass);
+  position:relative;z-index:2}
 .f.n{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right;letter-spacing:-.01em}
 .f.i:not(:placeholder-shown){color:var(--income)}
 .f.e:not(:placeholder-shown){color:var(--expense)}
@@ -135,12 +138,12 @@ select.period{font:inherit;font-size:13.5px;font-weight:500;color:var(--ink);bac
 .f::placeholder{color:var(--ink-faint);opacity:.5}
 .f.date{font-family:var(--mono);font-size:12.5px;letter-spacing:-.02em}
 .bal{font-family:var(--mono);font-size:14px;font-variant-numeric:tabular-nums;font-weight:500;
-  padding:9px 12px 9px 10px;display:flex;align-items:center;justify-content:flex-end;
+  padding:8px 9px;display:flex;align-items:center;justify-content:flex-end;
   background:var(--brass-soft);color:var(--ink)}
 .bal.neg{color:var(--expense)}
 .row.today{background:linear-gradient(var(--brass-soft),var(--brass-soft))}
 .row.today::after{content:"сегодня";position:absolute;left:4px;top:3px;font-family:var(--mono);
-  font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--brass)}
+  font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--brass);pointer-events:none}
 .del{background:none;border:0;color:var(--ink-faint);font-size:17px;line-height:1;cursor:pointer;
   padding:0;width:100%;border-radius:2px}
 .del:hover{color:var(--expense);background:var(--brass-soft)}
@@ -150,7 +153,7 @@ select.period{font:inherit;font-size:13.5px;font-weight:500;color:var(--ink);bac
 .row-open .spacer{grid-column:5/9}
 .row-open .tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-faint)}
 .row-total{background:var(--card-2);border-top:1px solid var(--rule-strong);border-bottom:0}
-.row-total .cell{padding:11px 10px;font-family:var(--mono);font-size:13.5px;font-variant-numeric:tabular-nums}
+.row-total .cell{padding:11px 12px;font-family:var(--mono);font-size:13.5px;font-variant-numeric:tabular-nums}
 .row-total .cell:first-child{font-family:var(--body);font-size:12px;letter-spacing:.09em;
   text-transform:uppercase;color:var(--ink-faint);font-weight:500}
 .row-total .t-bal{background:var(--brass-soft);font-weight:500}
@@ -179,9 +182,9 @@ select.period{font:inherit;font-size:13.5px;font-weight:500;color:var(--ink);bac
   .row-entry .c-del{position:absolute;top:6px;right:6px;width:32px}
   .cell-label{position:static;width:auto;height:auto;clip-path:none;display:block;text-align:left;
     font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;
-    color:var(--ink-faint);padding:6px 2px 0}
-  .f{padding:4px 2px 7px;border-bottom:1px solid var(--field-line);min-height:34px}
-  .f:focus{outline-offset:0;padding-inline:6px}
+    color:var(--ink-faint);padding:7px 4px 2px}
+  .f{padding:9px 10px;min-height:42px}
+  .f:focus{outline-offset:-1px}
   .bal{justify-content:space-between;margin-top:8px;padding:7px 9px;border-radius:2px}
   .bal::before{content:"Остаток";font-family:var(--body);font-size:11px;letter-spacing:.1em;
     text-transform:uppercase;color:var(--ink-faint);font-weight:400}
@@ -230,7 +233,10 @@ select.period{font:inherit;font-size:13.5px;font-weight:500;color:var(--ink);bac
 
   <section class="ledger">
     <div class="ledger-head">
-      <span class="ledger-title" id="ledgerTitle">Записи</span>
+      <span>
+        <span class="ledger-title" id="ledgerTitle">Записи</span>
+        <span class="ledger-sub">Нажмите на любое поле в рамке и впишите сумму — сохраняется само</span>
+      </span>
       <span class="ledger-hint">Остаток = предыдущий + доход − расход − долги − сбережения − Оля − Александр</span>
     </div>
     <div class="scroll">
@@ -476,7 +482,7 @@ function renderHead(){
   for(var i=0;i<COLS.length;i++){
     h += '<div class="cell' + (COLS[i].k === "note" ? "" : " num") + '">' + esc(COLS[i].name) + "</div>";
   }
-  els.head.innerHTML = h + '<div class="cell num">Остаток</div><div class="cell"></div>';
+  els.head.innerHTML = h + '<div class="cell num">Остаток · авто</div><div class="cell"></div>';
 }
 function renderOpen(){
   var p = activePeriod();
