@@ -6,7 +6,8 @@
 <title>Кассовая тетрадь</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@600;700&family=Inter:wght@400;500;600&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link id="gfonts" rel="stylesheet" media="print"
+  href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@600;700&family=Inter:wght@400;500;600&family=Roboto+Mono:wght@400;500&display=swap">
 <style>
 :root{
   color-scheme:light;
@@ -271,7 +272,6 @@ select.period{font:inherit;font-size:13.5px;font-weight:500;color:var(--ink);bac
       <span class="ctl" id="ledgerCtl">
         <select class="period" id="periodSel" aria-label="Период"></select>
         <button class="btn btn-primary" id="todayBtn" type="button">Сегодня</button>
-        <button class="btn" id="yestBtn" type="button">Вчера</button>
       </span>
       <span class="ctl" id="diaryCtl" hidden>
         <button class="btn" id="dPrev" type="button" aria-label="Предыдущий день">‹</button>
@@ -358,7 +358,7 @@ select.period{font:inherit;font-size:13.5px;font-weight:500;color:var(--ink);bac
     </datalist>
   </div>
 
-  <p class="note"><b id="build">сборка 10</b> · Всё сохраняется само — отдельной кнопки не нужно. Период идёт с 21-го по 21-е;
+  <p class="note"><b id="build">сборка 11</b> · Всё сохраняется само — отдельной кнопки не нужно. Период идёт с 21-го по 21-е;
     «Новый период» открывает следующий и переносит остаток в его начало.</p>
 </div>
 
@@ -723,7 +723,7 @@ function rowHTML(e){
 function renderRows(){
   var list = periodEntries();
   if(!list.length){
-    els.rows.innerHTML = '<div class="empty">Пока пусто. Нажмите «Сегодня» или «Вчера».</div>';
+    els.rows.innerHTML = '<div class="empty">Пока пусто. Нажмите «Сегодня».</div>';
     return;
   }
   var h = "";
@@ -871,7 +871,6 @@ els.sel.addEventListener("change", function(){
   renderAll(); queueSave();
 });
 document.getElementById("todayBtn").addEventListener("click", todayRow);
-document.getElementById("yestBtn").addEventListener("click", yesterdayRow);
 document.getElementById("addRow").addEventListener("click", addRow);
 document.getElementById("newPeriod").addEventListener("click", newPeriod);
 document.getElementById("delPeriod").addEventListener("click", deletePeriod);
@@ -891,7 +890,6 @@ function focusRow(id){
   if(row && row.scrollIntoView) row.scrollIntoView({ block:"center", behavior:"smooth" });
 }
 function todayRow(){ openDay(0); }
-function yesterdayRow(){ openDay(-1); }
 function openDay(off){
   var p = activePeriod(), dt = new Date();
   dt.setDate(dt.getDate() + off);
@@ -1227,6 +1225,9 @@ function showTab(which){
 }
 document.getElementById("tabLedger").addEventListener("click", function(){ showTab("ledger"); });
 document.getElementById("tabDiary").addEventListener("click", function(){ showTab("diary"); });
+
+var gf = document.getElementById("gfonts");   /* шрифты подключаем после запуска */
+if(gf) gf.media = "all";
 
 state = loadLocal() || defaultState();
 if(!state.diary) state.diary = [];
