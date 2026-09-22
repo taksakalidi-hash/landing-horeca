@@ -326,17 +326,23 @@ function esc(s){
 }
 function today(){ return iso(new Date()); }
 
+function blankRow(pid, date){
+  return { id:uid("r"), pid:pid, date:date, income:null, expense:null, note:"",
+           debts:null, savings:null, olya:null, alex:null };
+}
+/* текущий период 21 → 21 от сегодняшней даты */
+function currentStart(){
+  var n = new Date();
+  var y = n.getFullYear(), m = n.getMonth();
+  if(n.getDate() < 21){ m -= 1; if(m < 0){ m = 11; y -= 1; } }
+  return y + "-" + pad(m + 1) + "-21";
+}
 function defaultState(){
-  var from = "2026-09-21", pid = uid("p");
+  var from = currentStart(), pid = uid("p");
   return {
     v:2, activeId:pid,
     periods:[{ id:pid, from:from, to:addMonths(from,1), opening:0 }],
-    entries:[
-      { id:uid("r"), pid:pid, date:"2026-09-21", income:34000, expense:12000, note:"кофе",
-        debts:null, savings:2000, olya:null, alex:null },
-      { id:uid("r"), pid:pid, date:"2026-09-22", income:null, expense:797, note:"уточнить",
-        debts:null, savings:null, olya:null, alex:null }
-    ]
+    entries:[ blankRow(pid, today()) ]
   };
 }
 
@@ -633,9 +639,7 @@ document.getElementById("exportBtn").addEventListener("click", exportCSV);
 
 /* ---------- действия ---------- */
 function newRow(date){
-  var p = activePeriod();
-  var e = { id:uid("r"), pid:p.id, date:date, income:null, expense:null, note:"",
-            debts:null, savings:null, olya:null, alex:null };
+  var e = blankRow(activePeriod().id, date);
   state.entries.push(e);
   return e;
 }
