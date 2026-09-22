@@ -141,6 +141,8 @@ select.period{font:inherit;font-size:13.5px;font-weight:500;color:var(--ink);bac
   padding:8px 9px;display:flex;align-items:center;justify-content:flex-end;
   background:var(--brass-soft);color:var(--ink)}
 .bal.neg .bal-v{color:var(--expense)}
+.bal.blank{background:transparent;color:var(--ink-faint)}
+.bal.blank .bal-v{color:var(--ink-faint);font-weight:400}
 .bal-math{display:none}
 .f.bad{border-color:var(--expense);background:var(--field);box-shadow:inset 0 0 0 1px var(--expense)}
 .row.today{background:linear-gradient(var(--brass-soft),var(--brass-soft))}
@@ -262,7 +264,7 @@ select.period{font:inherit;font-size:13.5px;font-weight:500;color:var(--ink);bac
     </div>
   </section>
 
-  <p class="note"><b id="build">сборка 7</b> · Всё сохраняется само — отдельной кнопки не нужно. Период идёт с 21-го по 21-е;
+  <p class="note"><b id="build">сборка 9</b> · Всё сохраняется само — отдельной кнопки не нужно. Период идёт с 21-го по 21-е;
     «Новый период» открывает следующий и переносит остаток в его начало.</p>
 </div>
 
@@ -356,12 +358,24 @@ function currentStart(){
   if(n.getDate() < 21){ m -= 1; if(m < 0){ m = 11; y -= 1; } }
   return y + "-" + pad(m + 1) + "-21";
 }
+function nextDay(isoStr){
+  var d = parseISO(isoStr);
+  if(!d) return isoStr;
+  d.setDate(d.getDate() + 1);
+  return iso(d);
+}
+/* по строке на каждый день периода, с 21-го по 21-е включительно */
+function fillDays(pid, from, to){
+  var out = [], d = from, guard = 0;
+  while(d <= to && guard++ < 400){ out.push(blankRow(pid, d)); d = nextDay(d); }
+  return out;
+}
 function defaultState(){
   var from = currentStart(), pid = uid("p");
   return {
     v:2, activeId:pid,
     periods:[{ id:pid, from:from, to:addMonths(from,1), opening:0 }],
-    entries:[ blankRow(pid, today()) ]
+    entries: fillDays(pid, from, addMonths(from, 1))
   };
 }
 
@@ -409,12 +423,14 @@ function loadLocal(){
 }
 
 var docRef = null, saveTimer = 0, writing = false, dirty = false, seeded = false;
+var pendingLocal = false;   /* есть свои правки, ещё не подтверждённые облаком */
 var syncEl = document.getElementById("sync");
 function setSync(mode, text){
   if(mode) syncEl.dataset.state = mode; else syncEl.removeAttribute("data-state");
   syncEl.textContent = text;
 }
 function queueSave(){
+  pendingLocal = true;
   state.updatedAt = new Date().toISOString();
   saveLocal();
   if(!docRef) return;
@@ -430,7 +446,8 @@ function flushSave(){
   if(!body.updatedAt) body.updatedAt = new Date().toISOString();
   docRef.set(body).then(function(){
     writing = false;
-    if(dirty) flushSave(); else setSync("cloud", "сохранено");
+    if(dirty){ flushSave(); }
+    else { pendingLocal = false; setSync("cloud", "сохранено"); }
   }).catch(function(){
     writing = false;
     setSync("", "на этом устройстве");
@@ -466,6 +483,9 @@ function connectCloud(){
         var data = migrate(clone(snap.data()));   /* снимок заморожен — только копия */
         if(!data) return;
         if(snap.metadata.hasPendingWrites){ setSync("cloud", "сохранено"); return; }
+        if(pendingLocal){            /* свои правки ещё не сохранены — они главнее часов */
+          dirty = true; flushSave(); return;
+        }
         var mine = (state && state.updatedAt) || "";
         var theirs = data.updatedAt || "";
         if(mine && theirs < mine){        /* наша копия свежее — отправляем её, не затираем */
@@ -498,6 +518,14 @@ function compute(){
     byId[e.id] = bal;
   }
   return { totals:t, closing:bal, byId:byId, before:before, count:list.length };
+}
+/* в дне что-то записано? */
+function hasValues(e){
+  for(var i=0;i<MONEY.length;i++){
+    var v = e[MONEY[i]];
+    if(v !== null && v !== undefined && v !== "") return true;
+  }
+  return false;
 }
 function outSum(e){
   var v = 0;
@@ -598,9 +626,11 @@ function renderDerived(){
     var node = document.getElementById("bal-" + list[i].id);
     if(node){
       var v = c.byId[list[i].id];
+      var filled = hasValues(list[i]);
       var vEl = node.querySelector(".bal-v");
-      if(vEl) vEl.textContent = withCur(v);
-      node.classList.toggle("neg", v < 0);
+      if(vEl) vEl.textContent = filled ? withCur(v) : "\u2014";
+      node.classList.toggle("neg", filled && v < 0);
+      node.classList.toggle("blank", !filled);
       var m = mathLine(c.before[list[i].id], list[i], v);
       var mEl = document.getElementById("math-" + list[i].id);
       if(mEl) mEl.textContent = m;
@@ -799,6 +829,7 @@ function newPeriod(){
   var c = compute(), from = activePeriod().to;
   var p = { id:uid("p"), from:from, to:addMonths(from,1), opening:c.closing };
   state.periods.push(p);
+  state.entries = state.entries.concat(fillDays(p.id, p.from, p.to));
   state.activeId = p.id;
   renderAll(); queueSave();
 }
