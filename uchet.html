@@ -312,10 +312,23 @@ function longDate(s){
 }
 function parseNum(v){
   if(v === null || v === undefined) return null;
-  var s = String(v).replace(/[\s  ]/g, "").replace(",", ".");
-  if(s === "") return null;
-  var n = Number(s);
-  return isFinite(n) ? n : null;
+  var s = String(v).replace(/[^0-9.,\-]/g, "");      /* прочь пробелы, Kč, буквы */
+  if(s === "" || s === "-") return null;
+  var neg = s.charAt(0) === "-";
+  s = s.replace(/-/g, "");
+  var lastC = s.lastIndexOf(","), lastD = s.lastIndexOf("."), dec = -1;
+  if(lastC > -1 && lastD > -1) dec = Math.max(lastC, lastD);
+  else if(lastC > -1) dec = lastC;
+  else if(lastD > -1){
+    var dots = s.split(".").length - 1;
+    var tail = s.length - lastD - 1;
+    dec = (dots === 1 && tail !== 3) ? lastD : -1;
+  }
+  var head = dec > -1 ? s.slice(0, dec) : s;
+  var frac = dec > -1 ? s.slice(dec + 1) : "";
+  var n = Number(head.replace(/[.,]/g, "") + (frac ? "." + frac.replace(/[.,]/g, "") : ""));
+  if(!isFinite(n)) return null;
+  return neg ? -n : n;
 }
 function fmtNum(n){ return (n === null || n === undefined || n === "") ? "" : NF.format(n); }
 function withCur(n){ return fmtNum(n) + " " + CUR; }
@@ -396,6 +409,7 @@ function setSync(mode, text){
   syncEl.textContent = text;
 }
 function queueSave(){
+  state.updatedAt = new Date().toISOString();
   saveLocal();
   if(!docRef) return;
   dirty = true;
@@ -407,7 +421,7 @@ function flushSave(){
   if(!docRef || writing || !dirty) return;
   writing = true; dirty = false;
   var body = JSON.parse(JSON.stringify(state));
-  body.updatedAt = new Date().toISOString();
+  if(!body.updatedAt) body.updatedAt = new Date().toISOString();
   docRef.set(body).then(function(){
     writing = false;
     if(dirty) flushSave(); else setSync("cloud", "сохранено");
@@ -433,7 +447,13 @@ function connectCloud(){
         var data = migrate(snap.data());
         if(!data) return;
         if(snap.metadata.hasPendingWrites){ setSync("cloud", "сохранено"); return; }
-        if(editing()) return;
+        var mine = (state && state.updatedAt) || "";
+        var theirs = data.updatedAt || "";
+        if(mine && theirs < mine){        /* наша копия свежее — отправляем её, не затираем */
+          dirty = true; flushSave(); return;
+        }
+        if(JSON.stringify(data) === JSON.stringify(state)){ setSync("cloud", "сохранено"); return; }
+        if(editing()) return;             /* не дёргаем таблицу под руками */
         state = data; saveLocal(); renderAll();
         setSync("cloud", "сохранено");
       } else if(!snap.metadata.fromCache && !seeded){
