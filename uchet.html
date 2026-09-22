@@ -94,6 +94,17 @@ select.period{font:inherit;font-size:13.5px;font-weight:500;color:var(--ink);bac
 .sync[data-state="cloud"]::before{background:var(--income)}
 .sync[data-state="saving"]::before{background:var(--brass)}
 
+.ctl{display:inline-flex;flex-wrap:wrap;align-items:center;gap:8px}
+.dinp{font-family:var(--mono);font-size:13px;padding:7px 9px;max-width:160px}
+.tabs{display:flex;gap:2px;margin-bottom:18px;border-bottom:1px solid var(--rule);overflow-x:auto}
+.tab{font:inherit;font-size:14px;font-weight:500;color:var(--ink-faint);background:none;border:0;
+  border-bottom:2px solid transparent;padding:9px 14px;cursor:pointer;margin-bottom:-1px;
+  white-space:nowrap;border-radius:2px 2px 0 0}
+.tab:hover{color:var(--ink);background:var(--card-2)}
+.tab:focus-visible{outline:2px solid var(--brass);outline-offset:-2px}
+.tab.is-on{color:var(--ink);border-bottom-color:var(--brass)}
+.rule{margin:0;padding:11px 16px;font-size:13px;color:var(--ink-soft);background:var(--card-2);
+  border-bottom:1px solid var(--rule);border-left:3px solid var(--brass)}
 .tiles{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));margin-bottom:18px}
 .tile{background:var(--card);border:1px solid var(--rule);border-radius:3px;padding:13px 15px 14px;box-shadow:var(--shadow)}
 .tile-k{font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-faint)}
@@ -161,6 +172,14 @@ select.period{font:inherit;font-size:13.5px;font-weight:500;color:var(--ink);bac
 .row-total .cell:first-child{font-family:var(--body);font-size:12px;letter-spacing:.09em;
   text-transform:uppercase;color:var(--ink-faint);font-weight:500}
 .row-total .t-bal{background:var(--brass-soft);font-weight:500}
+/* дневник трат */
+.grid-d{min-width:880px}
+.rowd{grid-template-columns:46px minmax(150px,1.4fr) 108px minmax(140px,1.2fr) 146px 146px 32px}
+.rowd .c-no{display:flex;align-items:center;justify-content:center;font-family:var(--mono);
+  font-size:13px;color:var(--ink-faint);padding:3px}
+.d-sum{font-family:var(--mono);font-variant-numeric:tabular-nums;font-weight:500}
+.rowd.row-total .t-span{grid-column:4/8;font-family:var(--body);font-size:12.5px;
+  font-weight:400;color:var(--ink-faint);display:flex;align-items:center}
 .foot-bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:11px 16px}
 .foot-bar .grow{flex:1 1 auto}
 .empty{padding:26px 16px;text-align:center;color:var(--ink-faint);font-size:13.5px}
@@ -207,6 +226,24 @@ select.period{font:inherit;font-size:13.5px;font-weight:500;color:var(--ink);bac
   .row-total .cell:first-child,.row-total .t-note{display:none}
   .row-total .t-bal{grid-column:1/3;background:none;border-top:1px solid var(--rule);
     padding-top:7px;margin-top:3px}
+  .rowd{display:grid;grid-template-columns:1fr 1fr;gap:2px 10px;padding-top:26px}
+  .rowd .c-no{position:absolute;top:8px;left:12px;justify-content:flex-start;padding:0;
+    font-size:11px;letter-spacing:.1em}
+  .rowd .c-no::before{content:"№ "}
+  .rowd .c-what{grid-column:1/3;grid-row:1}
+  .rowd .c-sum{grid-column:1/2;grid-row:2}
+  .rowd .c-why{grid-column:1/3;grid-row:3}
+  .rowd .c-before{grid-column:1/2;grid-row:4}
+  .rowd .c-after{grid-column:2/3;grid-row:4}
+  .rowd .c-del{position:absolute;top:4px;right:6px;width:32px}
+  .rowd.row-total{grid-template-columns:1fr auto;padding:12px;gap:2px 10px}
+  .rowd.row-total .c-no{display:none}
+  .rowd.row-total .c-what{grid-column:1/2;grid-row:1;justify-content:flex-start;
+    font-family:var(--body);font-size:12px;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--ink-faint)}
+  .rowd.row-total .c-sum{grid-column:2/3;grid-row:1;justify-content:flex-end}
+  .rowd.row-total .t-span{grid-column:1/3;grid-row:2;display:block;padding-top:5px;
+    font-size:12px;line-height:1.4;color:var(--ink-faint)}
 }
 
 .note{margin:14px 2px 0;font-size:12.5px;color:var(--ink-faint);max-width:70ch}
@@ -231,11 +268,28 @@ select.period{font:inherit;font-size:13.5px;font-weight:500;color:var(--ink);bac
     </div>
     <div class="top-right">
       <span class="sync" id="sync">на этом устройстве</span>
-      <select class="period" id="periodSel" aria-label="Период"></select>
-      <button class="btn btn-primary" id="todayBtn" type="button">Сегодня</button>
-      <button class="btn" id="yestBtn" type="button">Вчера</button>
+      <span class="ctl" id="ledgerCtl">
+        <select class="period" id="periodSel" aria-label="Период"></select>
+        <button class="btn btn-primary" id="todayBtn" type="button">Сегодня</button>
+        <button class="btn" id="yestBtn" type="button">Вчера</button>
+      </span>
+      <span class="ctl" id="diaryCtl" hidden>
+        <button class="btn" id="dPrev" type="button" aria-label="Предыдущий день">‹</button>
+        <input class="period dinp" id="diaryDate" type="date" aria-label="День дневника">
+        <button class="btn" id="dNext" type="button" aria-label="Следующий день">›</button>
+        <button class="btn btn-primary" id="dToday" type="button">Сегодня</button>
+      </span>
     </div>
   </header>
+
+  <nav class="tabs" role="tablist" aria-label="Разделы">
+    <button class="tab is-on" id="tabLedger" type="button" role="tab" aria-selected="true"
+      aria-controls="viewLedger">Учёт денег</button>
+    <button class="tab" id="tabDiary" type="button" role="tab" aria-selected="false"
+      aria-controls="viewDiary">Мои деньги сегодня</button>
+  </nav>
+
+  <div id="viewLedger" role="tabpanel" aria-labelledby="tabLedger">
 
   <section class="tiles" id="tiles" aria-label="Итоги периода"></section>
 
@@ -263,8 +317,48 @@ select.period{font:inherit;font-size:13.5px;font-weight:500;color:var(--ink);bac
       <button class="btn btn-quiet" id="delPeriod" type="button" hidden>Удалить период</button>
     </div>
   </section>
+  </div>
 
-  <p class="note"><b id="build">сборка 9</b> · Всё сохраняется само — отдельной кнопки не нужно. Период идёт с 21-го по 21-е;
+  <div id="viewDiary" role="tabpanel" aria-labelledby="tabDiary" hidden>
+    <section class="ledger">
+      <div class="ledger-head">
+        <span>
+          <span class="ledger-title" id="diaryTitle">Мои деньги сегодня</span>
+          <span class="ledger-sub">Каждая покупка за день: что, сколько, зачем и что чувствовал</span>
+        </span>
+        <span class="ledger-hint" id="diaryCount"></span>
+      </div>
+      <p class="rule">Без «я опять всё слил». Только «исследую своё финансовое поведение».</p>
+      <div class="scroll">
+        <div class="grid grid-d">
+          <div class="row rowd row-head" aria-hidden="true" id="dHead"></div>
+          <div id="dRows"></div>
+          <div class="row rowd row-total" id="dTotal"></div>
+        </div>
+      </div>
+      <div class="foot-bar">
+        <button class="btn" id="dAdd" type="button">+ Ещё строка</button>
+        <span class="grow"></span>
+        <button class="btn btn-quiet" id="dExport" type="button">Скачать CSV</button>
+      </div>
+    </section>
+    <datalist id="feelBefore">
+      <option value="усталость"></option><option value="скука"></option>
+      <option value="тревога"></option><option value="голод"></option>
+      <option value="стресс"></option><option value="спешка"></option>
+      <option value="радость"></option><option value="спокойствие"></option>
+      <option value="злость"></option><option value="одиночество"></option>
+    </datalist>
+    <datalist id="feelAfter">
+      <option value="облегчение"></option><option value="радость"></option>
+      <option value="вина"></option><option value="пустота"></option>
+      <option value="спокойствие"></option><option value="стыд"></option>
+      <option value="удовлетворение"></option><option value="безразличие"></option>
+      <option value="сожаление"></option>
+    </datalist>
+  </div>
+
+  <p class="note"><b id="build">сборка 10</b> · Всё сохраняется само — отдельной кнопки не нужно. Период идёт с 21-го по 21-е;
     «Новый период» открывает следующий и переносит остаток в его начало.</p>
 </div>
 
@@ -285,6 +379,15 @@ var COLS = [
   {k:"olya",    cls:"",  name:"Оля"},
   {k:"alex",    cls:"",  name:"Александр"}
 ];
+var DCOLS = [
+  {k:"what",   name:"Что купил",       num:false},
+  {k:"sum",    name:"Сумма",           num:true},
+  {k:"why",    name:"Зачем",           num:false},
+  {k:"before", name:"Чувствовал ДО",   num:false, list:"feelBefore"},
+  {k:"after",  name:"Чувствовал ПОСЛЕ",num:false, list:"feelAfter"}
+];
+var MIN_SLOTS = 6;
+var diaryDate = "", diaryExtra = {};
 var MONEY = ["income","expense","debts","savings","olya","alex"];
 var OUT = ["expense","debts","savings","olya","alex"];
 
@@ -346,6 +449,12 @@ function esc(s){
     .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
 }
 function today(){ return iso(new Date()); }
+function plural(n, a, b, c){
+  var m = n % 100;
+  if(m >= 11 && m <= 14) return c;
+  m = n % 10;
+  return m === 1 ? a : (m >= 2 && m <= 4 ? b : c);
+}
 
 function blankRow(pid, date){
   return { id:uid("r"), pid:pid, date:date, income:null, expense:null, note:"",
@@ -373,7 +482,7 @@ function fillDays(pid, from, to){
 function defaultState(){
   var from = currentStart(), pid = uid("p");
   return {
-    v:2, activeId:pid,
+    v:3, activeId:pid, diary:[],
     periods:[{ id:pid, from:from, to:addMonths(from,1), opening:0 }],
     entries: fillDays(pid, from, addMonths(from, 1))
   };
@@ -382,7 +491,8 @@ function defaultState(){
 /* старая схема: qty -> долги, personal -> Оля */
 function migrate(o){
   if(!o || !o.periods || !o.entries) return null;
-  if(o.v === 2) return o;
+  if(!o.diary || Object.prototype.toString.call(o.diary) !== "[object Array]") o.diary = [];
+  if(o.v === 2 || o.v === 3){ o.v = 3; return o; }
   for(var i=0;i<o.entries.length;i++){
     var e = o.entries[i];
     if(e.debts === undefined) e.debts = (e.qty === undefined ? null : e.qty);
@@ -391,7 +501,7 @@ function migrate(o){
     delete e.qty; delete e.personal;
   }
   delete o.labels; delete o.currency;
-  o.v = 2;
+  o.v = 3;
   return o;
 }
 
@@ -670,7 +780,11 @@ function renderDerived(){
     '<div class="cell num t-bal" data-label="Остаток">' + esc(withCur(c.closing)) + "</div>" +
     '<div class="cell"></div>';
 }
-function renderAll(){ renderPeriods(); renderHead(); renderOpen(); renderRows(); renderDerived(); }
+function renderAll(){
+  renderPeriods(); renderHead(); renderOpen(); renderRows(); renderDerived();
+  var vd = document.getElementById("viewDiary");
+  if(vd && !vd.hidden) renderDiary();
+}
 
 /* ---------- события ---------- */
 els.rows.addEventListener("input", function(ev){
@@ -685,8 +799,8 @@ els.rows.addEventListener("input", function(ev){
     var f = inp.dataset.f;
     if(f === "note" || f === "date") e[f] = inp.value;
     else e[f] = parseNum(inp.value);
-    renderDerived();
     queueSave();
+    renderDerived();
   } catch(err){                            /* молча ввод больше не теряем */
     state = clone(state) || state;
     try {
@@ -696,7 +810,7 @@ els.rows.addEventListener("input", function(ev){
           state.entries[j][f2] = (f2 === "note" || f2 === "date") ? inp.value : parseNum(inp.value);
         }
       }
-      renderDerived(); queueSave();
+      queueSave(); renderDerived();
     } catch(err2){
       toast("Не удалось записать — обновите страницу", "", null);
     }
@@ -890,8 +1004,9 @@ function exportCSV(){
   tot.push(c.closing);
   lines.push(tot.join(";"));
 
-  var csv = "﻿" + lines.join("\r\n");
-  var name = "uchet_" + p.from + "_" + p.to + ".csv";
+  saveCSV("﻿" + lines.join("\r\n"), "uchet_" + p.from + "_" + p.to + ".csv");
+}
+function saveCSV(csv, name){
   var cl = (typeof window !== "undefined" && window.claude && typeof window.claude.use === "function")
     ? window.claude : null;
   if(cl){
@@ -913,8 +1028,215 @@ function fallbackSave(csv, name){
   } catch(e){ toast("Сохранение недоступно в этом окне", "", null); }
 }
 
+/* ===================== дневник трат ===================== */
+var dEls = {
+  head: document.getElementById("dHead"),
+  rows: document.getElementById("dRows"),
+  total: document.getElementById("dTotal"),
+  title: document.getElementById("diaryTitle"),
+  count: document.getElementById("diaryCount"),
+  date: document.getElementById("diaryDate")
+};
+
+function diaryRows(date){
+  var list = [];
+  for(var i=0;i<state.diary.length;i++) if(state.diary[i].date === date) list.push(state.diary[i]);
+  list.sort(function(a,b){ return (a.no || 0) - (b.no || 0); });
+  return list;
+}
+function diarySlots(date){
+  var list = diaryRows(date), max = MIN_SLOTS, byNo = {};
+  for(var i=0;i<list.length;i++){
+    if(list[i].no > max) max = list[i].no;
+    byNo[list[i].no] = list[i];
+  }
+  max += (diaryExtra[date] || 0);
+  var out = [];
+  for(var n=1;n<=max;n++) out.push({ no:n, entry:byNo[n] || null });
+  return out;
+}
+function diaryTotal(date){
+  var list = diaryRows(date), sum = 0;
+  for(var i=0;i<list.length;i++) sum += Number(list[i].sum) || 0;
+  return sum;
+}
+function ledgerSpentOn(date){
+  var sum = 0;
+  for(var i=0;i<state.entries.length;i++){
+    if(state.entries[i].date === date) sum += Number(state.entries[i].expense) || 0;
+  }
+  return sum;
+}
+
+function renderDiaryHead(){
+  var h = '<div class="cell c-no">№</div>';
+  for(var i=0;i<DCOLS.length;i++){
+    h += '<div class="cell c-' + DCOLS[i].k + (DCOLS[i].num ? " num" : "") + '">' +
+         esc(DCOLS[i].name) + "</div>";
+  }
+  dEls.head.innerHTML = h + '<div class="cell"></div>';
+}
+function dRowHTML(slot){
+  var e = slot.entry, id = e ? e.id : uid("n");
+  var h = '<div class="row rowd row-entry" data-did="' + esc(id) + '" data-no="' + slot.no +
+          '" data-date="' + esc(diaryDate) + '">';
+  h += '<div class="cell c-no">' + slot.no + "</div>";
+  for(var i=0;i<DCOLS.length;i++){
+    var c = DCOLS[i];
+    var val = !e ? "" : (c.num ? fmtNum(e[c.k]) : (e[c.k] || ""));
+    h += '<div class="cell c-' + c.k + (c.num ? " num" : "") + '">' +
+      '<label class="cell-label" for="d-' + esc(c.k + "-" + id) + '">' + esc(c.name) + "</label>" +
+      '<input class="f ' + (c.num ? "n d-sum" : "txt") + '" id="d-' + esc(c.k + "-" + id) + '"' +
+      ' data-df="' + c.k + '"' + (c.list ? ' list="' + c.list + '"' : "") +
+      (c.num ? ' inputmode="decimal" placeholder="—"' : ' type="text"') +
+      ' autocomplete="off" value="' + esc(val) + '"></div>';
+  }
+  return h + '<div class="cell c-del"><button class="del" type="button" data-ddel="' + esc(id) +
+    '" aria-label="Удалить строку">&times;</button></div></div>';
+}
+function renderDiary(){
+  if(!diaryDate) diaryDate = today();
+  if(dEls.date.value !== diaryDate) dEls.date.value = diaryDate;
+  var slots = diarySlots(diaryDate), h = "";
+  for(var i=0;i<slots.length;i++) h += dRowHTML(slots[i]);
+  dEls.rows.innerHTML = h;
+  dEls.title.textContent = "Мои деньги · " + longDate(diaryDate) +
+    (diaryDate === today() ? " (сегодня)" : "");
+  renderDiaryTotal();
+}
+function renderDiaryTotal(){
+  var sum = diaryTotal(diaryDate), spent = ledgerSpentOn(diaryDate);
+  var filled = diaryRows(diaryDate).length;
+  var hint = spent
+    ? "В учёте расход за этот день: " + withCur(spent) +
+      (sum && Math.round(sum) !== Math.round(spent)
+        ? " · разница " + withCur(Math.abs(spent - sum)) : "")
+    : "В учёте расход за этот день пока не записан";
+  dEls.total.innerHTML =
+    '<div class="cell c-no"></div>' +
+    '<div class="cell c-what">Итого за день</div>' +
+    '<div class="cell c-sum num d-sum">' + esc(withCur(sum)) + "</div>" +
+    '<div class="cell t-span">' + esc(hint) + "</div>";
+  dEls.count.textContent = filled
+    ? filled + " " + plural(filled, "покупка", "покупки", "покупок")
+    : "покупок пока нет";
+}
+
+function applyDiary(id, row, f, value){
+  var e = null;
+  for(var i=0;i<state.diary.length;i++) if(state.diary[i].id === id) e = state.diary[i];
+  if(!e){
+    e = { id:id, date:row.dataset.date, no:Number(row.dataset.no) || 1,
+          what:"", sum:null, why:"", before:"", after:"" };
+    state.diary.push(e);
+  }
+  e[f] = value;
+}
+dEls.rows.addEventListener("input", function(ev){
+  var inp = ev.target;
+  if(!inp.classList || !inp.classList.contains("f")) return;
+  var row = inp.closest("[data-did]");
+  if(!row) return;
+  var f = inp.dataset.df;
+  var v = (f === "sum") ? parseNum(inp.value) : inp.value;
+  try { applyDiary(row.dataset.did, row, f, v); }
+  catch(err){
+    state = clone(state) || state;
+    try { applyDiary(row.dataset.did, row, f, v); }
+    catch(err2){ toast("Не удалось записать — обновите страницу", "", null); return; }
+  }
+  queueSave();
+  renderDiaryTotal();
+});
+dEls.rows.addEventListener("focusout", function(ev){
+  var inp = ev.target;
+  if(inp.classList && inp.classList.contains("n")) inp.value = fmtNum(parseNum(inp.value));
+});
+dEls.rows.addEventListener("focusin", function(ev){
+  var inp = ev.target;
+  if(!inp.classList || !inp.classList.contains("n")) return;
+  inp.value = String(inp.value).replace(/[\s  ]/g, "");
+  inp.select();
+});
+dEls.rows.addEventListener("click", function(ev){
+  var btn = ev.target.closest("[data-ddel]");
+  if(!btn) return;
+  var id = btn.dataset.ddel, idx = -1;
+  for(var i=0;i<state.diary.length;i++) if(state.diary[i].id === id) idx = i;
+  if(idx < 0) return;
+  var backup = state.diary[idx];
+  state.diary.splice(idx, 1);
+  renderDiary(); queueSave();
+  toast("Строка удалена", "Вернуть", function(){
+    state.diary.push(backup);
+    renderDiary(); queueSave();
+  });
+});
+function shiftDay(off){
+  var d = parseISO(diaryDate) || new Date();
+  d.setDate(d.getDate() + off);
+  setDiaryDate(iso(d));
+}
+function setDiaryDate(d){
+  diaryDate = d;
+  try { localStorage.setItem("kassa.diaryDate", d); } catch(e){}
+  renderDiary();
+}
+document.getElementById("dPrev").addEventListener("click", function(){ shiftDay(-1); });
+document.getElementById("dNext").addEventListener("click", function(){ shiftDay(1); });
+document.getElementById("dToday").addEventListener("click", function(){ setDiaryDate(today()); });
+dEls.date.addEventListener("change", function(){ if(dEls.date.value) setDiaryDate(dEls.date.value); });
+document.getElementById("dAdd").addEventListener("click", function(){
+  diaryExtra[diaryDate] = (diaryExtra[diaryDate] || 0) + 1;
+  renderDiary();
+  var rows = dEls.rows.querySelectorAll("[data-did]");
+  var last = rows[rows.length - 1];
+  if(last){ var f = last.querySelector('input[data-df="what"]'); if(f) f.focus(); }
+});
+document.getElementById("dExport").addEventListener("click", function(){
+  var list = diaryRows(diaryDate);
+  var head = ["Дата", "№"];
+  for(var i=0;i<DCOLS.length;i++) head.push(DCOLS[i].name);
+  var lines = [head.join(";")];
+  for(var r=0;r<list.length;r++){
+    var e = list[r], line = [e.date, e.no];
+    for(var k=0;k<DCOLS.length;k++){
+      var c = DCOLS[k], v = e[c.k];
+      line.push(c.num ? (v === null || v === undefined ? "" : v)
+                      : '"' + String(v || "").replace(/"/g, '""') + '"');
+    }
+    lines.push(line.join(";"));
+  }
+  lines.push(["Итого", "", "", diaryTotal(diaryDate), "", "", ""].join(";"));
+  saveCSV("﻿" + lines.join("\r\n"), "moi-dengi_" + diaryDate + ".csv");
+});
+
+/* ===================== вкладки ===================== */
+function showTab(which){
+  var isD = which === "diary";
+  document.getElementById("viewLedger").hidden = isD;
+  document.getElementById("viewDiary").hidden = !isD;
+  document.getElementById("ledgerCtl").hidden = isD;
+  document.getElementById("diaryCtl").hidden = !isD;
+  var tl = document.getElementById("tabLedger"), td = document.getElementById("tabDiary");
+  tl.classList.toggle("is-on", !isD); td.classList.toggle("is-on", isD);
+  tl.setAttribute("aria-selected", isD ? "false" : "true");
+  td.setAttribute("aria-selected", isD ? "true" : "false");
+  try { localStorage.setItem("kassa.tab", which); } catch(e){}
+  if(isD) renderDiary();
+}
+document.getElementById("tabLedger").addEventListener("click", function(){ showTab("ledger"); });
+document.getElementById("tabDiary").addEventListener("click", function(){ showTab("diary"); });
+
 state = loadLocal() || defaultState();
+if(!state.diary) state.diary = [];
+try { diaryDate = localStorage.getItem("kassa.diaryDate") || today(); } catch(e){ diaryDate = today(); }
+if(!parseISO(diaryDate)) diaryDate = today();
 renderAll();
+renderDiaryHead();
+var startTab = "ledger";
+try { startTab = localStorage.getItem("kassa.tab") || "ledger"; } catch(e){}
+showTab(startTab === "diary" ? "diary" : "ledger");
 connectCloud();
 
 })();
