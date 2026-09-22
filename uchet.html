@@ -140,7 +140,9 @@ select.period{font:inherit;font-size:13.5px;font-weight:500;color:var(--ink);bac
 .bal{font-family:var(--mono);font-size:14px;font-variant-numeric:tabular-nums;font-weight:500;
   padding:8px 9px;display:flex;align-items:center;justify-content:flex-end;
   background:var(--brass-soft);color:var(--ink)}
-.bal.neg{color:var(--expense)}
+.bal.neg .bal-v{color:var(--expense)}
+.bal-math{display:none}
+.f.bad{border-color:var(--expense);background:var(--field);box-shadow:inset 0 0 0 1px var(--expense)}
 .row.today{background:linear-gradient(var(--brass-soft),var(--brass-soft))}
 .row.today::after{content:"сегодня";position:absolute;left:4px;top:3px;font-family:var(--mono);
   font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--brass);pointer-events:none}
@@ -185,7 +187,10 @@ select.period{font:inherit;font-size:13.5px;font-weight:500;color:var(--ink);bac
     color:var(--ink-faint);padding:7px 4px 2px}
   .f{padding:9px 10px;min-height:42px}
   .f:focus{outline-offset:-1px}
-  .bal{justify-content:space-between;margin-top:8px;padding:7px 9px;border-radius:2px}
+  .bal{flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:2px 8px;
+    margin-top:8px;padding:7px 9px;border-radius:2px}
+  .bal-math{display:block;flex:1 1 100%;order:-1;text-align:left;font-size:11.5px;
+    font-weight:400;color:var(--ink-soft)}
   .bal::before{content:"Остаток";font-family:var(--body);font-size:11px;letter-spacing:.1em;
     text-transform:uppercase;color:var(--ink-faint);font-weight:400}
   .del{width:32px;height:32px}
@@ -225,7 +230,8 @@ select.period{font:inherit;font-size:13.5px;font-weight:500;color:var(--ink);bac
     <div class="top-right">
       <span class="sync" id="sync">на этом устройстве</span>
       <select class="period" id="periodSel" aria-label="Период"></select>
-      <button class="btn btn-primary" id="todayBtn" type="button">Запись за сегодня</button>
+      <button class="btn btn-primary" id="todayBtn" type="button">Сегодня</button>
+      <button class="btn" id="yestBtn" type="button">Вчера</button>
     </div>
   </header>
 
@@ -256,7 +262,7 @@ select.period{font:inherit;font-size:13.5px;font-weight:500;color:var(--ink);bac
     </div>
   </section>
 
-  <p class="note">Всё сохраняется само — отдельной кнопки не нужно. Период идёт с 21-го по 21-е;
+  <p class="note"><b id="build">сборка 6</b> · Всё сохраняется само — отдельной кнопки не нужно. Период идёт с 21-го по 21-е;
     «Новый период» открывает следующий и переносит остаток в его начало.</p>
 </div>
 
@@ -375,7 +381,7 @@ function migrate(o){
   return o;
 }
 
-var state = null, pendingDelete = null, toastTimer = 0;
+var state = null, pendingDelete = null, toastTimer = 0, badInput = {};
 
 function activePeriod(){
   for(var i=0;i<state.periods.length;i++){
@@ -430,6 +436,18 @@ function flushSave(){
     setSync("", "на этом устройстве");
   });
 }
+/* ключи от сервера приходят отсортированными — сравниваем одинаково */
+function canon(v){
+  if(v === null || typeof v !== "object") return JSON.stringify(v);
+  if(Object.prototype.toString.call(v) === "[object Array]"){
+    var a = [];
+    for(var i=0;i<v.length;i++) a.push(canon(v[i]));
+    return "[" + a.join(",") + "]";
+  }
+  var ks = Object.keys(v).sort(), out = [];
+  for(var j=0;j<ks.length;j++) out.push(JSON.stringify(ks[j]) + ":" + canon(v[ks[j]]));
+  return "{" + out.join(",") + "}";
+}
 function editing(){
   var a = document.activeElement;
   return !!(a && a.classList && a.classList.contains("f"));
@@ -452,7 +470,7 @@ function connectCloud(){
         if(mine && theirs < mine){        /* наша копия свежее — отправляем её, не затираем */
           dirty = true; flushSave(); return;
         }
-        if(JSON.stringify(data) === JSON.stringify(state)){ setSync("cloud", "сохранено"); return; }
+        if(canon(data) === canon(state)){ setSync("cloud", "сохранено"); return; }
         if(editing()) return;             /* не дёргаем таблицу под руками */
         state = data; saveLocal(); renderAll();
         setSync("cloud", "сохранено");
@@ -469,15 +487,32 @@ function compute(){
   var bal = Number(p.opening) || 0;
   var t = {};
   for(var m=0;m<MONEY.length;m++) t[MONEY[m]] = 0;
-  var byId = {};
+  var byId = {}, before = {};
   for(var i=0;i<list.length;i++){
     var e = list[i];
     for(var j=0;j<MONEY.length;j++) t[MONEY[j]] += Number(e[MONEY[j]]) || 0;
     bal += Number(e.income) || 0;
     for(var k=0;k<OUT.length;k++) bal -= Number(e[OUT[k]]) || 0;
+    before[e.id] = bal - (Number(e.income) || 0) + outSum(e);
     byId[e.id] = bal;
   }
-  return { totals:t, closing:bal, byId:byId, count:list.length };
+  return { totals:t, closing:bal, byId:byId, before:before, count:list.length };
+}
+function outSum(e){
+  var v = 0;
+  for(var i=0;i<OUT.length;i++) v += Number(e[OUT[i]]) || 0;
+  return v;
+}
+/* строка вида «18 500 + 30 000 − 5 000 = 43 500» */
+function mathLine(prev, e, val){
+  var parts = [], any = false;
+  if(Number(e.income)){ parts.push("+ " + fmtNum(Number(e.income))); any = true; }
+  for(var i=0;i<OUT.length;i++){
+    var v = Number(e[OUT[i]]);
+    if(v){ parts.push("\u2212 " + fmtNum(v)); any = true; }
+  }
+  if(!any) return "";
+  return fmtNum(prev) + " " + parts.join(" ") + " = " + fmtNum(val);
 }
 
 /* ---------- рендер ---------- */
@@ -530,14 +565,18 @@ function rowHTML(e){
     esc(e.date || "") + '" min="' + esc(p.from) + '" max="' + esc(p.to) + '"></div>';
   for(var i=0;i<COLS.length;i++){
     var c = COLS[i], isNote = c.k === "note";
-    var val = isNote ? (e[c.k] || "") : fmtNum(e[c.k]);
+    var bad = badInput[e.id + ":" + c.k];
+    var val = isNote ? (e[c.k] || "") : (bad !== undefined ? bad : fmtNum(e[c.k]));
     h += '<div class="cell c-' + c.k + (isNote ? "" : " num") + '">' +
       '<label class="cell-label" for="' + esc(c.k + "-" + e.id) + '">' + esc(c.name) + "</label>" +
-      '<input class="f ' + (isNote ? "txt" : "n " + c.cls) + '" id="' + esc(c.k + "-" + e.id) + '"' +
+      '<input class="f ' + (isNote ? "txt" : "n " + c.cls) + (bad !== undefined ? " bad" : "") +
+      '" id="' + esc(c.k + "-" + e.id) + '"' +
       ' data-f="' + c.k + '"' + (isNote ? ' type="text"' : ' inputmode="decimal"') +
       ' autocomplete="off" placeholder="' + (isNote ? "" : "—") + '" value="' + esc(val) + '"></div>';
   }
-  h += '<div class="cell num c-bal"><span class="bal" id="bal-' + esc(e.id) + '">—</span></div>';
+  h += '<div class="cell num c-bal"><span class="bal" id="bal-' + esc(e.id) + '">' +
+    '<span class="bal-math" id="math-' + esc(e.id) + '"></span>' +
+    '<span class="bal-v">\u2014</span></span></div>';
   h += '<div class="cell c-del"><button class="del" type="button" data-del="' + esc(e.id) +
     '" aria-label="Удалить строку">&times;</button></div>';
   return h + "</div>";
@@ -545,7 +584,7 @@ function rowHTML(e){
 function renderRows(){
   var list = periodEntries();
   if(!list.length){
-    els.rows.innerHTML = '<div class="empty">Пока пусто. Нажмите «Запись за сегодня».</div>';
+    els.rows.innerHTML = '<div class="empty">Пока пусто. Нажмите «Сегодня» или «Вчера».</div>';
     return;
   }
   var h = "";
@@ -558,8 +597,13 @@ function renderDerived(){
     var node = document.getElementById("bal-" + list[i].id);
     if(node){
       var v = c.byId[list[i].id];
-      node.textContent = withCur(v);
+      var vEl = node.querySelector(".bal-v");
+      if(vEl) vEl.textContent = withCur(v);
       node.classList.toggle("neg", v < 0);
+      var m = mathLine(c.before[list[i].id], list[i], v);
+      var mEl = document.getElementById("math-" + list[i].id);
+      if(mEl) mEl.textContent = m;
+      node.title = m || "";
     }
   }
   var total = days(p.from, p.to);
@@ -616,7 +660,22 @@ els.rows.addEventListener("change", function(ev){
   if(ev.target.dataset && ev.target.dataset.f === "date") sortRows();
 });
 els.rows.addEventListener("focusout", function(ev){
-  if(ev.target.classList && ev.target.classList.contains("n")) ev.target.value = fmtNum(parseNum(ev.target.value));
+  var inp = ev.target;
+  if(!inp.classList || !inp.classList.contains("n")) return;
+  var row = inp.closest("[data-id]");
+  var key = row ? row.dataset.id + ":" + inp.dataset.f : "";
+  var raw = String(inp.value).trim();
+  var n = parseNum(raw);
+  if(raw !== "" && n === null){          /* «зарплата» вместо суммы — текст оставляем */
+    if(key) badInput[key] = raw;
+    inp.classList.add("bad");
+    inp.title = "Нужно число — эта запись не считается";
+    return;
+  }
+  if(key) delete badInput[key];
+  inp.classList.remove("bad");
+  inp.removeAttribute("title");
+  inp.value = fmtNum(n);
 });
 els.rows.addEventListener("focusin", function(ev){
   var inp = ev.target;
@@ -652,6 +711,7 @@ els.sel.addEventListener("change", function(){
   renderAll(); queueSave();
 });
 document.getElementById("todayBtn").addEventListener("click", todayRow);
+document.getElementById("yestBtn").addEventListener("click", yesterdayRow);
 document.getElementById("addRow").addEventListener("click", addRow);
 document.getElementById("newPeriod").addEventListener("click", newPeriod);
 document.getElementById("delPeriod").addEventListener("click", deletePeriod);
@@ -670,10 +730,14 @@ function focusRow(id){
   var row = inp.closest("[data-id]");
   if(row && row.scrollIntoView) row.scrollIntoView({ block:"center", behavior:"smooth" });
 }
-function todayRow(){
-  var p = activePeriod(), d = today();
+function todayRow(){ openDay(0); }
+function yesterdayRow(){ openDay(-1); }
+function openDay(off){
+  var p = activePeriod(), dt = new Date();
+  dt.setDate(dt.getDate() + off);
+  var d = iso(dt);
   if(d < p.from || d > p.to){
-    toast("Сегодня вне этого периода — откройте новый", "", null);
+    toast("Эта дата вне текущего периода", "", null);
     return;
   }
   var list = periodEntries();
