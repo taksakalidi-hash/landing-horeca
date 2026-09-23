@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<!--
+  «Бронь-ссылка» — страница брони для одного заведения.
+  Бэкенд не нужен: форма собирает сообщение и открывает WhatsApp заведения
+  с готовым текстом. Все настройки — в config.js.
+-->
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Rezervace</title>
+<meta name="description" content="Rezervace stolu přes WhatsApp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="config.js"></script>
+<style>
+:root{
+  --brand:#17372C;
+  --accent:#B8862F;
+  --paper:#F6F1E4;
+  --ink:#2B2A26;
+  --ink-soft:#5E5C54;
+  --rule:rgba(43,42,38,.14);
+  --card:#FFFFFF;
+  --wa:#1FA855;
+  --display:'Zilla Slab',Georgia,serif;
+  --body:'Inter',system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--body);font-size:16px;line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+button,input,textarea{font:inherit;color:inherit}
+.page{width:min(520px,100%);margin-inline:auto;padding:0 16px 40px}
+
+/* ---------- header ---------- */
+header{background:var(--brand);color:var(--paper);padding:28px 0 64px}
+header .page{padding-bottom:0}
+.topline{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:22px}
+.langs{display:flex;gap:4px}
+.langs button{
+  background:transparent;border:1px solid rgba(246,241,228,.35);color:inherit;
+  border-radius:999px;padding:3px 10px;font-size:13px;cursor:pointer;text-transform:uppercase;
+}
+.langs button[aria-pressed="true"]{background:var(--paper);color:var(--brand);border-color:var(--paper)}
+.label-top{font-size:12px;letter-spacing:.14em;text-transform:uppercase;opacity:.7}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(30px,8vw,40px);line-height:1.08;margin:0 0 6px}
+.tagline{margin:0;opacity:.8}
+
+/* ---------- card ---------- */
+.card{
+  background:var(--card);border-radius:16px;margin-top:-44px;
+  box-shadow:0 1px 2px rgba(0,0,0,.05),0 12px 32px -12px rgba(0,0,0,.18);
+  padding:22px 18px 20px;
+}
+fieldset{border:0;margin:0 0 22px;padding:0;min-width:0}
+legend,.flabel{
+  display:block;font-weight:600;font-size:15px;margin-bottom:10px;padding:0;
+}
+.hint{font-size:13px;color:var(--ink-soft);margin:6px 0 0}
+
+/* date + time chips */
+.dates{
+  display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x mandatory;
+  margin:0 -18px;padding:2px 18px 6px;scroll-padding-inline:18px;scrollbar-width:none;
+}
+.dates::-webkit-scrollbar{display:none}
+.chip{
+  border:1.5px solid var(--rule);background:var(--card);border-radius:12px;
+  cursor:pointer;transition:border-color .12s,background .12s;
+}
+.chip:hover:not(:disabled){border-color:var(--accent)}
+.chip[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:var(--paper)}
+.chip:disabled{opacity:.38;cursor:not-allowed;text-decoration:line-through}
+.chip:focus-visible,.step:focus-visible,.cta:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.date{flex:none;width:64px;padding:8px 0;scroll-snap-align:start;text-align:center;line-height:1.2}
+.date .dow{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.06em;opacity:.75}
+.date .dnum{display:block;font-family:var(--display);font-weight:700;font-size:22px}
+.date .mon{display:block;font-size:12px;opacity:.75}
+.times{display:grid;grid-template-columns:repeat(auto-fill,minmax(72px,1fr));gap:8px}
+.time{padding:9px 0;font-variant-numeric:tabular-nums;font-weight:500}
+.empty{color:var(--ink-soft);font-size:14px;margin:0}
+
+/* guests stepper */
+.stepper{display:flex;align-items:center;gap:14px}
+.step{
+  width:44px;height:44px;border-radius:50%;border:1.5px solid var(--rule);
+  background:var(--card);font-size:22px;line-height:1;cursor:pointer;
+}
+.step:disabled{opacity:.35;cursor:not-allowed}
+.guests{font-family:var(--display);font-weight:700;font-size:28px;min-width:2ch;text-align:center;font-variant-numeric:tabular-nums}
+.guests-word{color:var(--ink-soft)}
+
+/* text inputs */
+.field{margin-bottom:14px}
+.field label{display:block;font-weight:600;font-size:15px;margin-bottom:6px}
+.field .opt{font-weight:400;color:var(--ink-soft);font-size:13px}
+input[type=text],input[type=tel],textarea{
+  width:100%;border:1.5px solid var(--rule);border-radius:10px;
+  padding:11px 12px;background:var(--card);font-size:16px;
+}
+input:focus,textarea:focus{outline:none;border-color:var(--accent)}
+textarea{resize:vertical;min-height:64px}
+
+/* submit */
+.summary{
+  background:var(--paper);border-radius:10px;padding:10px 12px;margin:6px 0 14px;
+  font-size:14px;color:var(--ink-soft);
+}
+.summary strong{color:var(--ink)}
+.cta{
+  display:flex;align-items:center;justify-content:center;gap:10px;width:100%;
+  border:0;border-radius:12px;padding:15px 16px;cursor:pointer;
+  background:var(--wa);color:#fff;font-weight:600;font-size:17px;text-decoration:none;
+}
+.cta:disabled{background:#9DB8A8;cursor:not-allowed}
+.cta svg{width:22px;height:22px;flex:none}
+.error{color:#B3261E;font-size:14px;margin:0 0 10px;min-height:0}
+.note{font-size:13px;color:var(--ink-soft);text-align:center;margin:12px 0 0}
+
+/* done state */
+.done{text-align:center;padding:10px 4px 4px}
+.done h2{font-family:var(--display);font-size:26px;margin:0 0 8px}
+.done p{margin:0 0 16px;color:var(--ink-soft)}
+.code{
+  display:inline-block;font-family:ui-monospace,monospace;font-size:18px;letter-spacing:.12em;
+  background:var(--paper);border-radius:8px;padding:6px 12px;margin-bottom:18px;
+}
+.linkbtn{background:none;border:0;color:var(--brand);text-decoration:underline;cursor:pointer;margin-top:12px;font-size:15px}
+
+/* info */
+.info{margin-top:22px;font-size:14px}
+.info h3{font-family:var(--display);font-size:18px;margin:0 0 8px}
+.info a{color:var(--brand)}
+.hours{width:100%;border-collapse:collapse;margin-bottom:16px}
+.hours td{padding:5px 0;border-bottom:1px solid var(--rule)}
+.hours td:last-child{text-align:right;font-variant-numeric:tabular-nums}
+.hours tr.today td{font-weight:600}
+.contacts{display:flex;flex-wrap:wrap;gap:8px 18px}
+footer{text-align:center;font-size:12px;color:var(--ink-soft);margin-top:28px;opacity:.7}
+
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="page">
+    <div class="topline">
+      <span class="label-top" data-t="reservation"></span>
+      <div class="langs" id="langs"></div>
+    </div>
+    <h1 id="venueName"></h1>
+    <p class="tagline" id="venueTagline"></p>
+  </div>
+</header>
+
+<main class="page">
+  <div class="card">
+    <form id="form" novalidate>
+      <fieldset>
+        <legend data-t="date"></legend>
+        <div class="dates" id="dates"></div>
+      </fieldset>
+
+      <fieldset>
+        <legend data-t="time"></legend>
+        <div class="times" id="times"></div>
+      </fieldset>
+
+      <fieldset>
+        <legend data-t="guests"></legend>
+        <div class="stepper">
+          <button type="button" class="step" id="minus" aria-label="−">−</button>
+          <span class="guests" id="guests" aria-live="polite">2</span>
+          <button type="button" class="step" id="plus" aria-label="+">+</button>
+          <span class="guests-word" id="guestsWord"></span>
+        </div>
+        <p class="hint" id="bigGroup"></p>
+      </fieldset>
+
+      <div class="field">
+        <label for="name" data-t="name"></label>
+        <input type="text" id="name" autocomplete="name" maxlength="60" required>
+      </div>
+      <div class="field" id="phoneField">
+        <label for="phone"><span data-t="phone"></span> <span class="opt" data-t="optional"></span></label>
+        <input type="tel" id="phone" autocomplete="tel" maxlength="20" inputmode="tel">
+      </div>
+      <div class="field">
+        <label for="note"><span data-t="note"></span> <span class="opt" data-t="optional"></span></label>
+        <textarea id="note" maxlength="240" rows="2"></textarea>
+      </div>
+
+      <div class="summary" id="summary" aria-live="polite"></div>
+      <p class="error" id="error" role="alert"></p>
+      <button type="submit" class="cta" id="submit">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.2h.01c5.46 0 9.9-4.45 9.9-9.91A9.84 9.84 0 0 0 12.04 2Zm5.8 14.04c-.24.68-1.42 1.3-1.96 1.35-.5.05-.97.23-3.27-.68-2.77-1.09-4.52-3.92-4.66-4.1-.13-.18-1.1-1.47-1.1-2.8 0-1.33.7-1.99.95-2.26.24-.27.53-.34.71-.34h.51c.16 0 .38-.06.6.46.23.54.77 1.87.84 2 .07.14.11.3.02.48-.09.18-.14.3-.27.46-.14.16-.29.36-.41.48-.14.14-.28.28-.12.55.16.27.7 1.16 1.51 1.88 1.04.92 1.91 1.21 2.18 1.35.27.13.43.11.59-.07.16-.18.68-.79.86-1.07.18-.27.36-.22.61-.13.25.09 1.58.75 1.85.88.27.14.45.2.52.32.07.11.07.66-.17 1.33Z"/></svg>
+        <span data-t="send"></span>
+      </button>
+      <p class="note" data-t="confirmNote"></p>
+    </form>
+
+    <div class="done" id="done" hidden>
+      <h2 data-t="doneTitle"></h2>
+      <p data-t="doneText"></p>
+      <div class="code" id="doneCode"></div>
+      <a class="cta" id="reopen" href="#">
+        <span data-t="reopen"></span>
+      </a>
+      <button type="button" class="linkbtn" id="again" data-t="again"></button>
+    </div>
+  </div>
+
+  <section class="info">
+    <h3 data-t="hours"></h3>
+    <table class="hours" id="hoursTable"></table>
+    <div class="contacts">
+      <a id="callLink" href="#"></a>
+      <a id="mapLink" href="#" target="_blank" rel="noopener"></a>
+    </div>
+  </section>
+
+  <footer data-t="footer"></footer>
+</main>
+
+<script>
+(function(){
+  "use strict";
+  var C = window.BRON_CONFIG;
+  var B = C.booking;
+  var DAY_KEYS = ["sun","mon","tue","wed","thu","fri","sat"];
+  var HOURS_ORDER = ["mon","tue","wed","thu","fri","sat","sun"];
+
+  var I18N = {
+    cs: {
+      reservation:"Rezervace stolu", date:"Den", time:"Čas", guests:"Počet hostů",
+      name:"Jméno", phone:"Telefon", optional:"(nepovinné)", note:"Poznámka",
+      notePh:"Dětská židlička, venku, oslava…",
+      send:"Odeslat přes WhatsApp",
+      confirmNote:"Rezervace platí, až vám ji potvrdíme v odpovědi.",
+      noSlots:"Tento den už nejsou volné časy. Vyberte jiný den.",
+      pickDate:"Vyberte den.", pickTime:"Vyberte čas.", needName:"Napište prosím jméno.",
+      bigGroup:"Více než {n} osob? Zavolejte nám: {phone}",
+      person1:"osoba", person2:"osoby", person5:"osob",
+      doneTitle:"Skoro hotovo",
+      doneText:"Otevřeli jsme WhatsApp s připravenou zprávou. Stačí stisknout Odeslat. Potvrzení vám přijde v odpovědi.",
+      reopen:"Znovu otevřít WhatsApp", again:"Nová rezervace",
+      hours:"Otevírací doba", closed:"zavřeno", call:"Zavolat", map:"Mapa",
+      today:"dnes", tomorrow:"zítra", afterMidnight:"po půlnoci",
+      footer:"Rezervace přes WhatsApp",
+      summary:"{date} v {time} · {guests}",
+      days:["ne","po","út","st","čt","pá","so"],
+      daysLong:{mon:"Pondělí",tue:"Úterý",wed:"Středa",thu:"Čtvrtek",fri:"Pátek",sat:"Sobota",sun:"Neděle"},
+      months:["led","úno","bře","dub","kvě","čvn","čvc","srp","zář","říj","lis","pro"],
+      msg:{
+        head:"Dobrý den, chci rezervovat stůl.",
+        date:"Den", time:"Čas", guests:"Hostů", name:"Jméno", phone:"Telefon", note:"Poznámka", code:"Kód"
+      }
+    },
+    en: {
+      reservation:"Table booking", date:"Day", time:"Time", guests:"Guests",
+      name:"Name", phone:"Phone", optional:"(optional)", note:"Note",
+      notePh:"High chair, outside, birthday…",
+      send:"Send via WhatsApp",
+      confirmNote:"Your booking is confirmed once we reply.",
+      noSlots:"No free times left on this day. Please pick another day.",
+      pickDate:"Please pick a day.", pickTime:"Please pick a time.", needName:"Please enter your name.",
+      bigGroup:"More than {n} people? Call us: {phone}",
+      person1:"guest", person2:"guests", person5:"guests",
+      doneTitle:"Almost done",
+      doneText:"We opened WhatsApp with your message ready. Just press Send. We'll confirm in our reply.",
+      reopen:"Open WhatsApp again", again:"New booking",
+      hours:"Opening hours", closed:"closed", call:"Call", map:"Map",
+      today:"today", tomorrow:"tomorrow", afterMidnight:"after midnight",
+      footer:"Booking via WhatsApp",
+      summary:"{date} at {time} · {guests}",
+      days:["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],
+      daysLong:{mon:"Monday",tue:"Tuesday",wed:"Wednesday",thu:"Thursday",fri:"Friday",sat:"Saturday",sun:"Sunday"},
+      months:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
+      msg:{
+        head:"Hello, I'd like to book a table.",
+        date:"Day", time:"Time", guests:"Guests", name:"Name", phone:"Phone", note:"Note", code:"Code"
+      }
+    }
+  };
+
+  var langs = (C.languages || ["cs"]).filter(function(l){ return I18N[l]; });
+  // Сообщение владельцу всегда на основном языке заведения, что бы ни выбрал гость.
+  var ownerLang = langs[0];
+
+  var store = {
+    get:function(k){ try { return localStorage.getItem("bron:"+k); } catch(e){ return null; } },
+    set:function(k,v){ try { localStorage.setItem("bron:"+k, v); } catch(e){} }
+  };
+
+  var state = {
+    lang: langs.indexOf(store.get("lang")) >= 0 ? store.get("lang") : langs[0],
+    date: null,   // Date в полночь по местному времени
+    slot: null,   // минуты от полуночи выбранной даты (может быть >= 1440)
+    guests: 2,
+    waUrl: ""
+  };
+
+  var $ = function(id){ return document.getElementById(id); };
+  var t = function(key){ return I18N[state.lang][key]; };
+  var fill = function(s, vars){ return s.replace(/\{(\w+)\}/g, function(_, k){ return vars[k]; }); };
+
+  function toMin(hhmm){ var p = hhmm.split(":"); return +p[0]*60 + +p[1]; }
+  function fmtMin(m){ m = m % 1440; return String(Math.floor(m/60)).padStart(2,"0")+":"+String(m%60).padStart(2,"0"); }
+  function iso(d){ return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
+  function sameDay(a,b){ return a && b && iso(a) === iso(b); }
+  function today(){ var d = new Date(); d.setHours(0,0,0,0); return d; }
+
+  function slotsFor(date){
+    if (C.closedDates.indexOf(iso(date)) >= 0) return [];
+    var ranges = C.hours[DAY_KEYS[date.getDay()]];
+    if (!ranges) return [];
+    var now = new Date();
+    var earliest = sameDay(date, now) ? now.getHours()*60 + now.getMinutes() + B.leadMinutes : -1;
+    var out = [];
+    ranges.forEach(function(r){
+      var open = toMin(r[0]), close = toMin(r[1]);
+      if (close <= open) close += 1440;
+      var first = Math.ceil(open / B.slotMinutes) * B.slotMinutes;
+      for (var m = first; m <= close - B.lastSeatingMinutes; m += B.slotMinutes) {
+        if (m >= earliest) out.push(m);
+      }
+    });
+    return out;
+  }
+
+  function plural(n){
+    if (state.lang === "cs") return n === 1 ? t("person1") : (n >= 2 && n <= 4 ? t("person2") : t("person5"));
+    return n === 1 ? t("person1") : t("person2");
+  }
+
+  function dateLabel(d, lang, absolute){
+    var L = I18N[lang || state.lang];
+    var base = L.days[d.getDay()]+" "+d.getDate()+". "+(d.getMonth()+1)+".";
+    if (absolute) return base+" "+d.getFullYear();
+    var diff = Math.round((d - today()) / 864e5);
+    if (diff === 0) return L.today+" ("+base+")";
+    if (diff === 1) return L.tomorrow+" ("+base+")";
+    return base;
+  }
+
+  function slotLabel(m, lang){
+    return fmtMin(m) + (m >= 1440 ? " ("+I18N[lang || state.lang].afterMidnight+")" : "");
+  }
+
+  /* ---------- render ---------- */
+
+  function renderStatic(){
+    document.documentElement.lang = state.lang;
+    document.title = t("reservation")+" · "+C.venue.name;
+    $("venueName").textContent = C.venue.name;
+    $("venueTagline").textContent = C.venue.tagline || "";
+    document.querySelectorAll("[data-t]").forEach(function(el){ el.textContent = t(el.getAttribute("data-t")); });
+    $("note").placeholder = t("notePh");
+    $("phoneField").hidden = !B.askPhone;
+    $("callLink").textContent = t("call")+": "+C.venue.phone;
+    $("callLink").href = "tel:"+C.venue.phone.replace(/\s/g,"");
+    $("mapLink").textContent = t("map")+": "+C.venue.address;
+    $("mapLink").href = C.venue.mapUrl;
+    $("mapLink").hidden = !C.venue.mapUrl;
+
+    $("langs").innerHTML = "";
+    if (langs.length > 1) langs.forEach(function(l){
+      var b = document.createElement("button");
+      b.type = "button"; b.textContent = l;
+      b.setAttribute("aria-pressed", String(l === state.lang));
+      b.onclick = function(){ state.lang = l; store.set("lang", l); renderAll(); };
+      $("langs").appendChild(b);
+    });
+
+    var todayKey = DAY_KEYS[new Date().getDay()];
+    $("hoursTable").innerHTML = HOURS_ORDER.map(function(k){
+      var r = C.hours[k];
+      var txt = r ? r.map(function(x){ return x[0]+"–"+x[1]; }).join(", ") : t("closed");
+      return '<tr class="'+(k === todayKey ? "today" : "")+'"><td>'+t("daysLong")[k]+"</td><td>"+txt+"</td></tr>";
+    }).join("");
+  }
+
+  function renderDates(){
+    var box = $("dates"); box.innerHTML = "";
+    var L = I18N[state.lang];
+    var d0 = today();
+    for (var i = 0; i < B.daysAhead; i++) {
+      var d = new Date(d0); d.setDate(d0.getDate() + i);
+      var has = slotsFor(d).length > 0;
+      if (!state.date && has) state.date = d;
+      var b = document.createElement("button");
+      b.type = "button"; b.className = "chip date"; b.disabled = !has;
+      b.setAttribute("aria-pressed", String(sameDay(d, state.date)));
+      b.setAttribute("aria-label", dateLabel(d));
+      b.innerHTML = '<span class="dow">'+(i === 0 ? L.today : L.days[d.getDay()])+'</span>'
+                  + '<span class="dnum">'+d.getDate()+'</span>'
+                  + '<span class="mon">'+L.months[d.getMonth()]+'</span>';
+      b.onclick = (function(day){ return function(){
+        state.date = day; state.slot = null; renderDates(); renderTimes(); renderSummary();
+      }; })(d);
+      box.appendChild(b);
+    }
+  }
+
+  function renderTimes(){
+    var box = $("times"); box.innerHTML = "";
+    if (!state.date) { box.innerHTML = '<p class="empty">'+t("noSlots")+"</p>"; return; }
+    var slots = slotsFor(state.date);
+    if (!slots.length) { box.innerHTML = '<p class="empty">'+t("noSlots")+"</p>"; return; }
+    if (slots.indexOf(state.slot) < 0) state.slot = null;
+    slots.forEach(function(m){
+      var b = document.createElement("button");
+      b.type = "button"; b.className = "chip time"; b.textContent = fmtMin(m);
+      if (m >= 1440) b.title = t("afterMidnight");
+      b.setAttribute("aria-pressed", String(m === state.slot));
+      b.onclick = function(){ state.slot = m; renderTimes(); renderSummary(); };
+      box.appendChild(b);
+    });
+  }
+
+  function renderGuests(){
+    $("guests").textContent = state.guests;
+    $("guestsWord").textContent = plural(state.guests);
+    $("minus").disabled = state.guests <= 1;
+    $("plus").disabled = state.guests >= B.maxGuests;
+    $("bigGroup").textContent = fill(t("bigGroup"), { n: B.maxGuests, phone: C.venue.phone });
+  }
+
+  function renderSummary(){
+    var ok = state.date && state.slot !== null;
+    $("summary").hidden = !ok;
+    if (ok) $("summary").innerHTML = "<strong>"+fill(t("summary"), {
+      date: dateLabel(state.date), time: slotLabel(state.slot), guests: state.guests+" "+plural(state.guests)
+    })+"</strong>";
+  }
+
+  function renderAll(){ renderStatic(); renderDates(); renderTimes(); renderGuests(); renderSummary(); }
+
+  /* ---------- actions ---------- */
+
+  function refCode(){
+    var abc = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789", s = "";
+    for (var i = 0; i < 4; i++) s += abc[Math.floor(Math.random()*abc.length)];
+    return s;
+  }
+
+  function buildMessage(code){
+    var M = I18N[ownerLang].msg;
+    var lines = [
+      M.head, "",
+      // Точная дата, без «сегодня»: владелец может прочитать сообщение позже.
+      M.date+": "+dateLabel(state.date, ownerLang, true),
+      M.time+": "+slotLabel(state.slot, ownerLang),
+      M.guests+": "+state.guests,
+      M.name+": "+$("name").value.trim()
+    ];
+    var phone = $("phone").value.trim();
+    if (B.askPhone && phone) lines.push(M.phone+": "+phone);
+    var note = $("note").value.trim();
+    if (note) lines.push(M.note+": "+note);
+    lines.push("", M.code+": "+code);
+    return lines.join("\n");
+  }
+
+  $("minus").onclick = function(){ if (state.guests > 1) { state.guests--; renderGuests(); renderSummary(); } };
+  $("plus").onclick  = function(){ if (state.guests < B.maxGuests) { state.guests++; renderGuests(); renderSummary(); } };
+
+  $("form").onsubmit = function(e){
+    e.preventDefault();
+    var err = !state.date ? t("pickDate") : state.slot === null ? t("pickTime") : !$("name").value.trim() ? t("needName") : "";
+    $("error").textContent = err;
+    if (err) { if (err === t("needName")) $("name").focus(); return; }
+
+    store.set("name", $("name").value.trim());
+    store.set("phone", $("phone").value.trim());
+
+    var code = refCode();
+    state.waUrl = "https://wa.me/"+C.venue.whatsapp+"?text="+encodeURIComponent(buildMessage(code));
+    $("doneCode").textContent = code;
+    $("reopen").href = state.waUrl;
+    $("form").hidden = true; $("done").hidden = false;
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.location.href = state.waUrl;
+  };
+
+  $("again").onclick = function(){
+    $("done").hidden = true; $("form").hidden = false;
+    $("note").value = ""; state.slot = null;
+    renderTimes(); renderSummary();
+  };
+
+  /* ---------- init ---------- */
+  var root = document.documentElement.style;
+  root.setProperty("--brand", C.theme.brand);
+  root.setProperty("--accent", C.theme.accent);
+  root.setProperty("--paper", C.theme.paper);
+  $("name").value = store.get("name") || "";
+  $("phone").value = store.get("phone") || "";
+  renderAll();
+})();
+</script>
+</body>
+</html>

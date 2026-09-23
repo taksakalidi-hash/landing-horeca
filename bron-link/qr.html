@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<!--
+  Служебная страница для владельца: QR-код на страницу брони
+  и табличка на стол для печати. Гостям эту страницу не показываем.
+-->
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QR kód rezervace</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="config.js"></script>
+<script src="vendor/qrcode.js"></script>
+<style>
+:root{--brand:#17372C;--accent:#B8862F;--paper:#F6F1E4;--ink:#2B2A26;--ink-soft:#5E5C54;--rule:rgba(43,42,38,.14)}
+*{box-sizing:border-box}
+body{margin:0;background:#E9E6DE;color:var(--ink);font-family:'Inter',system-ui,sans-serif;font-size:15px;line-height:1.5}
+.tools{width:min(640px,100%);margin:0 auto;padding:24px 16px}
+h1{font-family:'Zilla Slab',Georgia,serif;font-size:26px;margin:0 0 4px}
+.tools p{margin:0 0 16px;color:var(--ink-soft)}
+label{display:block;font-weight:600;margin-bottom:6px}
+input{width:100%;font:inherit;border:1.5px solid var(--rule);border-radius:10px;padding:10px 12px;background:#fff}
+.row{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 0}
+button{font:inherit;font-weight:600;border:0;border-radius:10px;padding:10px 16px;cursor:pointer;background:var(--brand);color:#fff}
+button.ghost{background:#fff;color:var(--brand);border:1.5px solid var(--rule)}
+
+/* табличка A6 (105×148 мм) */
+.sheet{display:flex;justify-content:center;padding:8px 16px 40px}
+.tent{
+  width:105mm;height:148mm;background:var(--paper);color:var(--ink);
+  border-radius:4mm;box-shadow:0 10px 30px -12px rgba(0,0,0,.3);
+  display:flex;flex-direction:column;align-items:center;justify-content:space-between;
+  padding:10mm 8mm 8mm;text-align:center;overflow:hidden;
+}
+.tent .kicker{font-size:9pt;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft)}
+.tent .venue{font-family:'Zilla Slab',Georgia,serif;font-weight:700;font-size:20pt;line-height:1.1;color:var(--brand);margin-top:2mm}
+.tent .call{font-family:'Zilla Slab',Georgia,serif;font-weight:700;font-size:15pt;line-height:1.2}
+.tent .qr{background:#fff;padding:4mm;border-radius:3mm}
+.tent .qr svg{display:block;width:52mm;height:52mm}
+.tent .small{font-size:9pt;color:var(--ink-soft)}
+@media (max-width:460px){ .tent{transform:scale(.8);transform-origin:top center;margin-bottom:-30mm} }
+
+@page{size:A6;margin:0}
+@media print{
+  body{background:#fff}
+  .tools{display:none}
+  .sheet{padding:0}
+  .tent{box-shadow:none;border-radius:0;transform:none;margin:0}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+
+<div class="tools">
+  <h1>QR-код на стол</h1>
+  <p>Вставьте адрес страницы брони. Табличка печатается на A6, PNG подходит для Instagram и Google Maps. Текст на табличке — на чешском, для гостей.</p>
+  <label for="url">Адрес страницы брони</label>
+  <input type="url" id="url" spellcheck="false">
+  <div class="row">
+    <button type="button" onclick="window.print()">Печать таблички A6</button>
+    <button type="button" class="ghost" id="png">Скачать QR (PNG)</button>
+  </div>
+</div>
+
+<div class="sheet">
+  <div class="tent">
+    <div>
+      <div class="kicker">Rezervace stolu</div>
+      <div class="venue" id="venue"></div>
+    </div>
+    <div class="call">Naskenujte a rezervujte<br>přes WhatsApp</div>
+    <div class="qr" id="qr"></div>
+    <div class="small" id="phone"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var C = window.BRON_CONFIG;
+  var input = document.getElementById("url");
+  var box = document.getElementById("qr");
+
+  document.getElementById("venue").textContent = C.venue.name;
+  document.getElementById("phone").textContent = "nebo volejte " + C.venue.phone;
+  // По умолчанию — соседняя index.html на том же хостинге.
+  input.value = location.href.replace(/qr\.html.*$/, "");
+
+  // Кириллица и диакритика в адресе → ASCII (punycode / %XX), чтобы QR читался везде.
+  function asciiUrl(){
+    var v = input.value.trim() || location.href;
+    try { return new URL(v).href; } catch(e) { return encodeURI(v); }
+  }
+
+  function make(){
+    var q = qrcode(0, "M");
+    q.addData(asciiUrl());
+    q.make();
+    return q;
+  }
+
+  function draw(){
+    box.innerHTML = make().createSvgTag({ cellSize: 4, margin: 0, scalable: true });
+  }
+  input.addEventListener("input", draw);
+
+  document.getElementById("png").onclick = function(){
+    var q = make(), cell = 16, quiet = cell * 4;
+    var size = q.getModuleCount() * cell + quiet * 2;
+    var canvas = document.createElement("canvas");
+    canvas.width = canvas.height = size;
+    var ctx = canvas.getContext("2d");
+    ctx.fillStyle = "#ffffff"; ctx.fillRect(0, 0, size, size);
+    ctx.translate(quiet, quiet);
+    q.renderTo2dContext(ctx, cell);
+    var a = document.createElement("a");
+    a.download = "qr-rezervace.png";
+    a.href = canvas.toDataURL("image/png");
+    a.click();
+  };
+
+  draw();
+})();
+</script>
+</body>
+</html>
