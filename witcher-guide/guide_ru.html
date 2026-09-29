@@ -1,0 +1,311 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><title>Ничего не пропусти — Ведьмак 3 Remastered</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  @page { size: A4; margin: 0; }
+  :root{
+    --ink:#1d1a16; --soft:#5b5347; --parch:#f4ecdc; --parch2:#ebe0c9;
+    --blood:#8e1b1b; --steel:#3c4650; --gold:#a88532; --rule:#cdbf9f;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--parch);color:var(--ink);
+    font-family:'EB Garamond',Georgia,serif;font-size:11.5pt;line-height:1.42;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .page{width:210mm;height:297mm;padding:18mm 17mm 16mm;position:relative;overflow:hidden;
+    page-break-after:always;background:
+      radial-gradient(ellipse at 20% 0%, rgba(255,255,255,.55), transparent 60%),
+      radial-gradient(ellipse at 100% 100%, rgba(168,133,50,.10), transparent 55%),
+      var(--parch)}
+  .page:last-child{page-break-after:auto}
+  .page::after{content:"";position:absolute;inset:7mm;border:1px solid var(--rule);pointer-events:none}
+  .folio{position:absolute;bottom:10mm;left:0;right:0;text-align:center;
+    font-family:Inter,sans-serif;font-size:7.5pt;letter-spacing:.18em;color:var(--soft);text-transform:uppercase}
+  h1,h2,h3{font-family:Cinzel,serif;margin:0;color:var(--ink)}
+  h2{font-size:21pt;letter-spacing:.04em;margin-bottom:2mm}
+  h2 + .lede{margin-top:0}
+  h3{font-size:11.5pt;letter-spacing:.06em;color:var(--blood);margin:5mm 0 2mm}
+  .kicker{font-family:Inter,sans-serif;font-size:8pt;font-weight:700;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--blood);margin-bottom:2mm}
+  .lede{font-style:italic;color:var(--soft);font-size:12pt;margin:0 0 5mm;max-width:165mm}
+  .rule{height:1px;background:linear-gradient(90deg,var(--gold),transparent);margin:3mm 0 4mm}
+  p{margin:0 0 3mm}
+  b{font-weight:600}
+  .q{font-style:italic;font-weight:600}
+  ul.check{list-style:none;padding:0;margin:0}
+  ul.check li{position:relative;padding:1.4mm 0 1.4mm 8mm;border-bottom:1px dotted var(--rule)}
+  ul.check li::before{content:"";position:absolute;left:0;top:2.6mm;width:3.6mm;height:3.6mm;
+    border:1.3px solid var(--steel);border-radius:.6mm;background:#fffaf0}
+  ul.check li small{display:block;color:var(--soft);font-size:9.5pt;line-height:1.3}
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:7mm}
+  .box{background:rgba(255,255,255,.45);border:1px solid var(--rule);border-left:3px solid var(--blood);
+    padding:3.5mm 4.5mm;margin:3mm 0}
+  .box.steel{border-left-color:var(--steel)}
+  .box.gold{border-left-color:var(--gold)}
+  .box .t{font-family:Inter,sans-serif;font-size:7.5pt;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--blood);margin-bottom:1mm}
+  .box.steel .t{color:var(--steel)} .box.gold .t{color:var(--gold)}
+  table{width:100%;border-collapse:collapse;font-size:10.5pt}
+  th{font-family:Inter,sans-serif;font-size:7.5pt;letter-spacing:.14em;text-transform:uppercase;text-align:left;
+    color:#fff;background:var(--steel);padding:2mm 2.5mm}
+  td{padding:2mm 2.5mm;border-bottom:1px solid var(--rule);vertical-align:top}
+  td.cb{width:7mm} td.cb span{display:inline-block;width:3.6mm;height:3.6mm;border:1.3px solid var(--steel);border-radius:.6mm;background:#fffaf0}
+  .tag{display:inline-block;font-family:Inter,sans-serif;font-size:7pt;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+    padding:.4mm 1.6mm;border-radius:1mm;color:#fff;background:var(--blood);vertical-align:middle}
+  .tag.ok{background:#3f6b45} .tag.st{background:var(--steel)}
+  .num{font-family:Cinzel,serif;font-weight:800;color:var(--blood);font-size:14pt;width:10mm}
+
+  /* cover */
+  .cover{background:radial-gradient(ellipse at 50% 35%, #3a1111 0%, #1a0d0d 55%, #0e0909 100%);color:#efe6d2;
+    display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:25mm}
+  .cover::after{border-color:rgba(168,133,50,.45)}
+  .cover .medal{width:62mm;height:62mm;margin-bottom:10mm}
+  .cover .pre{font-family:Inter,sans-serif;font-size:8.5pt;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);margin-bottom:6mm}
+  .cover h1{font-size:40pt;line-height:1.05;color:#f4ecdc;letter-spacing:.04em}
+  .cover .sub{font-family:Cinzel,serif;font-size:13pt;letter-spacing:.12em;color:#d8c9a6;margin-top:6mm}
+  .cover .bar{width:40mm;height:1px;background:var(--gold);margin:9mm auto}
+  .cover .inc{font-style:italic;font-size:12.5pt;color:#cdbf9f;max-width:130mm}
+  .cover .foot{position:absolute;bottom:14mm;left:0;right:0;font-family:Inter,sans-serif;font-size:7pt;letter-spacing:.12em;color:#8d8170;text-transform:uppercase}
+  .toc li{display:flex;justify-content:space-between;border-bottom:1px dotted var(--rule);padding:2mm 0;font-size:12.5pt}
+  .toc{list-style:none;padding:0;margin:0}
+  .toc b{font-family:Cinzel,serif;color:var(--blood);margin-right:4mm}
+
+  .en{font-weight:400;font-style:normal;color:var(--soft);font-size:.86em}
+  .cover h1{font-size:36pt}
+</style></head><body>
+<section class="page cover">
+  <svg class="medal" viewBox="0 0 200 200" aria-hidden="true">
+    <circle cx="100" cy="100" r="92" fill="none" stroke="#a88532" stroke-width="2"/>
+    <circle cx="100" cy="100" r="82" fill="none" stroke="#a88532" stroke-width=".8" stroke-dasharray="2 4"/>
+    <g fill="none" stroke="#c9a54a" stroke-width="3" stroke-linejoin="round">
+      <path d="M100 30 L100 170"/><path d="M86 48 L100 30 L114 48"/><path d="M72 128 L128 128"/>
+    </g>
+    <g fill="none" stroke="#8e1b1b" stroke-width="2.5">
+      <path d="M52 70 Q100 110 148 70"/><path d="M58 92 Q100 124 142 92"/>
+    </g>
+    <circle cx="100" cy="100" r="6" fill="#8e1b1b"/>
+  </svg>
+  <div class="pre">Неофициальный гайд для игроков</div>
+  <h1>Ничего<br>не пропусти</h1>
+  <div class="sub">Квесты · Концовки · Гвинт</div>
+  <div class="bar"></div>
+  <div class="inc">Чек-лист для «Ведьмак 3 Remastered»: все точки невозврата, пять выборов, которые решают судьбу Цири, судьбы королевств и карты гвинта, которые можно потерять навсегда.</div>
+  <div class="foot">Фанатский гайд · Не связан с CD PROJEKT RED и не одобрен ею</div>
+</section>
+<section class="page">
+  <div class="kicker">Перед дорогой</div>
+  <h2>Как пользоваться гайдом</h2>
+  <div class="rule"></div>
+  <p class="lede">«Ведьмак 3» щедр — до поры до времени. Несколько сюжетных моментов тихо закрывают целые цепочки квестов, блокируют концовки и навсегда забирают карты гвинта. Этот гайд показывает, где именно они находятся, чтобы вы спокойно исследовали мир и не потеряли 100 часов выборов из-за одной поездки на лодке.</p>
+  <h3>Содержание</h3>
+  <ol class="toc"><li><span><b>I</b>Три точки невозврата</span><span>с. 3</span></li><li><span><b>II</b>Чек-лист: Белый Сад</span><span>с. 4</span></li><li><span><b>III</b>Главное — до Острова Туманов</span><span>с. 5</span></li><li><span><b>IV</b>Союзники для битвы за Каэр Морхен</span><span>с. 6</span></li><li><span><b>V</b>Судьба Цири — пять моментов</span><span>с. 7</span></li><li><span><b>VI</b>Судьбы королевств</span><span>с. 8</span></li><li><span><b>VII</b>Гвинт — карты, которые можно потерять</span><span>с. 9</span></li><li><span><b>VIII</b>«Каменные сердца» и «Кровь и вино»</span><span>с. 10</span></li><li><span><b>IX</b>Что нового в Remastered + порядок прохождения</span><span>с. 11</span></li></ol>
+  <div class="cols" style="margin-top:5mm">
+    <div class="box"><div class="t">Золотое правило</div>Когда игра предложит лодку на <b>Остров Туманов</b> — остановитесь. Сделайте отдельное сохранение, откройте страницу 5 и сначала отметьте все пункты.</div>
+    <div class="box steel"><div class="t">Спойлеры</div>На страницах 3–6 и 9–11 спойлеров почти нет. Страницы 7–8 — про концовки: читайте их, когда доберётесь до Каэр Морхена, или сразу, если не боитесь спойлеров.</div>
+  </div>
+  <div class="box steel"><div class="t">Названия квестов</div>Даны как в русской версии игры, в скобках — английский оригинал. Если русского названия нет, квест указан по-английски.</div>
+  <div class="box gold"><div class="t">Интерактивный чек-лист</div>Нажмите на любой квадратик — появится галочка. Работает в Adobe Acrobat Reader, Chrome, Edge и большинстве PDF-приложений на телефоне. Сохраните файл, чтобы не потерять прогресс. Любите бумагу? Просто распечатайте.</div>
+  <div class="folio">Ничего не пропусти · 2</div>
+</section>
+<section class="page">
+  <div class="kicker">Глава I</div>
+  <h2>Три точки невозврата</h2>
+  <div class="rule"></div>
+  <p class="lede">Почти всё в игре вас дождётся. Эти моменты — нет.</p>
+  <table>
+    <tr><th style="width:9mm">#</th><th>Момент</th><th>Что закрывается</th></tr>
+    <tr><td class="num">1</td><td><b>Отъезд из Белого Сада</b><br><small>Поездка с нильфгаардским эскортом к императору</small></td>
+      <td>Все незавершённые побочные квесты, заказы и партии в гвинт Белого Сада. Позже можно закончить только <span class='q'>Faithful Friend</span>.</td></tr>
+    <tr><td class="num">2</td><td><b>Отплытие на Остров Туманов</b><br><small>Сюжетный квест <span class='q'>Остров Туманов <span class='en'>(The Isle of Mists)</span></span></small></td>
+      <td>Главная точка невозврата. Около <b>19 побочных квестов</b> проваливаются автоматически: вся линия Кейры Мец, роман с Трисс, цепочка покушения на Радовида и последний шанс собрать союзников для Каэр Морхена.</td></tr>
+    <tr><td class="num">3</td><td><b>Точки невозврата в DLC</b><br><small>Ограбление в «Каменных сердцах» · сказочная страна в «Крови и вине»</small></td>
+      <td>Завершение ограбления закрывает побочный контент, связанный с аукционным домом. В Страну Тысячи Сказок попадаешь только один раз — исследуйте её полностью.</td></tr>
+  </table>
+  <div class="box" style="margin-top:6mm"><div class="t">Также помните</div>Персонажи, которые погибают или уходят по сюжету, забирают с собой <b>карты гвинта</b> и <b>товары</b>. Скупайте карты у торговцев Велена и Новиграда заранее — некоторые со временем становятся недоступны.</div>
+  <h3>Сохранения, которые спасают прохождение</h3>
+  <ul class="check">
+    <li>Ручное сохранение перед каждым сюжетным квестом с лодкой, порталом или предупреждением о переезде.</li>
+    <li>Храните по сохранению на регион: <i>Белый Сад · Велен · Новиград · Скеллиге · Каэр Морхен</i>.</li>
+    <li>Перед Островом Туманов назовите сохранение <b>«ДО ТУМАНОВ»</b> — скажете себе спасибо.</li>
+  </ul>
+  <div class="folio">Ничего не пропусти · 3</div>
+</section>
+<section class="page">
+  <div class="kicker">Глава II · Точка невозврата №1</div>
+  <h2>Чек-лист: Белый Сад</h2>
+  <div class="rule"></div>
+  <p class="lede">Стартовая локация маленькая, но всё здесь закрывается, когда вы уезжаете к императору.</p>
+  <div class="cols">
+    <div>
+      <h3>Побочные квесты и заказы</h3>
+      <ul class="check">
+        <li>Пропавший без вести <span class='en'>(Missing in Action)</span></li><li>На смертном одре <span class='en'>(On Death's Bed)</span></li><li>Ценный груз <span class='en'>(Precious Cargo)</span></li>
+        <li>Сковорода как новая <span class='en'>(A Frying Pan, Spick and Span)</span></li><li>Игра с огнём <span class='en'>(Twisted Firestarter)</span></li><li>Заказ: Лихо у колодца <span class='en'>(Contract: Devil by the Well)</span></li>
+      </ul>
+    </div>
+    <div>
+      <h3>Перед отъездом</h3>
+      <ul class="check">
+        <li>Сыграйте в гвинт с трактирщицей и купите её карты.</li>
+        <li>Прочитайте все доски объявлений.</li>
+        <li>Зачистите значки «?» — лёгкий лут и опыт.</li>
+        <li>Откройте все указатели (быстрое перемещение).</li>
+        <li>Посетите найденные Места Силы — бесплатные очки умений.</li>
+        <li>Проверьте инвентарь: продайте хлам, чертежи оставьте.</li>
+      </ul>
+      <div class="box gold" style="margin-top:4mm"><div class="t">Не волнуйтесь</div><span class='q'>Faithful Friend</span> — единственный квест Белого Сада, который останется доступен после отъезда.</div>
+    </div>
+  </div>
+  <div class="folio">Ничего не пропусти · 4</div>
+</section>
+<section class="page">
+  <div class="kicker">Глава III · Точка невозврата №2</div>
+  <h2>Главное — до Острова Туманов</h2>
+  <div class="rule"></div>
+  <p class="lede">Завершите это до того, как сядете в лодку в сюжетном квесте <span class='q'>Остров Туманов <span class='en'>(The Isle of Mists)</span></span>. Всё незавершённое провалится автоматически.</p>
+  <div class="cols">
+    <div>
+      <h3>Кейра Мец (Велен)</h3>
+      <ul class="check">
+        <li>Магический светильник <span class='en'>(Magic Lamp)</span></li><li>Мышиная башня <span class='en'>(A Towerful of Mice)</span></li><li>Дружеская услуга <span class='en'>(A Favor for a Friend)</span></li>
+        <li>На благо науки <span class='en'>(For the Advancement of Learning)</span><small>В конце отправьте её в <b>Каэр Морхен</b> — так она станет союзницей.</small></li>
+      </ul>
+      <h3>Трисс и Новиград</h3>
+      <ul class="check">
+        <li>Вопрос жизни и смерти <span class='en'>(A Matter of Life and Death)</span><small>Внутри небольшой турнир по гвинту — выиграйте все партии ради карт.</small></li>
+        <li>Сейчас или никогда <span class='en'>(Now or Never)</span><small>Здесь решается роман с Трисс и то, можно ли будет потом остановить Радовида.</small></li>
+        <li>Костры Новиграда <span class='en'>(Pyres of Novigrad)</span><small>Пройдите всю цепочку, чтобы спасти магов и нелюдей Новиграда.</small></li>
+        <li>Смертные грехи <span class='en'>(Carnal Sins)</span><small>Детектив о новиградских убийствах.</small></li>
+      </ul>
+    </div>
+    <div>
+      <h3>Роше, Дийкстра и Радовид</h3>
+      <ul class="check">
+        <li>Око за око <span class='en'>(An Eye for an Eye)</span><small>Нужен, чтобы Роше и Бьянка приехали в Каэр Морхен.</small></li>
+        <li>Цепочка против Радовида<small>Открывается через квест Трисс <span class='q'>Сейчас или никогда <span class='en'>(Now or Never)</span></span>. Пропустите его — и <span class='q'>Дела государственной важности <span class='en'>(Reason of State)</span></span> станет недоступен навсегда.</small></li>
+      </ul>
+      <h3>Трон Скеллиге</h3>
+      <ul class="check">
+        <li>Possession</li><li>Владыка Ундвика <span class='en'>(The Lord of Undvik)</span></li>
+        <li>Королевский гамбит <span class='en'>(King's Gambit)</span><small>Решает, кто будет править Скеллиге, и приводит Хьялмара в союзники.</small></li>
+      </ul>
+      <h3>Союзники</h3>
+      <ul class="check">
+        <li>Братья по оружию: Велен <span class='en'>(Brothers in Arms: Velen)</span></li><li>Братья по оружию: Новиград <span class='en'>(Brothers in Arms: Novigrad)</span></li><li>Братья по оружию: Скеллиге <span class='en'>(Brothers in Arms: Skellige)</span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="folio">Ничего не пропусти · 5</div>
+</section>
+<section class="page">
+  <div class="kicker">Глава IV</div>
+  <h2>Союзники для битвы за Каэр Морхен</h2>
+  <div class="rule"></div>
+  <p class="lede">Чем больше друзей вы приведёте, тем лучше пройдёт битва. Все союзники ниже (кроме бонусного) открывают достижение <b>«В полном составе»</b> <span class='en'>(Full Crew)</span>.</p>
+  <table>
+    <tr><th></th><th style="width:34mm">Союзник</th><th>Как привлечь</th></tr>
+    <tr><td class="cb"><span></span></td><td><b>Кейра Мец</b></td><td>Пройдите все её квесты. В последнем, <span class='q'>На благо науки <span class='en'>(For the Advancement of Learning)</span></span>, отправьте её в Каэр Морхен.</td></tr><tr><td class="cb"><span></span></td><td><b>Трисс</b></td><td>Присоединяется по сюжету, когда вы собираете союзников.</td></tr><tr><td class="cb"><span></span></td><td><b>Роше и Бьянка</b></td><td>Пройдите <span class='q'>Око за око <span class='en'>(An Eye for an Eye)</span></span>, затем поговорите с Роше во время <span class='q'>Братья по оружию: Новиград <span class='en'>(Brothers in Arms: Novigrad)</span></span>.</td></tr><tr><td class="cb"><span></span></td><td><b>Золтан</b></td><td>Поговорите с ним во время <span class='q'>Братья по оружию: Новиград <span class='en'>(Brothers in Arms: Novigrad)</span></span>.</td></tr><tr><td class="cb"><span></span></td><td><b>Эрмион</b></td><td>Поговорите с ним во время <span class='q'>Братья по оружию: Скеллиге <span class='en'>(Brothers in Arms: Skellige)</span></span>.</td></tr><tr><td class="cb"><span></span></td><td><b>Хьялмар</b></td><td>Пройдите цепочку наследования Скеллиге: <span class='q'>Possession</span>, <span class='q'>Владыка Ундвика <span class='en'>(The Lord of Undvik)</span></span>, <span class='q'>Королевский гамбит <span class='en'>(King's Gambit)</span></span>.</td></tr><tr><td class="cb"><span></span></td><td><b>Лето</b> <span class='tag st'>бонус</span></td><td>Только если в начале игры вы сказали нильфгаардскому офицеру, что Лето жив. Пройдите <span class='q'>Падение дома Реардон <span class='en'>(The Fall of House Reardon)</span></span> и <span class='q'>Призраки прошлого <span class='en'>(Ghosts of the Past)</span></span>, затем отправьте его в Каэр Морхен. Для достижения не обязателен.</td></tr>
+  </table>
+  <div class="box steel" style="margin-top:6mm"><div class="t">Помните</div>Всё это нужно сделать <b>до Острова Туманов</b>. После той лодки список приглашённых закрыт.</div>
+  <div class="folio">Ничего не пропусти · 6</div>
+</section>
+<section class="page">
+  <div class="kicker">Глава V · Спойлеры</div>
+  <h2>Судьба Цири — пять моментов</h2>
+  <div class="rule"></div>
+  <p class="lede">Игра незаметно оценивает, как вы ведёте себя с Цири, в пяти моментах трёх поздних квестов. Итог плюс одно политическое условие определяют её концовку.</p>
+  <table>
+    <tr><th></th><th style="width:48mm">Квест</th><th>Положительный выбор</th></tr>
+    <tr><td class="cb"><span></span></td><td><b><span class='q'>Пейзаж после битвы <span class='en'>(Blood on the Battlefield)</span></span></b></td><td>Подбодрите её: <span class="q">«Я знаю, что поднимет тебе настроение»</span> — и выберите <b>игру в снежки</b>, а не выпивку.</td></tr><tr><td class="cb"><span></span></td><td><b><span class='q'>Пейзаж после битвы <span class='en'>(Blood on the Battlefield)</span></span><br><small>только если вы идёте к Эмгыру</small></b></td><td><b>Откажитесь от денег императора.</b> Если взять их — минус.</td></tr><tr><td class="cb"><span></span></td><td><b><span class='q'>Последние приготовления <span class='en'>(Final Preparations)</span></span></b></td><td>Отпустите Цири <b>на встречу с Ложей чародеек одну</b>.</td></tr><tr><td class="cb"><span></span></td><td><b><span class='q'>Дитя Старшей Крови <span class='en'>(Child of the Elder Blood)</span></span></b></td><td>Когда она выходит из себя в лаборатории Аваллак'ха, <b>дайте ей всё разнести</b>.</td></tr><tr><td class="cb"><span></span></td><td><b><span class='q'>Дитя Старшей Крови <span class='en'>(Child of the Elder Blood)</span></span></b></td><td><b>Сходите с ней на могилу Скьялля</b>, когда она попросит.</td></tr>
+  </table>
+  <h3>Три концовки</h3>
+  <div class="cols">
+    <div class="box" style="border-left-color:#3f6b45"><div class="t" style="color:#3f6b45">Цири-ведьмачка</div>Минимум <b>3 положительных</b> момента и <b>не водите Цири к Эмгыру</b>. Самая популярная «лучшая» концовка.</div>
+    <div class="box gold"><div class="t">Цири-императрица</div>Минимум <b>3 положительных</b> момента, <b>отведите её к Эмгыру</b> и сделайте так, чтобы <b>Нильфгаард выиграл войну</b> (с. 8 — сторона Роше в квесте <span class='q'>Дела государственной важности <span class='en'>(Reason of State)</span></span>).</div>
+  </div>
+  <div class="box"><div class="t">Плохая концовка</div>Меньше 3 положительных моментов — самая грустная концовка. Чаще всего игроки теряют очко незаметно, когда берут деньги Эмгыра.</div>
+  <div class="box steel"><div class="t">Совет</div>Если не идти к Эмгыру, оцениваются только четыре момента — значит, три из четырёх должны быть положительными.</div>
+  <div class="folio">Ничего не пропусти · 7</div>
+</section>
+<section class="page">
+  <div class="kicker">Глава VI · Спойлеры</div>
+  <h2>Судьбы королевств</h2>
+  <div class="rule"></div>
+  <p class="lede">Эпилог показывает, что стало с Севером и островами. Вот от чего это зависит.</p>
+  <h3>Север: Редания, Нильфгаард и Темерия</h3>
+  <table><tr><th></th><th style="width:52mm">Итог</th><th>Как</th></tr><tr><td class="cb"><span></span></td><td><b>Правит Радовид, Нильфгаард проигрывает</b></td><td>Проигнорируйте квест Трисс <span class='q'>Сейчас или никогда <span class='en'>(Now or Never)</span></span>, и тогда <span class='q'>Дела государственной важности <span class='en'>(Reason of State)</span></span> не случится.</td></tr><tr><td class="cb"><span></span></td><td><b>Дийкстра правит Реданией</b></td><td>Помогите убить Радовида в квесте <span class='q'>Дела государственной важности <span class='en'>(Reason of State)</span></span>, затем <b>не вмешивайтесь</b>, когда Дийкстра нападёт на Роше, Бьянку и Талера.</td></tr><tr><td class="cb"><span></span></td><td><b>Нильфгаард побеждает, Темерия восстановлена</b></td><td>Помогите убить Радовида, затем <b>встаньте на сторону Роше и убейте Дийкстру</b>. Темерия станет вассальным государством. Нужно для концовки с императрицей.</td></tr></table>
+  <h3>Скеллиге</h3>
+  <table><tr><th></th><th style="width:52mm">Правитель</th><th>Как</th></tr><tr><td class="cb"><span></span></td><td><b>Керис ан Крайт</b></td><td>Пройдите <span class='q'>Королевский гамбит <span class='en'>(King's Gambit)</span></span> и <b>выберите Керис</b>. Мир и процветание островов.</td></tr><tr><td class="cb"><span></span></td><td><b>Хьялмар ан Крайт</b></td><td>Пройдите <span class='q'>Королевский гамбит <span class='en'>(King's Gambit)</span></span> и <b>выберите Хьялмара</b>. Набеги на материк продолжатся.</td></tr><tr><td class="cb"><span></span></td><td><b>Сванриге (по умолчанию)</b></td><td>Полностью пропустите квесты о наследовании.</td></tr></table>
+  <div class="box gold" style="margin-top:6mm"><div class="t">Весь план в одной строке</div>Хотите Цири-императрицу? Нужно: <b>Сейчас или никогда <span class='en'>(Now or Never)</span> → Дела государственной важности <span class='en'>(Reason of State)</span> (убить Радовида) → сторона Роше</b> плюс визит к Эмгыру и 3 хороших момента с Цири. Хотите Цири-ведьмачку? Не ходите к Эмгыру и наберите 3 хороших момента — политика не важна.</div>
+  <div class="folio">Ничего не пропусти · 8</div>
+</section>
+<section class="page">
+  <div class="kicker">Глава VII</div>
+  <h2>Гвинт — карты, которые можно потерять навсегда</h2>
+  <div class="rule"></div>
+  <p class="lede">Квест <span class='q'>Collect 'Em All</span> требует 120 уникальных карт, а игра не говорит, каких не хватает. Берегите эти.</p>
+  <div class="cols">
+    <div>
+      <h3>Простые правила</h3>
+      <ul class="check">
+        <li>Играйте с каждым именным игроком в гвинт сразу при встрече.<small>Персонажи могут погибнуть или уйти — их уникальная карта уйдёт с ними.</small></li>
+        <li>Скупайте карты у торговцев Велена и Новиграда заранее.<small>Некоторые торговцы со временем становятся недоступны.</small></li>
+        <li>Играйте с трактирщиками в каждом регионе.</li>
+        <li>Завершите все квесты про гвинт до Острова Туманов.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Известные ловушки</h3>
+      <ul class="check">
+        <li>Вопрос жизни и смерти <span class='en'>(A Matter of Life and Death)</span><small>Внутри турнир по гвинту — выиграйте все партии, чтобы получить все карты.</small></li>
+        <li>Сейчас или никогда <span class='en'>(Now or Never)</span><small>Выбор здесь может стоить жизни владельцу карты.</small></li>
+        <li>Карта героя Иорвет<small>Связана с побочной цепочкой в Велене — заканчивайте квесты Велена, прежде чем уйти оттуда насовсем.</small></li>
+        <li>Карты персонажей<small>Кровавый Барон, Ламберт и другие сюжетные персонажи носят карты — выигрывайте их, пока есть возможность.</small></li>
+      </ul>
+    </div>
+  </div>
+  <h3>Трекер гвинта</h3>
+  <table><tr><th></th><th>Регион</th><th>Соперники обыграны</th><th>Карты у торговцев куплены</th></tr><tr><td class="cb"><span></span></td><td>Белый Сад</td><td></td><td></td></tr><tr><td class="cb"><span></span></td><td>Велен</td><td></td><td></td></tr><tr><td class="cb"><span></span></td><td>Новиград и Оксенфурт</td><td></td><td></td></tr><tr><td class="cb"><span></span></td><td>Скеллиге</td><td></td><td></td></tr><tr><td class="cb"><span></span></td><td>Каэр Морхен</td><td></td><td></td></tr></table>
+  <div class="folio">Ничего не пропусти · 9</div>
+</section>
+<section class="page">
+  <div class="kicker">Глава VIII · Точка невозврата №3</div>
+  <h2>«Каменные сердца» и «Кровь и вино»</h2>
+  <div class="rule"></div>
+  <p class="lede">В обоих дополнениях есть свои точки невозврата. Их легко пропустить — игра не предупреждает.</p>
+  <div class="cols">
+    <div>
+      <h3>«Каменные сердца»</h3>
+      <ul class="check">
+        <li>Пройдите побочные квесты аукционного дома <b>до</b> завершения ограбления в квесте <span class='q'>Open Sesame!</span><small>Завершение ограбления закрывает связанный с аукционом побочный контент.</small></li>
+        <li>Не забывайте про улучшения у рунного мастера.</li>
+        <li>Играйте в гвинт со всеми новыми соперниками у Оксенфурта.</li>
+        <li>Сохранитесь перед финальным выбором с Гюнтером о'Димом.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>«Кровь и вино»</h3>
+      <ul class="check">
+        <li>Полностью исследуйте <b>Страну Тысячи Сказок</b>.<small>Попадаешь туда один раз — выполните там всё и соберите всё до того, как сюжет вас оттуда уведёт.</small></li>
+        <li>Улучшайте Корво Бьянко, свою винодельню, — она окупается.</li>
+        <li>Соберите чертежи ведьмачьего снаряжения гроссмейстерского уровня.</li>
+        <li>Сохранитесь перед финалом — ваши выборы решат концовку в Туссенте.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="box steel" style="margin-top:6mm"><div class="t">Когда начинать дополнения</div>«Каменные сердца» рассчитаны на Геральта 30+ уровня, «Кровь и вино» — на 34+. Большинство проходит их после финала основной истории: игра позволяет продолжать после титров.</div>
+  <div class="folio">Ничего не пропусти · 10</div>
+</section>
+<section class="page">
+  <div class="kicker">Глава IX</div>
+  <h2>Что нового в Remastered</h2>
+  <div class="rule"></div>
+  <p class="lede">Обновление Remastered (сентябрь 2026) бесплатно для владельцев игры на PC, PS5, Xbox Series X|S и Switch 2. Сюжет, квесты и концовки те же — все чек-листы гайда актуальны.</p>
+  <div class="cols">
+    <div class="box"><div class="t">Новое дерево умений</div>Умения теперь выстроены в дерево, у каждого три ранга, а некоторые требуют других умений. <b>Старые гайды по билдам устарели</b> — сбросьте навыки и экспериментируйте.</div>
+    <div class="box gold"><div class="t">Перековка</div>Меняйте <i>внешний вид</i> снаряжения без изменения характеристик. Обращайтесь к мастерам <b>Йоане</b> или <b>Хаттори</b>.</div>
+  </div>
+  <div class="box steel"><div class="t">Ещё новое</div>Улучшенные текстуры, освещение и анимации, доработанный бой, расширенный фоторежим, новые настройки доступности и кроссплатформенная поддержка модов.</div>
+  <h2 style="margin-top:4mm">Порядок прохождения</h2>
+  <div class="rule"></div>
+  <table><tr><th></th><th style="width:9mm">#</th><th>Где</th><th>Перед тем как идти дальше</th></tr><tr><td class="cb"><span></span></td><td class="num">1</td><td><b>Белый Сад</b></td><td>Чек-лист на с. 4</td></tr><tr><td class="cb"><span></span></td><td class="num">2</td><td><b>Велен</b></td><td>Квесты Кейры, Кровавый Барон, гвинт в Велене</td></tr><tr><td class="cb"><span></span></td><td class="num">3</td><td><b>Новиград</b></td><td>Трисс, Роше, Смертные грехи <span class='en'>(Carnal Sins)</span>, Костры Новиграда <span class='en'>(Pyres of Novigrad)</span></td></tr><tr><td class="cb"><span></span></td><td class="num">4</td><td><b>Скеллиге</b></td><td>Квесты о наследовании</td></tr><tr><td class="cb"><span></span></td><td class="num">5</td><td><b>Остров Туманов</b></td><td>Всё на с. 5–6 отмечено</td></tr><tr><td class="cb"><span></span></td><td class="num">6</td><td><b>Каэр Морхен и финал</b></td><td>С. 7 — пять моментов Цири</td></tr><tr><td class="cb"><span></span></td><td class="num">7</td><td><b>«Каменные сердца»</b></td><td>С. 10</td></tr><tr><td class="cb"><span></span></td><td class="num">8</td><td><b>«Кровь и вино»</b></td><td>С. 10</td></tr></table>
+  <p style="margin-top:3mm;font-style:italic;color:var(--soft);font-size:8.5pt;text-align:center">Удачной охоты, ведьмак. — Фанатский неофициальный гайд. The Witcher — товарный знак CD PROJEKT S.A. Гайд не связан с CD PROJEKT RED и не одобрен ею.</p>
+  <div class="folio">Ничего не пропусти · 11</div>
+</section></body></html>

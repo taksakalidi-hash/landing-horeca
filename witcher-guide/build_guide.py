@@ -138,10 +138,10 @@ def build(lang):
       "Strany 3–6 a 9–11 obsahují minimum spoilerů. Strany 7–8 mluví o koncích — čti je, až dorazíš na Kaer Morhen, nebo hned, pokud ti spoilery nevadí.")}</div>
   </div>
   {names_note}
-  <div class="box gold"><div class="t">{t("Print or tick on screen", "Печатайте или отмечайте на экране", "Vytiskni nebo odškrtávej na obrazovce")}</div>{t(
-    "Every box is a box to tick. Print the whole guide, or just the checklist pages, and keep it next to your controller.",
-    "Каждый квадратик — пункт для галочки. Распечатайте весь гайд или только чек-листы и держите рядом с геймпадом.",
-    "Každý čtvereček je k odškrtnutí. Vytiskni celého průvodce nebo jen checklisty a měj je u ovladače.")}</div>
+  <div class="box gold"><div class="t">{t("Interactive checklist", "Интерактивный чек-лист", "Interaktivní checklist")}</div>{t(
+    "Tap any box to tick it — works in Adobe Acrobat Reader, Chrome, Edge and most phone PDF apps. Save the file to keep your progress. Prefer paper? Just print it.",
+    "Нажмите на любой квадратик — появится галочка. Работает в Adobe Acrobat Reader, Chrome, Edge и большинстве PDF-приложений на телефоне. Сохраните файл, чтобы не потерять прогресс. Любите бумагу? Просто распечатайте.",
+    "Klepni na libovolný čtvereček a odškrtneš ho — funguje v Adobe Acrobat Reader, Chrome, Edge i ve většině PDF aplikací v mobilu. Soubor ulož, ať o postup nepřijdeš. Máš radši papír? Prostě si ho vytiskni.")}</div>
   {folio(2)}
 </section>""")
 
@@ -517,3 +517,42 @@ for lang, name in NAMES.items():
                     "--virtual-time-budget=10000", f"--print-to-pdf={HERE / (name + '.pdf')}", str(src)],
                    check=True, stderr=subprocess.DEVNULL)
     print("built", name)
+
+
+# ---------------- make every drawn box a real clickable checkbox
+import pymupdf
+
+
+def add_checkboxes(pdf_path):
+    doc = pymupdf.open(pdf_path)
+    total = 0
+    for pno, page in enumerate(doc):
+        if pno == 0:  # cover art, no checkboxes
+            continue
+        seen = set()
+        for dr in page.get_drawings():
+            r = dr["rect"]
+            if not (8 < r.width < 12 and abs(r.width - r.height) < 1):
+                continue
+            key = (round(r.x0), round(r.y0))
+            if key in seen:
+                continue
+            seen.add(key)
+            w = pymupdf.Widget()
+            w.field_type = pymupdf.PDF_WIDGET_TYPE_CHECKBOX
+            w.field_name = f"p{pno + 1}_box{len(seen)}"
+            w.rect = r + (-1, -1, 1, 1)
+            w.field_value = False
+            w.border_width = 0
+            w.text_color = (0.56, 0.11, 0.11)
+            page.add_widget(w)
+            total += 1
+    tmp = pdf_path.with_suffix(".tmp.pdf")
+    doc.save(tmp, garbage=3, deflate=True)
+    doc.close()
+    tmp.replace(pdf_path)
+    return total
+
+
+for name in NAMES.values():
+    print(name, "checkboxes:", add_checkboxes(HERE / (name + ".pdf")))

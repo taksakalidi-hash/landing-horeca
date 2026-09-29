@@ -33,7 +33,7 @@ The Witcher 3 Remastered — Don't Miss a Thing: Missables, Endings & Gwent Chec
 **Description:**
 Just started The Witcher 3 Remastered? One boat ride can fail 19 side quests, lock Ciri's best ending and cost you Gwent cards forever — and the game never warns you.
 
-This printable 11-page checklist shows every point of no return **before** you reach it.
+This interactive 11-page checklist shows every point of no return **before** you reach it.
 
 **Inside:**
 • The 3 Points of No Return — and exactly what each one closes
@@ -46,7 +46,7 @@ This printable 11-page checklist shows every point of no return **before** you r
 • Hearts of Stone & Blood and Wine one-way doors
 • What's new in Remastered (skill tree rework, Reforging) + recommended quest order
 
-Print it or tick boxes on your tablet. No spoiler-heavy walkthrough — just the stuff you can't undo.
+**Interactive:** tap any box to tick it right in the PDF (phone, tablet or PC), or print it. No spoiler-heavy walkthrough — just the stuff you can't undo.
 
 *Fan-made, unofficial guide. Not affiliated with or endorsed by CD PROJEKT RED.*
 
@@ -82,7 +82,7 @@ witcher 3, witcher checklist, witcher remastered, gaming checklist, game guide p
 • точки невозврата в «Каменных сердцах» и «Крови и вине»
 • что нового в Remastered и порядок прохождения
 
-Названия квестов даны как в русской версии игры. Можно распечатать или отмечать на планшете.
+Названия квестов даны как в русской версии игры. **Интерактивный:** галочки ставятся прямо в PDF, нажатием на телефоне, планшете или ПК. Можно и распечатать.
 
 *Неофициальный фанатский гайд. Не связан с CD PROJEKT RED.*
 
@@ -107,7 +107,7 @@ Tento 11stránkový checklist ti ukáže všechny body, odkud není návratu, **
 • body bez návratu v Srdci z kamene a O víně a krvi
 • novinky v Remastered a doporučené pořadí
 
-Názvy úkolů podle české verze hry. Vytiskni si ho nebo odškrtávej na tabletu.
+Názvy úkolů podle české verze hry. **Interaktivní:** úkoly odškrtáváš klepnutím přímo v PDF (mobil, tablet, PC), nebo si ho vytiskni.
 
 *Neoficiální fanouškovský průvodce. Není spojen s CD PROJEKT RED.*
 
