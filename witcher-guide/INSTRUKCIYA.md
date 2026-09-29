@@ -3,7 +3,7 @@
 У тебя есть готовый товар: гайд «Ничего не пропусти» по Ведьмаку 3 Remastered на трёх языках, с кликабельными галочками. Осталось выложить его и привести покупателей. Ниже весь путь по шагам. Делай по порядку, ничего не пропускай.
 
 **Время:** первый день 1,5–2 часа, дальше 20–30 минут в день.
-**Вложения:** 0 ₽ / 0 Kč.
+**Вложения:** 0 ₽ / 0 Kč на Gumroad. Gumroad берёт комиссию только с продажи: 10 % + 0,50 $ плюс оплата платёжной системы.
 
 ## Что у тебя в папке
 
@@ -66,7 +66,8 @@
 > • Triss: A Matter of Life and Death → Now or Never
 > • Roche: An Eye for an Eye
 > • Skellige: Possession, The Lord of Undvik, King's Gambit
-> • All three Brothers in Arms
+> • All four Brothers in Arms
+> • High Stakes (the Passiflora Gwent tournament)
 >
 > Also: Ciri's ending depends on 5 small choices, and refusing Emhyr's coin is one of them. Happy hunting!
 
@@ -99,7 +100,7 @@
 - ⚠️ **Gumroad не принимает российские карты.** Русскоязычные покупатели из Европы, Казахстана и других стран платят без проблем. Если хочешь продавать именно в России, понадобится Boosty. Это отдельный шаг, сделаем, когда будут первые продажи.
 
 ## Канал 5 (по желанию). Etsy
-- etsy.com/sell: открыть магазин бесплатно, объявление стоит **0,20 $**.
+- etsy.com/sell: объявление стоит **0,20 $**. ⚠️ Для новых продавцов во многих странах есть **разовый сбор за открытие магазина (около 15 $)**, Etsy покажет его при регистрации. Поэтому Etsy — по желанию, после первых продаж на Gumroad.
 - Тип **Digital**, загрузи английский PDF, тексты и теги ниже.
 - На Etsy люди сами ищут «witcher checklist», поэтому покупатели приходят без твоих постов.
 
@@ -126,7 +127,7 @@
 
 ## Важно
 - **Никаких логотипов, артов и скриншотов из игры** на обложке и в объявлениях. Только картинки самого PDF. Гайд подписан как неофициальный фанатский, так и оставляй.
-- **Налоги:** доход с продаж облагается налогом. Gumroad сам удерживает НДС с покупателей, но свой подоходный налог в Чехии нужно задекларировать. Когда пойдут продажи, уточни у бухгалтера, какая форма тебе подходит. Для небольших разовых доходов есть упрощения.
+- **Налоги:** доход с продаж облагается налогом. Gumroad сам рассчитывает и удерживает НДС с покупателей (проверь это в его настройках), но свой подоходный налог в Чехии нужно задекларировать. Когда пойдут продажи, уточни у бухгалтера, какая форма тебе подходит. Для небольших разовых доходов есть упрощения.
 - **Застрял на любом шаге?** Пришли мне скриншот, разберёмся.
 
 ---
@@ -139,7 +140,7 @@
 The Witcher 3 Remastered — Don't Miss a Thing: Missables, Endings & Gwent Checklist (Interactive PDF)
 
 **Description:**
-Just started The Witcher 3 Remastered? One boat ride can fail 19 side quests, lock Ciri's best ending and cost you Gwent cards forever — and the game never warns you.
+Just started The Witcher 3 Remastered? One boat ride can fail 19 side quests, lock one of Ciri's endings and cost you Gwent cards forever — and the game never warns you.
 
 This interactive 11-page checklist shows every point of no return **before** you reach it.
 
@@ -150,7 +151,7 @@ This interactive 11-page checklist shows every point of no return **before** you
 • All Kaer Morhen allies + how to recruit them (Full Crew achievement)
 • Ciri's fate: the 5 hidden choices that decide her ending
 • The fate of kingdoms: Radovid, Dijkstra, Roche, Cerys, Hjalmar
-• Gwent cards you can lose forever + region tracker
+• The 7 Gwent cards with no second chance + region tracker
 • Hearts of Stone & Blood and Wine one-way doors
 • What's new in Remastered (skill tree rework, Reforging) + recommended quest order
 
@@ -167,7 +168,7 @@ witcher 3, witcher checklist, witcher remastered, gaming checklist, game guide p
 Ведьмак 3 Remastered: Ничего не пропусти. Интерактивный чек-лист квестов, концовок и гвинта (PDF)
 
 **Описание:**
-Начали «Ведьмак 3 Remastered»? Одна поездка на лодке может провалить 19 побочных квестов, закрыть лучшую концовку Цири и навсегда лишить вас карт гвинта. Игра об этом не предупреждает.
+Начали «Ведьмак 3 Remastered»? Одна поездка на лодке может провалить 19 побочных квестов, закрыть одну из концовок Цири и навсегда лишить вас карт гвинта. Игра об этом не предупреждает.
 
 Этот чек-лист на 11 страниц показывает все точки невозврата **заранее**:
 • три точки невозврата и что именно они закрывают
@@ -176,7 +177,7 @@ witcher 3, witcher checklist, witcher remastered, gaming checklist, game guide p
 • все союзники для битвы за Каэр Морхен (достижение «В полном составе»)
 • судьба Цири: 5 скрытых выборов, которые решают концовку
 • судьбы королевств: Радовид, Дийкстра, Роше, Керис, Хьялмар
-• карты гвинта, которые можно потерять навсегда
+• 7 карт гвинта без второго шанса
 • точки невозврата в «Каменных сердцах» и «Крови и вине»
 • что нового в Remastered и порядок прохождения
 
@@ -190,7 +191,7 @@ witcher 3, witcher checklist, witcher remastered, gaming checklist, game guide p
 Zaklínač 3 Remastered: Nic nevynech. Interaktivní checklist úkolů, konců a gwintu (PDF)
 
 **Popis:**
-Začínáš Zaklínače 3 Remastered? Jedna plavba lodí může nechat selhat 19 vedlejších úkolů, zavřít Ciri nejlepší konec a navždy ti vzít karty gwintu. Hra tě nevaruje.
+Začínáš Zaklínače 3 Remastered? Jedna plavba lodí může nechat selhat 19 vedlejších úkolů, zavřít jeden z konců Ciri a navždy ti vzít karty gwintu. Hra tě nevaruje.
 
 Tento 11stránkový checklist ti ukáže všechny body, odkud není návratu, **předem**:
 • tři body bez návratu a co přesně uzavírají
@@ -199,7 +200,7 @@ Tento 11stránkový checklist ti ukáže všechny body, odkud není návratu, **
 • všichni spojenci pro bitvu na Kaer Morhen (úspěch Plná posádka)
 • osud Ciri: 5 skrytých rozhodnutí, která určují konec
 • osudy království: Radovid, Dijkstra, Roche, Cerys, Hjalmar
-• karty gwintu, o které můžeš přijít navždy
+• 7 karet gwintu bez druhé šance
 • body bez návratu v Srdci z kamene a O víně a krvi
 • novinky v Remastered a doporučené pořadí
 

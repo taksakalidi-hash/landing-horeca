@@ -8,6 +8,9 @@ STYLE = re.search(r"<style>(.*?)</style>", (HERE / "guide.html").read_text(), re
 STYLE += """
   .en{font-weight:400;font-style:normal;color:var(--soft);font-size:.86em}
   .cover h1{font-size:36pt}
+  .toc li{padding:1.3mm 0}
+  td{padding:1.5mm 2.5mm}
+  .box{padding:3mm 4.5mm}
 """
 CHROME = "/opt/pw-browsers/chromium-1194/chrome-linux/chrome"
 
@@ -17,14 +20,14 @@ QUESTS = {
     "Faithful Friend": (None, None),
     "Missing in Action": ("Пропавший без вести", None),
     "On Death's Bed": ("На смертном одре", "Na smrtelné posteli"),
-    "Precious Cargo": ("Ценный груз", "Vzácný náklad"),
+    "Precious Cargo": ("Ценный груз", "Cenný náklad"),
     "A Frying Pan, Spick and Span": ("Сковорода как новая", None),
     "Twisted Firestarter": ("Игра с огнём", None),
     "Contract: Devil by the Well": ("Заказ: Лихо у колодца", "Ďábel u studny"),
     "Magic Lamp": ("Магический светильник", "Magická lampa"),
     "A Towerful of Mice": ("Мышиная башня", "Myší věž"),
     "A Favor for a Friend": ("Дружеская услуга", "Laskavost pro přítele"),
-    "For the Advancement of Learning": ("На благо науки", None),
+    "For the Advancement of Learning": ("На благо науки", "V zájmu rozvoje poznání"),
     "A Matter of Life and Death": ("Вопрос жизни и смерти", "Otázka života a smrti"),
     "Now or Never": ("Сейчас или никогда", "Teď, nebo nikdy"),
     "Pyres of Novigrad": ("Костры Новиграда", None),
@@ -38,12 +41,22 @@ QUESTS = {
     "Brothers in Arms: Novigrad": ("Братья по оружию: Новиград", "Bratři ve zbrani: Novigrad"),
     "Brothers in Arms: Skellige": ("Братья по оружию: Скеллиге", "Bratři ve zbrani: Skellige"),
     "The Fall of House Reardon": ("Падение дома Реардон", None),
-    "Ghosts of the Past": ("Призраки прошлого", "Duchové minulosti"),
+    "Ghosts of the Past": ("Призраки прошлого", "Duchové časů minulých"),
     "Blood on the Battlefield": ("Пейзаж после битвы", "Krev na bojišti"),
     "Final Preparations": ("Последние приготовления", "Poslední přípravy"),
     "Child of the Elder Blood": ("Дитя Старшей Крови", "Dítě Starší krve"),
     "Collect 'Em All": (None, None),
-    "Open Sesame!": (None, None),
+    "Open Sesame!": ("Сезам, откройся!", None),
+    "A Deadly Plot": ("Смертельный заговор", None),
+    "Blindingly Obvious": ("Темней всего под фонарём", "Nad slunce jasné"),
+    "On Thin Ice": ("По тонкому льду", None),
+    "Temerian Valuables": ("Темерские ценности", None),
+    "High Stakes": ("Высокие ставки", "Vysoké sázky"),
+    "Brothers in Arms: Nilfgaard": ("Братья по оружию: Нильфгаард", "Bratři ve zbrani: Nilfgaard"),
+    "Avid Collector": ("Коллекционер", None),
+    "A Midnight Clear": (None, None),
+    "Dead Man's Party": (None, None),
+    "Duck, Duck, Goosed": (None, None),
 }
 IDX = {"ru": 0, "cs": 1}
 
@@ -155,25 +168,25 @@ def build(lang):
   <table>
     <tr><th style="width:9mm">#</th><th>{t("Moment", "Момент", "Okamžik")}</th><th>{t("What it closes", "Что закрывается", "Co se uzavře")}</th></tr>
     <tr><td class="num">1</td><td><b>{t("Leaving White Orchard", "Отъезд из Белого Сада", "Odjezd z Bělosadu")}</b><br><small>{t("Riding with the Nilfgaardian escort to the Emperor", "Поездка с нильфгаардским эскортом к императору", "Cesta s nilfgaardskou eskortou k císaři")}</small></td>
-      <td>{t("Every open White Orchard side quest, contract and Gwent game. Only", "Все незавершённые побочные квесты, заказы и партии в гвинт Белого Сада. Позже можно закончить только", "Všechny nedokončené vedlejší úkoly, zakázky a partie gwintu v Bělosadu. Později lze dokončit jen")} {q("Faithful Friend")}{t(" can still be finished later.", ".", ".")}</td></tr>
+      <td>{t("Every open White Orchard side quest, contract and Gwent game.", "Все незавершённые побочные квесты, заказы и партии в гвинт Белого Сада.", "Všechny nedokončené vedlejší úkoly, zakázky a partie gwintu v Bělosadu.")}</td></tr>
     <tr><td class="num">2</td><td><b>{t("Sailing to the Isle of Mists", "Отплытие на Остров Туманов", "Plavba na Ostrov mlh")}</b><br><small>{t("Main quest", "Сюжетный квест", "Hlavní úkol")} {ISLE}</small></td>
-      <td>{t("The biggest cutoff in the game. Around <b>19 side quests</b> auto-fail, including Keira Metz's whole arc, the Triss romance, the Radovid assassination chain and your last chance to recruit allies for Kaer Morhen.",
-             "Главная точка невозврата. Около <b>19 побочных квестов</b> проваливаются автоматически: вся линия Кейры Мец, роман с Трисс, цепочка покушения на Радовида и последний шанс собрать союзников для Каэр Морхена.",
-             "Největší zlom ve hře. Zhruba <b>19 vedlejších úkolů</b> automaticky selže, včetně celé linie Keiry Metz, romance s Triss, linie atentátu na Radovida a poslední šance získat spojence pro Kaer Morhen.")}</td></tr>
-    <tr><td class="num">3</td><td><b>{t("DLC one-way doors", "Точки невозврата в DLC", "Jednosměrné dveře v DLC")}</b><br><small>{t("Hearts of Stone heist · Blood and Wine fairy-tale land", "Ограбление в «Каменных сердцах» · сказочная страна в «Крови и вине»", "Loupež v Srdci z kamene · pohádková země v O víně a krvi")}</small></td>
-      <td>{t("Finishing the heist closes side content tied to the auction house. The Land of a Thousand Fables is visited only once — explore it fully before you leave.",
-             "Завершение ограбления закрывает побочный контент, связанный с аукционным домом. В Страну Тысячи Сказок вы попадёте только один раз — исследуйте её полностью.",
-             "Dokončení loupeže uzavře vedlejší obsah spojený s aukční síní. Do pohádkové země (Land of a Thousand Fables) se dostaneš jen jednou — prozkoumej ji celou.")}</td></tr>
+      <td>{t("The biggest cutoff in the game. Around <b>19 side quests</b> auto-fail, including Keira Metz's whole arc, the Triss romance, the quests that later unlock the plot against Radovid, and your last chance to recruit allies for Kaer Morhen.",
+             "Главная точка невозврата. Около <b>19 побочных квестов</b> проваливаются автоматически: вся линия Кейры Мец, роман с Трисс, квесты, без которых потом не откроется заговор против Радовида, и последний шанс собрать союзников для Каэр Морхена.",
+             "Největší zlom ve hře. Zhruba <b>19 vedlejších úkolů</b> automaticky selže, včetně celé linie Keiry Metz, romance s Triss, úkolů, bez kterých se později neotevře spiknutí proti Radovidovi, a poslední šance získat spojence pro Kaer Morhen.")}</td></tr>
+    <tr><td class="num">3</td><td><b>{t("DLC one-way doors", "Точки невозврата в DLC", "Jednosměrné dveře v DLC")}</b><br><small>{t("Hearts of Stone auction · Blood and Wine fairy-tale land", "Аукцион в «Каменных сердцах» · сказочная страна в «Крови и вине»", "Aukce v Srdci z kamene · pohádková země v O víně a krvi")}</small></td>
+      <td>{t("In Hearts of Stone, the auction and a later main quest each close a side quest (page 10). The Land of a Thousand Fables is visited only once — explore it fully before you leave.",
+             "В «Каменных сердцах» аукцион и один из поздних сюжетных квестов закрывают по побочному квесту (с. 10). В Страну Тысячи Сказок вы попадёте только один раз — исследуйте её полностью.",
+             "V Srdci z kamene aukce a jeden pozdější hlavní úkol uzavřou po jednom vedlejším úkolu (s. 10). Do pohádkové země (Land of a Thousand Fables) se dostaneš jen jednou — prozkoumej ji celou.")}</td></tr>
   </table>
   <div class="box" style="margin-top:6mm"><div class="t">{t("Also watch out for", "Также помните", "Pozor také na")}</div>{t(
-    "Characters who die or leave during the story take their <b>Gwent cards</b> and <b>merchant stock</b> with them. Buy out Gwent cards from Velen and Novigrad merchants early — some become unreachable as the story advances.",
-    "Персонажи, которые погибают или уходят по сюжету, забирают с собой <b>карты гвинта</b> и <b>товары</b>. Скупайте карты у торговцев Велена и Новиграда заранее — некоторые со временем становятся недоступны.",
-    "Postavy, které během příběhu zemřou nebo odejdou, si s sebou vezmou <b>karty gwintu</b> i <b>zboží</b>. Karty od obchodníků ve Velenu a Novigradu kupuj včas — někteří se později stanou nedostupnými.")}</div>
+    "Some characters die or leave as the story moves on. Play them at <b>Gwent</b> and finish their errands while you can — and see page 9 for the seven cards with no second chance.",
+    "Некоторые персонажи по ходу сюжета погибают или уходят. Играйте с ними в <b>гвинт</b> и выполняйте их поручения, пока есть возможность. Семь карт без второго шанса — на с. 9.",
+    "Některé postavy během příběhu zemřou nebo odejdou. Zahraj si s nimi <b>gwint</b> a splň jejich úkoly, dokud můžeš. Sedm karet bez druhé šance najdeš na s. 9.")}</div>
   <h3>{t("Save habits that save runs", "Сохранения, которые спасают прохождение", "Ukládání, které zachrání hru")}</h3>
   <ul class="check">
     <li>{t('Hard save before every main quest marked with a boat, a portal or a "this will take you away" warning.', "Ручное сохранение перед каждым сюжетным квестом с лодкой, порталом или предупреждением о переезде.", "Ruční uložení před každým hlavním úkolem s lodí, portálem nebo varováním, že tě hra odveze pryč.")}</li>
     <li>{t("Keep one save per region: <i>White Orchard · Velen · Novigrad · Skellige · Kaer Morhen</i>.", "Храните по сохранению на регион: <i>Белый Сад · Велен · Новиград · Скеллиге · Каэр Морхен</i>.", "Měj jednu uloženou pozici na region: <i>Bělosad · Velen · Novigrad · Skellige · Kaer Morhen</i>.")}</li>
-    <li>{t('Before the Isle of Mists, name a save <b>"BEFORE MISTS"</b> — you\'ll thank yourself.', "Перед Островом Туманов назовите сохранение <b>«ДО ТУМАНОВ»</b> — скажете себе спасибо.", "Před Ostrovem mlh si pojmenuj pozici <b>„PŘED MLHAMI“</b> — poděkuješ si.")}</li>
+    <li>{t("Before the Isle of Mists, make a manual save and <b>never overwrite it</b> — you'll thank yourself.", "Перед Островом Туманов сделайте ручное сохранение и <b>никогда его не перезаписывайте</b> — скажете себе спасибо.", "Před Ostrovem mlh si ručně ulož hru a <b>tuto pozici nikdy nepřepisuj</b> — poděkuješ si.")}</li>
   </ul>
   {folio(3)}
 </section>""")
@@ -190,7 +203,7 @@ def build(lang):
       <h3>{t("Side quests &amp; contracts", "Побочные квесты и заказы", "Vedlejší úkoly a zakázky")}</h3>
       <ul class="check">
         {li("Missing in Action")}{li("On Death's Bed")}{li("Precious Cargo")}
-        {li("A Frying Pan, Spick and Span")}{li("Twisted Firestarter")}{li("Contract: Devil by the Well")}
+        {li("A Frying Pan, Spick and Span")}{li("Twisted Firestarter")}{li("Temerian Valuables")}{li("Contract: Devil by the Well")}
       </ul>
     </div>
     <div>
@@ -203,7 +216,7 @@ def build(lang):
         <li>{t("Visit the Places of Power you find — free skill points.", "Посетите найденные Места Силы — бесплатные очки умений.", "Navštiv nalezená Místa moci — body dovedností zdarma.")}</li>
         <li>{t("Check your inventory: sell junk, keep crafting diagrams.", "Проверьте инвентарь: продайте хлам, чертежи оставьте.", "Zkontroluj inventář: prodej haraburdí, nákresy si nech.")}</li>
       </ul>
-      <div class="box gold" style="margin-top:4mm"><div class="t">{t("Relax", "Не волнуйтесь", "Klid")}</div>{q("Faithful Friend")} {t("is the one White Orchard quest that stays available after you leave.", "— единственный квест Белого Сада, который останется доступен после отъезда.", "je jediný úkol z Bělosadu, který zůstane dostupný i po odjezdu.")}</div>
+      <div class="box gold" style="margin-top:4mm"><div class="t">{t("Don't look for it now", "Не ищите его сейчас", "Teď ho nehledej")}</div>{q("Faithful Friend")} {t("is the one White Orchard quest that doesn't fail when you leave — but it only appears in the epilogue of the Empress ending.", "— единственный квест Белого Сада, который не проваливается при отъезде. Но появляется он только в эпилоге концовки с Цири-императрицей.", "je jediný úkol z Bělosadu, který po odjezdu neselže — objeví se ale až v epilogu konce, kde se Ciri stane císařovnou.")}</div>
     </div>
   </div>
   {folio(4)}
@@ -225,17 +238,18 @@ def build(lang):
       </ul>
       <h3>{t("Triss &amp; Novigrad", "Трисс и Новиград", "Triss a Novigrad")}</h3>
       <ul class="check">
-        {li("A Matter of Life and Death", t("Includes a small Gwent tournament — win every round for its cards.", "Внутри небольшой турнир по гвинту — выиграйте все партии ради карт.", "Obsahuje malý turnaj v gwintu — vyhraj všechna kola kvůli kartám."))}
+        {li("A Matter of Life and Death", t("At the masquerade, beat all three Gwent players — their cards can't be won anywhere else.", "На маскараде обыграйте всех трёх игроков в гвинт — их карты больше нигде не получить.", "Na maškarním plese poraz všechny tři hráče gwintu — jejich karty jinde nezískáš."))}
         {li("Now or Never", t("Your choices here decide the Triss romance and whether Radovid can later be stopped.", "Здесь решается роман с Трисс и то, можно ли будет потом остановить Радовида.", "Tady se rozhoduje o romanci s Triss a o tom, zda půjde později zastavit Radovida."))}
         {li("Pyres of Novigrad", t("Finish the whole chain to spare Novigrad's mages and non-humans.", "Пройдите всю цепочку, чтобы спасти магов и нелюдей Новиграда.", "Dokonči celou linii, abys ušetřil novigradské mágy a nelidi."))}
         {li("Carnal Sins", t("The Novigrad murder mystery.", "Детектив о новиградских убийствах.", "Detektivka o vraždách v Novigradu."))}
+        {li("High Stakes", t("The Gwent tournament at the Passiflora.", "Турнир по гвинту в «Пассифлоре».", "Turnaj v gwintu v Passifloře."))}
       </ul>
     </div>
     <div>
       <h3>{t("Roche, Dijkstra &amp; Radovid", "Роше, Дийкстра и Радовид", "Roche, Dijkstra a Radovid")}</h3>
       <ul class="check">
         {li("An Eye for an Eye", t("Needed for Roche &amp; Ves to join you at Kaer Morhen.", "Нужен, чтобы Роше и Бьянка приехали в Каэр Морхен.", "Potřebný, aby Roche a Ves přijeli na Kaer Morhen."))}
-        <li>{t("The Radovid chain", "Цепочка против Радовида", "Linie proti Radovidovi")}<small>{t("It opens through Triss's", "Открывается через квест Трисс", "Otevírá se přes úkol Triss")} {q("Now or Never")}. {t("Skip it and", "Пропустите его — и", "Vynech ho a")} {q("Reason of State")} {t("is locked forever.", "станет недоступен навсегда.", "bude navždy zamčený.")}</small></li>
+        <li>{t("The plot against Radovid (later, in Act III)", "Заговор против Радовида (позже, в III акте)", "Spiknutí proti Radovidovi (později, ve III. aktu)")}<small>{t("It needs", "Для него нужны", "Podmínkou jsou úkoly")} {q("A Matter of Life and Death")} {t("and", "и", "a")} {q("Now or Never")} {t("done <b>now</b>. Skip them and", "— пройдите их <b>сейчас</b>. Иначе квест", "— dokonči je <b>teď</b>. Jinak se úkol")} {q("Reason of State")} {t("never unlocks (details on page 8).", "не откроется никогда (подробности на с. 8).", "nikdy neotevře (podrobnosti na s. 8).")}</small></li>
       </ul>
       <h3>{t("Skellige's throne", "Трон Скеллиге", "Trůn Skellige")}</h3>
       <ul class="check">
@@ -244,7 +258,7 @@ def build(lang):
       </ul>
       <h3>{t("Allies", "Союзники", "Spojenci")}</h3>
       <ul class="check">
-        {li("Brothers in Arms: Velen")}{li("Brothers in Arms: Novigrad")}{li("Brothers in Arms: Skellige")}
+        {li("Brothers in Arms: Velen")}{li("Brothers in Arms: Novigrad")}{li("Brothers in Arms: Skellige")}{li("Brothers in Arms: Nilfgaard")}
       </ul>
     </div>
   </div>
@@ -254,7 +268,7 @@ def build(lang):
     # ---------------- KAER MORHEN
     allies = [
         (t("Keira Metz", "Кейра Мец", "Keira Metz"), f'{t("Complete all her side quests. In the last one,", "Пройдите все её квесты. В последнем,", "Dokonči všechny její úkoly. V posledním,")} {q("For the Advancement of Learning")}, {t("send her to Kaer Morhen.", "отправьте её в Каэр Морхен.", "ji pošli na Kaer Morhen.")}', ""),
-        (t("Triss", "Трисс", "Triss"), t("Joins as part of the story when you gather allies.", "Присоединяется по сюжету, когда вы собираете союзников.", "Přidá se v rámci příběhu, když sháníš spojence."), ""),
+        (t("Triss", "Трисс", "Triss"), f'{t("Complete her questline up to", "Пройдите её цепочку до квеста", "Dokonči její linii až po úkol")} {q("Now or Never")}. {t("Romance isn't required — she comes whether she stays or sails away.", "Роман не обязателен — она придёт, даже если уплывёт.", "Romance není nutná — přijde, i když odpluje.")}', ""),
         (t("Roche &amp; Ves", "Роше и Бьянка", "Roche a Ves"), f'{t("Complete", "Пройдите", "Dokonči")} {q("An Eye for an Eye")}, {t("then talk to Roche during", "затем поговорите с Роше во время", "pak mluv s Rochem během")} {q("Brothers in Arms: Novigrad")}.', ""),
         (t("Zoltan", "Золтан", "Zoltan"), f'{t("Talk to him during", "Поговорите с ним во время", "Promluv si s ním během")} {q("Brothers in Arms: Novigrad")}.', ""),
         (t("Ermion", "Эрмион", "Ermion"), f'{t("Talk to him during", "Поговорите с ним во время", "Promluv si s ním během")} {q("Brothers in Arms: Skellige")}.', ""),
@@ -284,7 +298,7 @@ def build(lang):
     # ---------------- CIRI
     ciri = [
         (q("Blood on the Battlefield"), t(
-            'Cheer her up with the <b>snowball fight</b> (<span class="q">"I know what might lift your spirits"</span>).',
+            'Cheer her up with the <b>snowball fight</b> (<span class="q">"Think I know what might lift your spirits."</span>).',
             'Подбодрите её: <span class="q">«Я знаю, что поднимет тебе настроение»</span> — и выберите <b>игру в снежки</b>, а не выпивку.',
             'Rozvesel ji <b>koulovačkou</b> místo pití.')),
         (q("Blood on the Battlefield") + f'<br><small>{t("only if you visit Emhyr", "только если вы идёте к Эмгыру", "jen pokud jdeš za Emhyrem")}</small>', t(
@@ -300,7 +314,7 @@ def build(lang):
             "Когда она выходит из себя в лаборатории Аваллак'ха, <b>дайте ей всё разнести</b>.",
             "Když se v Avallac'hově laboratoři rozzuří, <b>nech ji to tam rozbít</b>.")),
         (q("Child of the Elder Blood"), t(
-            'Go with her to <b>Skjall\'s grave</b> (<span class="q">"Yeah, I\'ll go with you."</span>).',
+            'Go with her to <b>Skjall\'s grave</b> (<span class="q">"Yeah. I\'ll go with you."</span>).',
             "<b>Сходите с ней на могилу Скьялля</b>, когда она попросит.",
             "<b>Jdi s ní ke Skjallovu hrobu</b>, když tě o to požádá.")),
     ]
@@ -356,7 +370,7 @@ def build(lang):
         (t("Hjalmar an Craite", "Хьялмар ан Крайт", "Hjalmar an Craite"),
          f'{t("Complete", "Пройдите", "Dokonči")} {q("King\'s Gambit")} {t("and <b>side with Hjalmar</b>. The raids on the mainland continue.", "и <b>выберите Хьялмара</b>. Набеги на материк продолжатся.", "a <b>podpoř Hjalmara</b>. Nájezdy na pevninu pokračují.")}'),
         (t("Svanrige (default)", "Сванриге (по умолчанию)", "Svanrige (výchozí)"),
-         t("Ignore the succession quests entirely.", "Полностью пропустите квесты о наследовании.", "Úplně vynech úkoly o nástupnictví.")),
+         f'{t("Help neither Cerys nor Hjalmar in", "Не помогайте ни Керис, ни Хьялмару в квесте", "Nepomoz Cerys ani Hjalmarovi v úkolu")} {q("King\'s Gambit")} {t("(or skip it).", "(или пропустите его).", "(nebo ho vynech).")}'),
     ]
     r1 = "".join(f"<tr>{cb()}<td><b>{a}</b></td><td>{b}</td></tr>" for a, b in north)
     r2 = "".join(f"<tr>{cb()}<td><b>{a}</b></td><td>{b}</td></tr>" for a, b in isles)
@@ -370,8 +384,9 @@ def build(lang):
   <table><tr><th></th><th style="width:52mm">{t("Outcome", "Итог", "Výsledek")}</th><th>{t("How", "Как", "Jak")}</th></tr>{r1}</table>
   <h3>{t("Skellige", "Скеллиге", "Skellige")}</h3>
   <table><tr><th></th><th style="width:52mm">{t("Ruler", "Правитель", "Vládce")}</th><th>{t("How", "Как", "Jak")}</th></tr>{r2}</table>
-  <div class="box gold" style="margin-top:6mm"><div class="t">{t("Plan your whole run in one line", "Весь план в одной строке", "Celý plán na jeden řádek")}</div>{t(
-    "Want Empress Ciri? You need", "Хотите Цири-императрицу? Нужно:", "Chceš Ciri císařovnou? Potřebuješ")} <b>{q("Now or Never", it=False)} → {q("Reason of State", it=False)} ({t("kill Radovid", "убить Радовида", "zabít Radovida")}) → {t("side with Roche", "сторона Роше", "strana Roche")}</b> {t(
+  <div class="box steel" style="margin-top:5mm"><div class="t">{t("How to unlock Reason of State", "Как открыть «Дела государственной важности»", "Jak odemknout Zájmy státu")}</div>{t("1) Finish", "1) Пройдите", "1) Dokonči")} {q("A Deadly Plot")}{t(" (it needs", " (для него нужны", " (podmínkou jsou úkoly")} {q("A Matter of Life and Death")} {t("and", "и", "a")} {q("Now or Never")}). {t("2) In the main quest", "2) В сюжетном квесте", "2) V hlavním úkolu")} {q("Blindingly Obvious")}{t(",", "", "")} {t("<b>pay Dijkstra with information about the Emperor</b> — don't fight him", "<b>расплатитесь с Дийкстрой информацией об императоре</b>, а не силой", "<b>zaplať Dijkstrovi informacemi o císaři</b> — nebojuj s ním")}{t(' (<span class="q">"Tell you what the emperor\'s after if you let us go."</span>)', "", "")}. {t("3) Complete", "3) Пройдите", "3) Úkol")} {q("Reason of State")} {t("before", "до квеста", "dokonči před úkolem")} {q("On Thin Ice")}{t(" — it fails after that.", " — потом он провалится.", " — potom selže.")}</div>
+  <div class="box gold" style="margin-top:3mm"><div class="t">{t("Plan your whole run in one line", "Весь план в одной строке", "Celý plán na jeden řádek")}</div>{t(
+    "Want Empress Ciri? You need", "Хотите Цири-императрицу? Нужно:", "Chceš Ciri císařovnou? Potřebuješ")} <b>{q("Now or Never", it=False)} → {q("A Deadly Plot", it=False)} → {q("Blindingly Obvious", it=False)} ({t("info to Dijkstra", "информация Дийкстре", "informace Dijkstrovi")}) → {q("Reason of State", it=False)} ({t("kill Radovid", "убить Радовида", "zabít Radovida")}) → {t("side with Roche", "сторона Роше", "strana Roche")}</b> {t(
     "plus the Emhyr visit and 3 good moments with Ciri. Want Witcher Ciri? Skip Emhyr, keep 3 good moments — politics are free.",
     "плюс визит к Эмгыру и 3 хороших момента с Цири. Хотите Цири-ведьмачку? Не ходите к Эмгыру и наберите 3 хороших момента — политика не важна.",
     "plus návštěvu Emhyra a 3 dobré okamžiky s Ciri. Chceš Ciri zaklínačkou? Vynech Emhyra a měj 3 dobré okamžiky — politika je volná.")}</div>
@@ -389,26 +404,24 @@ def build(lang):
   <h2>{t("Gwent — Cards You Can Lose Forever", "Гвинт — карты, которые можно потерять навсегда", "Gwint — karty, o které můžeš přijít navždy")}</h2>
   <div class="rule"></div>
   <p class="lede">{t("The quest", "Квест", "Úkol")} {q("Collect 'Em All")} {t(
-    "asks for 120 unique cards, and the game never tells you which ones you're missing. Protect these.",
-    "требует 120 уникальных карт, а игра не говорит, каких не хватает. Берегите эти.",
-    "vyžaduje 120 unikátních karet a hra ti nikdy neřekne, které chybí. Tyhle si ohlídej.")}</p>
+    "asks for 120 unique cards, and the game never tells you which ones you're missing. Patches added backups for many cards — but not for the seven on the right.",
+    "требует 120 уникальных карт, а игра не говорит, каких не хватает. Патчи добавили запасные способы получить многие карты — но не семь карт справа.",
+    "vyžaduje 120 unikátních karet a hra ti nikdy neřekne, které chybí. Patche přidaly náhradní cesty k mnoha kartám — ale ne k sedmi kartám vpravo.")}</p>
   <div class="cols">
     <div>
       <h3>{t("Card rules of thumb", "Простые правила", "Základní pravidla")}</h3>
       <ul class="check">
-        <li>{t("Play every named Gwent player the moment you meet them.", "Играйте с каждым именным игроком в гвинт сразу при встрече.", "Zahraj si s každým pojmenovaným hráčem gwintu hned, jak ho potkáš.")}<small>{t("Characters can die or leave during quests — their unique card goes with them.", "Персонажи могут погибнуть или уйти — их уникальная карта уйдёт с ними.", "Postavy mohou zemřít nebo odejít — jejich unikátní karta zmizí s nimi.")}</small></li>
-        <li>{t("Buy out merchant decks in Velen and Novigrad early.", "Скупайте карты у торговцев Велена и Новиграда заранее.", "Vykup karty od obchodníků ve Velenu a Novigradu včas.")}<small>{t("Some traders become unreachable as the story moves on.", "Некоторые торговцы со временем становятся недоступны.", "Někteří obchodníci se později stanou nedostupnými.")}</small></li>
+        <li>{t("Play every named Gwent player the moment you meet them.", "Играйте с каждым именным игроком в гвинт сразу при встрече.", "Zahraj si s každým pojmenovaným hráčem gwintu hned, jak ho potkáš.")}<small>{t("It's the safest habit — and needed for the card collection anyway.", "Это самая надёжная привычка — и всё равно нужно для коллекции.", "Je to nejbezpečnější zvyk — a pro sbírku to stejně potřebuješ.")}</small></li>
+        <li>{t("Buy out merchant decks in Velen and Novigrad early.", "Скупайте карты у торговцев Велена и Новиграда заранее.", "Vykup karty od obchodníků ve Velenu a Novigradu včas.")}<small>{t("Cheaper and easier than hunting them later.", "Так проще, чем искать их потом.", "Je to jednodušší než je shánět později.")}</small></li>
         <li>{t("Play the innkeepers in every region.", "Играйте с трактирщиками в каждом регионе.", "Hraj s hostinskými v každém regionu.")}</li>
         <li>{t("Finish all Gwent side quests before the Isle of Mists.", "Завершите все квесты про гвинт до Острова Туманов.", "Dokonči všechny úkoly s gwintem před Ostrovem mlh.")}</li>
       </ul>
     </div>
     <div>
-      <h3>{t("Known card traps", "Известные ловушки", "Známé pasti")}</h3>
+      <h3>{t("7 cards with no second chance", "7 карт без второго шанса", "7 karet bez druhé šance")}</h3>
       <ul class="check">
-        {li("A Matter of Life and Death", t("Contains a small Gwent tournament — you must win every round to get all the cards.", "Внутри турнир по гвинту — выиграйте все партии, чтобы получить все карты.", "Obsahuje malý turnaj v gwintu — musíš vyhrát všechna kola, abys získal všechny karty."))}
-        {li("Now or Never", t("A choice here can get a card-holder killed.", "Выбор здесь может стоить жизни владельцу карты.", "Volba tady může stát život majitele karty."))}
-        <li>{t("Iorveth hero card", "Карта героя Иорвет", "Hrdinská karta Iorveth")}<small>{t("Tied to a Velen side quest line — finish your Velen questlines before leaving the region for good.", "Связана с побочной цепочкой в Велене — заканчивайте квесты Велена, прежде чем уйти оттуда насовсем.", "Je spojená s vedlejší linií ve Velenu — dokonči úkoly ve Velenu, než region nadobro opustíš.")}</small></li>
-        <li>{t("Quest-giver cards", "Карты персонажей", "Karty postav")}<small>{t("The Bloody Baron, Lambert and other story characters carry cards — win them while they're around.", "Кровавый Барон, Ламберт и другие сюжетные персонажи носят карты — выигрывайте их, пока есть возможность.", "Krvavý baron, Lambert a další příběhové postavy mají karty — vyhraj je, dokud jsou k dispozici.")}</small></li>
+        {li("A Matter of Life and Death", t("Masquerade: win <b>Milva</b>, <b>Vampire: Bruxa</b> and <b>Dandelion</b> from the three players.", "Маскарад: выиграйте у трёх игроков карты <b>Мильва</b>, <b>Брукса</b> и <b>Лютик</b>.", "Maškarní ples: vyhraj od tří hráčů karty <b>Milva</b>, <b>Bruxa</b> a <b>Marigold</b>."))}
+        {li("High Stakes", t("Win <b>all four matches</b> for the four leader cards (Foltest, Emhyr, Francesca, Eredin). Don't leave the Passiflora mid-tournament — the quest fails.", "Выиграйте <b>все четыре партии</b> ради четырёх карт лидеров (Фольтест, Эмгыр, Францеска, Эредин). Не выходите из «Пассифлоры» посреди турнира — квест провалится.", "Vyhraj <b>všechny čtyři zápasy</b> kvůli čtyřem kartám vůdců (Foltest, Emhyr, Francesca, Eredin). Neopouštěj Passifloru uprostřed turnaje — úkol selže."))}
       </ul>
     </div>
   </div>
@@ -430,17 +443,17 @@ def build(lang):
     <div>
       <h3>{HOS}</h3>
       <ul class="check">
-        <li>{t("Finish the auction-house side quests <b>before</b> completing the heist in", "Пройдите побочные квесты аукционного дома <b>до</b> завершения ограбления в квесте", "Dokonči vedlejší úkoly aukční síně <b>před</b> dokončením loupeže v úkolu")} {q("Open Sesame!")}<small>{t("Finishing the heist closes side content tied to the auction house and its contacts.", "Завершение ограбления закрывает связанный с аукционом побочный контент.", "Dokončení loupeže uzavře vedlejší obsah spojený s aukční síní.")}</small></li>
+        <li>{t("At the auction in", "На аукционе в квесте", "Na aukci v úkolu")} {q("Open Sesame!")} {t("buy <b>every lot</b>.", "купите <b>все лоты</b>.", "kup <b>všechny položky</b>.")}<small>{t("It's the only way to unlock the side quest", "Только так откроется побочный квест", "Jen tak se odemkne vedlejší úkol")} {q("Avid Collector")}.</small></li>
+        <li>{t("Finish", "Пройдите", "Dokonči")} {q("A Midnight Clear")} {t("before completing", "до завершения", "před dokončením")} {q("Dead Man's Party")}.<small>{t("It fails automatically after that quest.", "После этого квеста он провалится.", "Po tomto úkolu automaticky selže.")}</small></li>
         <li>{t("Collect your runewright upgrades as you go.", "Не забывайте про улучшения у рунного мастера.", "Průběžně sbírej vylepšení u runopisce.")}</li>
-        <li>{t("Play Gwent with every new opponent around Oxenfurt.", "Играйте в гвинт со всеми новыми соперниками у Оксенфурта.", "Zahraj si gwint se všemi novými soupeři kolem Oxenfurtu.")}</li>
         <li>{t("Make a save before the final choice with Gaunter O'Dimm.", "Сохранитесь перед финальным выбором с Гюнтером о'Димом.", "Ulož si hru před závěrečnou volbou s Gaunterem O'Dimmem.")}</li>
       </ul>
     </div>
     <div>
       <h3>{BAW}</h3>
       <ul class="check">
-        <li>{t("Explore the <b>Land of a Thousand Fables</b> completely.", "Полностью исследуйте <b>Страну Тысячи Сказок</b>.", "Celou prozkoumej <b>pohádkovou zemi</b> <span class='en'>(Land of a Thousand Fables)</span>.")}<small>{t("You only visit it once — finish its side errand and pick up everything before the story pulls you back out.", "Туда вы попадёте только один раз — выполните там всё и соберите всё до того, как сюжет вас оттуда уведёт.", "Navštívíš ji jen jednou — splň tam vše a seber všechno, než tě příběh odvede pryč.")}</small></li>
-        <li>{t("Upgrade Corvo Bianco, your vineyard — it pays for itself.", "Улучшайте Корво Бьянко, свою винодельню, — она окупается.", "Vylepšuj Corvo Bianco, svou vinici — vyplatí se.")}</li>
+        <li>{t("Explore the <b>Land of a Thousand Fables</b> completely.", "Полностью исследуйте <b>Страну Тысячи Сказок</b>.", "Celou prozkoumej <b>pohádkovou zemi</b> <span class='en'>(Land of a Thousand Fables)</span>.")}<small>{t("You only visit it once. Finish the side quest", "Туда вы попадёте только один раз. Пройдите там побочный квест", "Navštívíš ji jen jednou. Splň tam vedlejší úkol")} {q("Duck, Duck, Goosed")} {t("and pick up everything before the story pulls you out.", "и соберите всё, пока сюжет вас оттуда не увёл.", "a seber všechno, než tě příběh odvede pryč.")}</small></li>
+        <li>{t("Upgrade Corvo Bianco, your vineyard, as coin allows.", "Улучшайте свою винодельню Корво Бьянко, когда появятся деньги.", "Vylepšuj svou vinici Corvo Bianco, jakmile budeš mít peníze.")}</li>
         <li>{t("Collect the Grandmaster witcher gear diagrams.", "Соберите чертежи ведьмачьего снаряжения гроссмейстерского уровня.", "Sbírej nákresy velmistrovské zaklínačské výzbroje.")}</li>
         <li>{t("Save before the final act — your choices decide the ending in Toussaint.", "Сохранитесь перед финалом — ваши выборы решат концовку в Туссенте.", "Ulož si hru před finále — tvá rozhodnutí určí konec v Toussaintu.")}</li>
       </ul>
@@ -471,9 +484,9 @@ def build(lang):
   <h2>{t("New in Remastered", "Что нового в Remastered", "Novinky v Remastered")}</h2>
   <div class="rule"></div>
   <p class="lede">{t(
-    "The September 2026 Remastered update is free for existing owners on PC, PS5, Xbox Series X|S and Switch 2. Stories, quests and endings are the same, so every checklist in this guide still applies.",
-    "Обновление Remastered (сентябрь 2026) бесплатно для владельцев игры на PC, PS5, Xbox Series X|S и Switch 2. Сюжет, квесты и концовки те же — все чек-листы гайда актуальны.",
-    "Aktualizace Remastered (září 2026) je zdarma pro majitele hry na PC, PS5, Xbox Series X|S a Switch 2. Příběh, úkoly i konce zůstaly stejné — všechny checklisty platí.")}</p>
+    "The September 2026 Remastered update is free for existing owners on PC, PS5, Xbox Series X|S and Switch 2. The announced changes are about visuals, skills and gear — not the story, quests or endings, so every checklist in this guide applies.",
+    "Обновление Remastered (сентябрь 2026) бесплатно для владельцев игры на PC, PS5, Xbox Series X|S и Switch 2. Заявленные изменения касаются графики, умений и снаряжения, а не сюжета, квестов и концовок — все чек-листы гайда актуальны.",
+    "Aktualizace Remastered (září 2026) je zdarma pro majitele hry na PC, PS5, Xbox Series X|S a Switch 2. Ohlášené změny se týkají grafiky, dovedností a výbavy, ne příběhu, úkolů či konců — všechny checklisty platí.")}</p>
   <div class="cols">
     <div class="box"><div class="t">{t("Skill tree rework", "Новое дерево умений", "Nový strom dovedností")}</div>{t(
       "Skills now sit in a tree with three ranks each, and some need prerequisites before they unlock. <b>Old build guides are out of date</b> — respec and experiment.",
