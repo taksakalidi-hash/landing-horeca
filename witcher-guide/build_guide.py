@@ -92,9 +92,9 @@ def build(lang):
   <div class="sub">{t("Missables · Endings · Gwent", "Квесты · Концовки · Гвинт", "Úkoly · Konce · Gwint")}</div>
   <div class="bar"></div>
   <div class="inc">{t(
-    "The printable checklist for The Witcher 3 Remastered — every point of no return, Ciri's five choices, every kingdom's fate and the Gwent cards you can lose forever.",
-    "Чек-лист для «Ведьмак 3 Remastered»: все точки невозврата, пять выборов, которые решают судьбу Цири, судьбы королевств и карты гвинта, которые можно потерять навсегда.",
-    "Tisknutelný checklist pro Zaklínač 3 Remastered — všechny body, odkud není návratu, pět rozhodnutí o osudu Ciri, osudy království a karty gwintu, o které můžeš přijít navždy.")}</div>
+    "The interactive checklist for The Witcher 3 Remastered — every point of no return, Ciri's five choices, every kingdom's fate and the Gwent cards you can lose forever.",
+    "Интерактивный чек-лист для «Ведьмак 3 Remastered»: все точки невозврата, пять выборов, которые решают судьбу Цири, судьбы королевств и карты гвинта, которые можно потерять навсегда.",
+    "Interaktivní checklist pro Zaklínač 3 Remastered — všechny body, odkud není návratu, pět rozhodnutí o osudu Ciri, osudy království a karty gwintu, o které můžeš přijít navždy.")}</div>
   <div class="foot">{t("Fan-made guide · Not affiliated with or endorsed by CD PROJEKT RED",
                         "Фанатский гайд · Не связан с CD PROJEKT RED и не одобрен ею",
                         "Fanouškovský průvodce · Není spojen s CD PROJEKT RED ani jím schválen")}</div>
@@ -162,7 +162,7 @@ def build(lang):
              "Největší zlom ve hře. Zhruba <b>19 vedlejších úkolů</b> automaticky selže, včetně celé linie Keiry Metz, romance s Triss, linie atentátu na Radovida a poslední šance získat spojence pro Kaer Morhen.")}</td></tr>
     <tr><td class="num">3</td><td><b>{t("DLC one-way doors", "Точки невозврата в DLC", "Jednosměrné dveře v DLC")}</b><br><small>{t("Hearts of Stone heist · Blood and Wine fairy-tale land", "Ограбление в «Каменных сердцах» · сказочная страна в «Крови и вине»", "Loupež v Srdci z kamene · pohádková země v O víně a krvi")}</small></td>
       <td>{t("Finishing the heist closes side content tied to the auction house. The Land of a Thousand Fables is visited only once — explore it fully before you leave.",
-             "Завершение ограбления закрывает побочный контент, связанный с аукционным домом. В Страну Тысячи Сказок попадаешь только один раз — исследуйте её полностью.",
+             "Завершение ограбления закрывает побочный контент, связанный с аукционным домом. В Страну Тысячи Сказок вы попадёте только один раз — исследуйте её полностью.",
              "Dokončení loupeže uzavře vedlejší obsah spojený s aukční síní. Do pohádkové země (Land of a Thousand Fables) se dostaneš jen jednou — prozkoumej ji celou.")}</td></tr>
   </table>
   <div class="box" style="margin-top:6mm"><div class="t">{t("Also watch out for", "Также помните", "Pozor také na")}</div>{t(
@@ -342,7 +342,7 @@ def build(lang):
     # ---------------- KINGDOMS
     north = [
         (t("Radovid rules, Nilfgaard loses", "Правит Радовид, Нильфгаард проигрывает", "Vládne Radovid, Nilfgaard prohrává"),
-         f'{t("Ignore Triss's", "Проигнорируйте квест Трисс", "Ignoruj úkol Triss")} {q("Now or Never")}{t(", so", ", и тогда", ", takže")} {q("Reason of State")} {t("never happens.", "не случится.", "se nikdy nestane.")}'),
+         f'{t("Ignore Triss's", "Проигнорируйте квест Трисс", "Ignoruj úkol Triss")} {q("Now or Never")}{t(", so", ", и тогда квест", ", takže k úkolu")} {q("Reason of State")} {t("never happens.", "не случится.", "nikdy nedojde.")}'),
         (t("Dijkstra rules Redania", "Дийкстра правит Реданией", "Dijkstra vládne Redanii"),
          f'{t("Help kill Radovid in", "Помогите убить Радовида в квесте", "Pomoz zabít Radovida v úkolu")} {q("Reason of State")}{t(", then <b>don't interfere</b> when Dijkstra turns on Roche, Ves and Thaler.", ", затем <b>не вмешивайтесь</b>, когда Дийкстра нападёт на Роше, Бьянку и Талера.", ", pak <b>nezasahuj</b>, když se Dijkstra obrátí proti Rochovi, Ves a Thalerovi.")}'),
         (t("Nilfgaard wins, Temeria restored", "Нильфгаард побеждает, Темерия восстановлена", "Nilfgaard vítězí, Temerie obnovena"),
@@ -439,7 +439,7 @@ def build(lang):
     <div>
       <h3>{BAW}</h3>
       <ul class="check">
-        <li>{t("Explore the <b>Land of a Thousand Fables</b> completely.", "Полностью исследуйте <b>Страну Тысячи Сказок</b>.", "Celou prozkoumej <b>pohádkovou zemi</b> <span class='en'>(Land of a Thousand Fables)</span>.")}<small>{t("You only visit it once — finish its side errand and pick up everything before the story pulls you back out.", "Попадаешь туда один раз — выполните там всё и соберите всё до того, как сюжет вас оттуда уведёт.", "Navštívíš ji jen jednou — splň tam vše a seber všechno, než tě příběh odvede pryč.")}</small></li>
+        <li>{t("Explore the <b>Land of a Thousand Fables</b> completely.", "Полностью исследуйте <b>Страну Тысячи Сказок</b>.", "Celou prozkoumej <b>pohádkovou zemi</b> <span class='en'>(Land of a Thousand Fables)</span>.")}<small>{t("You only visit it once — finish its side errand and pick up everything before the story pulls you back out.", "Туда вы попадёте только один раз — выполните там всё и соберите всё до того, как сюжет вас оттуда уведёт.", "Navštívíš ji jen jednou — splň tam vše a seber všechno, než tě příběh odvede pryč.")}</small></li>
         <li>{t("Upgrade Corvo Bianco, your vineyard — it pays for itself.", "Улучшайте Корво Бьянко, свою винодельню, — она окупается.", "Vylepšuj Corvo Bianco, svou vinici — vyplatí se.")}</li>
         <li>{t("Collect the Grandmaster witcher gear diagrams.", "Соберите чертежи ведьмачьего снаряжения гроссмейстерского уровня.", "Sbírej nákresy velmistrovské zaklínačské výzbroje.")}</li>
         <li>{t("Save before the final act — your choices decide the ending in Toussaint.", "Сохранитесь перед финалом — ваши выборы решат концовку в Туссенте.", "Ulož si hru před finále — tvá rozhodnutí určí konec v Toussaintu.")}</li>
