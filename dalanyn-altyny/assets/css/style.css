@@ -165,7 +165,7 @@ p{margin:0}
 /* ==========================================================================
    Hero
    ========================================================================== */
-.hero{position:relative;height:100vh;height:100svh;min-height:600px;overflow:hidden;background:
+.hero{position:relative;height:100vh;height:min(100svh,1200px);min-height:600px;overflow:hidden;background:
   radial-gradient(70% 60% at 70% 55%,rgba(122,60,24,.35),transparent 70%),
   radial-gradient(90% 70% at 20% 0%,rgba(74,48,29,.5),transparent 70%),var(--ink)}
 .hero__stage{position:absolute;inset:0}
@@ -222,7 +222,7 @@ p{margin:0}
 .section__head--center .lead{margin-inline:auto}
 .ornament{width:min(260px,60vw);color:var(--gold-2);margin:0 auto}
 .ornament path{fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:round}
-.anim .reveal,.anim .tile,.anim .fact{opacity:0;transform:translateY(40px)}
+.anim .reveal:not(.is-in),.anim .tile:not(.is-in),.anim .fact:not(.is-in){opacity:0;transform:translateY(40px)}
 
 /* ==========================================================================
    Manifesto
@@ -245,7 +245,7 @@ p{margin:0}
 .products{background:var(--coffee);position:relative}
 .products__pin{position:relative;overflow:hidden}
 .products__track{display:flex;width:max-content}
-.panel{width:100vw;min-height:100vh;min-height:100svh;display:grid;align-items:center;position:relative;padding:110px var(--pad) 90px}
+.panel{width:100vw;min-height:100vh;min-height:min(100svh,1200px);display:grid;align-items:center;position:relative;padding:110px var(--pad) 90px}
 .panel--intro{width:62vw}
 .panel--intro .h2{font-size:clamp(40px,6.4vw,104px)}
 .panel__num{position:absolute;right:var(--pad);top:96px;font-family:var(--display);font-weight:900;font-size:clamp(120px,20vw,300px);line-height:.8;color:transparent;-webkit-text-stroke:1px rgba(224,178,92,.18)}
@@ -276,7 +276,7 @@ p{margin:0}
    Slicer
    ========================================================================== */
 .slicer{background:linear-gradient(180deg,var(--coffee),var(--espresso));overflow:hidden}
-.slicer__pin{min-height:100vh;min-height:100svh;display:grid;align-content:center;gap:clamp(30px,5vh,60px);padding:100px 0 60px}
+.slicer__pin{min-height:100vh;min-height:min(100svh,1200px);display:grid;align-content:center;gap:clamp(30px,5vh,60px);padding:100px 0 60px}
 .slicer__head{text-align:center;display:grid;gap:18px;justify-items:center}
 .slicer__stage{width:min(1200px,94vw);margin:0 auto;position:relative}
 .slicer__stage svg{width:100%;height:auto;overflow:visible}
@@ -532,6 +532,12 @@ p{margin:0}
 @media (min-width:900px){
   .products__progress{display:block}
 }
+@media (min-width:701px) and (max-width:1100px){
+  .hero__copy{width:46vw}
+  .hero__title{font-size:clamp(44px,7vw,80px)}
+  .hero__packwrap{left:76%;width:min(28vmin,300px)}
+  .hero__glow,.hero__ring{left:76%}
+}
 @media (max-width:899px){
   .desk-only{display:none}
   .products__track{display:block;width:auto}
@@ -591,7 +597,7 @@ p{margin:0}
 /* reduced motion: everything static, no pinning */
 @media (hover:none),(pointer:coarse){
   .grain{display:none}
-  .gold{animation:none}
+  .gold,.hero__ring svg,.gifts__stamp svg,.hero__scroll i::after{animation:none}
 }
 @media (prefers-reduced-motion:reduce){
   .grain,.gold,.hero__ring svg,.gifts__stamp svg,.hero__scroll i::after{animation:none}
@@ -610,4 +616,7 @@ p{margin:0}
   .no-js .hero__stage,.reduced .hero__stage{grid-template-columns:1fr;gap:28px;padding-top:100px}
   .no-js .hero__packwrap,.reduced .hero__packwrap{width:min(200px,50vw);justify-self:end;margin-right:8%}
   .no-js .hero__glow,.reduced .hero__glow,.no-js .hero__ring,.reduced .hero__ring{left:70%;top:72%}
+}
+@media (max-height:500px) and (orientation:landscape){
+  .hero__photo{display:none}
 }

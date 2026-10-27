@@ -48,6 +48,14 @@
   let staticMode = !hasGSAP || root.classList.contains('reduced') || cannotScroll();
 
   $$('[data-wa]').forEach((a) => { a.href = waLink(a.dataset.wa); });
+  if (window.self !== window.top) {
+    document.addEventListener('click', (e) => {
+      const a = e.target.closest('a[target="_blank"]');
+      if (!a || e.defaultPrevented) return;
+      e.preventDefault();
+      openLink(a.href);
+    });
+  }
   const yearEl = $('#year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
@@ -166,12 +174,12 @@
      Header, menu, compare, facts, insta, pack tilt
      ------------------------------------------------------------------------ */
   const header = $('#header');
-  let lastY = 0;
+  let lastY = 0, anchoring = 0;
   function onScroll() {
     const y = window.scrollY;
     header.classList.toggle('is-scrolled', y > 40);
     if (Math.abs(y - lastY) > 6) {
-      header.classList.toggle('is-hidden', y > lastY && y > 500 && !root.classList.contains('menu-open'));
+      header.classList.toggle('is-hidden', y > lastY && y > 500 && !root.classList.contains('menu-open') && Date.now() > anchoring);
       lastY = y;
     }
     fab.classList.toggle('is-on', y > innerHeight * 0.9 || chosen().length > 0);
@@ -244,6 +252,8 @@
     if (!target) return;
     e.preventDefault();
     setMenu(false);
+    anchoring = Date.now() + 1800;
+    header.classList.remove('is-hidden');
     let y = null;
     if (productsST && target.classList.contains('panel')) {
       const dist = $('.products__track').scrollWidth - innerWidth;
@@ -309,6 +319,8 @@
       const mob = c.conditions.mob;
       gsap.set(packwrap, { xPercent: -50, yPercent: mob ? 0 : -50, x: 0, y: 0 });
       gsap.set('.hero__copy', { yPercent: mob ? 0 : -46, y: 0 });
+      const deco = $$('.hero__glow, .hero__ring');
+      gsap.set(deco, { xPercent: -50, yPercent: -50, x: 0, y: 0 });
       const W = () => stage.offsetWidth, H = () => stage.offsetHeight;
       const pcx = () => packwrap.offsetLeft;
       const pcy = () => packwrap.offsetTop + (mob ? packwrap.offsetHeight / 2 : 0);
@@ -331,7 +343,7 @@
         .to('.hero__badges, .hero__scroll', { opacity: 0, duration: 0.1 }, 0)
         .to('.hero__photo', { y: 80, rotation: -16, opacity: 0, duration: 0.22, ease: 'power1.in' }, 0)
         .to(packwrap, { x: () => W() / 2 - pcx(), y: () => H() * 0.5 - pcy(), scale: mob ? 1.3 : 1.12, rotation: -7, duration: 0.34, ease: 'power2.inOut' }, 0)
-        .to('.hero__glow, .hero__ring', { left: '50%', top: '50%', duration: 0.34, ease: 'power2.inOut' }, 0)
+        .to(deco, { x: (i, el) => W() / 2 - el.offsetLeft, y: (i, el) => H() / 2 - el.offsetTop, duration: 0.34, ease: 'power2.inOut' }, 0)
         .fromTo(strips,
           { x: (i, el) => W() / 2 - el.offsetWidth / 2, y: (i, el) => H() * 0.5 - el.offsetHeight / 2, scale: 0.12, rotation: 0, opacity: 0 },
           { x: tx, y: ty, scale: (i) => tg[i].s, rotation: (i) => tg[i].rot, opacity: 1, duration: 0.42, ease: 'power3.out', stagger: 0.012 }, 0.3)
@@ -488,7 +500,12 @@
     });
 
     /* ---------- reveals (.anim hides them in CSS until they scroll in) ---------- */
-    const show = (b) => gsap.to(b, { opacity: 1, y: 0, duration: 1, stagger: 0.07, ease: 'power3.out', overwrite: true, clearProps: 'transform,opacity' });
+    // once in, the element is marked .is-in (CSS stops hiding it) and its inline styles
+    // are dropped, so hover lifts and transitions work again
+    const show = (b) => gsap.to(b, {
+      opacity: 1, y: 0, duration: 1, ease: 'power3.out', overwrite: true,
+      stagger: { each: 0.07, onComplete() { const el = this.targets()[0]; el.classList.add('is-in'); gsap.set(el, { clearProps: 'transform,opacity' }); } },
+    });
     ScrollTrigger.batch('.reveal, .tile, .fact', { start: 'top 90%', once: true, onEnter: show, onLeave: show });
 
     /* ---------- hero pack floats ---------- */
