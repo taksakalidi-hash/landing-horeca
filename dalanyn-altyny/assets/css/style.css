@@ -216,7 +216,7 @@ p{margin:0}
 /* ==========================================================================
    Section scaffolding
    ========================================================================== */
-.section{position:relative;padding:clamp(90px,13vw,170px) 0}
+.section{position:relative;padding:clamp(72px,9vw,130px) 0}
 .section__head{display:grid;gap:22px;margin-bottom:clamp(44px,6vw,80px)}
 .section__head--center{justify-items:center;text-align:center}
 .section__head--center .lead{margin-inline:auto}
@@ -276,7 +276,7 @@ p{margin:0}
    Slicer
    ========================================================================== */
 .slicer{background:linear-gradient(180deg,var(--coffee),var(--espresso));overflow:hidden}
-.slicer__pin{min-height:100vh;min-height:min(100svh,1200px);display:grid;align-content:center;gap:clamp(30px,5vh,60px);padding:100px 0 60px}
+.slicer__pin{min-height:100vh;min-height:min(100lvh,1200px);display:grid;align-content:center;gap:clamp(30px,5vh,60px);padding:100px 0 60px}
 .slicer__head{text-align:center;display:grid;gap:18px;justify-items:center}
 .slicer__stage{width:min(1200px,94vw);margin:0 auto;position:relative}
 .slicer__stage svg{width:100%;height:auto;overflow:visible}
@@ -641,3 +641,9 @@ p{margin:0}
 html.menu-open,html.menu-open body{overflow:hidden}
 .summary__clear{justify-self:center;font-size:13px;color:var(--cream-3);text-decoration:underline;text-underline-offset:3px}
 .summary__clear:hover{color:var(--gold-1)}
+/* phones & portrait tablets: a bigger sausage and less empty screen around it */
+@media (max-width:899px){
+  .slicer__pin{padding:40px 0 30px;gap:clamp(18px,4vh,40px);grid-template-columns:minmax(0,1fr)}
+  .slicer__stage{width:150vw;margin-left:-25vw}
+  .panel{padding-bottom:30px}
+}

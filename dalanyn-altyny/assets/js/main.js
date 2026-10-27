@@ -434,9 +434,9 @@
       segs.concat(faces).forEach((g) => g.removeAttribute('transform'));
       gsap.set(faces, { scaleX: 0, transformOrigin: '50% 50%' });
       gsap.set(knife, { x: X0 - 50, opacity: 1 });
-      const mob = innerWidth <= 700;
+      const mob = innerWidth < 900;
       const tl = gsap.timeline({
-        scrollTrigger: { trigger: '.slicer__pin', start: 'top top', end: mob ? '+=90%' : '+=140%', pin: true, scrub: 0.6, anticipatePin: 1, refreshPriority: 1 },
+        scrollTrigger: { trigger: '.slicer__pin', start: 'top top', end: mob ? '+=70%' : '+=120%', pin: true, scrub: 0.6, anticipatePin: 1, refreshPriority: 1 },
       });
       tl.to(knife, { x: X1 + 50, duration: 1, ease: 'none' }, 0);
       cuts.forEach((c, i) => tl.to(c, { opacity: 1, duration: 0.04 }, (X0 + ((i + 1) * (X1 - X0)) / N - (X0 - 50)) / (X1 - X0 + 100)));
@@ -562,6 +562,7 @@
     if (document.fonts.addEventListener) document.fonts.addEventListener('loadingdone', () => ScrollTrigger.refresh());
   }
   ScrollTrigger.refresh();
+  setTimeout(() => ScrollTrigger.refresh(), 1000);
   let target = null;
   try { target = location.hash.length > 1 && document.getElementById(decodeURIComponent(location.hash.slice(1))); } catch (e) { /* bad hash */ }
   if (target) scrollTo(0, target.getBoundingClientRect().top + scrollY - 70);
