@@ -171,90 +171,6 @@
   }
 
   /* ------------------------------------------------------------------------
-     Gift builder → WhatsApp
-     ------------------------------------------------------------------------ */
-  const gift = $('#giftBuilder');
-  if (gift) {
-    const msg = $('#giftMsg'), send = $('#giftSend');
-    const val = (n) => (gift.querySelector(`input[name="${n}"]:checked`) || {}).value || '';
-    const renderGift = () => {
-      const text = msg.value.trim() || msg.placeholder;
-      $('#gcWho').textContent = val('who');
-      $('#gcText').textContent = text;
-      $('#gcSet').textContent = val('set');
-      send.href = waLink(`Здравствуйте! Хочу подарочный набор Dalanyn Altyny.\nКому: ${val('who')}\nНабор: ${val('set')}\nТекст открытки: ${text}`);
-    };
-    gift.addEventListener('input', renderGift);
-    gift.addEventListener('change', renderGift);
-    gift.addEventListener('submit', (e) => e.preventDefault());
-    renderGift();
-  }
-
-  /* ------------------------------------------------------------------------
-     Sausage crunch: tap → crunch sound, crumbs fly, the slice jumps
-     ------------------------------------------------------------------------ */
-  let audio = null;
-  function crunchSound() {
-    try {
-      audio = audio || new (window.AudioContext || window.webkitAudioContext)();
-      if (audio.state === 'suspended') audio.resume();
-      const t0 = audio.currentTime;
-      for (let k = 0; k < 6; k++) {
-        const len = 0.025 + Math.random() * 0.05;
-        const buf = audio.createBuffer(1, Math.floor(audio.sampleRate * len), audio.sampleRate);
-        const d = buf.getChannelData(0);
-        for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / d.length, 2.5);
-        const src = audio.createBufferSource(), bp = audio.createBiquadFilter(), g = audio.createGain();
-        src.buffer = buf;
-        bp.type = 'bandpass'; bp.frequency.value = 1400 + Math.random() * 3200; bp.Q.value = 0.8;
-        g.gain.value = 0.35 + Math.random() * 0.3;
-        src.connect(bp).connect(g).connect(audio.destination);
-        src.start(t0 + k * 0.04 + Math.random() * 0.02);
-      }
-    } catch (e) { /* no audio */ }
-  }
-  const slSvg = $('.slicer__stage svg');
-  let crumbLayer = null;
-  if (slSvg) {
-    crumbLayer = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-    slSvg.appendChild(crumbLayer);
-  }
-  // the SVG is drawn smaller on phones; keep crumbs readable on screen
-  const crumbScale = () => Math.min(2.4, Math.max(1, 900 / ((slSvg && slSvg.getBoundingClientRect().width) || 900)));
-  function burstAt(x, y, n = 14) {
-    if (!crumbLayer || !hasGSAP) return;
-    for (let i = 0; i < n; i++) {
-      const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-      const fat = Math.random() < 0.35;
-      c.setAttribute('r', ((3 + Math.random() * 7) * crumbScale()).toFixed(1));
-      c.setAttribute('fill', fat ? '#f2dccb' : (Math.random() < 0.5 ? '#8f2c22' : '#5e1a14'));
-      c.setAttribute('cx', x); c.setAttribute('cy', y);
-      crumbLayer.appendChild(c);
-      const a = -Math.PI / 2 + (Math.random() - 0.5) * 2.6, v = (70 + Math.random() * 150) * crumbScale();
-      gsap.timeline({ onComplete: () => c.remove() })
-        .to(c, { attr: { cx: x + Math.cos(a) * v }, duration: 0.9, ease: 'power1.out' }, 0)
-        .to(c, { attr: { cy: y + Math.sin(a) * v * 0.7 }, duration: 0.35, ease: 'power2.out' }, 0)
-        .to(c, { attr: { cy: y + 110 + Math.random() * 40 }, duration: 0.55, ease: 'power2.in' }, 0.35)
-        .to(c, { opacity: 0, duration: 0.3 }, 0.6);
-    }
-  }
-  function crunchSeg(seg) {
-    if (!hasGSAP || !seg) return;
-    if (seg.dataset.jumping) return;
-    seg.dataset.jumping = '1';
-    gsap.to(seg, { y: `-=${Math.round(14 * crumbScale())}`, duration: 0.09, yoyo: true, repeat: 1, ease: 'power1.out', onComplete: () => { delete seg.dataset.jumping; } });
-  }
-  if (slSvg) {
-    slSvg.addEventListener('pointerdown', (e) => {
-      const pt = slSvg.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY;
-      const p = pt.matrixTransform(slSvg.getScreenCTM().inverse());
-      crunchSound();
-      burstAt(p.x, Math.min(Math.max(p.y, 90), 210), 26);
-      crunchSeg(e.target.closest('.sl-seg'));
-    });
-  }
-
-  /* ------------------------------------------------------------------------
      Header, menu, compare, facts, insta, pack tilt
      ------------------------------------------------------------------------ */
   const header = $('#header');
@@ -491,18 +407,7 @@
         scrollTrigger: { trigger: '.slicer__pin', start: 'top top', end: mob ? '+=90%' : '+=140%', pin: true, scrub: 0.6, anticipatePin: 1, refreshPriority: 1 },
       });
       tl.to(knife, { x: X1 + 50, duration: 1, ease: 'none' }, 0);
-      cuts.forEach((c, i) => {
-        const at = (X0 + ((i + 1) * (X1 - X0)) / N - (X0 - 50)) / (X1 - X0 + 100);
-        tl.to(c, { opacity: 1, duration: 0.04 }, at);
-        // crumbs and a little jump each time the knife bites — only going forward
-        tl.call(() => {
-          if (tl.scrollTrigger && tl.scrollTrigger.direction > 0) {
-            burstAt(X0 + ((i + 1) * (X1 - X0)) / N, 150, 16);
-            crunchSeg(segs[i + 1]);
-            if (audio) crunchSound();
-          }
-        }, null, at);
-      });
+      cuts.forEach((c, i) => tl.to(c, { opacity: 1, duration: 0.04 }, (X0 + ((i + 1) * (X1 - X0)) / N - (X0 - 50)) / (X1 - X0 + 100)));
       tl.to(knife, { opacity: 0, duration: 0.12 }, 0.98).to(cuts, { opacity: 0, duration: 0.15 }, 1.05);
       segs.forEach((g, i) => {
         const off = i - (N - 1) / 2;
