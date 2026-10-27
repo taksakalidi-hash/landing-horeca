@@ -206,8 +206,8 @@ p{margin:0}
    Marquee
    ========================================================================== */
 .marquees{position:relative;z-index:2;overflow:hidden;padding:30px 0;margin:-30px 0}
-.marquee{position:relative;z-index:2;background:var(--gold-flat);color:#1c1208;overflow:hidden;padding:18px 0;transform:rotate(-2deg) scale(1.04);margin:-10px 0 0}
-.marquee--dark{background:var(--coffee);color:var(--gold-2);transform:rotate(1.4deg) scale(1.04);margin:-34px 0 0;border-block:1px solid var(--line)}
+.marquee{position:relative;z-index:2;background:var(--gold-flat);color:#1c1208;overflow:hidden;padding:18px 0;transform:rotate(-1.6deg) scale(1.05);margin:0;outline:1px solid transparent;backface-visibility:hidden;will-change:transform;box-shadow:0 0 1px rgba(224,178,92,.6),0 18px 40px -18px rgba(0,0,0,.8)}
+.marquee--dark{background:var(--coffee);color:var(--gold-2);transform:rotate(1.1deg) scale(1.05);margin:22px 0 0;outline:1px solid transparent;backface-visibility:hidden;will-change:transform;box-shadow:0 0 1px rgba(224,178,92,.35);border-block:1px solid var(--line)}
 .marquee__track{display:flex;width:max-content;will-change:transform}
 .marquee__item{display:flex;align-items:center;gap:34px;padding-right:34px;font-family:var(--display);font-weight:900;font-size:clamp(20px,2.6vw,34px);text-transform:uppercase;white-space:nowrap;letter-spacing:.02em}
 .marquee__item svg{width:26px;height:26px;flex:none}

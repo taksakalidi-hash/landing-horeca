@@ -68,6 +68,12 @@ const GOLD = '<linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop offset
 const logoSymbols = `<symbol id="emblem" viewBox="0 0 ${EMBLEM.vb.join(' ')}"><path fill-rule="evenodd" d="${EMBLEM.paths.join('')}"/></symbol>` +
   `<symbol id="wordmark" viewBox="0 0 ${WORD.vb.join(' ')}"><path fill-rule="evenodd" d="${WORD.paths.join('')}"/></symbol>`;
 let uid = 0;
+// Real product photos for the pack windows (tools/windows/*.jpg), embedded so the SVG stays self-contained.
+function photo(name, x, y, w, h) {
+  const f = path.join(__dirname, 'windows', `${name}.jpg`);
+  if (!fs.existsSync(f)) return '';
+  return `<image href="data:image/jpeg;base64,${fs.readFileSync(f).toString('base64')}" x="${x}" y="${y}" width="${w}" height="${h}" preserveAspectRatio="xMidYMid slice"/>`;
+}
 
 /* ---------- artwork ---------- */
 // Torn sheet of dried meat; returns inner markup for a 200×100 box.
@@ -147,6 +153,8 @@ function pack(kind) {
     [[54, 172], [112, 166], [172, 176], [44, 222], [100, 218], [158, 226], [204, 210], [64, 272], [124, 278], [186, 270]]
       .forEach(([x, y], k) => { inside += chunkAt(k * 5 + 2, x - 8, y - 8, 72); });
   }
+  const real = photo(isJ ? 'jerky' : 'tushenka', 62, 180, 188, 156);
+  if (real) inside = real;
   const label = isJ
     ? ['ЖЫЛҚЫ ЕТІНЕН', 'ЖАСАЛҒАН ДЖЕРКИ', 'ДЖЕРКИ ИЗ КОНИНЫ']
     : ['ЖЫЛҚЫ ЕТІНЕН', 'ЖАСАЛҒАН БҰҚТЫРМА', 'ТУШЁНКА ИЗ КОНИНЫ'];
@@ -193,7 +201,7 @@ function box() {
     '<rect x="51" y="22" width="36" height="9" rx="4.5" fill="#020202" stroke="#fff" stroke-opacity=".08"/>' +
     '<use href="#emblem" x="41" y="42" width="56" height="56" fill="url(#gold)"/>' +
     '<use href="#wordmark" x="37" y="102" width="64" height="30" fill="url(#gold)"/>' +
-    `<g clip-path="url(#w)"><rect x="38" y="144" width="60" height="186" fill="url(#s)"/>${specks}` +
+    `<g clip-path="url(#w)">${photo('kolbasa', 38, 144, 60, 186) || `<rect x="38" y="144" width="60" height="186" fill="url(#s)"/>${specks}`}` +
     '<rect x="38" y="144" width="60" height="186" fill="none" stroke="#000" stroke-opacity=".5" stroke-width="10"/><path d="M56 144h7v186h-7z" fill="#fff" fill-opacity=".1"/></g>' +
     '<rect x="38" y="144" width="60" height="186" rx="30" fill="none" stroke="url(#gold)" stroke-width="2"/>' +
     `<path d="${t}" fill="url(#gold)"/><path d="${small}" fill="url(#gold)" fill-opacity=".8"/></svg>`;
