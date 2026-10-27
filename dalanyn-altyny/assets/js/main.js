@@ -264,15 +264,17 @@
   if (staticMode) { showStatic(); return; }
 
   /* ------------------------------------------------------------------------
-     Motion
+     Motion — set up after load, when the main thread is free, so the first
+     screen paints without waiting for it
      ------------------------------------------------------------------------ */
+  const idle = window.requestIdleCallback || ((f) => setTimeout(f, 1));
+  const whenLoaded = (f) => (document.readyState === 'complete' ? idle(f, { timeout: 600 }) : addEventListener('load', () => idle(f, { timeout: 600 }), { once: true }));
+  whenLoaded(motion);
+  function motion() {
+  if (cannotScroll()) { staticMode = true; showStatic(); return; }
   gsap.registerPlugin(ScrollTrigger);
   ScrollTrigger.config({ ignoreMobileResize: true });
   root.classList.add('anim');
-  if ('scrollRestoration' in history && !location.hash) {
-    history.scrollRestoration = 'manual';
-    scrollTo(0, 0);
-  }
   let lenisTick = null;
   if (!touch && window.Lenis) {
     lenis = new Lenis({ lerp: 0.1, smoothWheel: true });
@@ -489,26 +491,16 @@
     const show = (b) => gsap.to(b, { opacity: 1, y: 0, duration: 1, stagger: 0.07, ease: 'power3.out', overwrite: true, clearProps: 'transform,opacity' });
     ScrollTrigger.batch('.reveal, .tile, .fact', { start: 'top 90%', once: true, onEnter: show, onLeave: show });
 
-    /* ---------- hero intro ---------- */
-    // drop the CSS pre-intro state first (same task, so nothing paints in between),
-    // otherwise GSAP would read its translateY(110%) as an extra pixel offset
-    root.classList.add('ready');
-    gsap.timeline({ defaults: { ease: 'power4.out' } })
-      .fromTo('.hero__title .line > span', { yPercent: 110, y: 0 }, { yPercent: 0, y: 0, duration: 1.2, stagger: 0.1 })
-      .fromTo('[data-intro]', { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 1, stagger: 0.08 }, 0.15)
-      .fromTo('.hero__packwrap .pack', { y: 100, rotation: 10, opacity: 0 }, { y: 0, rotation: 0, opacity: 1, duration: 1.3 }, 0.05)
-      .fromTo('.hero__photo img', { y: 60, rotation: -12, opacity: 0 }, { y: 0, rotation: 0, opacity: 1, duration: 1.2 }, 0.3)
-      .add(() => gsap.to('.hero__packwrap .pack', { y: -12, duration: 2.6, ease: 'sine.inOut', yoyo: true, repeat: -1 }));
+    /* ---------- hero pack floats ---------- */
+    gsap.to('.hero__packwrap .pack', { y: -12, duration: 2.6, ease: 'sine.inOut', yoyo: true, repeat: -1 });
   });
   root.classList.add('ready');
 
   // fonts change text widths; images change heights — re-measure once they land
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => ScrollTrigger.refresh());
-  addEventListener('load', () => {
-    ScrollTrigger.refresh();
-    const t = location.hash.length > 1 && document.querySelector(location.hash);
-    if (t) scrollTo(0, t.getBoundingClientRect().top + scrollY - 70);
-  });
+  ScrollTrigger.refresh();
+  const target = location.hash.length > 1 && document.querySelector(location.hash);
+  if (target) scrollTo(0, target.getBoundingClientRect().top + scrollY - 70);
 
   // if the host turns out not to scroll this window, fall back to the static page
   function goStatic() {
@@ -528,4 +520,5 @@
     clearTimeout(rt);
     rt = setTimeout(() => { if (cannotScroll()) goStatic(); }, 250);
   });
+  }
 })();

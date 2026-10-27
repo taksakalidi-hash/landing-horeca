@@ -10,7 +10,6 @@
 <meta name="robots" content="index, follow, max-image-preview:large">
 <!-- SITE_URL: замените https://dalanyn-altyny.kz/ на реальный домен во всех местах ниже, в robots.txt и sitemap.xml -->
 <link rel="canonical" href="https://dalanyn-altyny.kz/">
-<link rel="alternate" hreflang="ru-KZ" href="https://dalanyn-altyny.kz/">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="manifest" href="site.webmanifest">
@@ -28,7 +27,8 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,500;1,600&family=Manrope:wght@400;500;600;700&family=Montserrat:wght@600;700;800;900&display=swap">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,500;1,600&family=Manrope:wght@400;500;600;700&family=Montserrat:wght@600;700;800;900&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,500;1,600&family=Manrope:wght@400;500;600;700&family=Montserrat:wght@600;700;800;900&display=swap"></noscript>
 <link rel="stylesheet" href="assets/css/style.css">
 <script>document.documentElement.classList.replace('no-js','js');if(matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('reduced');</script>
 
@@ -66,23 +66,23 @@
     },
     {
       "@type":"Product","name":"Конская колбаса","alternateName":"Жылқы шұжығы",
-      "brand":{"@id":"https://dalanyn-altyny.kz/#org"},"category":"Колбасы",
+      "brand":{"@id":"https://dalanyn-altyny.kz/#org"},"category":"Колбасы","image":"https://dalanyn-altyny.kz/assets/img/kolbasa-boxes.webp",
       "description":"Колбаса из конины: традиционный вкус в современном формате. Сделано в Казахстане. Халяль состав."
     },
     {
       "@type":"Product","name":"Тушёнка из конины","alternateName":"Жылқы етінен жасалған бұқтырма",
-      "brand":{"@id":"https://dalanyn-altyny.kz/#org"},"category":"Мясные консервы",
+      "brand":{"@id":"https://dalanyn-altyny.kz/#org"},"category":"Мясные консервы","image":"https://dalanyn-altyny.kz/assets/img/tushenka-pack.webp",
       "description":"Тушёнка из конины: настоящий вкус конины в удобном формате. Халяль состав."
     },
     {
       "@type":"FAQPage",
       "mainEntity":[
         {"@type":"Question","name":"Что такое джерки?","acceptedAnswer":{"@type":"Answer","text":"Джерки — тонкие пластины мяса со специями, которые медленно сушат до плотной текстуры. Наши джерки делаются из конины: насыщенный мясной вкус и удобный формат перекуса."}},
-        {"@type":"Question","name":"Из чего сделана продукция Dalanyn Altyny?","acceptedAnswer":{"@type":"Answer","text":"Из отборной конины, специй и натуральных ингредиентов — без химии, консервантов и искусственных добавок."}},
+        {"@type":"Question","name":"Из чего сделана продукция?","acceptedAnswer":{"@type":"Answer","text":"Из отборной конины, специй и натуральных ингредиентов — без химии, консервантов и искусственных добавок."}},
         {"@type":"Question","name":"Продукция халяль?","acceptedAnswer":{"@type":"Answer","text":"Да, у нашей продукции из конины халяль состав."}},
-        {"@type":"Question","name":"Как заказать и есть ли доставка?","acceptedAnswer":{"@type":"Answer","text":"Напишите в WhatsApp +7 771 778 8033 — доставим по Алматы. Продукция также есть в приложении «Рядом»."}},
+        {"@type":"Question","name":"Как заказать и есть ли доставка?","acceptedAnswer":{"@type":"Answer","text":"Напишите в WhatsApp +7 771 778 8033 или соберите заказ на этом сайте — доставим по Алматы. Продукция также есть в приложении «Рядом»."}},
         {"@type":"Question","name":"Как хранить джерки и колбасу?","acceptedAnswer":{"@type":"Answer","text":"Условия и срок хранения указаны на упаковке каждого продукта."}},
-        {"@type":"Question","name":"Можно заказать для бара, магазина или в подарок большим количеством?","acceptedAnswer":{"@type":"Answer","text":"Да, напишите нам в WhatsApp — обсудим объём и формат. Джерки Dalanyn Altyny уже можно попробовать в барах Алматы."}},
+        {"@type":"Question","name":"Можно заказать для бара, магазина или большой подарок?","acceptedAnswer":{"@type":"Answer","text":"Да, напишите нам в WhatsApp — обсудим объём и формат. Джерки Dalanyn Altyny уже можно попробовать в барах Алматы."}},
         {"@type":"Question","name":"Что значит «Даланың Алтыны»?","acceptedAnswer":{"@type":"Answer","text":"В переводе с казахского — «Золото степи»."}}
       ]
     }
@@ -119,7 +119,7 @@
 <!-- ============ Header ============ -->
 <header class="header" id="header">
   <div class="container header__row">
-    <a class="brand" href="#top" aria-label="Dalanyn Altyny — на главную">
+    <a class="brand" href="#top">
       <svg viewBox="0 0 75.57 75.06" aria-hidden="true"><use href="#emblem" fill="url(#gold)"/></svg>
       <span class="brand__name">Dalanyn Altyny<small>золото степи</small></span>
     </a>
@@ -271,7 +271,7 @@
             <p class="lead">Тонкие пластины отборной конины со специями, высушенные медленно. Плотная текстура и настоящий мясной вкус — знакомая с детства конина в новой, удобной форме.</p>
             <div class="tags"><span class="tag">Натуральная конина</span><span class="tag">Медленная сушка</span><span class="tag">Без консервантов</span><span class="tag">Халяль состав</span></div>
             <div class="product__buy">
-              <div class="stepper" data-stepper="jerky"><button type="button" data-d="-1" aria-label="Меньше">−</button><output>0</output><button type="button" data-d="1" aria-label="Больше">+</button></div>
+              <div class="stepper" data-stepper="jerky"><button type="button" data-d="-1" aria-label="Меньше джерки">−</button><output>0</output><button type="button" data-d="1" aria-label="Больше джерки">+</button></div>
               <button class="btn btn--gold" type="button" data-add="jerky">В заказ</button>
             </div>
           </div>
@@ -296,7 +296,7 @@
             <p class="lead">Традиционный вкус в современном формате. Колбаса из конины — натуральность в каждом кусочке: нарезать к столу, взять в дорогу или подарить.</p>
             <div class="tags"><span class="tag">Сделано в Казахстане</span><span class="tag">Натуральный состав</span><span class="tag">Халяль состав</span></div>
             <div class="product__buy">
-              <div class="stepper" data-stepper="kolbasa"><button type="button" data-d="-1" aria-label="Меньше">−</button><output>0</output><button type="button" data-d="1" aria-label="Больше">+</button></div>
+              <div class="stepper" data-stepper="kolbasa"><button type="button" data-d="-1" aria-label="Меньше колбасы">−</button><output>0</output><button type="button" data-d="1" aria-label="Больше колбасы">+</button></div>
               <button class="btn btn--gold" type="button" data-add="kolbasa">В заказ</button>
             </div>
           </div>
@@ -317,7 +317,7 @@
             <p class="lead">Настоящий вкус конины в удобном формате. Сочное мясо, которое выручит дома, в дороге и на природе.</p>
             <div class="tags"><span class="tag">Конина</span><span class="tag">Удобный формат</span><span class="tag">Халяль состав</span></div>
             <div class="product__buy">
-              <div class="stepper" data-stepper="tushenka"><button type="button" data-d="-1" aria-label="Меньше">−</button><output>0</output><button type="button" data-d="1" aria-label="Больше">+</button></div>
+              <div class="stepper" data-stepper="tushenka"><button type="button" data-d="-1" aria-label="Меньше тушёнки">−</button><output>0</output><button type="button" data-d="1" aria-label="Больше тушёнки">+</button></div>
               <button class="btn btn--gold" type="button" data-add="tushenka">В заказ</button>
             </div>
           </div>
@@ -459,7 +459,7 @@
       <p class="eyebrow reveal">Знаете ли вы?</p>
       <h2 class="h2 reveal" id="facts-title">История, традиции<br><span class="serif">и вкус</span> конины</h2>
     </div>
-    <div class="facts" tabindex="0" aria-label="Факты о конине — листайте">
+    <div class="facts" role="region" tabindex="0" aria-label="Факты о конине — листайте">
       <article class="fact"><span class="fact__n gold">5 500</span><p>лет назад — <b>одни из самых ранних свидетельств одомашнивания лошади</b> найдены на территории Казахстана, у культуры Ботай.</p><small>Outram et al., Science, 2009 · <a href="https://www.bristol.ac.uk/news/2009/6202.html" target="_blank" rel="noopener">источник</a></small></article>
       <article class="fact"><span class="fact__n gold" lang="kk">Соғым</span><p>С первыми морозами казахи <b>заготавливали мясо на всю зиму</b> — вялили, сушили и солили, чтобы оно хранилось долго.</p><small>Tengrinews · <a href="https://tengrinews.kz/article/sogyim-obyichay-obyedinyal-kazahov-ranshe-pochemu-doshl-3560/" target="_blank" rel="noopener">источник</a></small></article>
       <article class="fact"><span class="fact__n gold">Наурыз</span><p>Мясо с зимнего соғыма берегли до весны: <b>к Наурызу из него готовили наурыз-көже</b> и угощали родных.</p><small>Tengrinews · <a href="https://tengrinews.kz/article/sogyim-obyichay-obyedinyal-kazahov-ranshe-pochemu-doshl-3560/" target="_blank" rel="noopener">источник</a></small></article>
@@ -560,7 +560,7 @@
         </div>
         <div class="fields">
           <div class="field"><label for="f-name">Имя</label><input id="f-name" name="name" autocomplete="name" placeholder="Как к вам обращаться"></div>
-          <div class="field"><label for="f-addr">Адрес или район</label><input id="f-addr" name="address" autocomplete="street-address" placeholder="Алматы, ..."></div>
+          <div class="field"><label for="f-addr">Адрес или район</label><input id="f-addr" name="address" autocomplete="address-line1" placeholder="Алматы, ..."></div>
           <div class="field field--full"><label for="f-note">Комментарий</label><textarea id="f-note" name="note" rows="2" placeholder="Подарочный набор, удобное время доставки…"></textarea></div>
         </div>
       </form>
@@ -622,34 +622,34 @@
       <a class="btn btn--line reveal" href="https://www.instagram.com/dalanyn_altyny_/" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-ig"/></svg>Подписаться</a>
     </div>
     <div class="insta__grid" id="instaGrid"><!--@insta-->
-      <a class="tile" href="https://www.instagram.com/dalanyn_altyny_/" target="_blank" rel="noopener"><img src="assets/img/feed/01-pinned-jerky.webp" alt="Джерки из конины" loading="lazy" decoding="async" width="550" height="732"><span class="tile__badge" aria-hidden="true"><svg><use href="#i-star"/></svg></span><span class="tile__cap">Джерки из конины</span></a>
-      <a class="tile" href="https://www.instagram.com/dalanyn_altyny_/" target="_blank" rel="noopener"><img src="assets/img/feed/02-kolbasa-post.webp" alt="Конская колбаса — традиционный вкус в современном формате" loading="lazy" decoding="async" width="550" height="732"><span class="tile__badge" aria-hidden="true"><svg><use href="#i-grid"/></svg></span><span class="tile__cap">Конская колбаса — традиционный вкус в современном формате</span></a>
-      <a class="tile" href="https://www.instagram.com/dalanyn_altyny_/" target="_blank" rel="noopener"><img src="assets/img/feed/03-znaete.webp" alt="Знаете ли вы? История, традиции и вкус конины" loading="lazy" decoding="async" width="550" height="732"><span class="tile__badge" aria-hidden="true"><svg><use href="#i-grid"/></svg></span><span class="tile__cap">Знаете ли вы? История, традиции и вкус конины</span></a>
-      <a class="tile" href="https://www.instagram.com/dalanyn_altyny_/" target="_blank" rel="noopener"><img src="assets/img/feed/04-collage.webp" alt="Удобный перекус и натуральный состав" loading="lazy" decoding="async" width="550" height="732"><span class="tile__cap">Удобный перекус и натуральный состав</span></a>
-      <a class="tile" href="https://www.instagram.com/dalanyn_altyny_/" target="_blank" rel="noopener"><img src="assets/img/feed/05-jerky-carousel.webp" alt="Джерки из конины. Медленная сушка" loading="lazy" decoding="async" width="550" height="732"><span class="tile__badge" aria-hidden="true"><svg><use href="#i-grid"/></svg></span><span class="tile__cap">Джерки из конины. Медленная сушка</span></a>
-      <a class="tile" href="https://www.instagram.com/dalanyn_altyny_/" target="_blank" rel="noopener"><img src="assets/img/feed/06-ryadom.webp" alt="Мы теперь в приложении «Рядом»" loading="lazy" decoding="async" width="550" height="732"><span class="tile__cap">Мы теперь в приложении «Рядом»</span></a>
-      <a class="tile" href="https://www.instagram.com/dalanyn_altyny_/" target="_blank" rel="noopener"><img src="assets/img/feed/07-upakovka.webp" alt="Всё начинается с упаковки" loading="lazy" decoding="async" width="550" height="732"><span class="tile__badge" aria-hidden="true"><svg><use href="#i-play"/></svg></span><span class="tile__cap">Всё начинается с упаковки</span></a>
-      <a class="tile" href="https://www.instagram.com/dalanyn_altyny_/" target="_blank" rel="noopener"><img src="assets/img/feed/08-family.webp" alt="Всё началось с семьи" loading="lazy" decoding="async" width="550" height="732"><span class="tile__badge" aria-hidden="true"><svg><use href="#i-play"/></svg></span><span class="tile__cap">Всё началось с семьи</span></a>
-      <a class="tile is-extra" href="https://www.instagram.com/dalanyn_altyny_/" target="_blank" rel="noopener"><img src="assets/img/feed/09-udobno.webp" alt="Конина, которую удобно взять с собой" loading="lazy" decoding="async" width="550" height="732"><span class="tile__badge" aria-hidden="true"><svg><use href="#i-play"/></svg></span><span class="tile__cap">Конина, которую удобно взять с собой</span></a>
-      <a class="tile is-extra" href="https://www.instagram.com/dalanyn_altyny_/" target="_blank" rel="noopener"><img src="assets/img/feed/10-novinka.webp" alt="Следующая новинка — выбираете вы" loading="lazy" decoding="async" width="550" height="732"><span class="tile__badge" aria-hidden="true"><svg><use href="#i-play"/></svg></span><span class="tile__cap">Следующая новинка — выбираете вы</span></a>
-      <a class="tile is-extra" href="https://www.instagram.com/dalanyn_altyny_/" target="_blank" rel="noopener"><img src="assets/img/feed/11-plate.webp" alt="Джерки для любого момента" loading="lazy" decoding="async" width="550" height="732"><span class="tile__badge" aria-hidden="true"><svg><use href="#i-play"/></svg></span><span class="tile__cap">Джерки для любого момента</span></a>
-      <a class="tile is-extra" href="https://www.instagram.com/dalanyn_altyny_/" target="_blank" rel="noopener"><img src="assets/img/feed/12-natural-vkus.webp" alt="Натуральный вкус. Настоящая конина" loading="lazy" decoding="async" width="550" height="732"><span class="tile__badge" aria-hidden="true"><svg><use href="#i-play"/></svg></span><span class="tile__cap">Натуральный вкус. Настоящая конина</span></a>
-      <a class="tile is-extra" href="https://www.instagram.com/dalanyn_altyny_/" target="_blank" rel="noopener"><img src="assets/img/feed/13-priznanie.webp" alt="Признание профессионалов" loading="lazy" decoding="async" width="550" height="732"><span class="tile__badge" aria-hidden="true"><svg><use href="#i-play"/></svg></span><span class="tile__cap">Признание профессионалов</span></a>
-      <a class="tile is-extra" href="https://www.instagram.com/dalanyn_altyny_/" target="_blank" rel="noopener"><img src="assets/img/feed/14-rojo.webp" alt="Dalanyn Altyny в барах Алматы" loading="lazy" decoding="async" width="550" height="732"><span class="tile__badge" aria-hidden="true"><svg><use href="#i-play"/></svg></span><span class="tile__cap">Dalanyn Altyny в барах Алматы</span></a>
-      <a class="tile is-extra" href="https://www.instagram.com/dalanyn_altyny_/" target="_blank" rel="noopener"><img src="assets/img/feed/15-nastoyashiy.webp" alt="Настоящий вкус конины" loading="lazy" decoding="async" width="550" height="732"><span class="tile__badge" aria-hidden="true"><svg><use href="#i-play"/></svg></span><span class="tile__cap">Настоящий вкус конины</span></a>
-      <a class="tile is-extra" href="https://www.instagram.com/dalanyn_altyny_/" target="_blank" rel="noopener"><img src="assets/img/feed/16-kolbasa-reel.webp" alt="Колбаса из конины" loading="lazy" decoding="async" width="550" height="732"><span class="tile__badge" aria-hidden="true"><svg><use href="#i-play"/></svg></span><span class="tile__cap">Колбаса из конины</span></a>
-      <a class="tile is-extra" href="https://www.instagram.com/dalanyn_altyny_/" target="_blank" rel="noopener"><img src="assets/img/feed/17-odin-kusochek.webp" alt="Один кусочек — и всё понятно" loading="lazy" decoding="async" width="550" height="732"><span class="tile__badge" aria-hidden="true"><svg><use href="#i-play"/></svg></span><span class="tile__cap">Один кусочек — и всё понятно</span></a>
-      <a class="tile is-extra" href="https://www.instagram.com/dalanyn_altyny_/" target="_blank" rel="noopener"><img src="assets/img/feed/18-tushenka.webp" alt="Тушёнка из конины" loading="lazy" decoding="async" width="550" height="732"><span class="tile__badge" aria-hidden="true"><svg><use href="#i-play"/></svg></span><span class="tile__cap">Тушёнка из конины</span></a>
-      <a class="tile is-extra" href="https://www.instagram.com/dalanyn_altyny_/" target="_blank" rel="noopener"><img src="assets/img/feed/19-jerky-tekstura.webp" alt="Плотная текстура и настоящий мясной вкус" loading="lazy" decoding="async" width="550" height="732"><span class="tile__badge" aria-hidden="true"><svg><use href="#i-play"/></svg></span><span class="tile__cap">Плотная текстура и настоящий мясной вкус</span></a>
-      <a class="tile is-extra" href="https://www.instagram.com/dalanyn_altyny_/" target="_blank" rel="noopener"><img src="assets/img/feed/20-bars.webp" alt="Мы в лучших барах" loading="lazy" decoding="async" width="550" height="732"><span class="tile__badge" aria-hidden="true"><svg><use href="#i-play"/></svg></span><span class="tile__cap">Мы в лучших барах</span></a>
-      <a class="tile is-extra" href="https://www.instagram.com/dalanyn_altyny_/" target="_blank" rel="noopener"><img src="assets/img/feed/21-glass.webp" alt="Джерки из конины" loading="lazy" decoding="async" width="550" height="732"><span class="tile__cap">Джерки из конины</span></a>
-      <a class="tile is-extra" href="https://www.instagram.com/dalanyn_altyny_/" target="_blank" rel="noopener"><img src="assets/img/feed/22-jerky-dzherki.webp" alt="Натуральная конина, медленная сушка" loading="lazy" decoding="async" width="550" height="732"><span class="tile__badge" aria-hidden="true"><svg><use href="#i-play"/></svg></span><span class="tile__cap">Натуральная конина, медленная сушка</span></a>
-      <a class="tile is-extra" href="https://www.instagram.com/dalanyn_altyny_/" target="_blank" rel="noopener"><img src="assets/img/feed/23-nauryz.webp" alt="Выбирайте лучшее к Наурызу" loading="lazy" decoding="async" width="550" height="732"><span class="tile__badge" aria-hidden="true"><svg><use href="#i-play"/></svg></span><span class="tile__cap">Выбирайте лучшее к Наурызу</span></a>
-      <a class="tile is-extra" href="https://www.instagram.com/dalanyn_altyny_/" target="_blank" rel="noopener"><img src="assets/img/feed/24-gifts.webp" alt="Подарочные наборы" loading="lazy" decoding="async" width="550" height="732"><span class="tile__badge" aria-hidden="true"><svg><use href="#i-grid"/></svg></span><span class="tile__cap">Подарочные наборы</span></a>
-      <a class="tile is-extra" href="https://www.instagram.com/dalanyn_altyny_/" target="_blank" rel="noopener"><img src="assets/img/feed/25-detstva.webp" alt="Знакомая с детства" loading="lazy" decoding="async" width="550" height="732"><span class="tile__badge" aria-hidden="true"><svg><use href="#i-play"/></svg></span><span class="tile__cap">Знакомая с детства</span></a>
-      <a class="tile is-extra" href="https://www.instagram.com/dalanyn_altyny_/" target="_blank" rel="noopener"><img src="assets/img/feed/26-vmesto.webp" alt="Настоящее мясо вместо пустых перекусов" loading="lazy" decoding="async" width="550" height="732"><span class="tile__badge" aria-hidden="true"><svg><use href="#i-play"/></svg></span><span class="tile__cap">Настоящее мясо вместо пустых перекусов</span></a>
-      <a class="tile is-extra" href="https://www.instagram.com/dalanyn_altyny_/" target="_blank" rel="noopener"><img src="assets/img/feed/27-meat100.webp" alt="100% мясо" loading="lazy" decoding="async" width="550" height="732"><span class="tile__cap">100% мясо</span></a>
-      <a class="tile is-extra" href="https://www.instagram.com/dalanyn_altyny_/" target="_blank" rel="noopener"><img src="assets/img/feed/28-chto-takoe.webp" alt="Что такое джерки?" loading="lazy" decoding="async" width="550" height="732"><span class="tile__badge" aria-hidden="true"><svg><use href="#i-play"/></svg></span><span class="tile__cap">Что такое джерки?</span></a>
+      <a class="tile" href="https://www.instagram.com/dalanyn_altyny_/" target="_blank" rel="noopener"><img src="assets/img/feed/01-pinned-jerky.webp" alt="" loading="lazy" decoding="async" width="550" height="732"><span class="tile__badge" aria-hidden="true"><svg><use href="#i-star"/></svg></span><span class="tile__cap">Джерки из конины</span></a>
+      <a class="tile" href="https://www.instagram.com/dalanyn_altyny_/" target="_blank" rel="noopener"><img src="assets/img/feed/02-kolbasa-post.webp" alt="" loading="lazy" decoding="async" width="550" height="732"><span class="tile__badge" aria-hidden="true"><svg><use href="#i-grid"/></svg></span><span class="tile__cap">Конская колбаса — традиционный вкус в современном формате</span></a>
+      <a class="tile" href="https://www.instagram.com/dalanyn_altyny_/" target="_blank" rel="noopener"><img src="assets/img/feed/03-znaete.webp" alt="" loading="lazy" decoding="async" width="550" height="732"><span class="tile__badge" aria-hidden="true"><svg><use href="#i-grid"/></svg></span><span class="tile__cap">Знаете ли вы? История, традиции и вкус конины</span></a>
+      <a class="tile" href="https://www.instagram.com/dalanyn_altyny_/" target="_blank" rel="noopener"><img src="assets/img/feed/04-collage.webp" alt="" loading="lazy" decoding="async" width="550" height="732"><span class="tile__cap">Удобный перекус и натуральный состав</span></a>
+      <a class="tile" href="https://www.instagram.com/dalanyn_altyny_/" target="_blank" rel="noopener"><img src="assets/img/feed/05-jerky-carousel.webp" alt="" loading="lazy" decoding="async" width="550" height="732"><span class="tile__badge" aria-hidden="true"><svg><use href="#i-grid"/></svg></span><span class="tile__cap">Джерки из конины. Медленная сушка</span></a>
+      <a class="tile" href="https://www.instagram.com/dalanyn_altyny_/" target="_blank" rel="noopener"><img src="assets/img/feed/06-ryadom.webp" alt="" loading="lazy" decoding="async" width="550" height="732"><span class="tile__cap">Мы теперь в приложении «Рядом»</span></a>
+      <a class="tile" href="https://www.instagram.com/dalanyn_altyny_/" target="_blank" rel="noopener"><img src="assets/img/feed/07-upakovka.webp" alt="" loading="lazy" decoding="async" width="550" height="732"><span class="tile__badge" aria-hidden="true"><svg><use href="#i-play"/></svg></span><span class="tile__cap">Всё начинается с упаковки</span></a>
+      <a class="tile" href="https://www.instagram.com/dalanyn_altyny_/" target="_blank" rel="noopener"><img src="assets/img/feed/08-family.webp" alt="" loading="lazy" decoding="async" width="550" height="732"><span class="tile__badge" aria-hidden="true"><svg><use href="#i-play"/></svg></span><span class="tile__cap">Всё началось с семьи</span></a>
+      <a class="tile is-extra" href="https://www.instagram.com/dalanyn_altyny_/" target="_blank" rel="noopener"><img src="assets/img/feed/09-udobno.webp" alt="" loading="lazy" decoding="async" width="550" height="732"><span class="tile__badge" aria-hidden="true"><svg><use href="#i-play"/></svg></span><span class="tile__cap">Конина, которую удобно взять с собой</span></a>
+      <a class="tile is-extra" href="https://www.instagram.com/dalanyn_altyny_/" target="_blank" rel="noopener"><img src="assets/img/feed/10-novinka.webp" alt="" loading="lazy" decoding="async" width="550" height="732"><span class="tile__badge" aria-hidden="true"><svg><use href="#i-play"/></svg></span><span class="tile__cap">Следующая новинка — выбираете вы</span></a>
+      <a class="tile is-extra" href="https://www.instagram.com/dalanyn_altyny_/" target="_blank" rel="noopener"><img src="assets/img/feed/11-plate.webp" alt="" loading="lazy" decoding="async" width="550" height="732"><span class="tile__badge" aria-hidden="true"><svg><use href="#i-play"/></svg></span><span class="tile__cap">Джерки для любого момента</span></a>
+      <a class="tile is-extra" href="https://www.instagram.com/dalanyn_altyny_/" target="_blank" rel="noopener"><img src="assets/img/feed/12-natural-vkus.webp" alt="" loading="lazy" decoding="async" width="550" height="732"><span class="tile__badge" aria-hidden="true"><svg><use href="#i-play"/></svg></span><span class="tile__cap">Натуральный вкус. Настоящая конина</span></a>
+      <a class="tile is-extra" href="https://www.instagram.com/dalanyn_altyny_/" target="_blank" rel="noopener"><img src="assets/img/feed/13-priznanie.webp" alt="" loading="lazy" decoding="async" width="550" height="732"><span class="tile__badge" aria-hidden="true"><svg><use href="#i-play"/></svg></span><span class="tile__cap">Признание профессионалов</span></a>
+      <a class="tile is-extra" href="https://www.instagram.com/dalanyn_altyny_/" target="_blank" rel="noopener"><img src="assets/img/feed/14-rojo.webp" alt="" loading="lazy" decoding="async" width="550" height="732"><span class="tile__badge" aria-hidden="true"><svg><use href="#i-play"/></svg></span><span class="tile__cap">Dalanyn Altyny в барах Алматы</span></a>
+      <a class="tile is-extra" href="https://www.instagram.com/dalanyn_altyny_/" target="_blank" rel="noopener"><img src="assets/img/feed/15-nastoyashiy.webp" alt="" loading="lazy" decoding="async" width="550" height="732"><span class="tile__badge" aria-hidden="true"><svg><use href="#i-play"/></svg></span><span class="tile__cap">Настоящий вкус конины</span></a>
+      <a class="tile is-extra" href="https://www.instagram.com/dalanyn_altyny_/" target="_blank" rel="noopener"><img src="assets/img/feed/16-kolbasa-reel.webp" alt="" loading="lazy" decoding="async" width="550" height="732"><span class="tile__badge" aria-hidden="true"><svg><use href="#i-play"/></svg></span><span class="tile__cap">Колбаса из конины</span></a>
+      <a class="tile is-extra" href="https://www.instagram.com/dalanyn_altyny_/" target="_blank" rel="noopener"><img src="assets/img/feed/17-odin-kusochek.webp" alt="" loading="lazy" decoding="async" width="550" height="732"><span class="tile__badge" aria-hidden="true"><svg><use href="#i-play"/></svg></span><span class="tile__cap">Один кусочек — и всё понятно</span></a>
+      <a class="tile is-extra" href="https://www.instagram.com/dalanyn_altyny_/" target="_blank" rel="noopener"><img src="assets/img/feed/18-tushenka.webp" alt="" loading="lazy" decoding="async" width="550" height="732"><span class="tile__badge" aria-hidden="true"><svg><use href="#i-play"/></svg></span><span class="tile__cap">Тушёнка из конины</span></a>
+      <a class="tile is-extra" href="https://www.instagram.com/dalanyn_altyny_/" target="_blank" rel="noopener"><img src="assets/img/feed/19-jerky-tekstura.webp" alt="" loading="lazy" decoding="async" width="550" height="732"><span class="tile__badge" aria-hidden="true"><svg><use href="#i-play"/></svg></span><span class="tile__cap">Плотная текстура и настоящий мясной вкус</span></a>
+      <a class="tile is-extra" href="https://www.instagram.com/dalanyn_altyny_/" target="_blank" rel="noopener"><img src="assets/img/feed/20-bars.webp" alt="" loading="lazy" decoding="async" width="550" height="732"><span class="tile__badge" aria-hidden="true"><svg><use href="#i-play"/></svg></span><span class="tile__cap">Мы в лучших барах</span></a>
+      <a class="tile is-extra" href="https://www.instagram.com/dalanyn_altyny_/" target="_blank" rel="noopener"><img src="assets/img/feed/21-glass.webp" alt="" loading="lazy" decoding="async" width="550" height="732"><span class="tile__cap">Джерки из конины</span></a>
+      <a class="tile is-extra" href="https://www.instagram.com/dalanyn_altyny_/" target="_blank" rel="noopener"><img src="assets/img/feed/22-jerky-dzherki.webp" alt="" loading="lazy" decoding="async" width="550" height="732"><span class="tile__badge" aria-hidden="true"><svg><use href="#i-play"/></svg></span><span class="tile__cap">Натуральная конина, медленная сушка</span></a>
+      <a class="tile is-extra" href="https://www.instagram.com/dalanyn_altyny_/" target="_blank" rel="noopener"><img src="assets/img/feed/23-nauryz.webp" alt="" loading="lazy" decoding="async" width="550" height="732"><span class="tile__badge" aria-hidden="true"><svg><use href="#i-play"/></svg></span><span class="tile__cap">Выбирайте лучшее к Наурызу</span></a>
+      <a class="tile is-extra" href="https://www.instagram.com/dalanyn_altyny_/" target="_blank" rel="noopener"><img src="assets/img/feed/24-gifts.webp" alt="" loading="lazy" decoding="async" width="550" height="732"><span class="tile__badge" aria-hidden="true"><svg><use href="#i-grid"/></svg></span><span class="tile__cap">Подарочные наборы</span></a>
+      <a class="tile is-extra" href="https://www.instagram.com/dalanyn_altyny_/" target="_blank" rel="noopener"><img src="assets/img/feed/25-detstva.webp" alt="" loading="lazy" decoding="async" width="550" height="732"><span class="tile__badge" aria-hidden="true"><svg><use href="#i-play"/></svg></span><span class="tile__cap">Знакомая с детства</span></a>
+      <a class="tile is-extra" href="https://www.instagram.com/dalanyn_altyny_/" target="_blank" rel="noopener"><img src="assets/img/feed/26-vmesto.webp" alt="" loading="lazy" decoding="async" width="550" height="732"><span class="tile__badge" aria-hidden="true"><svg><use href="#i-play"/></svg></span><span class="tile__cap">Настоящее мясо вместо пустых перекусов</span></a>
+      <a class="tile is-extra" href="https://www.instagram.com/dalanyn_altyny_/" target="_blank" rel="noopener"><img src="assets/img/feed/27-meat100.webp" alt="" loading="lazy" decoding="async" width="550" height="732"><span class="tile__cap">100% мясо</span></a>
+      <a class="tile is-extra" href="https://www.instagram.com/dalanyn_altyny_/" target="_blank" rel="noopener"><img src="assets/img/feed/28-chto-takoe.webp" alt="" loading="lazy" decoding="async" width="550" height="732"><span class="tile__badge" aria-hidden="true"><svg><use href="#i-play"/></svg></span><span class="tile__cap">Что такое джерки?</span></a>
     <!--/@insta--></div>
     <div class="insta__more"><button class="btn btn--line" type="button" id="instaMore"><svg aria-hidden="true"><use href="#i-grid"/></svg>Показать все публикации</button></div>
   </div>
@@ -688,6 +688,10 @@
   </div>
 </section>
 
+<a class="fab" id="fab" href="#order" aria-label="Перейти к заказу">
+  <svg aria-hidden="true"><use href="#i-wa"/></svg><span>Заказать</span>
+  <b class="fab__count" id="fabCount">0</b>
+</a>
 </main>
 
 <footer class="footer">
@@ -697,19 +701,15 @@
         <a class="brand" href="#top"><svg viewBox="0 0 75.57 75.06" aria-hidden="true"><use href="#emblem" fill="url(#gold)"/></svg><span class="brand__name">Dalanyn Altyny<small>золото степи</small></span></a>
         <p class="footer__about">Колбаса, тушёнка и джерки из конины. Халяль состав. Доставка по Алматы.</p>
       </div>
-      <div><h4>Продукция</h4><ul><li><a href="#p-jerky">Джерки из конины</a></li><li><a href="#p-kolbasa">Конская колбаса</a></li><li><a href="#p-tushenka">Тушёнка из конины</a></li><li><a href="#gifts">Подарочные наборы</a></li></ul></div>
-      <div><h4>Бренд</h4><ul><li><a href="#story">О нас</a></li><li><a href="#jerky">Что такое джерки</a></li><li><a href="#facts">Знаете ли вы?</a></li><li><a href="#faq">Вопросы</a></li></ul></div>
-      <div><h4>Контакты</h4><ul><li><a href="https://wa.me/77717788033" target="_blank" rel="noopener">WhatsApp +7 771 778 8033</a></li><li><a href="https://www.instagram.com/dalanyn_altyny_/" target="_blank" rel="noopener">Instagram @dalanyn_altyny_</a></li><li>Алматы, Казахстан</li></ul></div>
+      <div><h2 class="footer__h">Продукция</h2><ul><li><a href="#p-jerky">Джерки из конины</a></li><li><a href="#p-kolbasa">Конская колбаса</a></li><li><a href="#p-tushenka">Тушёнка из конины</a></li><li><a href="#gifts">Подарочные наборы</a></li></ul></div>
+      <div><h2 class="footer__h">Бренд</h2><ul><li><a href="#story">О нас</a></li><li><a href="#jerky">Что такое джерки</a></li><li><a href="#facts">Знаете ли вы?</a></li><li><a href="#faq">Вопросы</a></li></ul></div>
+      <div><h2 class="footer__h">Контакты</h2><ul><li><a href="https://wa.me/77717788033" target="_blank" rel="noopener">WhatsApp +7 771 778 8033</a></li><li><a href="https://www.instagram.com/dalanyn_altyny_/" target="_blank" rel="noopener">Instagram @dalanyn_altyny_</a></li><li>Алматы, Казахстан</li></ul></div>
     </div>
     <div class="footer__word" aria-hidden="true"><svg viewBox="0 0 69.76 32.57"><use href="#wordmark" fill="url(#goldH)"/></svg></div>
     <div class="footer__bottom"><span>© <span id="year">2026</span> Dalanyn Altyny. Даланың Алтыны.</span><span lang="kk">Қазақстанда жасалған</span></div>
   </div>
 </footer>
 
-<a class="fab" id="fab" href="#order" aria-label="Перейти к заказу">
-  <svg aria-hidden="true"><use href="#i-wa"/></svg><span>Заказать</span>
-  <b class="fab__count" id="fabCount">0</b>
-</a>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script src="assets/js/vendor/gsap.min.js" defer></script>

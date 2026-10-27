@@ -284,7 +284,7 @@ function instaGrid() {
   const icon = { reel: 'i-play', set: 'i-grid', pin: 'i-star' };
   return '\n' + FEED.map(([file, cap, type], i) =>
     `      <a class="tile${i >= 8 ? ' is-extra' : ''}" href="https://www.instagram.com/dalanyn_altyny_/" target="_blank" rel="noopener">` +
-    `<img src="assets/img/feed/${file}.webp" alt="${cap}" loading="lazy" decoding="async" width="550" height="732">` +
+    `<img src="assets/img/feed/${file}.webp" alt="" loading="lazy" decoding="async" width="550" height="732">` +
     (type ? `<span class="tile__badge" aria-hidden="true"><svg><use href="#${icon[type]}"/></svg></span>` : '') +
     `<span class="tile__cap">${cap}</span></a>`).join('\n') + '\n    ';
 }
