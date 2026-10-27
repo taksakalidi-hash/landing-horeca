@@ -28,8 +28,9 @@
     set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* storage blocked */ } },
   };
   function openLink(url) {
-    const w = window.open(url, '_blank', 'noopener');
-    if (!w) location.href = url; // popups blocked (in-app viewers, sandboxed frames)
+    const w = window.open(url, '_blank');
+    if (w) w.opener = null;
+    else location.href = url; // popups blocked (in-app viewers, sandboxed frames)
   }
   function rng(seed) {
     let a = seed >>> 0;
@@ -43,7 +44,7 @@
 
   // A window that never scrolls (auto-height iframes) or an absurdly tall one
   // can't drive scroll scenes — show the static page there.
-  const cannotScroll = () => innerHeight > 1800 || document.documentElement.scrollHeight - innerHeight < 300;
+  const cannotScroll = () => innerHeight > 1800 || innerHeight < 480 || document.documentElement.scrollHeight - innerHeight < 300;
   let staticMode = !hasGSAP || root.classList.contains('reduced') || cannotScroll();
 
   $$('[data-wa]').forEach((a) => { a.href = waLink(a.dataset.wa); });
@@ -129,6 +130,12 @@
       return;
     }
     sendBtn.href = waLink(orderMessage());
+    setTimeout(() => {
+      Object.keys(cart).forEach((k) => { cart[k] = 0; });
+      store.set('da-cart', cart);
+      renderCart();
+      toast('Заказ отправлен в WhatsApp — спасибо!');
+    }, 800);
   });
   renderCart();
 
@@ -188,7 +195,18 @@
   const cbox = $('.compare__box');
   const cRange = cbox && $('.compare__range', cbox);
   const setPos = (v) => { cbox.style.setProperty('--pos', `${v}%`); cRange.value = v; };
-  if (cbox) cRange.addEventListener('input', () => setPos(cRange.value));
+  if (cbox) {
+    cRange.addEventListener('input', () => setPos(cRange.value));
+    const fromPointer = (e) => {
+      const r = cbox.getBoundingClientRect();
+      setPos(Math.round(Math.min(100, Math.max(0, ((e.clientX - r.left) / r.width) * 100))));
+    };
+    let dragging = false;
+    cbox.addEventListener('pointerdown', (e) => { dragging = true; fromPointer(e); });
+    addEventListener('pointermove', (e) => { if (dragging) fromPointer(e); });
+    addEventListener('pointerup', () => { dragging = false; });
+    addEventListener('pointercancel', () => { dragging = false; });
+  }
 
   const factsRow = $('.facts');
   $$('[data-facts]').forEach((b) => b.addEventListener('click', () => {
@@ -288,6 +306,7 @@
     mm.add({ mob: '(max-width: 700px)', desk: '(min-width: 701px)' }, (c) => {
       const mob = c.conditions.mob;
       gsap.set(packwrap, { xPercent: -50, yPercent: mob ? 0 : -50, x: 0, y: 0 });
+      gsap.set('.hero__copy', { yPercent: mob ? 0 : -46, y: 0 });
       const W = () => stage.offsetWidth, H = () => stage.offsetHeight;
       const pcx = () => packwrap.offsetLeft;
       const pcy = () => packwrap.offsetTop + (mob ? packwrap.offsetHeight / 2 : 0);
@@ -303,7 +322,7 @@
       gsap.timeline({
         scrollTrigger: {
           trigger: hero, start: 'top top', end: () => `+=${H() * (mob ? 1 : 1.5)}`,
-          scrub: mob ? 0.4 : 0.8, pin: true, anticipatePin: 1, invalidateOnRefresh: true,
+          scrub: mob ? 0.4 : 0.8, pin: true, anticipatePin: 1, invalidateOnRefresh: true, refreshPriority: 3,
         },
       })
         .to('.hero__copy', { y: -110, opacity: 0, duration: 0.3, ease: 'power1.in' }, 0)
@@ -330,7 +349,7 @@
       const tween = gsap.to(track, {
         x: () => -dist(), ease: 'none',
         scrollTrigger: {
-          trigger: '.products__pin', start: 'top top', end: () => `+=${dist()}`, pin: true, scrub: 0.6,
+          trigger: '.products__pin', start: 'top top', end: () => `+=${dist()}`, pin: true, scrub: 0.6, refreshPriority: 2,
           invalidateOnRefresh: true, anticipatePin: 1,
           onUpdate: (self) => { bar.style.transform = `scaleX(${self.progress})`; },
         },
@@ -371,7 +390,7 @@
       gsap.set(knife, { x: X0 - 50, opacity: 1 });
       const mob = innerWidth <= 700;
       const tl = gsap.timeline({
-        scrollTrigger: { trigger: '.slicer__pin', start: 'top top', end: mob ? '+=90%' : '+=140%', pin: true, scrub: 0.6, anticipatePin: 1 },
+        scrollTrigger: { trigger: '.slicer__pin', start: 'top top', end: mob ? '+=90%' : '+=140%', pin: true, scrub: 0.6, anticipatePin: 1, refreshPriority: 1 },
       });
       tl.to(knife, { x: X1 + 50, duration: 1, ease: 'none' }, 0);
       cuts.forEach((c, i) => tl.to(c, { opacity: 1, duration: 0.04 }, (X0 + ((i + 1) * (X1 - X0)) / N - (X0 - 50)) / (X1 - X0 + 100)));
@@ -387,10 +406,13 @@
     const loops = $$('.marquee').map((m) => {
       const trk = $('.marquee__track', m), item = $('.marquee__item', trk);
       const w = item.offsetWidth;
+      if (!w) return null;
       for (let i = 0, need = Math.ceil((innerWidth * 2) / w) + 1; i < need; i++) trk.appendChild(item.cloneNode(true));
       const dir = Number(m.dataset.marquee);
-      return gsap.fromTo(trk, { x: dir > 0 ? 0 : -w }, { x: dir > 0 ? -w : 0, duration: w / 70, ease: 'none', repeat: -1 });
-    });
+      const t = gsap.fromTo(trk, { x: dir > 0 ? 0 : -w }, { x: dir > 0 ? -w : 0, duration: w / 70, ease: 'none', repeat: -1 });
+      t.totalTime(t.duration() * 1000); // room to play backwards when scrolling up
+      return t;
+    }).filter(Boolean);
     let boost = 0, sign = 1;
     ScrollTrigger.create({
       start: 0, end: 'max',
@@ -464,7 +486,7 @@
     });
 
     /* ---------- reveals (.anim hides them in CSS until they scroll in) ---------- */
-    const show = (b) => gsap.to(b, { opacity: 1, y: 0, duration: 1, stagger: 0.07, ease: 'power3.out', overwrite: true });
+    const show = (b) => gsap.to(b, { opacity: 1, y: 0, duration: 1, stagger: 0.07, ease: 'power3.out', overwrite: true, clearProps: 'transform,opacity' });
     ScrollTrigger.batch('.reveal, .tile, .fact', { start: 'top 90%', once: true, onEnter: show, onLeave: show });
 
     /* ---------- hero intro ---------- */
@@ -482,7 +504,11 @@
 
   // fonts change text widths; images change heights — re-measure once they land
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => ScrollTrigger.refresh());
-  addEventListener('load', () => ScrollTrigger.refresh());
+  addEventListener('load', () => {
+    ScrollTrigger.refresh();
+    const t = location.hash.length > 1 && document.querySelector(location.hash);
+    if (t) scrollTo(0, t.getBoundingClientRect().top + scrollY - 70);
+  });
 
   // if the host turns out not to scroll this window, fall back to the static page
   function goStatic() {
