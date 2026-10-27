@@ -142,7 +142,7 @@ p{margin:0}
 .menu-open .burger i:nth-child(3){transform:translateY(-5px) rotate(-45deg)}
 .mobile-menu{
   position:fixed;inset:0;z-index:55;background:var(--ink);
-  display:flex;flex-direction:column;justify-content:center;padding:100px var(--pad) 40px;gap:8px;
+  display:flex;flex-direction:column;justify-content:center;justify-content:safe center;overflow-y:auto;padding:100px var(--pad) 40px;gap:8px;
   clip-path:circle(0 at calc(100% - 40px) 38px);transition:clip-path .8s var(--ease),visibility 0s .8s;visibility:hidden;
 }
 .menu-open .mobile-menu{clip-path:circle(150% at calc(100% - 40px) 38px);visibility:visible;transition:clip-path .8s var(--ease),visibility 0s}
@@ -165,7 +165,7 @@ p{margin:0}
 /* ==========================================================================
    Hero
    ========================================================================== */
-.hero{position:relative;height:100vh;height:min(100svh,1200px);min-height:600px;overflow:hidden;background:
+.hero{position:relative;height:100vh;height:min(100svh,1200px);min-height:min(600px,100svh);overflow:hidden;background:
   radial-gradient(70% 60% at 70% 55%,rgba(122,60,24,.35),transparent 70%),
   radial-gradient(90% 70% at 20% 0%,rgba(74,48,29,.5),transparent 70%),var(--ink)}
 .hero__stage{position:absolute;inset:0}
@@ -243,10 +243,10 @@ p{margin:0}
    Products — horizontal scroll on desktop
    ========================================================================== */
 .products{background:var(--coffee);position:relative}
-.products__pin{position:relative;overflow:hidden}
-.products__track{display:flex;width:max-content}
-.panel{width:100vw;min-height:100vh;min-height:min(100svh,1200px);display:grid;align-items:center;position:relative;padding:110px var(--pad) 90px}
-.panel--intro{width:62vw}
+.products__pin{position:relative;overflow:hidden;overflow:clip}
+.products__track{display:block}
+.panel{width:auto;min-height:100vh;min-height:min(100svh,1200px);display:grid;align-items:center;position:relative;padding:110px var(--pad) 90px}
+.panel--intro{width:auto}
 .panel--intro .h2{font-size:clamp(40px,6.4vw,104px)}
 .panel__num{position:absolute;right:var(--pad);top:96px;font-family:var(--display);font-weight:900;font-size:clamp(120px,20vw,300px);line-height:.8;color:transparent;-webkit-text-stroke:1px rgba(224,178,92,.18)}
 .product{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,5vw,90px);align-items:center;max-width:1300px;margin:0 auto;width:100%}
@@ -530,7 +530,13 @@ p{margin:0}
   .proofs{grid-template-columns:repeat(2,1fr)}
 }
 @media (min-width:900px){
-  .products__progress{display:block}
+  .anim .products__progress{display:block}
+  .anim .products__track{display:flex;width:max-content}
+  .anim .panel{width:100vw}
+  .anim .panel--intro{width:62vw}
+}
+@media (max-width:899px){
+  .anim .panel{min-height:0}
 }
 @media (min-width:701px) and (max-width:1100px){
   .hero__copy{width:46vw}
@@ -632,4 +638,6 @@ p{margin:0}
 .delivery__pin{position:absolute;left:50%;top:50%;width:58px;height:58px;margin:-29px 0 0 -29px;border-radius:50%;background:#160f0b;padding:8px;box-shadow:0 0 0 6px rgba(224,178,92,.25),0 0 0 14px rgba(224,178,92,.12);animation:pinPulse 2.4s ease-in-out infinite;pointer-events:none}
 @keyframes pinPulse{50%{box-shadow:0 0 0 10px rgba(224,178,92,.2),0 0 0 26px rgba(224,178,92,0)}}
 @media (max-width:899px){.delivery{grid-template-columns:1fr}}
-
+html.menu-open,html.menu-open body{overflow:hidden}
+.summary__clear{justify-self:center;font-size:13px;color:var(--cream-3);text-decoration:underline;text-underline-offset:3px}
+.summary__clear:hover{color:var(--gold-1)}

@@ -243,9 +243,10 @@ function slicer() {
         const a = r() * Math.PI * 2, rr = Math.sqrt(r()) * (R - 14);
         fat += `<circle cx="${f1(Math.cos(a) * rr)}" cy="${f1(Math.sin(a) * rr)}" r="${f1(1.5 + r() * 3)}" fill="#5a1410" fill-opacity=".55"/>`;
       }
-      face = `<g transform="translate(${xb} ${CY})"><g class="sl-face"><circle r="${R}" fill="url(#slF)"/>${fat}<circle r="${R - 3}" fill="none" stroke="#2a0806" stroke-width="6"/></g></g>`;
+      face = `<g transform="translate(${xb} ${CY})"><g class="sl-face" transform="scale(.42 1)" data-pose="scale(.42 1)"><circle r="${R}" fill="url(#slF)"/>${fat}<circle r="${R - 3}" fill="none" stroke="#2a0806" stroke-width="6"/></g></g>`;
     }
-    segs += `<g class="sl-seg" data-cx="${xa + s / 2}"><path d="${d}" fill="url(#slC)"/>${marb}` +
+    const off = i - (N - 1) / 2, pose = `translate(${off * 36} ${(i % 2 ? 1 : -1) * 10}) rotate(${(off * 1.6).toFixed(1)} ${xa + s / 2} ${CY})`;
+    segs += `<g class="sl-seg" data-cx="${xa + s / 2}" transform="${pose}" data-pose="${pose}"><path d="${d}" fill="url(#slC)"/>${marb}` +
       `<path d="M${xa + 4} ${CY - R * 0.48}H${xb - (i === N - 1 ? 20 : 0)}" stroke="#fff" stroke-opacity=".13" stroke-width="5" stroke-linecap="round"/>${face}</g>`;
   }
   const cuts = Array.from({ length: N - 1 }, (_, i) => `<line class="sl-cut" x1="${X0 + (i + 1) * s}" y1="${CY - R - 4}" x2="${X0 + (i + 1) * s}" y2="${CY + R + 4}" stroke="#ffe6b0" stroke-width="1.5" opacity="0"/>`).join('');

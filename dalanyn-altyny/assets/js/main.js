@@ -30,7 +30,9 @@
   function openLink(url) {
     const w = window.open(url, '_blank');
     if (w) w.opener = null;
-    else location.href = url; // popups blocked (in-app viewers, sandboxed frames)
+    else { // popups blocked (in-app viewers, sandboxed frames)
+      try { window.top.location.href = url; } catch (e) { location.href = url; }
+    }
   }
   function rng(seed) {
     let a = seed >>> 0;
@@ -62,7 +64,9 @@
   /* ------------------------------------------------------------------------
      Cart → WhatsApp
      ------------------------------------------------------------------------ */
-  const cart = Object.assign({ jerky: 0, kolbasa: 0, tushenka: 0 }, store.get('da-cart', {}));
+  const saved = store.get('da-cart', {}) || {};
+  const cart = {};
+  ['jerky', 'kolbasa', 'tushenka'].forEach((k) => { cart[k] = Math.max(0, Math.min(99, parseInt(saved[k], 10) || 0)); });
   const form = $('#orderForm'), lines = $('#summaryLines'), sendBtn = $('#sendOrder');
   const fab = $('#fab'), fabCount = $('#fabCount'), toastEl = $('#toast');
   const money = (n) => `${n.toLocaleString('ru-RU')} ₸`;
@@ -105,6 +109,7 @@
     }
     fabCount.textContent = total;
     fabCount.classList.toggle('is-on', total > 0);
+    $('#clearCart').hidden = total === 0;
     sendBtn.href = waLink(orderMessage());
   }
   function setQty(k, v) {
@@ -138,12 +143,12 @@
       return;
     }
     sendBtn.href = waLink(orderMessage());
-    setTimeout(() => {
-      Object.keys(cart).forEach((k) => { cart[k] = 0; });
-      store.set('da-cart', cart);
-      renderCart();
-      toast('Заказ отправлен в WhatsApp — спасибо!');
-    }, 800);
+    toast('Открываем WhatsApp — отправьте сообщение там');
+  });
+  $('#clearCart').addEventListener('click', () => {
+    Object.keys(cart).forEach((k) => { cart[k] = 0; });
+    store.set('da-cart', cart);
+    renderCart();
   });
   renderCart();
 
@@ -209,9 +214,17 @@
       const r = cbox.getBoundingClientRect();
       setPos(Math.round(Math.min(100, Math.max(0, ((e.clientX - r.left) / r.width) * 100))));
     };
-    let dragging = false;
-    cbox.addEventListener('pointerdown', (e) => { dragging = true; fromPointer(e); });
-    addEventListener('pointermove', (e) => { if (dragging) fromPointer(e); });
+    let dragging = false, start = null;
+    cbox.addEventListener('pointerdown', (e) => { start = { x: e.clientX, y: e.clientY }; dragging = e.pointerType === 'mouse'; if (dragging) fromPointer(e); });
+    addEventListener('pointermove', (e) => {
+      if (!start) return;
+      if (!dragging) {
+        const dx = Math.abs(e.clientX - start.x), dy = Math.abs(e.clientY - start.y);
+        if (dx > 8 && dx > dy) dragging = true; else if (dy > 8) { start = null; return; } else return;
+      }
+      fromPointer(e);
+    });
+    addEventListener('pointerup', () => { start = null; });
     addEventListener('pointerup', () => { dragging = false; });
     addEventListener('pointercancel', () => { dragging = false; });
   }
@@ -267,7 +280,16 @@
   /* ------------------------------------------------------------------------
      Static page: everything visible, no pinning
      ------------------------------------------------------------------------ */
+  // run fn without moving what the reader is looking at
+  function keepPlace(fn) {
+    const el = scrollY > 50 && document.elementFromPoint(innerWidth / 2, Math.min(140, innerHeight / 3));
+    const sec = el && el.closest('section, footer, .marquees');
+    const top = sec ? sec.getBoundingClientRect().top : 0;
+    fn();
+    if (sec) scrollTo(0, sec.getBoundingClientRect().top + scrollY - top);
+  }
   function showStatic() {
+    $$('[data-pose]').forEach((g) => g.setAttribute('transform', g.dataset.pose));
     root.classList.remove('anim');
     root.classList.add('reduced', 'ready');
   }
@@ -282,6 +304,9 @@
   whenLoaded(motion);
   function motion() {
   if (cannotScroll()) { staticMode = true; showStatic(); return; }
+  const placeEl = scrollY > 50 && document.elementFromPoint(innerWidth / 2, Math.min(140, innerHeight / 3));
+  const placeSec = placeEl && placeEl.closest('section, footer, .marquees');
+  const placeTop = placeSec ? placeSec.getBoundingClientRect().top : 0;
   gsap.registerPlugin(ScrollTrigger);
   ScrollTrigger.config({ ignoreMobileResize: true });
   root.classList.add('anim');
@@ -312,7 +337,9 @@
   const mm = gsap.matchMedia();
   let marqueeTick = null;
 
-  const ctx = gsap.context(() => {
+  let ctx = null;
+  try {
+  ctx = gsap.context(() => {
     /* ---------- HERO: pack bursts, strips scatter; scroll back to reassemble ---------- */
     const hero = $('.hero'), stage = $('.hero__stage'), packwrap = $('.hero__packwrap');
     mm.add({ mob: '(max-width: 700px)', desk: '(min-width: 701px)' }, (c) => {
@@ -511,13 +538,29 @@
     /* ---------- hero pack floats ---------- */
     gsap.to('.hero__packwrap .pack', { y: -12, duration: 2.6, ease: 'sine.inOut', yoyo: true, repeat: -1 });
   });
+  } catch (err) {
+    // a broken scene must never leave the page hidden
+    console.error(err);
+    mm.revert();
+    if (ctx) ctx.revert();
+    ScrollTrigger.getAll().forEach((t) => t.kill(true));
+    if (marqueeTick) gsap.ticker.remove(marqueeTick);
+    staticMode = true;
+    showStatic();
+    return;
+  }
   root.classList.add('ready');
 
   // fonts change text widths; images change heights — re-measure once they land
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => ScrollTrigger.refresh());
+  if (document.fonts) {
+    if (document.fonts.ready) document.fonts.ready.then(() => ScrollTrigger.refresh());
+    if (document.fonts.addEventListener) document.fonts.addEventListener('loadingdone', () => ScrollTrigger.refresh());
+  }
   ScrollTrigger.refresh();
-  const target = location.hash.length > 1 && document.querySelector(location.hash);
+  let target = null;
+  try { target = location.hash.length > 1 && document.getElementById(decodeURIComponent(location.hash.slice(1))); } catch (e) { /* bad hash */ }
   if (target) scrollTo(0, target.getBoundingClientRect().top + scrollY - 70);
+  else if (placeSec) scrollTo(0, placeSec.getBoundingClientRect().top + scrollY - placeTop);
 
   // if the host turns out not to scroll this window, fall back to the static page
   function goStatic() {
@@ -525,17 +568,21 @@
     staticMode = true;
     if (marqueeTick) gsap.ticker.remove(marqueeTick);
     if (lenisTick) gsap.ticker.remove(lenisTick);
-    mm.revert();
-    ctx.revert();
+    keepPlace(() => { mm.revert(); ctx.revert(); });
     strips.forEach((s) => s.remove());
     if (lenis) { lenis.destroy(); lenis = null; }
     productsST = null;
-    showStatic();
+    keepPlace(showStatic);
   }
-  let rt;
+  let rt, lastW = innerWidth;
   addEventListener('resize', () => {
     clearTimeout(rt);
-    rt = setTimeout(() => { if (cannotScroll()) goStatic(); }, 250);
+    rt = setTimeout(() => {
+      const typing = /^(INPUT|TEXTAREA)$/.test((document.activeElement || {}).tagName);
+      const widthChanged = innerWidth !== lastW;
+      lastW = innerWidth;
+      if (!typing && (widthChanged || innerHeight > 1800) && cannotScroll()) goStatic();
+    }, 250);
   });
   }
 })();
