@@ -154,6 +154,59 @@
   renderCart();
 
   /* ------------------------------------------------------------------------
+     Product cards → details sheet
+     ------------------------------------------------------------------------ */
+  const INFO = {
+    jerky: {
+      img: 'assets/img/art/pack-jerky.svg', kk: 'Жылқы етінен жасалған джерки', title: 'Джерки из конины',
+      desc: 'Тонкие пластины отборной конины со специями, высушенные медленно. Плотная текстура и насыщенный мясной вкус — знакомая с детства конина в новой, удобной форме.',
+      spec: [['Состав', 'Конина, специи и натуральные ингредиенты'], ['Вкус', 'Насыщенный мясной, со специями'], ['Текстура', 'Плотная — пластинку хочется смаковать'], ['С чем', 'Как перекус, в дорогу, к пиву и вину'], ['Хранение', 'Условия и срок указаны на упаковке']],
+    },
+    kolbasa: {
+      img: 'assets/img/art/pack-kolbasa.svg', kk: 'Жылқы шұжығы · Қазақстанда жасалған', title: 'Конская колбаса',
+      desc: 'Традиционный вкус в современном формате. Колбаса из конины — натуральность в каждом кусочке: нарезать к столу, взять в дорогу или подарить.',
+      spec: [['Состав', 'Конина и натуральные специи'], ['Вкус', 'Традиционный, насыщенный'], ['С чем', 'Нарезкой к столу, на бутерброды, в дорогу'], ['Сделано', 'В Казахстане'], ['Хранение', 'Условия и срок указаны на упаковке']],
+    },
+    tushenka: {
+      img: 'assets/img/art/pack-tushenka.svg', kk: 'Жылқы етінен жасалған бұқтырма', title: 'Тушёнка из конины',
+      desc: 'Настоящий вкус конины в удобном формате. Сочное мясо, которое выручит дома, в дороге и на природе.',
+      spec: [['Состав', 'Конина'], ['С чем', 'С гречкой, пастой, картофелем — или прямо в походе'], ['Формат', 'Готовое мясо, достаточно разогреть'], ['Хранение', 'Условия и срок указаны на упаковке']],
+    },
+    gift: {
+      img: 'assets/img/gift-set.webp', photo: true, kk: 'Сыйлық жиынтығы', title: 'Подарочный набор',
+      desc: 'Вкус степи в чёрной упаковке с золотым конём — подарок, который точно съедят.',
+      spec: [['Внутри', 'Джерки, колбаса и тушёнка — на ваш выбор'], ['Упаковка', 'Фирменный чёрный пакет с золотым логотипом'], ['Для кого', 'Друзьям, родителям, коллегам, партнёрам'], ['Заказ', 'Подберём состав под повод и бюджет в WhatsApp']],
+    },
+  };
+  const modal = $('#pmodal');
+  function openProduct(key) {
+    const p = INFO[key];
+    if (!p || !modal || typeof modal.showModal !== 'function') return false;
+    const img = $('#pmImg');
+    img.src = asset(p.img);
+    img.alt = p.title;
+    img.className = p.photo ? 'is-photo' : '';
+    $('#pmKk').textContent = p.kk;
+    $('#pmTitle').textContent = p.title;
+    $('#pmDesc').textContent = p.desc;
+    $('#pmSpec').innerHTML = p.spec.map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join('');
+    $('#pmActions').innerHTML = key === 'gift'
+      ? `<a class="btn btn--gold" href="${waLink('Здравствуйте! Хочу подарочный набор Dalanyn Altyny. Подскажите варианты?')}" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-wa"/></svg>Собрать набор в WhatsApp</a>`
+      : `<div class="stepper" data-stepper="${key}"><button type="button" data-d="-1" aria-label="Меньше">−</button><output>${cart[key]}</output><button type="button" data-d="1" aria-label="Больше">+</button></div>` +
+        `<button class="btn btn--gold" type="button" data-add="${key}">В заказ</button>` +
+        `<a class="btn btn--line" href="${waLink(`Здравствуйте! Расскажите подробнее про «${p.title}», пожалуйста.`)}" target="_blank" rel="noopener">Спросить в WhatsApp</a>`;
+    modal.showModal();
+    if (lenis) lenis.stop();
+    return true;
+  }
+  document.addEventListener('click', (e) => {
+    const more = e.target.closest('[data-more]');
+    if (more) { openProduct(more.dataset.more); return; }
+    if (e.target === modal || e.target.closest('.pmodal__close')) modal.close();
+  });
+  if (modal) modal.addEventListener('close', () => { if (lenis) lenis.start(); });
+
+  /* ------------------------------------------------------------------------
      Poll
      ------------------------------------------------------------------------ */
   const poll = $('#pollForm');

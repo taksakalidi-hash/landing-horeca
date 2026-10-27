@@ -125,7 +125,7 @@
     </a>
     <nav class="nav" aria-label="Основное меню">
       <a href="#products">Продукция</a>
-      <a href="#jerky">Что такое джерки</a>
+      <a href="#catalog">Каталог</a>
       <a href="#story">О нас</a>
       <a href="#gifts">Подарки</a>
       <a href="#order">Заказ</a>
@@ -141,10 +141,11 @@
 
 <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
   <a href="#products"><span>01</span>Продукция</a>
-  <a href="#jerky"><span>02</span>Джерки</a>
-  <a href="#story"><span>03</span>О нас</a>
-  <a href="#gifts"><span>04</span>Подарки</a>
-  <a href="#order"><span>05</span>Заказ</a>
+  <a href="#catalog"><span>02</span>Каталог</a>
+  <a href="#jerky"><span>03</span>Джерки</a>
+  <a href="#story"><span>04</span>О нас</a>
+  <a href="#gifts"><span>05</span>Подарки</a>
+  <a href="#order"><span>06</span>Заказ</a>
   <a class="btn btn--wa" href="https://wa.me/77717788033" target="_blank" rel="noopener" data-wa="Здравствуйте! Хочу сделать заказ.">
     <svg aria-hidden="true"><use href="#i-wa"/></svg>+7 771 778 8033
   </a>
@@ -530,6 +531,93 @@
     </div>
   </div>
 </section>
+
+<!-- ============ 12a. CATALOG ============ -->
+<section class="section catalog" id="catalog" aria-labelledby="catalog-title">
+  <div class="container">
+    <div class="section__head">
+      <p class="eyebrow reveal">Каталог</p>
+      <h2 class="h2 reveal" id="catalog-title">Выберите <span class="serif">свой</span> вкус</h2>
+      <p class="lead reveal">Добавляйте в заказ прямо из карточки — корзина соберёт сообщение для WhatsApp.</p>
+    </div>
+    <div class="pcards">
+      <article class="pcard reveal" data-product="jerky">
+        <button class="pcard__media" type="button" data-more="jerky" aria-label="Подробнее: Джерки из конины">
+          <span class="pcard__tag">Перекус</span>
+          <img class="" src="assets/img/art/pack-jerky.svg" alt="Джерки из конины Dalanyn Altyny" width="300" height="430" loading="lazy" decoding="async">
+        </button>
+        <div class="pcard__body">
+          <p class="kk" lang="kk">Жылқы етінен жасалған джерки</p>
+          <h3>Джерки из конины</h3>
+          <p class="pcard__desc">Тонкие пластины конины со специями. Медленная сушка, плотная текстура и насыщенный мясной вкус.</p>
+          <ul class="pcard__tags"><li>Халяль состав</li><li>Без консервантов</li><li>В дорогу</li></ul>
+          <p class="pcard__price">Цена и наличие — в WhatsApp</p>
+          <div class="pcard__actions"><div class="stepper" data-stepper="jerky"><button type="button" data-d="-1" aria-label="Меньше джерки">−</button><output>0</output><button type="button" data-d="1" aria-label="Больше джерки">+</button></div><button class="btn btn--gold" type="button" data-add="jerky">В заказ</button></div>
+          <button class="pcard__more" type="button" data-more="jerky">Подробнее <svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
+        </div>
+      </article>
+      <article class="pcard reveal" data-product="kolbasa">
+        <button class="pcard__media" type="button" data-more="kolbasa" aria-label="Подробнее: Конская колбаса">
+          <span class="pcard__tag">К столу</span>
+          <img class="is-box" src="assets/img/art/pack-kolbasa.svg" alt="Конская колбаса Dalanyn Altyny" width="150" height="430" loading="lazy" decoding="async">
+        </button>
+        <div class="pcard__body">
+          <p class="kk" lang="kk">Жылқы шұжығы</p>
+          <h3>Конская колбаса</h3>
+          <p class="pcard__desc">Традиционный вкус в современном формате. Натуральность в каждом кусочке.</p>
+          <ul class="pcard__tags"><li>Халяль состав</li><li>Сделано в Казахстане</li></ul>
+          <p class="pcard__price">Цена и наличие — в WhatsApp</p>
+          <div class="pcard__actions"><div class="stepper" data-stepper="kolbasa"><button type="button" data-d="-1" aria-label="Меньше колбасы">−</button><output>0</output><button type="button" data-d="1" aria-label="Больше колбасы">+</button></div><button class="btn btn--gold" type="button" data-add="kolbasa">В заказ</button></div>
+          <button class="pcard__more" type="button" data-more="kolbasa">Подробнее <svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
+        </div>
+      </article>
+      <article class="pcard reveal" data-product="tushenka">
+        <button class="pcard__media" type="button" data-more="tushenka" aria-label="Подробнее: Тушёнка из конины">
+          <span class="pcard__tag">Готовое блюдо</span>
+          <img class="" src="assets/img/art/pack-tushenka.svg" alt="Тушёнка из конины Dalanyn Altyny" width="300" height="430" loading="lazy" decoding="async">
+        </button>
+        <div class="pcard__body">
+          <p class="kk" lang="kk">Жылқы етінен жасалған бұқтырма</p>
+          <h3>Тушёнка из конины</h3>
+          <p class="pcard__desc">Настоящий вкус конины в удобном формате — дома, в дороге и на природе.</p>
+          <ul class="pcard__tags"><li>Халяль состав</li><li>Удобный формат</li></ul>
+          <p class="pcard__price">Цена и наличие — в WhatsApp</p>
+          <div class="pcard__actions"><div class="stepper" data-stepper="tushenka"><button type="button" data-d="-1" aria-label="Меньше тушёнки">−</button><output>0</output><button type="button" data-d="1" aria-label="Больше тушёнки">+</button></div><button class="btn btn--gold" type="button" data-add="tushenka">В заказ</button></div>
+          <button class="pcard__more" type="button" data-more="tushenka">Подробнее <svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
+        </div>
+      </article>
+      <article class="pcard pcard--gift reveal" data-product="gift">
+        <button class="pcard__media" type="button" data-more="gift" aria-label="Подробнее: подарочный набор">
+          <span class="pcard__tag">В подарок</span>
+          <img class="is-photo" src="assets/img/gift-set.webp" alt="Подарочный набор Dalanyn Altyny в фирменных пакетах" width="550" height="622" loading="lazy" decoding="async">
+        </button>
+        <div class="pcard__body">
+          <p class="kk" lang="kk">Сыйлық жиынтығы</p>
+          <h3>Подарочный набор</h3>
+          <p class="pcard__desc">Джерки, колбаса и тушёнка в фирменном чёрном пакете с золотым конём. Соберём под повод и бюджет.</p>
+          <ul class="pcard__tags"><li>Друзьям</li><li>Коллегам</li><li>Партнёрам</li></ul>
+          <p class="pcard__price">Состав и цена — в WhatsApp</p>
+          <div class="pcard__actions"><a class="btn btn--gold" href="https://wa.me/77717788033" target="_blank" rel="noopener" data-wa="Здравствуйте! Хочу подарочный набор Dalanyn Altyny. Подскажите варианты?"><svg aria-hidden="true"><use href="#i-wa"/></svg>Собрать набор</a></div>
+          <button class="pcard__more" type="button" data-more="gift">Подробнее <svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<dialog class="pmodal" id="pmodal" aria-labelledby="pmTitle">
+  <div class="pmodal__inner">
+    <button class="pmodal__close" type="button" aria-label="Закрыть">✕</button>
+    <div class="pmodal__media"><img id="pmImg" src="assets/img/art/pack-jerky.svg" alt="" width="300" height="430"></div>
+    <div class="pmodal__body">
+      <p class="kk" lang="kk" id="pmKk"></p>
+      <h3 id="pmTitle"></h3>
+      <p class="pmodal__desc" id="pmDesc"></p>
+      <dl class="pmodal__spec" id="pmSpec"></dl>
+      <div class="pmodal__actions" id="pmActions"></div>
+    </div>
+  </div>
+</dialog>
 
 <!-- ============ 12. ORDER ============ -->
 <section class="section order" id="order" aria-labelledby="order-title">
