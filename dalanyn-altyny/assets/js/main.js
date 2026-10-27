@@ -109,6 +109,7 @@
     }
     fabCount.textContent = total;
     fabCount.classList.toggle('is-on', total > 0);
+    fab.classList.toggle('is-on', scrollY > innerHeight * 0.9 || total > 0);
     $('#clearCart').hidden = total === 0;
     sendBtn.href = waLink(orderMessage());
   }
@@ -163,8 +164,8 @@
     poll.addEventListener('change', () => {
       own.classList.toggle('is-on', (poll.querySelector('input[name="novinka"]:checked') || {}).value === 'own');
     });
-    poll.addEventListener('submit', (e) => {
-      e.preventDefault();
+    const vote = (e) => {
+      if (e) e.preventDefault();
       const picked = poll.querySelector('input[name="novinka"]:checked');
       if (!picked) { toast('Выберите вариант'); return; }
       const value = picked.value === 'own' ? $('#p-own').value.trim() : picked.value;
@@ -172,7 +173,10 @@
       store.set('da-vote', value);
       thanks.textContent = `Ваш голос: «${value}». Спасибо!`;
       openLink(waLink(`Здравствуйте! Голосую за новинку Dalanyn Altyny: ${value}`));
-    });
+    };
+    poll.addEventListener('submit', vote);
+    $('#pollSend').addEventListener('click', vote);
+    $('#p-own').addEventListener('keydown', (e) => { if (e.key === 'Enter') vote(e); });
   }
 
   /* ------------------------------------------------------------------------
@@ -203,6 +207,7 @@
     if (lenis) open ? lenis.stop() : lenis.start();
   }
   burger.addEventListener('click', () => setMenu(!root.classList.contains('menu-open')));
+  menu.addEventListener('click', (e) => { if (e.target.closest('a')) setMenu(false); });
   addEventListener('keydown', (e) => { if (e.key === 'Escape') setMenu(false); });
 
   const cbox = $('.compare__box');
@@ -267,12 +272,12 @@
     setMenu(false);
     anchoring = Date.now() + 1800;
     header.classList.remove('is-hidden');
-    let y = null;
+    let y = id === '#top' ? 0 : null;
     if (productsST && target.classList.contains('panel')) {
       const dist = $('.products__track').scrollWidth - innerWidth;
       y = productsST.start + (target.offsetLeft / dist) * (productsST.end - productsST.start);
     }
-    if (lenis) lenis.scrollTo(y ?? target, { offset: y == null ? -70 : 0, duration: 1.4 });
+    if (lenis) lenis.scrollTo(y ?? target, { offset: y == null ? -70 : 0, duration: 1.4, force: true });
     else if (y != null) scrollTo({ top: y, behavior: 'smooth' });
     else scrollTo({ top: target.getBoundingClientRect().top + scrollY - 70, behavior: 'smooth' });
   });
