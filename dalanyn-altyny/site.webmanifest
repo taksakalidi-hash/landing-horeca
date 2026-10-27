@@ -1,0 +1,13 @@
+{
+  "name": "Dalanyn Altyny — джерки и колбаса из конины",
+  "short_name": "Dalanyn Altyny",
+  "lang": "ru",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#0d0907",
+  "theme_color": "#0d0907",
+  "icons": [
+    { "src": "favicon.svg", "sizes": "any", "type": "image/svg+xml" },
+    { "src": "assets/img/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" }
+  ]
+}
