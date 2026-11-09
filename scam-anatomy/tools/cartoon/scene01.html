@@ -1,0 +1,151 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@500;700;800&display=swap" rel="stylesheet">
+<style>html,body{margin:0;background:#000}svg{display:block}text{font-family:Inter,sans-serif}</style></head><body>
+<svg id="sv" width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+<defs>
+ <linearGradient id="wall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#16233f"/><stop offset="1" stop-color="#0d1527"/></linearGradient>
+ <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0a1330"/><stop offset="1" stop-color="#253a6e"/></linearGradient>
+ <radialGradient id="lampPool" cx="50%" cy="0%" r="100%"><stop offset="0" stop-color="#ffd9a0" stop-opacity=".55"/><stop offset="1" stop-color="#ffd9a0" stop-opacity="0"/></radialGradient>
+ <radialGradient id="phoneGlow" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#9cc3ff" stop-opacity=".55"/><stop offset="1" stop-color="#9cc3ff" stop-opacity="0"/></radialGradient>
+ <radialGradient id="redVig" cx="50%" cy="50%" r="75%"><stop offset=".55" stop-color="#E63946" stop-opacity="0"/><stop offset="1" stop-color="#E63946" stop-opacity=".75"/></radialGradient>
+ <filter id="soft" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#000" flood-opacity=".45"/></filter>
+</defs>
+<g id="cam">
+ <!-- room -->
+ <rect width="1920" height="1080" fill="url(#wall)"/>
+ <rect x="0" y="0" width="1920" height="40" fill="#0a1120"/>
+ <!-- window -->
+ <g transform="translate(1330,140)">
+  <rect width="420" height="440" rx="10" fill="url(#sky)" stroke="#0a1120" stroke-width="22"/>
+  <circle cx="300" cy="110" r="48" fill="#f4f1de"/><circle cx="282" cy="98" r="48" fill="#11204a" opacity=".0"/>
+  <g fill="#fff" opacity=".8"><circle cx="80" cy="70" r="3"/><circle cx="160" cy="140" r="2"/><circle cx="60" cy="220" r="2.5"/><circle cx="210" cy="60" r="2"/><circle cx="360" cy="260" r="2"/></g>
+  <path d="M0 330 L60 280 L110 310 L170 250 L240 300 L300 260 L360 300 L420 270 L420 440 L0 440Z" fill="#0b1633"/>
+  <g fill="#ffd166" opacity=".9"><rect x="70" y="330" width="10" height="14"/><rect x="200" y="320" width="10" height="14"/><rect x="330" y="335" width="10" height="14"/><rect x="250" y="370" width="10" height="14"/></g>
+  <rect x="199" y="0" width="22" height="440" fill="#0a1120"/><rect x="0" y="209" width="420" height="22" fill="#0a1120"/>
+  <path d="M-40 -20 Q20 200 -10 470 L-60 470 L-60 -20Z" fill="#7a2b3a"/><path d="M460 -20 Q400 200 430 470 L480 470 L480 -20Z" fill="#7a2b3a"/>
+ </g>
+ <!-- clock -->
+ <g id="clock" transform="translate(1080,210)">
+  <circle r="78" fill="#f4f1de" stroke="#0a1120" stroke-width="10"/>
+  <g stroke="#0a1120" stroke-width="5"><line y1="-62" y2="-50"/><line y1="62" y2="50"/><line x1="-62" x2="-50"/><line x1="62" x2="50"/></g>
+  <line id="hHand" y2="-36" stroke="#0a1120" stroke-width="9" stroke-linecap="round"/>
+  <line id="mHand" y2="-56" stroke="#E63946" stroke-width="5" stroke-linecap="round"/>
+  <circle r="7" fill="#0a1120"/>
+ </g>
+ <!-- shelf + plant -->
+ <rect x="170" y="330" width="360" height="16" rx="4" fill="#0a1120"/>
+ <rect x="200" y="270" width="70" height="60" rx="8" fill="#3d5a80"/><rect x="290" y="250" width="50" height="80" rx="6" fill="#E63946" opacity=".8"/>
+ <path d="M420 330 q-10 -60 10 -90 q20 30 10 90z M440 330 q10 -70 50 -80 q-10 50 -40 80z M425 330 q-40 -40 -70 -40 q20 40 70 40z" fill="#2a9d8f"/>
+ <rect x="405" y="300" width="60" height="30" rx="6" fill="#e07a5f"/>
+ <!-- lamp -->
+ <line x1="760" y1="0" x2="760" y2="130" stroke="#0a1120" stroke-width="6"/>
+ <path d="M690 130 Q760 80 830 130 L860 190 L660 190Z" fill="#e9c46a"/>
+ <path id="lampLight" d="M660 190 L860 190 L1180 900 L340 900Z" fill="url(#lampPool)"/>
+ <!-- Denise -->
+ <g id="denise" transform="translate(820,0)">
+  <path d="M-170 1000 Q-175 640 -95 600 Q0 570 95 600 Q175 640 170 1000Z" fill="#2a9d8f"/>
+  <path d="M-40 595 L0 700 L40 595Z" fill="#f4f1de"/>
+  <path d="M-95 600 Q-60 620 -55 700 L-75 1000 L-170 1000 Q-175 640 -95 600Z" fill="#23867a"/>
+  <rect x="-28" y="520" width="56" height="85" rx="20" fill="#e3a982"/>
+  <g id="head" transform="translate(0,440)">
+   <path d="M-112 10 Q-125 -120 0 -128 Q125 -120 112 10 Q118 90 80 100 L-80 100 Q-118 90 -112 10Z" fill="#c9ccd6"/>
+   <ellipse cx="0" cy="10" rx="92" ry="105" fill="#efbf97"/>
+   <path d="M-96 -20 Q-90 -110 0 -112 Q90 -110 96 -20 Q60 -70 0 -66 Q-50 -66 -96 -20Z" fill="#dfe2ea"/>
+   <ellipse cx="-92" cy="18" rx="14" ry="22" fill="#e3a982"/><ellipse cx="92" cy="18" rx="14" ry="22" fill="#e3a982"/>
+   <g id="brows" stroke="#7d7f8a" stroke-width="7" stroke-linecap="round"><line id="browL" x1="-58" y1="-28" x2="-22" y2="-30"/><line id="browR" x1="22" y1="-30" x2="58" y2="-28"/></g>
+   <g id="eyes" fill="#1d2433"><ellipse id="eyeL" cx="-40" cy="2" rx="9" ry="11"/><ellipse id="eyeR" cx="40" cy="2" rx="9" ry="11"/></g>
+   <g fill="none" stroke="#1d2433" stroke-width="5"><circle cx="-40" cy="2" r="28"/><circle cx="40" cy="2" r="28"/><line x1="-12" y1="0" x2="12" y2="0"/></g>
+   <path d="M-6 20 Q0 40 8 32" fill="none" stroke="#c98d6c" stroke-width="5" stroke-linecap="round"/>
+   <path id="mouth" d="M-22 62 Q0 70 22 62" fill="none" stroke="#9b3d3d" stroke-width="6" stroke-linecap="round"/>
+   <ellipse id="mouthO" cx="0" cy="66" rx="0" ry="0" fill="#5a1f24"/>
+   <g fill="#f4a3a3" opacity=".35"><ellipse cx="-60" cy="40" rx="16" ry="9"/><ellipse cx="60" cy="40" rx="16" ry="9"/></g>
+   <path id="sweat" d="M95 -40 q10 18 0 26 q-10 -8 0 -26z" fill="#9cd3ff" opacity="0"/>
+  </g>
+  <!-- arms & phone -->
+  <path d="M-130 680 Q-150 820 -40 830" fill="none" stroke="#23867a" stroke-width="58" stroke-linecap="round"/>
+  <path d="M130 680 Q150 820 40 830" fill="none" stroke="#2a9d8f" stroke-width="58" stroke-linecap="round"/>
+  <g id="phone" transform="translate(0,800)">
+   <ellipse id="pglow" cx="0" cy="-30" rx="200" ry="160" fill="url(#phoneGlow)"/>
+   <rect x="-48" y="-92" width="96" height="170" rx="16" fill="#0b0f18" stroke="#3a4558" stroke-width="5"/>
+   <rect id="pscreen" x="-38" y="-78" width="76" height="140" rx="8" fill="#6aa5ff"/>
+   <g id="vib" stroke="#ffd166" stroke-width="5" stroke-linecap="round" opacity="0"><path d="M-70 -70 q-12 12 0 24 q12 12 0 24" fill="none"/><path d="M70 -70 q12 12 0 24 q-12 12 0 24" fill="none"/></g>
+  </g>
+  <ellipse cx="-45" cy="832" rx="34" ry="26" fill="#efbf97"/><ellipse cx="45" cy="832" rx="34" ry="26" fill="#efbf97"/>
+ </g>
+ <!-- table -->
+ <rect x="0" y="860" width="1920" height="220" fill="#3b2f2f"/><rect x="0" y="860" width="1920" height="16" fill="#4e3d3d"/>
+ <g transform="translate(1250,800)"><path d="M0 0 h70 v60 q0 20 -20 20 h-30 q-20 0 -20 -20z" fill="#f4f1de"/><path d="M70 15 q30 0 30 20 q0 20 -30 20" fill="none" stroke="#f4f1de" stroke-width="10"/>
+  <path d="M20 -20 q-10 -20 5 -35 M45 -15 q-10 -20 5 -35" fill="none" stroke="#fff" stroke-width="4" opacity=".4"/></g>
+</g>
+<!-- overlays (not affected by camera) -->
+<rect id="vig" width="1920" height="1080" fill="url(#redVig)" opacity="0"/>
+<g id="bubble" transform="translate(1360,450)" opacity="0" filter="url(#soft)">
+ <rect x="-300" y="-150" width="600" height="300" rx="36" fill="#26303f" stroke="#E63946" stroke-width="6"/>
+ <path d="M-240 150 l-40 50 l90 -50z" fill="#26303f"/>
+ <text x="-260" y="-88" fill="#ff6b74" font-size="34" font-weight="800">🏦 FRAUD ALERT</text>
+ <text x="-260" y="-30" fill="#fff" font-size="34" font-weight="500">Did you attempt a purchase</text>
+ <text x="-260" y="16" fill="#fff" font-size="34" font-weight="500">of <tspan font-weight="800">$1,249.99</tspan>?</text>
+ <text x="-260" y="80" fill="#FFD166" font-size="36" font-weight="800">Reply YES or NO</text>
+</g>
+<g id="reply" transform="translate(1580,680)" opacity="0" filter="url(#soft)">
+ <rect x="-90" y="-50" width="180" height="100" rx="40" fill="#2f7cf6"/><text x="0" y="18" fill="#fff" font-size="52" font-weight="800" text-anchor="middle">NO</text>
+</g>
+<g id="later" opacity="0"><rect x="0" y="420" width="1920" height="240" fill="#0B1320" opacity=".9"/>
+ <text x="960" y="580" fill="#fff" font-size="130" text-anchor="middle" style="font-family:Anton;letter-spacing:6px">40 MINUTES LATER</text></g>
+<g id="balance" transform="translate(1250,500)" opacity="0" filter="url(#soft)">
+ <rect x="-330" y="-190" width="660" height="380" rx="40" fill="#f4f6fb"/>
+ <text x="-280" y="-110" fill="#5b6475" font-size="34" font-weight="700">SAVINGS •••• 4417</text>
+ <text id="balTxt" x="-280" y="20" fill="#0B1320" font-size="110" font-weight="800">$18,400.00</text>
+ <text id="balSub" x="-280" y="110" fill="#5b6475" font-size="32" font-weight="500">Available balance</text>
+</g>
+<g id="gone" opacity="0" transform="translate(1250,760) rotate(-8)"><rect x="-230" y="-70" width="460" height="140" rx="16" fill="none" stroke="#E63946" stroke-width="12"/>
+ <text x="0" y="40" fill="#E63946" font-size="110" text-anchor="middle" style="font-family:Anton;letter-spacing:8px">GONE</text></g>
+</svg>
+<script>
+const $=id=>document.getElementById(id);
+const cl=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));const ease=x=>{x=cl(x);return 1-Math.pow(1-x,3)};
+const back=x=>{x=cl(x);const c=1.7;return 1+(c+1)*Math.pow(x-1,3)+c*Math.pow(x-1,2)};
+const prog=(t,a,b)=>cl((t-a)/(b-a));
+window.frame=t=>{
+ // camera push
+ const z=1+0.06*ease(t/8), cx=960, cy=560;
+ $('cam').setAttribute('transform',`translate(${cx},${cy}) scale(${z}) translate(${-cx},${-cy})`);
+ // clock: 7:42 -> 8:22 during 5.0-5.8
+ const mins=42+40*ease(prog(t,5.0,5.9)); const hr=7+mins/60;
+ $('mHand').setAttribute('transform',`rotate(${mins*6})`);$('hHand').setAttribute('transform',`rotate(${(hr%12)*30})`);
+ // idle breathing & head
+ const br=Math.sin(t*2.2)*3; $('head').setAttribute('transform',`translate(${Math.sin(t*0.9)*4},${440+br}) rotate(${Math.sin(t*0.7)*2 + (t>2.6&&t<5?-4:0)})`);
+ // blink
+ const bl=[0.8,3.6,6.9].some(b=>t>b&&t<b+0.14)?0.1:1;
+ const wide=(t>2.6&&t<5)||t>6.3?1.35:1;
+ ['eyeL','eyeR'].forEach(e=>$(e).setAttribute('ry',11*bl*wide));
+ // worry brows
+ const w=ease(prog(t,2.6,3.0))*(t<5?1:0)+ (t>6.3?ease(prog(t,6.3,6.6)):0);
+ $('browL').setAttribute('y1',-28+6*w);$('browL').setAttribute('y2',-30-14*w);$('browR').setAttribute('y1',-30-14*w);$('browR').setAttribute('y2',-28+6*w);
+ // mouth
+ const shock=ease(prog(t,6.3,6.6));
+ $('mouth').setAttribute('d',t<2.6?'M-22 62 Q0 70 22 62':'M-20 66 Q0 58 20 66');$('mouth').setAttribute('opacity',1-shock);
+ $('mouthO').setAttribute('rx',16*shock);$('mouthO').setAttribute('ry',22*shock);
+ $('sweat').setAttribute('opacity',t>3.0&&t<5?ease(prog(t,3,3.3)):(t>6.6?1:0));
+ $('sweat').setAttribute('transform',`translate(0,${((t*40)%30)})`);
+ // phone buzz 1.0-1.8
+ const buzz=t>1.0&&t<1.8?Math.sin(t*120)*6:0;
+ $('phone').setAttribute('transform',`translate(${buzz},800) rotate(${buzz*0.6})`);
+ $('vib').setAttribute('opacity',t>1.0&&t<1.8?1:0);
+ $('pglow').setAttribute('opacity',0.5+0.5*ease(prog(t,1.0,1.4)));
+ // bubble 1.5
+ const bp=back(prog(t,1.5,1.9));const bOut=t>5.0?1-ease(prog(t,5.0,5.3)):1;
+ $('bubble').setAttribute('opacity',cl(prog(t,1.5,1.7))*bOut);$('bubble').setAttribute('transform',`translate(1360,450) scale(${0.6+0.4*bp})`);
+ // reply 4.0
+ const rp=back(prog(t,4.0,4.3));$('reply').setAttribute('opacity',cl(prog(t,4.0,4.15))*bOut);$('reply').setAttribute('transform',`translate(1580,680) scale(${0.5+0.5*rp})`);
+ // later card 5.0-6.0
+ $('later').setAttribute('opacity',t>5.0&&t<6.1?Math.min(ease(prog(t,5.0,5.2)),1-ease(prog(t,5.85,6.1))):0);
+ // balance 6.0-8
+ $('balance').setAttribute('opacity',ease(prog(t,6.0,6.25)));
+ const amt=18400*(1-ease(prog(t,6.4,7.1)));$('balTxt').textContent='$'+amt.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+ $('balTxt').setAttribute('fill',t>6.4?'#E63946':'#0B1320');
+ const gp=back(prog(t,7.1,7.4));$('gone').setAttribute('opacity',cl(prog(t,7.1,7.2)));$('gone').setAttribute('transform',`translate(1250,770) rotate(-8) scale(${1.6-0.6*gp})`);
+ $('vig').setAttribute('opacity',t>6.4?0.9*ease(prog(t,6.4,7.0)):0);
+};
+document.fonts.ready.then(()=>{frame(0);window.DONE=true;});
+</script></body></html>
