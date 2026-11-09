@@ -22,13 +22,13 @@ In this video, we take the scam apart step by step: the text, the spoofed call, 
 
 CHAPTERS
 0:00 One text, $18,400 gone
-0:40 Part 1: The text
-2:30 Part 2: The call
-4:30 Part 3: The code
-6:00 Part 4: The "safe" account
-8:00 Why it works
-9:00 5 red flags & what to do
-10:30 Next: money mules
+0:48 Part 1: The text
+1:40 Part 2: The call
+2:39 Part 3: The code
+3:28 Part 4: The "safe" account
+4:18 Why it works
+4:48 5 red flags & what to do
+5:48 Next: money mules
 
 IF IT HAPPENED TO YOU
 1. Call your bank using the number on the back of your card.
@@ -43,7 +43,7 @@ Denise's story is a composite based on real cases reported to the FTC and banks.
 
 #scam #scamawareness #fraudalert
 ```
-⚠️ Таймкоды примерные. После монтажа поправь их под реальное видео: если глава начинается на 2:41, пиши 2:41.
+✅ Таймкоды точные, сверены с готовым видео (FINAL, 6:17).
 
 **Перевод описания (для тебя):** «Тебе приходит SMS от банка: "Вы совершали покупку? Ответьте ДА или НЕТ". Не отвечай. Вот как работает афера с поддельным уведомлением банка и как защитить деньги. Разбираем по шагам: SMS, поддельный звонок, код подтверждения и "безопасный счёт". Плюс 5 красных флагов и что делать, если это уже случилось. Главы. Если это случилось с тобой: позвони в банк, сообщи на сайты FTC и IC3, смени пароли. Источники. История Дениз собирательная. Канал только для обучения и защиты».
 
