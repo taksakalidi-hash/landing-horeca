@@ -151,7 +151,7 @@ function wipeIn(t){if(t>0.45) return '';const p=EIO(t/0.45);const x=-200+p*2600;
 function flashIn(t){return t<0.25?`<rect width="1920" height="1080" fill="#fff" opacity="${1-t/0.25}"/>`:''}
 function glitchIn(t){if(t>0.3) return '';let s='';SEED=Math.floor(t*60)+7;for(let i=0;i<9;i++){s+=`<rect x="0" y="${rnd()*1080}" width="1920" height="${10+rnd()*60}" fill="${[C.red,'#36d6ff','#fff'][i%3]}" opacity="${.5*(1-t/0.3)}"/>`}return s}
 function chapterCard(t,dur,n,title){const p=pop(t,0.05,.45);
- return `${bgNavy()}<g transform="${sc(960,540,0.85+0.15*p)}" opacity="${E(P(t,0,.2))}">${T(960,title.includes('|')?300:430,'PART '+n,{fs:64,a:'middle',c:C.red,cls:'A',ls:10})}${title.split('|').map((l,i)=>T(960,(title.includes('|')?500:600)+i*170,l,{fs:190,a:'middle',cls:'A'})).join('')}
+ return `${bgNavy()}<g transform="${sc(960,540,0.85+0.15*p)}" opacity="${E(P(t,0,.2))}">${T(960,title.includes('|')?250:370,'PART '+n,{fs:64,a:'middle',c:C.red,cls:'A',ls:10})}${title.split('|').map((l,i)=>T(960,(title.includes('|')?500:600)+i*170,l,{fs:190,a:'middle',cls:'A'})).join('')}
  <rect x="${960-110*E(P(t,.3,.7))}" y="${title.includes('|')?720:670}" width="${220*E(P(t,.3,.7))}" height="12" rx="6" fill="${C.red}"/></g>`}
 
 // ---------- scenes ----------
@@ -167,7 +167,7 @@ S.kitchen=(t,d,p,ev)=>{ // ev: buzz,bubble,reply,spin,balance,gone,ring,shield,c
  s+=table()+`</g>`;
  if(ev.bubble!=null){const out=ev.spin!=null?1-E(P(t,ev.spin,ev.spin+.3)):1;s+=smsAlert(1360,450,0.6+0.4*pop(t,ev.bubble),fade(t,ev.bubble,.15)*out);}
  if(ev.reply!=null){const out=ev.spin!=null?1-E(P(t,ev.spin,ev.spin+.3)):1;s+=pill(1580,680,'NO',C.blue,0.5+0.5*pop(t,ev.reply,.3),fade(t,ev.reply,.1)*out);}
- if(ev.think!=null){s+=bubble(1300,330,560,170,T(0,18,p.thinkTxt||'"I never bought that!"',{fs:40,a:'middle',c:C.navy,w:800}),{fill:'#fff',s:pop(t,ev.think),op:fade(t,ev.think,.15)})+`<circle cx="1060" cy="460" r="22" fill="#fff" opacity="${fade(t,ev.think)}"/><circle cx="1010" cy="510" r="12" fill="#fff" opacity="${fade(t,ev.think)}"/>`}
+ if(ev.think!=null){s+=bubble(400,560,560,170,T(0,18,p.thinkTxt||'"I never bought that!"',{fs:40,a:'middle',c:C.navy,w:800}),{fill:'#fff',s:pop(t,ev.think),op:fade(t,ev.think,.15)})+`<circle cx="660" cy="480" r="22" fill="#fff" opacity="${fade(t,ev.think)}"/><circle cx="700" cy="440" r="12" fill="#fff" opacity="${fade(t,ev.think)}"/>`}
  if(ev.spin!=null&&t>ev.spin&&t<ev.spin+1.1){const o=Math.min(E(P(t,ev.spin,ev.spin+.2)),1-E(P(t,ev.spin+.85,ev.spin+1.1)));s+=`<g opacity="${o}"><rect x="0" y="420" width="1920" height="240" fill="${C.navy}" opacity=".92"/>${T(960,580,p.laterTxt||'40 MINUTES LATER',{fs:130,a:'middle',cls:'A'})}</g>`}
  if(ev.balance!=null){const a=ev.balance;const amt=18400*(1-E(P(t,a+.3,a+1.0)));
   s+=bubble(1250,500,660,380,`${T(-280,-110,'SAVINGS •••• 4417',{fs:34,c:'#5b6475',w:700})}${T(-280,20,'$'+amt.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}),{fs:110,c:t>a+.3?C.red:C.navy,w:800})}${T(-280,110,'Available balance',{fs:32,c:'#5b6475',w:500})}`,{fill:'#f4f6fb',op:fade(t,a,.2),s:0.8+0.2*pop(t,a)});
@@ -178,7 +178,7 @@ S.kitchen=(t,d,p,ev)=>{ // ev: buzz,bubble,reply,spin,balance,gone,ring,shield,c
   s+=`<g transform="translate(1350,360) scale(${k})" opacity="${fade(t,ev.shield)}"><path d="M0 -150 L130 -100 Q130 60 0 150 Q-130 60 -130 -100Z" fill="${C.grn}" stroke="#fff" stroke-width="10"/>${T(0,10,'HERO?',{fs:56,a:'middle',cls:'A'})}
   ${cr?`<path d="M-20 -150 L10 -60 L-30 0 L20 60 L-5 150" fill="none" stroke="${C.navy}" stroke-width="${14*cr}"/>`:''}</g>`;
   if(cr) s+=`<rect width="1920" height="1080" fill="url(#redVig)" opacity="${0.7*cr}"/>`;}
- if(p.morningTxt) s+=G(T(960,140,p.morningTxt,{fs:80,a:'middle',cls:'A',c:C.navy}),'',fade(t,0.2,.4));
+ if(p.morningTxt) s+=G(`<rect x="0" y="0" width="1920" height="130" fill="${C.navy}" opacity=".9"/>`+T(960,95,p.morningTxt,{fs:80,a:'middle',cls:'A',c:C.yel}),'',fade(t,0.2,.4));
  return s;
 };
 S.phone=(t,d,p,ev)=>{ // full-screen phone thread; p.msgs ; p.side text
@@ -238,7 +238,7 @@ S.casefile=(t,d,p,ev)=>{let s=bgNavy();
  return s;};
 S.guard=(t,d,p,ev)=>{let s=bgNavy();const down=ev.down!=null?E(P(t,ev.down,ev.down+0.8)):0;
  s+=G(`<rect x="-420" y="-70" width="840" height="140" rx="20" fill="#fff"/>${T(0,22,'"Don\'t click strange links!"',{fs:52,a:'middle',c:C.navy,w:800})}`,`translate(960,200) rotate(-2) scale(${pop(t,.2)})`,fade(t,.2));
- s+=`<g transform="translate(960,${600+down*380})" opacity="${1-down*0.6}"><path d="M0 -230 L200 -150 Q200 90 0 230 Q-200 90 -200 -150Z" fill="${C.grn}" stroke="#fff" stroke-width="14"/><rect x="-60" y="-30" width="120" height="100" rx="14" fill="#fff"/><path d="M-36 -30 v-30 a36 36 0 0 1 72 0 v30" fill="none" stroke="#fff" stroke-width="18"/>${T(0,200,'YOUR GUARD',{fs:50,a:'middle',cls:'A'})}</g>`;
+ s+=`<g transform="translate(960,${600+down*380})" opacity="${1-down*0.6}"><path d="M0 -230 L200 -150 Q200 90 0 230 Q-200 90 -200 -150Z" fill="${C.grn}" stroke="#fff" stroke-width="14"/><rect x="-60" y="-30" width="120" height="100" rx="14" fill="#fff"/><path d="M-36 -30 v-30 a36 36 0 0 1 72 0 v30" fill="none" stroke="#fff" stroke-width="18"/>${T(0,310,'YOUR GUARD',{fs:56,a:'middle',cls:'A'})}</g>`;
  if(ev.nolink!=null) s+=pill(1500,520,'NO LINK = SAFE?',C.red,pop(t,ev.nolink),fade(t,ev.nolink,.1),46);
  return s;};
 S.darkweb=(t,d,p,ev)=>{let s=`<rect width="1920" height="1080" fill="#05060a"/>`;
@@ -354,6 +354,23 @@ S.quiz=(t,d,p,ev)=>{let s=bgNavy();const pa=ev.pause??1,re=ev.resume??4;
  const flags=[['Unknown number',-330],['Tiny "fee" to pay',-250],['Urgency: 24 hours',-170],['Strange link',-90]];
  flags.forEach((f,i)=>{const a=ev['f'+i];if(a==null||t<a)return;s+=G(`<rect x="0" y="-38" width="520" height="76" rx="38" fill="${C.red}"/>${T(30,14,'🚩 '+f[0],{fs:36,w:800})}`,`translate(1050,${560+f[1]+i*150-80}) scale(${pop(t,a)})`,1,'filter="url(#sh)"')+`<line x1="1050" y1="${560+f[1]+i*150-80}" x2="${860}" y2="${560+[-330,-250,-210,-130][i]}" stroke="${C.red}" stroke-width="5" opacity="${fade(t,a)}"/>`});
  if(ev.f3!=null&&t>ev.f3+.4) s+=pill(1300,960,'4 RED FLAGS',C.red,pop(t,ev.f3+.4),1,52);
+ return s;};
+
+S.thumb=(t,d,p)=>{let s='';const v=p.v||'A';
+ const big=(x,y,l1,l2,c2,fs=210)=>`<g filter="url(#sh)">${T(x,y,l1,{fs,cls:'A',c:'#fff'})}${T(x,y+fs*0.95,l2,{fs,cls:'A',c:c2})}</g>`;
+ if(v==='A'){s+=`<g transform="${sc(700,560,1)}">${kitchen(1.2)}</g><rect width="1920" height="1080" fill="#0B1320" opacity=".35"/>`;
+  s+=`<g transform="translate(-60,-140) scale(1.25)">${denise({x:560,t:1.2,phone:'hands',brow:1,wide:1.5,sweat:1,shock:0.8,screen:'#ff6b74'})}</g>`;
+  s+=smsAlert(1180,330,1.15,1);s+=big(1010,720,"DON'T",'REPLY',C.red,230);
+  s+=`<rect width="1920" height="1080" fill="url(#redVig)" opacity=".55"/>`;}
+ else if(v==='B'){s+=bgNavy()+`<rect width="1920" height="1080" fill="url(#redVig)" opacity=".7"/>`;
+  s+=`<g transform="translate(-120,-120) scale(1.2)">${denise({x:560,t:2,phone:'hands',shock:1,wide:1.5,brow:1,screen:'#ff6b74'})}</g>`;
+  s+=bubble(1330,330,760,330,`${T(-320,-80,'SAVINGS •••• 4417',{fs:40,c:'#5b6475',w:800})}${T(-320,80,'$0.00',{fs:170,c:C.red,w:900})}`,{fill:'#f4f6fb'});
+  s+=big(980,840,'ONE TEXT.','',C.red,170)+T(980,1010,'$18,400 GONE',{fs:150,cls:'A',c:C.yel});}
+ else {s+=`<defs><clipPath id="tL"><path d="M0 0 H1010 L910 1080 H0Z"/></clipPath><clipPath id="tR"><path d="M1010 0 H1920 V1080 H910Z"/></clipPath></defs>`;
+  s+=`<g clip-path="url(#tL)">${kitchen(1)}<g transform="translate(-80,-40) scale(1.08)">${denise({x:520,t:1,phone:'ear',brow:1,wide:1.3,smile:-1})}</g></g>`;
+  s+=`<g clip-path="url(#tR)">${callcenter(1,1)}<g transform="translate(-140,-40) scale(1.08)">${mark({x:1540,t:1,smirk:1,brow:1})}</g></g><path d="M1010 0 L910 1080" stroke="${C.red}" stroke-width="18"/>`;
+  s+=`<rect x="0" y="770" width="1920" height="310" fill="#0B1320" opacity=".88"/>`+T(960,930,'"THIS IS YOUR BANK."',{fs:150,a:'middle',cls:'A',c:'#fff'})+T(960,1040,"IT'S NOT.",{fs:110,a:'middle',cls:'A',c:C.red});
+  s+=pill(1500,170,'FRAUD DEPT. (FAKE)',C.red,1,1,44);}
  return s;};
 S.chapter=(t,d,p)=>chapterCard(t,d,p.n,p.title);
 
