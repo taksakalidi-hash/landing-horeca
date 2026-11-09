@@ -312,10 +312,10 @@ S.stat=(t,d,p,ev)=>{let s=bgNavy();SEED=11;for(let i=0;i<40;i++){const x=rnd()*1
  s+=T(60,1040,'Source: U.S. Federal Trade Commission (FTC)',{fs:26,c:C.mut,w:500});return s;};
 S.checklist=(t,d,p,ev)=>{let s=bgNavy();const g=p.good;
  s+=G(T(220,180,(g?'✅ ':'🚩 ')+p.title,{fs:96,cls:'A',c:g?'#3ddc84':C.wh}),'',fade(t,.1));
- p.items.forEach((it,i)=>{const a=ev['i'+i]??(0.5+i*1.2);if(t<a)return;const act=t>a&&t<(ev['i'+(i+1)]??d+1);
+ p.items.forEach((it,i)=>{const a=ev['i'+i]??(0.5+i*1.2);if(t<a){s+=G(`<rect x="-20" y="-60" width="1500" height="120" rx="24" fill="#0f1a30" stroke="#24365a" stroke-width="3"/><circle cx="70" cy="0" r="42" fill="#24365a"/>${T(70,18,String(i+1),{fs:50,a:'middle',cls:'A',c:'#5b6b8c'})}${T(140,18,it,{fs:46,w:700,c:'#5b6b8c'})}`,`translate(210,${320+i*140})`,0.55*fade(t,0.1+i*0.08,.3));return;}const act=t>a&&t<(ev['i'+(i+1)]??d+1);
   s+=G(`<rect x="-20" y="-60" width="1500" height="120" rx="24" fill="${act?(g?'#0c3a22':'#3a0d15'):'#0f1a30'}" stroke="${act?(g?C.grn:C.red):'#24365a'}" stroke-width="${act?6:3}"/><circle cx="70" cy="0" r="42" fill="${g?C.grn:C.red}"/>${T(70,18,String(i+1),{fs:50,a:'middle',cls:'A'})}${T(140,18,it,{fs:46,w:700})}${!g&&act?`<g transform="translate(1420,0) rotate(${Math.sin(t*8)*10})"><line x1="0" y1="40" x2="0" y2="-50" stroke="#ddd" stroke-width="6"/><path d="M0 -50 L60 -35 L0 -15Z" fill="${C.red}"/></g>`:''}`,`translate(${210+80*(1-E(P(t,a,a+.3)))},${320+i*140})`,fade(t,a,.2))});
  return s;};
-S.report=(t,d,p,ev)=>{let s=bgNavy();
+S.report=(t,d,p,ev)=>{let s=bgNavy();const u0=ev.u0??.4;s+=G(T(960,140,'IF IT ALREADY HAPPENED',{fs:64,a:'middle',cls:'A',c:C.yel}),'',fade(t,.05));if(t<u0) s+=pill(960,560,'📞 CALL YOUR BANK — RIGHT NOW',C.red,pop(t,.15)*(1+0.03*Math.sin(t*6)),1,64);
  [['ReportFraud.ftc.gov',ev.u0??.4,300],['ic3.gov',ev.u1??2,640]].forEach(([u,a,y])=>{if(t<a-0.2)return;s+=G(`<rect x="-640" y="-110" width="1280" height="220" rx="22" fill="#f4f6fb"/><rect x="-640" y="-110" width="1280" height="60" rx="22" fill="#dfe4ee"/><circle cx="-600" cy="-80" r="10" fill="#ff5f57"/><circle cx="-570" cy="-80" r="10" fill="#febc2e"/><circle cx="-540" cy="-80" r="10" fill="#28c840"/>
   <rect x="-560" y="-10" width="1120" height="80" rx="40" fill="#fff" stroke="#c9d1e0" stroke-width="3"/>${T(-520,45,'🔒 '+typeOn(u,t,a,18)+(Math.floor(t*2)%2?'|':''),{fs:44,c:C.navy,w:700})}`,`translate(960,${y}) scale(${pop(t,a-.2)})`,1,'filter="url(#sh)"')});
  if(ev.pw!=null) s+=pill(960,920,'Then change your passwords 🔑',C.blue,pop(t,ev.pw),fade(t,ev.pw,.1),42);return s;};
@@ -336,7 +336,7 @@ S.costumes=(t,d,p,ev)=>{let s=bgNavy();
   ['🏦','📦','🛒','🏛️'].forEach((m,i)=>{const ang=t*1.2+i*Math.PI/2;const x=960+Math.cos(ang)*330,y=720+Math.sin(ang)*120;s+=G(`<circle r="90" fill="#0f1a30" stroke="${C.yel}" stroke-width="5"/>${T(0,32,m,{fs:90,a:'middle'})}`,`translate(${x},${y}) scale(${k*(0.8+0.2*Math.sin(ang))})`,1)});
   s+=G(`<circle r="110" fill="#1d2433"/>${T(0,40,'🎭',{fs:130,a:'middle'})}`,`translate(960,720) scale(${k})`,1);}
  else if(p.mode==='cards'){const cards=[['📦','PACKAGE TEXT','"Your parcel is on hold"'],['🛒','"AMAZON" CALL','"A purchase on your account"'],['🏛️','"GOVERNMENT" CALL','"Your SSN is suspended"']];
-  cards.forEach((c,i)=>{const a=ev['c'+i]??(0.4+i);if(t<a)return;const act=t>a&&t<(ev['c'+(i+1)]??d+1);
+  cards.forEach((c,i)=>{const a=ev['c'+i]??(0.4+i);if(t<a){s+=G(`<rect x="-260" y="-330" width="520" height="660" rx="30" fill="#0f1a30" stroke="#24365a" stroke-width="4"/>${T(0,40,'?',{fs:200,a:'middle',cls:'A',c:'#24365a'})}`,`translate(${380+i*580},560) rotate(${(i-1)*3})`,fade(t,0.05+i*0.1,.3));return;}const act=t>a&&t<(ev['c'+(i+1)]??d+1);
    s+=G(`<rect x="-260" y="-330" width="520" height="660" rx="30" fill="#0f1a30" stroke="${act?C.red:'#24365a'}" stroke-width="${act?8:4}"/>${T(0,-150,c[0],{fs:150,a:'middle'})}${T(0,20,c[1],{fs:52,a:'middle',cls:'A'})}${T(0,80,c[2],{fs:28,a:'middle',c:'#c6d0e2',w:600})}
     <g transform="translate(0,220)"><circle r="70" fill="#1d2433"/>${T(0,26,'🎭',{fs:74,a:'middle'})}</g>`,`translate(${380+i*580},560) rotate(${(i-1)*3}) scale(${pop(t,a)*(act?1.05:0.97)})`,1,'filter="url(#sh)"')});}
  else{const chips=[['😱','SCARE'],['📞','CALL'],['🔢','CODE'],['💸','MONEY']];
