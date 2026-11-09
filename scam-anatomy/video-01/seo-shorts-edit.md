@@ -101,3 +101,34 @@ bank text scam, fraud alert text, fake bank text, bank impersonation scam, did y
 8. **Звук:** музыка из фонотеки YouTube (поиск «suspense» или «dark ambient»), громкость −25 дБ. На переходах эффект «whoosh» из библиотеки CapCut.
 9. **Проверка:** первые 30 секунд должны быть без пауз, картинка меняется каждые 3–5 секунд.
 10. **Экспорт:** 1080p, 30 кадров/с → загрузи в Drive в ту же папку, я проверю перед публикацией.
+
+---
+
+## 9. МУЛЬТФИЛЬМ-ВЕРСИЯ (основная для публикации, 8:04)
+Файл: `Scam Anatomy 01 - The Bank Text (cartoon).mp4`. Превью для A/B-теста: `thumbnail-cartoon-A/B/C.png`.
+
+### Главы (вставить в описание вместо старых)
+```
+CHAPTERS
+0:00 One text, $18,400 gone
+0:50 Part 1: The text
+1:46 Part 2: The call
+2:48 Part 3: The code
+3:40 Part 4: The "safe" account
+4:33 Why the bank said no
+5:09 Same scam, different costumes
+5:34 Why it works
+6:06 Part 5: Protect yourself
+6:16 Quick test + 5 red flags
+7:31 Next: money mules
+```
+
+### Shorts (заголовки для загрузки)
+| Файл | Заголовок (EN) | Перевод |
+|---|---|---|
+| short1-is-this-a-scam | Is This a Scam? Count the Red Flags 🚩 #shorts | Это мошенничество? Посчитай красные флаги |
+| short2-caller-id-lies | "Your Bank" Is Calling… Or Is It? #shorts | «Твой банк» звонит… или нет? |
+| short3-the-code-is-the-key | Never Read This Code to Anyone #shorts | Никогда никому не диктуй этот код |
+| short4-one-text | One Text. $18,400 Gone. #shorts | Одно SMS. $18 400 пропали |
+
+Описание каждого Short: `Full breakdown on the channel → Scam Anatomy. Share this with someone who needs it. #scam #scamawareness #fraud`
