@@ -16,7 +16,7 @@ os.makedirs(SEG, exist_ok=True)
 
 md = open(os.path.join(VDIR, "script.md"), encoding="utf-8").read().split("## Чистый текст")[0]
 paras = [m.group(1).strip() for l in md.splitlines() if (m := re.match(r"^\| (.+?) \| (.+?) \|$", l)) and not l.startswith(("| EN", "|---"))]
-assert len(paras) == 35, len(paras)
+assert len(paras) == 39, len(paras)
 
 # ---------------- shot plan ----------------
 ALERT = ['FRAUD ALERT: Did you attempt', 'a purchase of $1,249.99?', 'Reply YES or NO']
@@ -55,26 +55,30 @@ PLAN = {
  24: ("kitchen", {"day": 1, "phone": "ear", "talk": 1, "brow": 1, "smile": -1, "morningTxt": "THE NEXT MORNING"}, {}, "flash"),
  25: ("verdict", {}, {"stamp": "authorized payment", "heart": "never hacked", "crack": "hacked Denise"}, "wipe"),
  26: ("ai", {}, {"write": "perfect messages", "voice": "clone voices", "tested": "tested on"}, "glitch"),
- 27: ("psych", {}, {"i0": "Urgency", "i1": "Authority", "i2": "cruelest"}, "wipe"),
- 28: ("stat", {}, {"top": "most reported"}, "wipe"),
- 29: ("anatomy", {"weak": 1, "title": "THE WEAK SPOTS", "labels": ["URGENCY", "FAKE CALLER ID", '"READ ME THE CODE"', '"MOVE YOUR MONEY"']},
+ 30: ("psych", {}, {"i0": "Urgency", "i1": "Authority", "i2": "cruelest"}, "wipe"),
+ 31: ("stat", {}, {"top": "most reported"}, "wipe"),
+ 32: ("anatomy", {"weak": 1, "title": "THE WEAK SPOTS", "labels": ["URGENCY", "FAKE CALLER ID", '"READ ME THE CODE"', '"MOVE YOUR MONEY"']},
       {"l0": "good news", "l1": "same weak", "l2": "once you see", "l3": "unsee"}, "wipe"),
- 30: ("checklist", {"title": "5 RED FLAGS", "items": ['A "fraud alert" that asks you to reply', "Caller ID shows your bank — it can be faked",
+ 34: ("checklist", {"title": "5 RED FLAGS", "items": ['A "fraud alert" that asks you to reply', "Caller ID shows your bank — it can be faked",
       "Anyone asking for a code you were texted", 'Any request to move money "to keep it safe"', 'Pressure: "do it right now"']},
       {"i0": "One:", "i1": "Two:", "i2": "Three:", "i3": "Four:", "i4": "five:"}, "wipe"),
- 31: ("checklist", {"good": 1, "title": "WHAT TO DO", "items": ["Don't reply. Don't call numbers in the text.", "Hang up. Call the number on your card.",
+ 35: ("checklist", {"good": 1, "title": "WHAT TO DO", "items": ["Don't reply. Don't call numbers in the text.", "Hang up. Call the number on your card.",
       "Never share a code.", 'Never move money "to protect it".']}, {"i0": "Don't reply", "i1": "hang up", "i2": "Never share", "i3": "Never move"}, "wipe"),
- 32: ("report", {}, {"u0": "ReportFraud", "u1": "I-C-3", "pw": "passwords"}, "wipe"),
- 33: ("share", {}, {"send": "share this video"}, "wipe"),
- 34: ("next", {}, {}, "glitch"),
+ 36: ("report", {}, {"u0": "ReportFraud", "u1": "I-C-3", "pw": "passwords"}, "wipe"),
+ 37: ("share", {}, {"send": "share this video"}, "wipe"),
+ 38: ("next", {}, {}, "glitch"),
+ 27: ("costumes", {"mode": "intro"}, {"c0": "different costumes"}, "glitch"),
+ 28: ("costumes", {"mode": "cards"}, {"c0": "package", "c1": "Amazon", "c2": "government"}, "wipe"),
+ 29: ("costumes", {"mode": "chips"}, {"e0": "Scare", "e1": "call you", "e2": "get the code", "e3": "move your money"}, None),
+ 33: ("quiz", {}, {"pause": "PAUSE_START", "resume": "PAUSE_END", "f0": "REVEAL+0", "f1": "REVEAL+0.5", "f2": "REVEAL+1.0", "f3": "REVEAL+1.5"}, "wipe"),
 }
 INSERT = {5: [("anim", "intro-3d"), ("chapter", 1, "THE TEXT")], 10: [("chapter", 2, "THE CALL"), ("anim", "ringing-phone-3d")],
-          15: [("chapter", 3, "THE CODE")], 20: [("chapter", 4, 'THE "SAFE"|ACCOUNT'), ("anim", "alert-transition-3d")], 29: [("chapter", 5, "PROTECT|YOURSELF")]}
+          15: [("chapter", 3, "THE CODE")], 20: [("chapter", 4, 'THE "SAFE"|ACCOUNT'), ("anim", "alert-transition-3d")], 32: [("chapter", 5, "PROTECT|YOURSELF")]}
 TENSE = set(range(17, 24))
 SFX_FOR = {"buzz": "buzz", "bubble": "ding", "reply": "pop", "spin": "tick", "balance": "drain", "gone": "impact", "ring": "ring", "shield": "pop", "crack": "glass",
            "stamp": "stamp", "think": "pop", "m": "blip", "k": "blip", "c": "tick", "sold": "stamp", "digits": "blip", "open": "unlock", "access": "success", "press": "click",
            "sent": "cash", "fall": "impact", "say": "type", "n": "whoosh_s", "heart": "pop", "tested": "pop", "i": "pop", "u": "type", "pw": "pop", "send": "whoosh_s",
-           "top": "pop", "down": "whoosh_d", "nolink": "pop", "l": "pop", "code": "type", "key": "pop", "write": "type", "voice": "synth", "fake": "ding", "tag": "pop", "dTalk": None, "smirk": None, "type": "type"}
+           "top": "pop", "f": "stamp", "e": "pop", "pause": "tick", "resume": "ding", "down": "whoosh_d", "nolink": "pop", "l": "pop", "code": "type", "key": "pop", "write": "type", "voice": "synth", "fake": "ding", "tag": "pop", "dTalk": None, "smirk": None, "type": "type"}
 TRANS_SFX = {"wipe": "whoosh", "glitch": "glitch", "flash": "impact"}
 TTS_FIX = [("FTC", "F.T.C."), ("Mrs. R.", "Missus R."), ("Mrs. R", "Missus R")]
 CAP_FIX = [("one thousand, two hundred and forty-nine dollars", "$1,249"), ("eighteen thousand, four hundred dollars", "$18,400"), ("4-8-2-9-1-3", "482913"),
@@ -190,10 +194,21 @@ for idx, text in enumerate(paras):
             jobs.append({"id": sid, "frames": n, "shot": {"scene": "chapter", "dur": 2, "p": {"n": ins[1], "title": ins[2]}, "trans": "wipe"}}); segs.append(("seg", sid, n))
             add_sfx(frame, "whoosh", .9); add_sfx(frame + 8, "stamp", .6)
         frame += n
-    a = tts(text); voiced = len(a) / SR; pause = .45 if idx not in (4, 34) else .9
+    special = {}
+    if "…" in text:
+        pa_, pb_ = text.split("…", 1); A1 = tts(pa_.strip()); A2 = tts(pb_.strip()); gap = 4.0
+        a = np.concatenate([A1, np.zeros(int(gap * SR), np.float32), A2]); special = {"PAUSE_START": len(A1) / SR, "PAUSE_END": len(A1) / SR + gap, "REVEAL": len(a) / SR + .2}
+    else:
+        a = tts(text)
+    voiced = len(a) / SR; pause = .45 if idx not in (4, 38) else .9
+    if special: pause = 3.2
     n = int(math.ceil((voiced + pause) * FPS)); d = n / FPS
     scene, p, ev, trans = PLAN[idx]
-    evr = {k: kw_time(text, v, voiced) for k, v in ev.items()}
+    def evt(v):
+        if isinstance(v, str) and special and v.split("+")[0] in special:
+            b_, _, o_ = v.partition("+"); return special[b_] + (float(o_) if o_ else 0)
+        return kw_time(text, v, voiced)
+    evr = {k: evt(v) for k, v in ev.items()}
     pr = resolve(p, text, voiced)
     sid = f"p{idx:02d}"
     jobs.append({"id": sid, "frames": n, "shot": {"scene": scene, "dur": d, "p": pr, "ev": evr, "trans": trans}}); segs.append(("seg", sid, n))
@@ -218,7 +233,7 @@ for idx, text in enumerate(paras):
     tot = sum(len(c) for c in chunks); t0 = frame / FPS
     for c in chunks:
         dd = voiced * len(c) / tot; caps.append((t0, t0 + dd, c)); t0 += dd
-    if idx in (27, 30, 34): chapters[{27: "Why it works", 30: "5 red flags & what to do", 34: "Next: money mules"}[idx]] = frame / FPS
+    if idx in (27, 30, 33, 38): chapters[{27: "Same scam, different costumes", 30: "Why it works", 33: "Quick test + 5 red flags", 38: "Next: money mules"}[idx]] = frame / FPS
     if idx == 24: chapters["Why the bank said no"] = frame / FPS
     frame += n
 jobs.append({"id": "end", "frames": 15 * FPS, "shot": {"scene": "endscreen", "dur": 15, "p": {}, "ev": {}, "trans": "wipe"}}); segs.append(("seg", "end", 15 * FPS))
