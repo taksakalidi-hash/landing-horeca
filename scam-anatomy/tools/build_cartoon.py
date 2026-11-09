@@ -241,6 +241,11 @@ add_sfx(frame, "whoosh", .7); frame += 15 * FPS
 TOTAL = frame
 print("total", TOTAL / FPS, "s; jobs", len(jobs), flush=True)
 
+# outgoing half of each wipe: the shot before a wipe-in covers itself at its end
+byid = {j["id"]: j for j in jobs}
+for (k1, n1, _), (k2, n2, _) in zip(segs, segs[1:]):
+    if k1 == "seg" and k2 == "seg" and byid[n2]["shot"].get("trans") == "wipe":
+        byid[n1]["shot"]["transOut"] = "wipe"
 # ---------------- render (parallel workers) ----------------
 W = 4; buckets = [[] for _ in range(W)]; loads = [0] * W
 for j in sorted(jobs, key=lambda j: -j["frames"]):

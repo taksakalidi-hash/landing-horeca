@@ -146,8 +146,16 @@ function smsThread(t,msgs){ // msgs: [{who:'in'|'out',txt:[lines],at, hl, typing
  return s;
 }
 // ---------- transitions / overlays ----------
-function wipeIn(t){if(t>0.45) return '';const p=EIO(t/0.45);const x=-200+p*2600;
- return `<g><path d="M${x-2600} 0 L${x} 0 L${x-400} 1080 L${x-3000} 1080Z" fill="${C.navy}"/><path d="M${x} 0 L${x+90} 0 L${x-310} 1080 L${x-400} 1080Z" fill="${C.red}"/><path d="M${x+90} 0 L${x+120} 0 L${x-280} 1080 L${x-310} 1080Z" fill="${C.yel}"/></g>`}
+const WD=0.38;
+function stripes(x,dir){ // red + yellow edge band, slanted like the panel edge; dir=1 band right of x, -1 left of x
+ const a=dir>0?x:x-150, b=a+110, c=b+40;
+ return `<path d="M${a} 0 L${b} 0 L${b-400} 1080 L${a-400} 1080Z" fill="${C.red}"/><path d="M${b} 0 L${c} 0 L${c-400} 1080 L${b-400} 1080Z" fill="${C.yel}"/>`}
+function wipeIn(t){ // navy panel slides off to the right, revealing the new scene
+ if(t>WD) return '';const x=EIO(t/WD)*2470;
+ return `<path d="M${x} 0 L2600 0 L2600 1080 L${x-400} 1080Z" fill="${C.navy}"/>${stripes(x,-1)}`}
+function wipeOut(r){ // r = time remaining in shot; navy panel arrives from the left and covers the old scene
+ if(r>WD) return '';const x=-150+EIO(1-r/WD)*2620;
+ return `<path d="M-500 0 L${x} 0 L${x-400} 1080 L-500 1080Z" fill="${C.navy}"/>${stripes(x,1)}`}
 function flashIn(t){return t<0.25?`<rect width="1920" height="1080" fill="#fff" opacity="${1-t/0.25}"/>`:''}
 function glitchIn(t){if(t>0.3) return '';let s='';SEED=Math.floor(t*60)+7;for(let i=0;i<9;i++){s+=`<rect x="0" y="${rnd()*1080}" width="1920" height="${10+rnd()*60}" fill="${[C.red,'#36d6ff','#fff'][i%3]}" opacity="${.5*(1-t/0.3)}"/>`}return s}
 function chapterCard(t,dur,n,title){const p=pop(t,0.05,.45);
@@ -379,6 +387,7 @@ let SHOT=null;
 window.setup=shot=>{SHOT=shot};
 window.frame=t=>{const sh=SHOT;const fn=S[sh.scene];let s=fn(t,sh.dur,sh.p||{},sh.ev||{});
  if(sh.trans==='wipe') s+=wipeIn(t);else if(sh.trans==='flash') s+=flashIn(t);else if(sh.trans==='glitch') s+=glitchIn(t);
+ if(sh.transOut==='wipe') s+=wipeOut(sh.dur-t-1/30);
  document.getElementById('root').innerHTML=s;};
 document.fonts.ready.then(()=>{window.DONE=true});
 </script></body></html>
