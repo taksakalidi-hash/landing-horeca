@@ -8,7 +8,7 @@ description: Producer playbook for the faceless English YouTube channel "Scam An
 ## Who you work for
 - The channel owner speaks **Russian only**. Talk to them in Russian, simply.
 - Every English text (script, title, description, pinned comment, thumbnail words) goes in a **two-column table: EN | RU**.
-- Budget is $0 until the channel earns. Prefer free tools: CapCut (editing, TTS voice, auto captions), Pexels/Pixabay (stock), YouTube Audio Library (music), and images you render yourself with code (see "Visuals").
+- Budget is zero dollars until the channel earns. Prefer free tools: CapCut (editing, TTS voice, auto captions), Pexels/Pixabay (stock), YouTube Audio Library (music), and images you render yourself with code (see "Visuals").
 - The brand doc and strategy live in the Google Drive folder "YouTube Channel" (01 strategy, 02 brand, 03 pipeline). Read them before starting if available.
 
 ## Brand

@@ -1,0 +1,90 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0B1320;--red:#E63946;--yel:#FFD166;--txt:#E8EEF7;--mut:#8C9AB3}
+*{box-sizing:border-box}html,body{margin:0}
+.s{width:1920px;height:1080px;position:relative;overflow:hidden;font-family:Inter,sans-serif;color:var(--txt);
+ background:radial-gradient(ellipse at 50% 40%,#1a2c55 0%,#0B1320 55%,#05080f 100%)}
+.s:before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(70,100,160,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(70,100,160,.12) 1px,transparent 1px);background-size:64px 64px}
+.c{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:90px}
+.wm{position:absolute;right:48px;bottom:36px;font-family:Anton;font-size:30px;letter-spacing:2px;opacity:.55}.wm b{color:var(--red);font-weight:400}
+/* phone */
+.ph{width:520px;height:1000px;border-radius:70px;background:#05070c;border:14px solid #222b3a;box-shadow:0 0 0 3px #3a4558,0 40px 120px rgba(0,0,0,.7),0 0 120px rgba(230,57,70,.18);position:relative;padding:90px 28px 40px;overflow:hidden}
+.ph:after{content:"";position:absolute;top:22px;left:50%;transform:translateX(-50%);width:150px;height:36px;border-radius:20px;background:#000}
+.hd{text-align:center;font-size:24px;color:var(--mut);margin-bottom:28px}.hd b{display:block;color:#fff;font-size:30px;margin-top:10px}
+.av{width:90px;height:90px;border-radius:50%;background:#46526a;margin:0 auto 6px;display:flex;align-items:center;justify-content:center;font-size:40px;font-weight:700;color:#fff}
+.bub{max-width:400px;padding:22px 26px;border-radius:30px;font-size:29px;line-height:1.35;margin:14px 0}
+.in{background:#26303f;border-bottom-left-radius:8px}.out{background:#2f7cf6;margin-left:auto;border-bottom-right-radius:8px;color:#fff;width:max-content}
+.ts{text-align:center;color:var(--mut);font-size:20px;margin:10px 0}
+.hl{outline:6px solid var(--red);outline-offset:6px;box-shadow:0 0 50px rgba(230,57,70,.6)}
+/* side text */
+.side{max-width:760px}.kick{font-size:30px;font-weight:700;color:var(--yel);letter-spacing:3px;text-transform:uppercase;margin-bottom:18px}
+.big{font-family:Anton;font-size:120px;line-height:.95;letter-spacing:2px}.big .r{color:var(--red)}.big .y{color:var(--yel)}
+.sub{font-size:40px;color:#c6d0e2;line-height:1.35;margin-top:26px}
+.mega{font-family:Anton;font-size:300px;line-height:.9;color:var(--red);text-shadow:0 0 60px rgba(230,57,70,.45)}
+.card{background:rgba(14,24,44,.88);border:2px solid #24365a;border-radius:28px;padding:56px 70px;box-shadow:0 30px 90px rgba(0,0,0,.5)}
+ol{margin:0;padding:0;list-style:none;counter-reset:n}ol li{counter-increment:n;display:flex;gap:30px;align-items:center;font-size:44px;font-weight:600;margin:26px 0}
+ol li:before{content:counter(n);flex:none;width:76px;height:76px;border-radius:50%;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;font-family:Anton;font-size:44px}
+ol.g li:before{background:#2fb36b}
+.flag{font-size:50px}
+.call{text-align:center;padding-top:120px}.call .nm{font-size:54px;font-weight:700;color:#fff;margin-top:20px}.call .lb{font-size:28px;color:var(--mut);margin-top:10px}
+.btns{position:absolute;bottom:90px;left:0;right:0;display:flex;justify-content:space-around}.btn{width:130px;height:130px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:56px}
+.flow{display:flex;align-items:center;gap:26px}.node{width:280px;padding:34px 20px;border-radius:24px;text-align:center;background:#13213d;border:3px solid #2b4170;font-size:30px;font-weight:700}
+.node small{display:block;font-size:22px;font-weight:500;color:var(--mut);margin-top:10px}.node.r{border-color:var(--red);background:#3a0d15}.arr{font-size:60px;color:var(--yel)}
+.tri3{display:flex;gap:50px}.tri3 .card{width:480px;text-align:center;padding:50px 30px}.tri3 .ic{font-size:90px}.tri3 h3{font-family:Anton;font-size:64px;margin:20px 0 10px;letter-spacing:2px}.tri3 p{font-size:30px;color:#c6d0e2;margin:0;line-height:1.35}
+.chap{text-align:center}.chap .n{font-family:Anton;font-size:60px;color:var(--red);letter-spacing:8px}.chap .t{font-family:Anton;font-size:190px;letter-spacing:6px;line-height:1}
+.chap .bar{width:220px;height:10px;background:var(--red);margin:36px auto 0;border-radius:6px;box-shadow:0 0 30px var(--red)}
+.src{position:absolute;left:60px;bottom:40px;font-size:24px;color:var(--mut)}
+.bank{display:flex;justify-content:space-between;align-items:center;font-size:30px;margin:16px 0;padding:24px;border-radius:18px;background:#141c2b}
+</style></head><body><div id="root"></div>
+<script>
+const WM='<div class="wm">SCAM <b>ANATOMY</b></div>';
+const S={
+"01-hook-text":`<div class="c"><div class="ph"><div class="hd"><div class="av">B</div><b>Bank Alert</b>Text Message · Today 7:42 PM</div>
+<div class="bub in hl">FRAUD ALERT: Did you attempt a purchase of <b>$1,249.99</b> at BestTech Electronics? Reply <b>YES</b> or <b>NO</b>.</div></div>
+<div class="side"><div class="kick">7:42 PM</div><div class="big">ONE TEXT.<br><span class="r">ONE REPLY.</span></div><div class="sub">That's all it took.</div></div></div>`,
+"02-amount-gone":`<div class="c" style="flex-direction:column;gap:10px"><div class="kick" style="font-size:40px">40 minutes later</div><div class="mega">$18,400</div><div class="big" style="font-size:110px">GONE.</div></div>`,
+"03-composite-note":`<div class="c"><div class="card" style="max-width:1300px;text-align:center"><div class="kick">Note</div><div class="sub" style="margin:0;font-size:46px;color:#fff">Denise's story is a <b style="color:var(--yel)">composite</b>, based on real cases reported to the FTC and banks.</div><div class="sub" style="font-size:36px">Every step you'll see happens every single day.</div></div></div>`,
+"04-reply-no":`<div class="c"><div class="ph"><div class="hd"><div class="av">B</div><b>Bank Alert</b>Text Message · Today 7:42 PM</div>
+<div class="bub in">FRAUD ALERT: Did you attempt a purchase of <b>$1,249.99</b> at BestTech Electronics? Reply <b>YES</b> or <b>NO</b>.</div>
+<div class="bub out hl" style="font-size:40px;font-weight:700">NO</div><div class="ts">Delivered 7:43 PM</div>
+<div class="bub in">Thank you. A fraud specialist will contact you shortly. Do not use your card.</div></div>
+<div class="side"><div class="kick">Step 1 · The text</div><div class="big">NO LINK.<br><span class="y">NO ALARM.</span></div><div class="sub">No link to click means nothing feels suspicious. Your reply tells them: real person, worried, ready to talk.</div></div></div>`,
+"05-incoming-call":`<div class="c"><div class="ph" style="background:linear-gradient(#1b2a48,#0a1222)"><div class="call"><div class="lb">Incoming call…</div><div class="av" style="width:150px;height:150px;font-size:70px;margin-top:40px">B</div><div class="nm">Your Bank<br>Fraud Dept.</div><div class="lb">mobile · (800) 555-0142</div></div>
+<div class="btns"><div class="btn" style="background:#e5383b">✕</div><div class="btn" style="background:#2fb36b">✆</div></div></div>
+<div class="side"><div class="kick">Step 2 · The call</div><div class="big">CALLER ID<br><span class="r">CAN LIE.</span></div><div class="sub">Scammers can make any name and number appear on your screen. It's called <b style="color:var(--yel)">spoofing</b>.</div></div></div>`,
+"06-they-know":`<div class="c"><div class="card" style="width:820px"><div class="kick">What the caller already knows</div>
+<div class="bank"><span>Full name</span><b>Denise R.</b></div><div class="bank"><span>Card ending</span><b>•••• 4417</b></div><div class="bank"><span>Home address</span><b>✓</b></div><div class="bank"><span>Date of birth</span><b>✓</b></div></div>
+<div class="side" style="max-width:640px"><div class="big" style="font-size:96px">IT FEELS<br><span class="y">REAL.</span></div><div class="sub">This data comes from old breaches and is sold online for a few dollars. Knowing it does NOT prove they're your bank.</div></div></div>`,
+"07-code-text":`<div class="c"><div class="ph"><div class="hd"><div class="av">B</div><b>Bank</b>Text Message · 7:58 PM</div>
+<div class="bub in hl">Your verification code is <b style="font-size:40px;letter-spacing:4px">482913</b>. <span style="color:var(--yel)">Never share this code. We will never call you to ask for it.</span></div></div>
+<div class="side"><div class="kick">Step 3 · The code</div><div class="big">THE CODE IS<br><span class="r">THE KEY.</span></div><div class="sub">"Just read me the code to verify it's you." That code lets them into your account. The warning is right there — but you're on the phone, under pressure.</div></div></div>`,
+"08-safe-account":`<div class="c"><div class="ph"><div class="hd"><b>Send money</b>Review transfer</div>
+<div class="bank"><span>To</span><b>"Secure Account"</b></div><div class="bank"><span>Amount</span><b style="color:var(--red)">$18,400.00</b></div><div class="bank"><span>Arrives</span><b>Instantly</b></div>
+<div class="bub out hl" style="margin:40px auto 0;width:100%;text-align:center;font-weight:700">Confirm &amp; Send</div></div>
+<div class="side"><div class="kick">Step 4 · The "safe" account</div><div class="big">"MOVE IT<br><span class="r">TO PROTECT IT."</span></div><div class="sub">There is no safe account. <b style="color:#fff">A real bank will never ask you to move your money to protect it.</b></div></div></div>`,
+"09-money-flow":`<div class="c" style="flex-direction:column;gap:70px"><div class="big" style="font-size:90px;text-align:center">WHERE THE MONEY <span class="r">GOES</span></div>
+<div class="flow"><div class="node">Denise<small>$18,400</small></div><div class="arr">➜</div><div class="node r">"Secure account"<small>money mule #1</small></div><div class="arr">➜</div><div class="node r">Mule #2<small>split &amp; withdrawn</small></div><div class="arr">➜</div><div class="node r">Crypto / cash<small>gone in &lt; 1 hour</small></div></div></div>`,
+"10-psychology":`<div class="c" style="flex-direction:column;gap:60px"><div class="big" style="font-size:90px">WHY IT <span class="r">WORKS</span></div><div class="tri3">
+<div class="card"><div class="ic">⏱️</div><h3>URGENCY</h3><p>"Act now or lose everything." No time to think.</p></div>
+<div class="card"><div class="ic">🏦</div><h3>AUTHORITY</h3><p>Your bank's name, a calm voice, your real details.</p></div>
+<div class="card"><div class="ic">🛡️</div><h3>"HELPING"</h3><p>You think you're stopping the fraud — not causing it.</p></div></div></div>`,
+"11-ftc-stat":`<div class="c" style="flex-direction:column;gap:10px"><div class="kick" style="font-size:38px">Reported fraud losses in the U.S. · 2025</div><div class="mega" style="font-size:260px">$15.9B</div><div class="sub" style="font-size:44px">Fake bank fraud alerts are the <b style="color:var(--yel)">#1 most-reported text scam</b>.</div><div class="src">Source: U.S. Federal Trade Commission (FTC)</div></div>`,
+"12-red-flags":`<div class="c"><div class="card" style="width:1500px"><div class="big" style="font-size:84px;margin-bottom:20px"><span class="flag">🚩</span> 5 RED FLAGS</div><ol>
+<li>A "fraud alert" that asks you to reply</li><li>Caller ID shows your bank — it can be faked</li><li>Anyone asking for a code you were texted</li><li>Any request to move money "to keep it safe"</li><li>Pressure: "do it right now"</li></ol></div></div>`,
+"13-what-to-do":`<div class="c"><div class="card" style="width:1500px"><div class="big" style="font-size:84px;margin-bottom:20px">✅ WHAT TO <span style="color:#2fb36b">DO</span></div><ol class="g">
+<li>Don't reply. Don't call numbers from the text.</li><li>Hang up. Call the number on the back of your card.</li><li>Never share a code. Never move money "to protect it".</li><li>Already sent money? Call your bank immediately.</li></ol></div></div>`,
+"14-report":`<div class="c"><div class="card" style="width:1300px;text-align:center"><div class="kick">If it happened to you — report it</div>
+<div class="big" style="font-size:80px;margin:20px 0">ReportFraud.ftc.gov</div><div class="big" style="font-size:80px;color:var(--yel)">ic3.gov</div>
+<div class="sub">Then change your passwords and turn on alerts in your banking app.</div></div></div>`,
+"15-next-mules":`<div class="c"><div class="side" style="max-width:1300px;text-align:center"><div class="kick">Next on Scam Anatomy</div><div class="big" style="font-size:150px">MONEY <span class="r">MULES</span></div><div class="sub" style="font-size:46px">How scammers turn ordinary people into criminals — without them knowing.</div></div></div>`,
+"ch1-the-text":`<div class="c"><div class="chap"><div class="n">PART 1</div><div class="t">THE TEXT</div><div class="bar"></div></div></div>`,
+"ch2-the-call":`<div class="c"><div class="chap"><div class="n">PART 2</div><div class="t">THE CALL</div><div class="bar"></div></div></div>`,
+"ch3-the-code":`<div class="c"><div class="chap"><div class="n">PART 3</div><div class="t">THE CODE</div><div class="bar"></div></div></div>`,
+"ch4-safe-account":`<div class="c"><div class="chap"><div class="n">PART 4</div><div class="t">THE "SAFE"<br>ACCOUNT</div><div class="bar"></div></div></div>`,
+"ch5-protect":`<div class="c"><div class="chap"><div class="n">PART 5</div><div class="t">PROTECT<br>YOURSELF</div><div class="bar"></div></div></div>`,
+};
+const id=new URLSearchParams(location.search).get('s');
+document.getElementById('root').innerHTML='<div class="s">'+S[id]+WM+'</div>';
+window.IDS=Object.keys(S);
+</script></body></html>
