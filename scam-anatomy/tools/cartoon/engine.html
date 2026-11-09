@@ -1,0 +1,341 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+<style>html,body{margin:0;background:#000;overflow:hidden}svg{display:block}text{font-family:Inter,sans-serif}.A{font-family:Anton,Impact,sans-serif;letter-spacing:4px}</style></head>
+<body><svg id="sv" width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+<defs>
+ <linearGradient id="wall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#16233f"/><stop offset="1" stop-color="#0d1527"/></linearGradient>
+ <linearGradient id="wallDay" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cfd8e6"/><stop offset="1" stop-color="#a9b6cb"/></linearGradient>
+ <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0a1330"/><stop offset="1" stop-color="#253a6e"/></linearGradient>
+ <linearGradient id="skyDay" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8ec5ff"/><stop offset="1" stop-color="#ffe2b8"/></linearGradient>
+ <linearGradient id="cc" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1a0b12"/><stop offset="1" stop-color="#07070c"/></linearGradient>
+ <radialGradient id="navyBg" cx="50%" cy="40%" r="75%"><stop offset="0" stop-color="#1c3060"/><stop offset=".55" stop-color="#0B1320"/><stop offset="1" stop-color="#04070d"/></radialGradient>
+ <radialGradient id="lampPool" cx="50%" cy="0%" r="100%"><stop offset="0" stop-color="#ffd9a0" stop-opacity=".55"/><stop offset="1" stop-color="#ffd9a0" stop-opacity="0"/></radialGradient>
+ <radialGradient id="glowB" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#9cc3ff" stop-opacity=".6"/><stop offset="1" stop-color="#9cc3ff" stop-opacity="0"/></radialGradient>
+ <radialGradient id="glowR" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#ff3b4e" stop-opacity=".7"/><stop offset="1" stop-color="#ff3b4e" stop-opacity="0"/></radialGradient>
+ <radialGradient id="glowG" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#3ddc84" stop-opacity=".6"/><stop offset="1" stop-color="#3ddc84" stop-opacity="0"/></radialGradient>
+ <radialGradient id="redVig" cx="50%" cy="50%" r="75%"><stop offset=".5" stop-color="#E63946" stop-opacity="0"/><stop offset="1" stop-color="#E63946" stop-opacity=".8"/></radialGradient>
+ <radialGradient id="darkVig" cx="50%" cy="50%" r="75%"><stop offset=".55" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".65"/></radialGradient>
+ <pattern id="grid" width="64" height="64" patternUnits="userSpaceOnUse"><path d="M64 0H0V64" fill="none" stroke="#3a5a9a" stroke-opacity=".18" stroke-width="2"/></pattern>
+ <pattern id="bp" width="48" height="48" patternUnits="userSpaceOnUse"><path d="M48 0H0V48" fill="none" stroke="#9cc3ff" stroke-opacity=".15" stroke-width="1.5"/></pattern>
+ <filter id="sh" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="12" stdDeviation="14" flood-color="#000" flood-opacity=".5"/></filter>
+ <filter id="blur6"><feGaussianBlur stdDeviation="6"/></filter>
+</defs>
+<g id="root"></g>
+</svg>
+<script>
+// ---------- helpers ----------
+const C={navy:'#0B1320',red:'#E63946',yel:'#FFD166',wh:'#F4F6FB',teal:'#2a9d8f',grn:'#2fb36b',blue:'#2f7cf6',mut:'#8C9AB3',skin:'#efbf97',skinS:'#e3a982'};
+const cl=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const E=x=>{x=cl(x);return 1-Math.pow(1-x,3)};
+const EIO=x=>{x=cl(x);return x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2};
+const BK=x=>{x=cl(x);const c=1.9;return 1+(c+1)*Math.pow(x-1,3)+c*Math.pow(x-1,2)};
+const P=(t,a,b)=>cl((t-a)/(b-a));
+const pop=(t,a,d=.35)=>BK(P(t,a,a+d));
+const fade=(t,a,d=.25)=>E(P(t,a,a+d));
+const R=n=>Math.round(n*10)/10;
+let SEED=1;const rnd=()=>{SEED=(SEED*16807)%2147483647;return SEED/2147483647};
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+const T=(x,y,s,o={})=>`<text x="${x}" y="${y}" font-size="${o.fs||40}" fill="${o.c||C.wh}" font-weight="${o.w||700}" text-anchor="${o.a||'start'}" ${o.cls?`class="${o.cls}"`:''} opacity="${o.op??1}" ${o.ls?`letter-spacing="${o.ls}"`:''}>${s}</text>`;
+const G=(inner,tr='',op=1,ex='')=>`<g transform="${tr}" opacity="${R(op*100)/100}" ${ex}>${inner}</g>`;
+const sc=(x,y,s)=>`translate(${x},${y}) scale(${s}) translate(${-x},${-y})`;
+const talkM=(t,on)=>on?cl((0.25+0.75*Math.abs(Math.sin(t*13)))*(0.55+0.45*Math.sin(t*4.7+1)),0,1):0;
+const blink=(t,off=0)=>((t+off)%3.7)<0.13?0.1:1;
+const typeOn=(s,t,a,cps=28)=>s.slice(0,Math.max(0,Math.floor((t-a)*cps)));
+
+// ---------- backgrounds ----------
+function bgNavy(){return `<rect width="1920" height="1080" fill="url(#navyBg)"/><rect width="1920" height="1080" fill="url(#grid)"/>`}
+function bgBlueprint(){return `<rect width="1920" height="1080" fill="#0b2a55"/><rect width="1920" height="1080" fill="url(#bp)"/><rect width="1920" height="1080" fill="url(#darkVig)"/>`}
+function kitchen(t,day=false,clockMin=42,clockHr=7){
+ const w=day?'url(#wallDay)':'url(#wall)',sky=day?'url(#skyDay)':'url(#sky)',dk=day?'#7d8aa3':'#0a1120';
+ const m=clockMin,h=clockHr+m/60;
+ return `<rect width="1920" height="1080" fill="${w}"/>
+ <g transform="translate(1330,140)"><rect width="420" height="440" rx="10" fill="${sky}" stroke="${dk}" stroke-width="22"/>
+ ${day?`<circle cx="320" cy="110" r="55" fill="#fff3c4"/>`:`<circle cx="300" cy="110" r="48" fill="#f4f1de"/><g fill="#fff" opacity=".8"><circle cx="80" cy="70" r="3"/><circle cx="160" cy="140" r="2"/><circle cx="60" cy="220" r="2.5"/></g>`}
+ <path d="M0 330 L60 280 L110 310 L170 250 L240 300 L300 260 L360 300 L420 270 L420 440 L0 440Z" fill="${day?'#6b86b3':'#0b1633'}"/>
+ ${day?'':`<g fill="#ffd166"><rect x="70" y="330" width="10" height="14"/><rect x="200" y="320" width="10" height="14"/><rect x="330" y="335" width="10" height="14"/></g>`}
+ <rect x="199" y="0" width="22" height="440" fill="${dk}"/><rect x="0" y="209" width="420" height="22" fill="${dk}"/>
+ <path d="M-40 -20 Q20 200 -10 470 L-60 470 L-60 -20Z" fill="#7a2b3a"/><path d="M460 -20 Q400 200 430 470 L480 470 L480 -20Z" fill="#7a2b3a"/></g>
+ <g transform="translate(1080,210)"><circle r="78" fill="#f4f1de" stroke="${dk}" stroke-width="10"/>
+ <g stroke="${dk}" stroke-width="5"><line y1="-62" y2="-50"/><line y1="62" y2="50"/><line x1="-62" x2="-50"/><line x1="62" x2="50"/></g>
+ <line y2="-36" stroke="${dk}" stroke-width="9" stroke-linecap="round" transform="rotate(${(h%12)*30})"/><line y2="-56" stroke="${C.red}" stroke-width="5" stroke-linecap="round" transform="rotate(${m*6})"/><circle r="7" fill="${dk}"/></g>
+ <rect x="170" y="330" width="360" height="16" rx="4" fill="${dk}"/><rect x="200" y="270" width="70" height="60" rx="8" fill="#3d5a80"/><rect x="290" y="250" width="50" height="80" rx="6" fill="${C.red}" opacity=".8"/>
+ <path d="M420 330 q-10 -60 10 -90 q20 30 10 90z M440 330 q10 -70 50 -80 q-10 50 -40 80z M425 330 q-40 -40 -70 -40 q20 40 70 40z" fill="${C.teal}"/><rect x="405" y="300" width="60" height="30" rx="6" fill="#e07a5f"/>
+ <line x1="760" y1="0" x2="760" y2="130" stroke="${dk}" stroke-width="6"/><path d="M690 130 Q760 80 830 130 L860 190 L660 190Z" fill="#e9c46a"/>
+ ${day?'':`<path d="M660 190 L860 190 L1180 900 L340 900Z" fill="url(#lampPool)"/>`}`;
+}
+function table(){return `<rect x="0" y="860" width="1920" height="220" fill="#3b2f2f"/><rect x="0" y="860" width="1920" height="16" fill="#4e3d3d"/>
+ <g transform="translate(1250,800)"><path d="M0 0 h70 v60 q0 20 -20 20 h-30 q-20 0 -20 -20z" fill="#f4f1de"/><path d="M70 15 q30 0 30 20 q0 20 -30 20" fill="none" stroke="#f4f1de" stroke-width="10"/></g>`}
+function callcenter(t,red=0){
+ let s=`<rect width="1920" height="1080" fill="url(#cc)"/>`;
+ // back row of scammer silhouettes with monitors
+ for(let i=0;i<7;i++){const x=120+i*280,y=470;const bob=Math.sin(t*2+i)*3;
+  s+=`<rect x="${x-70}" y="${y-110}" width="140" height="90" rx="8" fill="#1b2a44"/><rect x="${x-62}" y="${y-102}" width="124" height="74" rx="4" fill="${i%2?'#3a6ea5':'#7a2b3a'}" opacity=".85"/>
+  <circle cx="${x}" cy="${y+bob-10}" r="34" fill="#0d0d14"/><path d="M${x-60} ${y+120} Q${x-60} ${y+30+bob} ${x} ${y+30+bob} Q${x+60} ${y+30+bob} ${x+60} ${y+120}Z" fill="#0d0d14"/>
+  <path d="M${x-36} ${y-14+bob} q36 -44 72 0" fill="none" stroke="#22222e" stroke-width="7"/>`;}
+ s+=`<rect x="0" y="560" width="1920" height="40" fill="#14141c"/>`;
+ s+=`<rect width="1920" height="1080" fill="${C.red}" opacity="${0.08+0.12*red*(0.6+0.4*Math.sin(t*8))}"/>`;
+ return s;
+}
+// ---------- characters ----------
+function denise(o){ // o: x,y,s,t,mouth,brow,wide,phone('hands'|'ear'|'none'),sweat,tilt,glow,day
+ const t=o.t||0,b=Math.sin(t*2.2)*3,bl=o.blink??blink(t);const w=o.brow||0,wide=o.wide||1,mo=o.mouth||0,shock=o.shock||0;
+ const head=`<g transform="translate(${Math.sin(t*0.9)*4},${440+b}) rotate(${(o.tilt||0)+Math.sin(t*.7)*2})">
+  <path d="M-112 10 Q-125 -120 0 -128 Q125 -120 112 10 Q118 90 80 100 L-80 100 Q-118 90 -112 10Z" fill="#c9ccd6"/>
+  <ellipse cx="0" cy="10" rx="92" ry="105" fill="${C.skin}"/>
+  <path d="M-96 -20 Q-90 -110 0 -112 Q90 -110 96 -20 Q60 -70 0 -66 Q-50 -66 -96 -20Z" fill="#dfe2ea"/>
+  <ellipse cx="-92" cy="18" rx="14" ry="22" fill="${C.skinS}"/><ellipse cx="92" cy="18" rx="14" ry="22" fill="${C.skinS}"/>
+  <g stroke="#7d7f8a" stroke-width="7" stroke-linecap="round"><line x1="-58" y1="${-28+6*w}" x2="-22" y2="${-30-14*w}"/><line x1="22" y1="${-30-14*w}" x2="58" y2="${-28+6*w}"/></g>
+  <g fill="#1d2433"><ellipse cx="${-40+(o.look||0)}" cy="2" rx="9" ry="${11*bl*wide}"/><ellipse cx="${40+(o.look||0)}" cy="2" rx="9" ry="${11*bl*wide}"/></g>
+  <g fill="none" stroke="#1d2433" stroke-width="5"><circle cx="-40" cy="2" r="28"/><circle cx="40" cy="2" r="28"/><line x1="-12" y1="0" x2="12" y2="0"/></g>
+  <path d="M-6 20 Q0 40 8 32" fill="none" stroke="#c98d6c" stroke-width="5" stroke-linecap="round"/>
+  ${shock>0?`<ellipse cx="0" cy="66" rx="${16*shock}" ry="${22*shock}" fill="#5a1f24"/>`:
+   mo>0.05?`<ellipse cx="0" cy="64" rx="${14+4*mo}" ry="${3+13*mo}" fill="#5a1f24"/>`:
+   `<path d="${(o.smile??0)>=0?'M-22 62 Q0 72 22 62':'M-20 68 Q0 58 20 68'}" fill="none" stroke="#9b3d3d" stroke-width="6" stroke-linecap="round"/>`}
+  <g fill="#f4a3a3" opacity=".35"><ellipse cx="-60" cy="40" rx="16" ry="9"/><ellipse cx="60" cy="40" rx="16" ry="9"/></g>
+  ${o.sweat?`<path d="M95 ${-40+(t*40)%30} q10 18 0 26 q-10 -8 0 -26z" fill="#9cd3ff" opacity="${o.sweat}"/>`:''}
+  ${o.phone==='ear'?`<g transform="translate(108,10) rotate(12)"><rect x="-22" y="-60" width="44" height="100" rx="10" fill="#0b0f18" stroke="#3a4558" stroke-width="4"/></g>`:''}
+ </g>`;
+ let arms='',ph='';
+ if(o.phone==='hands'){const bz=o.buzz?Math.sin(t*120)*6:0;
+  arms=`<path d="M-130 680 Q-150 820 -40 830" fill="none" stroke="#23867a" stroke-width="58" stroke-linecap="round"/><path d="M130 680 Q150 820 40 830" fill="none" stroke="${C.teal}" stroke-width="58" stroke-linecap="round"/>`;
+  ph=`<g transform="translate(${bz},800) rotate(${bz*.6})"><ellipse cx="0" cy="-30" rx="200" ry="160" fill="url(#glowB)" opacity="${o.glow??.8}"/><rect x="-48" y="-92" width="96" height="170" rx="16" fill="#0b0f18" stroke="#3a4558" stroke-width="5"/><rect x="-38" y="-78" width="76" height="140" rx="8" fill="${o.screen||'#6aa5ff'}"/>
+   ${o.buzz?`<g stroke="${C.yel}" stroke-width="5" fill="none" stroke-linecap="round"><path d="M-70 -70 q-12 12 0 24 q12 12 0 24"/><path d="M70 -70 q12 12 0 24 q-12 12 0 24"/></g>`:''}</g>
+   <ellipse cx="-45" cy="832" rx="34" ry="26" fill="${C.skin}"/><ellipse cx="45" cy="832" rx="34" ry="26" fill="${C.skin}"/>`;
+ }else if(o.phone==='ear'){
+  arms=`<path d="M-130 680 Q-150 820 -60 850" fill="none" stroke="#23867a" stroke-width="58" stroke-linecap="round"/><path d="M120 640 Q190 600 150 470" fill="none" stroke="${C.teal}" stroke-width="58" stroke-linecap="round"/><ellipse cx="140" cy="460" rx="30" ry="36" fill="${C.skin}"/>`;
+ }
+ return `<g transform="translate(${o.x},${o.y||0}) scale(${o.s||1})"><path d="M-170 1000 Q-175 640 -95 600 Q0 570 95 600 Q175 640 170 1000Z" fill="${C.teal}"/><path d="M-40 595 L0 700 L40 595Z" fill="#f4f1de"/><path d="M-95 600 Q-60 620 -55 700 L-75 1000 L-170 1000 Q-175 640 -95 600Z" fill="#23867a"/><rect x="-28" y="520" width="56" height="85" rx="20" fill="${C.skinS}"/>${head}${arms}${ph}</g>`;
+}
+function mark(o){ // scammer: x,y,s,t,mouth,brow(anger),smirk,lit
+ const t=o.t||0,b=Math.sin(t*2)*3,bl=blink(t,1.3),ang=o.brow||0,mo=o.mouth||0;
+ return `<g transform="translate(${o.x},${o.y||0}) scale(${o.s||1})">
+ <path d="M-190 1000 Q-190 640 -100 600 Q0 575 100 600 Q190 640 190 1000Z" fill="#2b2d42"/><path d="M-60 600 Q0 660 60 600 L50 640 Q0 690 -50 640Z" fill="#1f2033"/>
+ <rect x="-30" y="525" width="60" height="85" rx="20" fill="#c98f6b"/>
+ <g transform="translate(${Math.sin(t*.8)*3},${440+b}) rotate(${Math.sin(t*.6)*2})">
+  <ellipse cx="0" cy="10" rx="90" ry="108" fill="#d9a37e"/>
+  <path d="M-92 -10 Q-100 -120 0 -122 Q100 -120 92 -10 Q80 -70 40 -78 Q0 -60 -40 -78 Q-80 -70 -92 -10Z" fill="#1c1c24"/>
+  <ellipse cx="-90" cy="18" rx="13" ry="22" fill="#c98f6b"/><ellipse cx="90" cy="18" rx="13" ry="22" fill="#c98f6b"/>
+  <g stroke="#1c1c24" stroke-width="9" stroke-linecap="round"><line x1="-60" y1="${-30-6*ang}" x2="-20" y2="${-26+10*ang}"/><line x1="20" y1="${-26+10*ang}" x2="60" y2="${-30-6*ang}"/></g>
+  <g fill="#14141c"><ellipse cx="-38" cy="0" rx="10" ry="${8*bl}"/><ellipse cx="38" cy="0" rx="10" ry="${8*bl}"/></g>
+  <path d="M-6 18 Q0 40 8 34" fill="none" stroke="#a8714f" stroke-width="5" stroke-linecap="round"/>
+  <path d="M-70 50 Q-60 105 0 112 Q60 105 70 50 Q40 80 0 82 Q-40 80 -70 50Z" fill="#3a2e2e" opacity=".35"/>
+  ${mo>0.05?`<ellipse cx="0" cy="66" rx="${16+4*mo}" ry="${3+12*mo}" fill="#3a1414"/>`:`<path d="M-24 64 Q${o.smirk?10:0} ${o.smirk?78:70} 26 ${o.smirk?56:64}" fill="none" stroke="#7a3b3b" stroke-width="6" stroke-linecap="round"/>`}
+  <path d="M-104 0 Q-110 -150 0 -150 Q110 -150 104 0" fill="none" stroke="#2a2a35" stroke-width="12"/><rect x="-118" y="-10" width="30" height="56" rx="12" fill="#2a2a35"/><rect x="88" y="-10" width="30" height="56" rx="12" fill="#2a2a35"/>
+  <path d="M-104 40 Q-90 100 -30 82" fill="none" stroke="#2a2a35" stroke-width="7"/><circle cx="-28" cy="82" r="10" fill="${C.red}"/>
+ </g>
+ ${o.lit?`<rect x="-190" y="300" width="380" height="700" fill="${o.lit}" opacity=".12"/>`:''}
+ </g>`;
+}
+function person(x,y,s,col,t=0,face=true){return `<g transform="translate(${x},${y}) scale(${s})"><circle cy="${-150+Math.sin(t*2)*2}" r="55" fill="${face?'#e0b08c':col}"/>${face?`<circle cx="-18" cy="-150" r="6" fill="#1d2433"/><circle cx="18" cy="-150" r="6" fill="#1d2433"/><path d="M-15 -125 Q0 -118 15 -125" stroke="#7a3b3b" stroke-width="5" fill="none"/>`:''}<path d="M-90 60 Q-90 -80 0 -85 Q90 -80 90 60Z" fill="${col}"/></g>`}
+
+// ---------- reusable UI ----------
+function bubble(x,y,w,h,inner,o={}){return `<g transform="translate(${x},${y}) scale(${o.s??1})" opacity="${o.op??1}" filter="url(#sh)"><rect x="${-w/2}" y="${-h/2}" width="${w}" height="${h}" rx="34" fill="${o.fill||'#26303f'}" ${o.stroke?`stroke="${o.stroke}" stroke-width="6"`:''}/>${o.tail?`<path d="M${-w/2+60} ${h/2-4} l-40 50 l90 -50z" fill="${o.fill||'#26303f'}"/>`:''}${inner}</g>`}
+function smsAlert(x,y,s,op){return bubble(x,y,600,300,`${T(-260,-88,'🏦 FRAUD ALERT',{fs:34,c:'#ff6b74',w:800})}${T(-260,-30,'Did you attempt a purchase',{fs:34,w:500})}${T(-260,16,'of <tspan font-weight="800">$1,249.99</tspan>?',{fs:34,w:500})}${T(-260,80,'Reply YES or NO',{fs:36,c:C.yel,w:800})}`,{s,op,stroke:C.red,tail:1})}
+function pill(x,y,txt,col,s=1,op=1,fs=52){const w=txt.length*fs*0.62+90;return `<g transform="translate(${x},${y}) scale(${s})" opacity="${op}" filter="url(#sh)"><rect x="${-w/2}" y="-50" width="${w}" height="100" rx="44" fill="${col}"/>${T(0,fs*0.35,txt,{fs,a:'middle',w:800})}</g>`}
+function stamp(x,y,txt,s,op,col=C.red,rot=-8,fs=110){const w=txt.length*fs*0.5+80;return `<g transform="translate(${x},${y}) rotate(${rot}) scale(${s})" opacity="${op}"><rect x="${-w/2}" y="-${fs*0.65}" width="${w}" height="${fs*1.3}" rx="16" fill="none" stroke="${col}" stroke-width="12"/>${T(0,fs*0.36,txt,{fs,a:'middle',c:col,cls:'A'})}</g>`}
+function phoneBig(x,y,s,inner,o={}){return `<g transform="translate(${x},${y}) scale(${s}) rotate(${o.rot||0})" filter="url(#sh)"><rect x="-260" y="-500" width="520" height="1000" rx="70" fill="#05070c" stroke="#2a3446" stroke-width="14"/><rect x="-75" y="-478" width="150" height="34" rx="17" fill="#000"/>
+ <g transform="translate(0,0)">${inner}</g></g>`}
+function smsThread(t,msgs){ // msgs: [{who:'in'|'out',txt:[lines],at, hl, typing}]
+ let s=`<rect x="-235" y="-430" width="470" height="900" rx="10" fill="#0a0e16"/><circle cx="0" cy="-370" r="34" fill="#46526a"/>${T(0,-357,'B',{fs:34,a:'middle',w:800})}${T(0,-310,'Bank Alert',{fs:24,a:'middle',c:C.mut,w:600})}`;
+ let y=-260;
+ for(const m of msgs){if(t<m.at) break; const k=pop(t,m.at,.3);const lines=m.txt;const h=lines.length*40+40;const w=430;
+  const x=m.who==='in'?-215:215-(m.w||w);const fill=m.who==='in'?'#26303f':C.blue;
+  if(m.typing&&t<m.at+m.typing){s+=`<g transform="translate(${x+60},${y+30})"><rect x="-40" y="-30" width="120" height="60" rx="30" fill="#26303f"/>${[0,1,2].map(i=>`<circle cx="${-8+i*28}" cy="0" r="9" fill="#8c9ab3" opacity="${.4+.6*Math.abs(Math.sin(t*6+i))}"/>`).join('')}</g>`;y+=80;continue;}
+  s+=`<g transform="translate(${x+(m.w||w)/2},${y+h/2}) scale(${k}) translate(${-(x+(m.w||w)/2)},${-(y+h/2)})"><rect x="${x}" y="${y}" width="${m.w||w}" height="${h}" rx="28" fill="${fill}" ${m.hl&&t>m.hl?`stroke="${C.red}" stroke-width="6"`:''}/>${lines.map((l,i)=>T(x+24,y+52+i*40,l,{fs:29,w:600})).join('')}</g>`;
+  y+=h+24;}
+ return s;
+}
+// ---------- transitions / overlays ----------
+function wipeIn(t){if(t>0.45) return '';const p=EIO(t/0.45);const x=-200+p*2600;
+ return `<g><path d="M${x-2600} 0 L${x} 0 L${x-400} 1080 L${x-3000} 1080Z" fill="${C.navy}"/><path d="M${x} 0 L${x+90} 0 L${x-310} 1080 L${x-400} 1080Z" fill="${C.red}"/><path d="M${x+90} 0 L${x+120} 0 L${x-280} 1080 L${x-310} 1080Z" fill="${C.yel}"/></g>`}
+function flashIn(t){return t<0.25?`<rect width="1920" height="1080" fill="#fff" opacity="${1-t/0.25}"/>`:''}
+function glitchIn(t){if(t>0.3) return '';let s='';SEED=Math.floor(t*60)+7;for(let i=0;i<9;i++){s+=`<rect x="0" y="${rnd()*1080}" width="1920" height="${10+rnd()*60}" fill="${[C.red,'#36d6ff','#fff'][i%3]}" opacity="${.5*(1-t/0.3)}"/>`}return s}
+function chapterCard(t,dur,n,title){const p=pop(t,0.05,.45);
+ return `${bgNavy()}<g transform="${sc(960,540,0.85+0.15*p)}" opacity="${E(P(t,0,.2))}">${T(960,title.includes('|')?300:430,'PART '+n,{fs:64,a:'middle',c:C.red,cls:'A',ls:10})}${title.split('|').map((l,i)=>T(960,(title.includes('|')?500:600)+i*170,l,{fs:190,a:'middle',cls:'A'})).join('')}
+ <rect x="${960-110*E(P(t,.3,.7))}" y="${title.includes('|')?720:670}" width="${220*E(P(t,.3,.7))}" height="12" rx="6" fill="${C.red}"/></g>`}
+
+// ---------- scenes ----------
+const S={};
+S.kitchen=(t,d,p,ev)=>{ // ev: buzz,bubble,reply,spin,balance,gone,ring,shield,crack,think, closeup
+ const spin=ev.spin!=null?E(P(t,ev.spin,ev.spin+0.9)):0;const mins=42+40*spin;
+ const z=(p.zoom||1)*(1+0.04*E(t/d));const cx=p.cx||960,cy=p.cy||560;
+ const ring=ev.ring!=null&&t>ev.ring&&t<ev.ring+(p.ringDur||3);
+ const worried=(ev.bubble!=null&&t>ev.bubble+1)||p.worried;
+ const shockT=ev.balance!=null?E(P(t,ev.balance+0.4,ev.balance+0.7)):(p.shock||0);
+ let s=`<g transform="${sc(cx,cy,z)}">${kitchen(t,p.day,p.day?15:mins,p.day?8:7)}`;
+ s+=denise({x:820,t,phone:p.phone||'hands',buzz:(ev.buzz!=null&&t>ev.buzz&&t<ev.buzz+0.9)||ring,brow:worried?1:(p.brow||0),wide:(worried||shockT>0)?1.3:1,sweat:p.sweat||(worried&&t<(ev.spin??99)?.9:0),shock:shockT,mouth:talkM(t,p.talk&&(!p.talkFrom||t>p.talkFrom)),smile:p.smile??(worried?-1:0),tilt:p.tilt||0,screen:ring?'#2fb36b':undefined});
+ s+=table()+`</g>`;
+ if(ev.bubble!=null){const out=ev.spin!=null?1-E(P(t,ev.spin,ev.spin+.3)):1;s+=smsAlert(1360,450,0.6+0.4*pop(t,ev.bubble),fade(t,ev.bubble,.15)*out);}
+ if(ev.reply!=null){const out=ev.spin!=null?1-E(P(t,ev.spin,ev.spin+.3)):1;s+=pill(1580,680,'NO',C.blue,0.5+0.5*pop(t,ev.reply,.3),fade(t,ev.reply,.1)*out);}
+ if(ev.think!=null){s+=bubble(1300,330,560,170,T(0,18,p.thinkTxt||'"I never bought that!"',{fs:40,a:'middle',c:C.navy,w:800}),{fill:'#fff',s:pop(t,ev.think),op:fade(t,ev.think,.15)})+`<circle cx="1060" cy="460" r="22" fill="#fff" opacity="${fade(t,ev.think)}"/><circle cx="1010" cy="510" r="12" fill="#fff" opacity="${fade(t,ev.think)}"/>`}
+ if(ev.spin!=null&&t>ev.spin&&t<ev.spin+1.1){const o=Math.min(E(P(t,ev.spin,ev.spin+.2)),1-E(P(t,ev.spin+.85,ev.spin+1.1)));s+=`<g opacity="${o}"><rect x="0" y="420" width="1920" height="240" fill="${C.navy}" opacity=".92"/>${T(960,580,p.laterTxt||'40 MINUTES LATER',{fs:130,a:'middle',cls:'A'})}</g>`}
+ if(ev.balance!=null){const a=ev.balance;const amt=18400*(1-E(P(t,a+.3,a+1.0)));
+  s+=bubble(1250,500,660,380,`${T(-280,-110,'SAVINGS •••• 4417',{fs:34,c:'#5b6475',w:700})}${T(-280,20,'$'+amt.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}),{fs:110,c:t>a+.3?C.red:C.navy,w:800})}${T(-280,110,'Available balance',{fs:32,c:'#5b6475',w:500})}`,{fill:'#f4f6fb',op:fade(t,a,.2),s:0.8+0.2*pop(t,a)});
+  s+=`<rect width="1920" height="1080" fill="url(#redVig)" opacity="${0.9*E(P(t,a+.3,a+1))}"/>`;}
+ if(ev.gone!=null) s+=stamp(1250,770,'GONE',1.6-0.6*pop(t,ev.gone,.3),fade(t,ev.gone,.08));
+ if(ring) s+=bubble(1330,420,560,200,`${T(-240,-30,'📞 Incoming call',{fs:30,c:C.mut,w:600})}${T(-240,40,'Your Bank — Fraud Dept.',{fs:40,w:800})}`,{op:fade(t,ev.ring,.15),s:pop(t,ev.ring)});
+ if(ev.shield!=null){const cr=ev.crack!=null?E(P(t,ev.crack,ev.crack+.3)):0;const k=pop(t,ev.shield);
+  s+=`<g transform="translate(1350,360) scale(${k})" opacity="${fade(t,ev.shield)}"><path d="M0 -150 L130 -100 Q130 60 0 150 Q-130 60 -130 -100Z" fill="${C.grn}" stroke="#fff" stroke-width="10"/>${T(0,10,'HERO?',{fs:56,a:'middle',cls:'A'})}
+  ${cr?`<path d="M-20 -150 L10 -60 L-30 0 L20 60 L-5 150" fill="none" stroke="${C.navy}" stroke-width="${14*cr}"/>`:''}</g>`;
+  if(cr) s+=`<rect width="1920" height="1080" fill="url(#redVig)" opacity="${0.7*cr}"/>`;}
+ if(p.morningTxt) s+=G(T(960,140,p.morningTxt,{fs:80,a:'middle',cls:'A',c:C.navy}),'',fade(t,0.2,.4));
+ return s;
+};
+S.phone=(t,d,p,ev)=>{ // full-screen phone thread; p.msgs ; p.side text
+ let s=bgNavy();const z=1+0.05*E(t/d);
+ s+=`<g transform="${sc(700,540,z)}">${phoneBig(700,560,1.0,smsThread(t,p.msgs))}</g>`;
+ if(p.lens){const lx=700+Math.sin(t*1.3)*120,ly=420+Math.cos(t*1.1)*120;s+=`<g transform="translate(${lx},${ly})" opacity="${fade(t,ev.lens||0.3)}"><circle r="120" fill="#9cc3ff" opacity=".12" stroke="${C.yel}" stroke-width="16"/><line x1="85" y1="85" x2="190" y2="190" stroke="${C.yel}" stroke-width="30" stroke-linecap="round"/></g>`}
+ (p.checks||[]).forEach((c,i)=>{const a=ev['c'+i];if(a==null)return;s+=G(`<circle cx="0" cy="0" r="40" fill="${c.bad?C.red:C.grn}"/>${T(0,16,c.bad?'✕':'✓',{fs:48,a:'middle',w:900})}${T(70,18,c.txt,{fs:52,w:800})}`,`translate(${1180},${330+i*150}) scale(${pop(t,a)})`,fade(t,a,.1))});
+ if(p.stampTxt&&ev.stamp!=null) s+=stamp(1450,820,p.stampTxt,1.6-0.6*pop(t,ev.stamp,.3),fade(t,ev.stamp,.08),C.red,-8,100);
+ if(p.title) s+=G(T(1450,200,p.title,{fs:64,a:'middle',cls:'A',c:C.yel}),'',fade(t,0.2));
+ return s;
+};
+S.callcenter=(t,d,p,ev)=>{ // mark at desk, monitor content
+ const z=(p.zoom||1)*(1+0.04*E(t/d));
+ let s=`<g transform="${sc(960,600,z)}">${callcenter(t,p.red||0)}`;
+ s+=`<g><rect x="1080" y="440" width="620" height="440" rx="16" fill="#0f1726" stroke="#2a3a5a" stroke-width="8"/><rect x="1100" y="460" width="580" height="400" rx="8" fill="#0a1a2e"/>`;
+ const mon=p.monitor||[];mon.forEach((m,i)=>{const a=ev['m'+i]??0;if(t<a)return;s+=G(`<rect x="0" y="-36" width="540" height="64" rx="10" fill="${m.c||'#14304f'}"/>${T(20,8,m.txt,{fs:32,w:800,c:m.tc||C.wh})}`,`translate(1120,${520+i*84}) scale(${pop(t,a,.25)})`,fade(t,a,.1))});
+ s+=`<ellipse cx="1390" cy="660" rx="420" ry="300" fill="url(#${p.glow||'glowB'})" opacity=".55"/></g>`;
+ s+=mark({x:640,y:30,t,mouth:talkM(t,p.talk),brow:p.angry?1:0,smirk:p.smirk&&(ev.smirk==null||t>ev.smirk)});
+ s+=`<rect x="0" y="900" width="1920" height="180" fill="#101018"/></g>`;
+ if(p.access&&ev.access!=null) s+=G(`<rect x="-380" y="-90" width="760" height="180" rx="20" fill="#06210f" stroke="${C.grn}" stroke-width="8"/>${T(0,30,'ACCESS GRANTED',{fs:84,a:'middle',cls:'A',c:'#3ddc84'})}`,`translate(1390,330) scale(${pop(t,ev.access)})`,fade(t,ev.access,.1));
+ if(p.tag) s+=G(`<rect x="-230" y="-50" width="460" height="100" rx="14" fill="#fff"/>${T(0,-8,p.tag,{fs:36,a:'middle',c:C.navy,w:800})}${T(0,32,p.tag2||'',{fs:24,a:'middle',c:'#5b6475',w:600})}`,`translate(640,${300}) rotate(-4) scale(${pop(t,ev.tag||.3)})`,fade(t,ev.tag||.3));
+ return s;
+};
+S.split=(t,d,p,ev)=>{ // denise left | mark right
+ const red=p.red?(0.5+0.5*Math.sin(t*7)):0;
+ let L=`<g transform="${sc(480,540,1.02+0.03*E(t/d))}">${kitchen(t)}${denise({x:520,y:60,s:0.95,t,phone:'ear',brow:p.dBrow??0.6,wide:p.dWide||1.1,mouth:talkM(t,p.dTalk&&(ev.dTalk==null||t>ev.dTalk)),sweat:p.sweat||0,smile:-1})}</g>`;
+ let Rt=`<g transform="${sc(1440,540,1.02+0.03*E(t/d))}">${callcenter(t,p.red?1:0)}${mark({x:1440,y:60,s:0.95,t,mouth:talkM(t,p.mTalk!==false&&!(p.dTalk&&ev.dTalk!=null&&t>ev.dTalk)),brow:p.angry?1:0,smirk:p.smirk})}</g>`;
+ let s=`<defs><clipPath id="cL"><path d="M0 0 H1000 L920 1080 H0Z"/></clipPath><clipPath id="cR"><path d="M1000 0 H1920 V1080 H920Z"/></clipPath></defs>`;
+ s+=`<g clip-path="url(#cL)">${L}</g><g clip-path="url(#cR)">${Rt}</g><path d="M1000 0 L920 1080" stroke="${p.red?C.red:C.yel}" stroke-width="14"/>`;
+ if(p.red) s+=`<rect width="1920" height="1080" fill="url(#redVig)" opacity="${0.5+0.4*red}"/>`;
+ if(p.tag) s+=G(`<rect x="-250" y="-55" width="500" height="110" rx="14" fill="#fff"/>${T(0,-6,p.tag,{fs:40,a:'middle',c:C.navy,w:800})}${T(0,36,p.tag2||'',{fs:26,a:'middle',c:C.red,w:700})}`,`translate(1440,170) rotate(3) scale(${pop(t,ev.tag??.3)})`,fade(t,ev.tag??.3));
+ (p.cards||[]).forEach((c,i)=>{const a=ev['k'+i];if(a==null)return;s+=G(`<rect x="-170" y="-48" width="340" height="96" rx="16" fill="#0f1726" stroke="${C.red}" stroke-width="5"/>${T(-145,-8,c[0],{fs:24,c:C.mut,w:600})}${T(-145,30,c[1],{fs:36,w:800})}`,`translate(1735,${380+i*140}) scale(${pop(t,a)})`,fade(t,a,.1),'filter="url(#sh)"')});
+ if(p.say&&ev.say!=null) s+=bubble(1450,240,620,150,T(0,14,p.say,{fs:38,a:'middle',c:C.navy,w:800}),{fill:'#fff',s:pop(t,ev.say),op:fade(t,ev.say,.1)});
+ if(p.fake&&ev.fake!=null) s+=pill(480,200,p.fake,C.grn,pop(t,ev.fake),fade(t,ev.fake,.1),44);
+ if(p.digits&&ev.digits!=null){const ds='482913'.split('');ds.forEach((c,i)=>{const a=ev.digits+i*0.25;const k=E(P(t,a,a+.6));if(t<a)return;const x=560+(1300-560)*k,y=380-Math.sin(k*Math.PI)*180;s+=G(`<circle r="46" fill="${C.yel}"/>${T(0,20,c,{fs:56,a:'middle',c:C.navy,w:900})}`,`translate(${x},${y})`,1)})}
+ return s;
+};
+S.anatomy=(t,d,p,ev)=>{ // blueprint exploded phone with labels
+ let s=bgBlueprint();const parts=p.labels||['THE TEXT','THE CALL','THE CODE','THE "SAFE" ACCOUNT'];
+ const ex=E(P(t,0.3,1.4));
+ s+=`<g transform="translate(960,560) rotate(-8)"><g stroke="#9cc3ff" stroke-width="5" fill="none">
+  <rect x="${-160-ex*40}" y="${-300-ex*40}" width="320" height="600" rx="40"/><rect x="${-130+ex*30}" y="${-260+ex*20}" width="260" height="520" rx="20" stroke-dasharray="14 10"/>
+  <rect x="${-90}" y="${-150+ex*60}" width="180" height="120" rx="10"/><circle cx="0" cy="${180+ex*60}" r="40"/><path d="M-60 ${60+ex*50} h120 M-60 ${90+ex*50} h80"/></g></g>`;
+ const pos=[[420,260],[1500,300],[420,800],[1500,820]];
+ parts.forEach((l,i)=>{const a=ev['l'+i]??(0.8+i*0.5);if(t<a)return;const [x,y]=pos[i];const k=E(P(t,a,a+.4));
+  s+=`<line x1="960" y1="560" x2="${960+(x-960)*k}" y2="${560+(y-560)*k}" stroke="${C.yel}" stroke-width="4" stroke-dasharray="10 8"/><circle cx="960" cy="560" r="10" fill="${C.yel}"/>`;
+  s+=G(`<rect x="-230" y="-55" width="460" height="110" rx="12" fill="#0b2a55" stroke="${p.weak?C.red:C.yel}" stroke-width="5"/>${T(0,18,l,{fs:52,a:'middle',cls:'A',c:p.weak?'#ff6b74':C.wh})}`,`translate(${x},${y}) scale(${pop(t,a)})`,1);
+  if(p.weak) s+=`<circle cx="${x}" cy="${y}" r="${150+12*Math.sin(t*6+i)}" fill="none" stroke="${C.red}" stroke-width="6" opacity="${fade(t,a+.2)}"/>`;});
+ s+=G(T(960,120,p.title||'SCAM ANATOMY · CASE #001',{fs:56,a:'middle',cls:'A',c:'#9cc3ff'}),'',fade(t,.1));
+ return s;
+};
+S.casefile=(t,d,p,ev)=>{let s=bgNavy();
+ s+=`<g transform="translate(960,560) rotate(-3) scale(${0.9+0.1*pop(t,.1)})" filter="url(#sh)"><rect x="-560" y="-330" width="1120" height="660" rx="16" fill="#d9b77a"/><rect x="-560" y="-380" width="380" height="80" rx="16" fill="#d9b77a"/>
+ <rect x="-500" y="-270" width="1000" height="560" fill="#f4f1de"/>${T(-450,-180,'CASE FILE: DENISE R.',{fs:52,c:C.navy,cls:'A'})}
+ ${['Based on real reports to the FTC','and banks. Names changed.','Every step happens every day.'].map((l,i)=>T(-450,-80+i*70,typeOn(l,t,.5+i*0.8,40),{fs:42,c:'#333',w:600})).join('')}</g>`;
+ if(ev.stamp!=null) s+=stamp(1250,760,'COMPOSITE',1.6-0.6*pop(t,ev.stamp,.3),fade(t,ev.stamp,.08),C.red,-10,90);
+ return s;};
+S.guard=(t,d,p,ev)=>{let s=bgNavy();const down=ev.down!=null?E(P(t,ev.down,ev.down+0.8)):0;
+ s+=G(`<rect x="-420" y="-70" width="840" height="140" rx="20" fill="#fff"/>${T(0,22,'"Don\'t click strange links!"',{fs:52,a:'middle',c:C.navy,w:800})}`,`translate(960,200) rotate(-2) scale(${pop(t,.2)})`,fade(t,.2));
+ s+=`<g transform="translate(960,${600+down*380})" opacity="${1-down*0.6}"><path d="M0 -230 L200 -150 Q200 90 0 230 Q-200 90 -200 -150Z" fill="${C.grn}" stroke="#fff" stroke-width="14"/><rect x="-60" y="-30" width="120" height="100" rx="14" fill="#fff"/><path d="M-36 -30 v-30 a36 36 0 0 1 72 0 v30" fill="none" stroke="#fff" stroke-width="18"/>${T(0,200,'YOUR GUARD',{fs:50,a:'middle',cls:'A'})}</g>`;
+ if(ev.nolink!=null) s+=pill(1500,520,'NO LINK = SAFE?',C.red,pop(t,ev.nolink),fade(t,ev.nolink,.1),46);
+ return s;};
+S.darkweb=(t,d,p,ev)=>{let s=`<rect width="1920" height="1080" fill="#05060a"/>`;
+ for(let i=0;i<9;i++){const x=i*230;s+=`<rect x="${x}" y="80" width="180" height="760" fill="#0d1018" stroke="#1d2433" stroke-width="4"/>`;for(let j=0;j<12;j++){s+=`<circle cx="${x+30}" cy="${120+j*60}" r="6" fill="${(Math.floor(t*4+i+j)%3)?'#3ddc84':'#ff3b4e'}" opacity=".8"/>`}}
+ s+=`<rect width="1920" height="1080" fill="#000" opacity=".55"/>`;
+ s+=G(T(960,160,'DATA BREACH MARKET',{fs:84,a:'middle',cls:'A',c:'#ff6b74'}),'',fade(t,.1));
+ const cards=[['Denise R.','•••• 4417','Ohio'],['James T.','•••• 9021','Texas'],['Maria G.','•••• 3310','Florida'],['Robert K.','•••• 7742','Arizona']];
+ const belt=(t*160)%560;
+ s+=`<rect x="0" y="600" width="1920" height="40" fill="#1d2433"/>`;
+ cards.forEach((c,i)=>{const x=-300+i*560+belt;const sold=ev.sold!=null&&t>ev.sold+i*0.4;
+  s+=G(`<rect x="-200" y="-130" width="400" height="260" rx="18" fill="#f4f6fb"/><circle cx="-130" cy="-50" r="44" fill="#c9ccd6"/>${T(-70,-60,c[0],{fs:34,c:C.navy,w:800})}${T(-70,-15,c[1],{fs:28,c:'#5b6475',w:600})}${T(-170,60,'Address ✓  DOB ✓  Phone ✓',{fs:24,c:'#5b6475',w:600})}
+   <g transform="translate(150,-120) rotate(12)"><rect x="-55" y="-30" width="110" height="60" rx="10" fill="${C.yel}"/>${T(0,14,'$'+(2+i%3),{fs:38,a:'middle',c:C.navy,w:900})}</g>${sold?stamp(0,40,'SOLD',1,1,C.red,-12,70):''}`,`translate(${x},480)`,1,'filter="url(#sh)"')});
+ return s;};
+S.lock=(t,d,p,ev)=>{let s=bgNavy();const open=ev.open!=null?E(P(t,ev.open,ev.open+.4)):0;
+ s+=`<g transform="translate(700,580)"><rect x="-300" y="-260" width="600" height="560" rx="40" fill="#25324d" stroke="#3a4a6b" stroke-width="12"/><circle r="140" fill="#1b2438" stroke="#4a5a7b" stroke-width="12"/>
+ ${T(0,-180,'SAVINGS ACCOUNT',{fs:40,a:'middle',cls:'A',c:C.mut})}<g transform="rotate(${open*120})"><rect x="-12" y="-120" width="24" height="240" fill="#4a5a7b"/><rect x="-120" y="-12" width="240" height="24" fill="#4a5a7b"/></g></g>`;
+ s+=`<g transform="translate(700,${320-open*50})"><path d="M-70 0 v-60 a70 70 0 0 1 140 0 v${60-open*0}" fill="none" stroke="${open?C.grn:C.yel}" stroke-width="28" transform="${open?'translate(70,-30) rotate(25)':''}"/></g>`;
+ const code='482913';s+=`<g transform="translate(1380,420)"><rect x="-330" y="-80" width="660" height="160" rx="20" fill="#0f1726" stroke="${C.yel}" stroke-width="6"/>${T(-300,-100,'Password reset · enter code',{fs:30,c:C.mut,w:600})}${code.split('').map((c,i)=>{const a=(ev.code??0.5)+i*0.22;return t>a?T(-260+i*100,35,c,{fs:90,w:900,c:C.yel}):`<rect x="${-285+i*100}" y="30" width="60" height="8" fill="${C.mut}"/>`}).join('')}</g>`;
+ if(open) s+=`<ellipse cx="700" cy="580" rx="${500*open}" ry="${400*open}" fill="url(#glowG)"/>`;
+ if(ev.key!=null) s+=pill(1380,700,'THE CODE = THE KEY',C.red,pop(t,ev.key),fade(t,ev.key,.1),46);
+ return s;};
+S.transfer=(t,d,p,ev)=>{let s=bgNavy();const a=ev.type??0.3;
+ const amt=Math.min(18400,Math.floor(18400*E(P(t,a+0.6,a+1.6))));const sent=ev.sent!=null&&t>ev.sent;const pressed=ev.press!=null&&t>ev.press;
+ const inner=`<rect x="-235" y="-430" width="470" height="900" rx="10" fill="#0a0e16"/>${T(0,-350,'Send money',{fs:36,a:'middle',w:800})}
+ <rect x="-200" y="-280" width="400" height="90" rx="14" fill="#141c2b"/>${T(-180,-250,'To',{fs:22,c:C.mut,w:600})}${T(-180,-212,typeOn('"Secure Account"',t,a,22),{fs:32,w:800})}
+ <rect x="-200" y="-160" width="400" height="90" rx="14" fill="#141c2b"/>${T(-180,-130,'Amount',{fs:22,c:C.mut,w:600})}${T(-180,-92,'$'+amt.toLocaleString('en-US')+'.00',{fs:40,w:900,c:C.red})}
+ <rect x="-200" y="-40" width="400" height="90" rx="14" fill="#141c2b"/>${T(-180,-10,'Arrives',{fs:22,c:C.mut,w:600})}${T(-180,28,'Instantly ⚡',{fs:32,w:800})}
+ <rect x="-200" y="120" width="400" height="100" rx="50" fill="${sent?C.grn:C.blue}" transform="${pressed&&!sent?'translate(0,6) scale(0.97)':''}"/>${T(0,185,sent?'SENT ✓':'Confirm & Send',{fs:38,a:'middle',w:800})}`;
+ s+=`<g transform="${sc(760,540,1+0.04*E(t/d))}">${phoneBig(760,560,1,inner)}</g>`;
+ if(pressed&&!sent) s+=`<circle cx="760" cy="740" r="${40+60*P(t,ev.press,ev.press+.4)}" fill="none" stroke="#fff" stroke-width="6" opacity="${1-P(t,ev.press,ev.press+.4)}"/>`;
+ s+=G(T(1450,300,'"MOVE IT',{fs:110,a:'middle',cls:'A'})+T(1450,430,'TO PROTECT IT."',{fs:110,a:'middle',cls:'A',c:C.red}),'',fade(t,.4));
+ if(sent){s+=G(T(1450,620,'$18,400',{fs:120,a:'middle',cls:'A',c:C.yel})+T(1450,700,'gone in one tap',{fs:44,a:'middle',w:700,c:C.mut}),`translate(0,${-20*E(P(t,ev.sent,ev.sent+.4))})`,fade(t,ev.sent,.2))}
+ return s;};
+S.vault=(t,d,p,ev)=>{let s=bgNavy();const fall=ev.fall!=null?E(P(t,ev.fall,ev.fall+0.9)):0;
+ s+=`<g transform="translate(960,${520+fall*900}) rotate(${fall*25})" opacity="${1-fall*.3}"><rect x="-330" y="-330" width="660" height="660" rx="30" fill="#2f3b57" stroke="#5a6a8b" stroke-width="14"/><circle r="170" fill="#25324d" stroke="#6a7a9b" stroke-width="14"/>${T(0,-230,'SECURE',{fs:70,a:'middle',cls:'A',c:C.yel})}${T(0,260,'ACCOUNT',{fs:70,a:'middle',cls:'A',c:C.yel})}</g>`;
+ if(fall>0) s+=`<g opacity="${fall}"><ellipse cx="960" cy="520" rx="340" ry="340" fill="#000"/>${T(960,540,'EMPTY',{fs:100,a:'middle',cls:'A',c:'#ff6b74'})}</g>`;
+ const line='A REAL BANK WILL NEVER ASK YOU';const line2='TO MOVE YOUR MONEY TO PROTECT IT.';
+ if(ev.say!=null){s+=`<rect x="0" y="880" width="1920" height="200" fill="${C.red}" opacity="${fade(t,ev.say)}"/>`+T(960,965,typeOn(line,t,ev.say,30),{fs:56,a:'middle',cls:'A'})+T(960,1040,typeOn(line2,t,ev.say+1,30),{fs:56,a:'middle',cls:'A'})}
+ return s;};
+S.flow=(t,d,p,ev)=>{let s=bgNavy();
+ const nodes=[[260,560,'DENISE','$18,400',C.teal],[760,330,'MULE #1','"secure account"',C.red],[1200,760,'MULE #2','split & moved',C.red],[1660,430,'CRYPTO / CASH','gone in < 1 hour','#6c3fc5']];
+ nodes.forEach((n,i)=>{const a=ev['n'+i]??(0.3+i*1.2);if(t<a)return;
+  if(i>0){const [px,py]=nodes[i-1];const k=E(P(t,a-0.6,a));s+=`<path d="M${px} ${py} L${px+(n[0]-px)*k} ${py+(n[1]-py)*k}" stroke="${C.yel}" stroke-width="10" stroke-dasharray="24 14" stroke-dashoffset="${-t*80}"/>`;
+   for(let j=0;j<4;j++){const q=((t*0.7+j/4)%1);if(t>a){s+=`<g transform="translate(${px+(n[0]-px)*q},${py+(n[1]-py)*q})"><circle r="26" fill="#3ddc84"/>${T(0,12,'$',{fs:34,a:'middle',c:'#063',w:900})}</g>`}}}
+  s+=G(`${i===0?person(0,40,0.8,C.teal,t):`<circle r="100" fill="${n[4]}"/>${i===3?T(0,24,'₿',{fs:90,a:'middle',w:900}):person(0,70,0.6,'#1d2433',t,false)}`}${T(0,170,n[2],{fs:46,a:'middle',cls:'A'})}${T(0,215,n[3],{fs:28,a:'middle',c:C.mut,w:600})}`,`translate(${n[0]},${n[1]-60}) scale(${pop(t,a)})`,1)});
+ s+=G(T(960,120,'WHERE THE MONEY GOES',{fs:76,a:'middle',cls:'A'}),'',fade(t,.1));
+ return s;};
+S.verdict=(t,d,p,ev)=>{let s=bgNavy();
+ s+=`<g transform="translate(760,560) rotate(-4) scale(${0.9+0.1*pop(t,.1)})" filter="url(#sh)"><rect x="-340" y="-400" width="680" height="800" fill="#f4f6fb"/>${T(-290,-320,'TRANSFER RECEIPT',{fs:44,c:C.navy,cls:'A'})}
+ ${[['To','"Secure Account"'],['Amount','$18,400.00'],['Approved by','Denise R. (on her phone)'],['Status','Completed']].map((r,i)=>T(-290,-210+i*90,r[0],{fs:28,c:'#5b6475',w:600})+T(-290,-170+i*90,r[1],{fs:36,c:C.navy,w:800})).join('')}</g>`;
+ if(ev.stamp!=null) s+=stamp(760,700,'AUTHORIZED',1.6-0.6*pop(t,ev.stamp,.3),fade(t,ev.stamp,.08),C.red,-12,96);
+ if(ev.heart!=null){const cr=ev.crack!=null?E(P(t,ev.crack,ev.crack+.3)):0;s+=`<g transform="translate(1480,520) scale(${pop(t,ev.heart)})"><path d="M0 120 C-220 -20 -150 -200 0 -90 C150 -200 220 -20 0 120Z" fill="${C.red}"/>${T(0,10,'TRUST',{fs:52,a:'middle',cls:'A'})}${cr?`<path d="M0 -90 L-20 -30 L20 10 L-10 60 L0 120" stroke="${C.navy}" stroke-width="${12*cr}" fill="none"/>`:''}</g>`+G(T(1480,780,'HACKED',{fs:90,a:'middle',cls:'A',c:C.red}),'',cr)}
+ return s;};
+S.ai=(t,d,p,ev)=>{let s=bgNavy();
+ s+=`<g transform="translate(560,540)"><rect x="-250" y="-300" width="500" height="600" rx="60" fill="#1b2a44" stroke="#36d6ff" stroke-width="8"/><circle cx="-90" cy="-60" r="40" fill="#36d6ff" opacity="${.6+.4*Math.sin(t*5)}"/><circle cx="90" cy="-60" r="40" fill="#36d6ff" opacity="${.6+.4*Math.sin(t*5+1)}"/>
+ <rect x="-120" y="80" width="240" height="${20+30*Math.abs(Math.sin(t*9))}" rx="10" fill="#36d6ff"/>${T(0,-200,'AI',{fs:90,a:'middle',cls:'A',c:'#36d6ff'})}</g>`;
+ let wv='';for(let i=0;i<60;i++){const h=10+80*Math.abs(Math.sin(i*0.5+t*6))*Math.abs(Math.sin(i*0.13+t));wv+=`<rect x="${1000+i*14}" y="${300-h/2}" width="8" height="${h}" rx="4" fill="${C.yel}"/>`}
+ s+=G(wv+T(1420,420,'VOICE CLONE',{fs:52,a:'middle',cls:'A',c:C.yel}),'',fade(t,ev.voice??.3));
+ s+=G(`<rect x="-420" y="-80" width="840" height="160" rx="24" fill="#26303f"/>${T(-390,-15,typeOn('FRAUD ALERT: Did you attempt a purchase',t,(ev.write??1)+0.2,30),{fs:30,w:600})}${T(-390,35,typeOn('of $1,249.99? Reply YES or NO.',t,(ev.write??1)+1.6,30),{fs:30,w:600})}`,`translate(1420,700)`,fade(t,ev.write??1));
+ if(ev.tested!=null) s+=pill(1420,900,'TESTED ON THOUSANDS',C.red,pop(t,ev.tested),fade(t,ev.tested,.1),40);
+ return s;};
+S.psych=(t,d,p,ev)=>{let s=bgNavy();s+=G(T(960,170,'WHY IT WORKS',{fs:96,a:'middle',cls:'A'}),'',fade(t,.1));
+ const items=[['⏱️','URGENCY','No time to think'],['🏦','AUTHORITY','Bank name, calm voice, your data'],['🛡️','"HELPING"','You think you stop the fraud']];
+ items.forEach((it,i)=>{const a=ev['i'+i]??(0.5+i);if(t<a)return;const x=420+i*540;const act=(i===2?t>a:t>a&&t<(ev['i'+(i+1)]??99));
+  s+=G(`<rect x="-230" y="-260" width="460" height="520" rx="30" fill="#0f1a30" stroke="${act?C.red:'#24365a'}" stroke-width="${act?8:4}"/>${T(0,-80,it[0],{fs:130,a:'middle'})}${T(0,60,it[1],{fs:66,a:'middle',cls:'A'})}${T(0,130,it[2],{fs:28,a:'middle',c:'#c6d0e2',w:600})}`,`translate(${x},600) scale(${pop(t,a)*(act?1.04:1)})`,1,'filter="url(#sh)"')});
+ return s;};
+S.stat=(t,d,p,ev)=>{let s=bgNavy();SEED=11;for(let i=0;i<40;i++){const x=rnd()*1920,sp=200+rnd()*300,y=((t*sp+rnd()*1400)%1400)-200;s+=`<g transform="translate(${x},${y}) rotate(${t*90+i*30})" opacity=".55"><ellipse rx="34" ry="34" fill="${C.yel}"/><ellipse rx="24" ry="24" fill="#e9b949"/></g>`}
+ const v=15.9*E(P(t,.3,2.0));s+=T(960,380,'REPORTED FRAUD LOSSES · U.S. · 2025',{fs:40,a:'middle',c:C.yel,w:800});
+ s+=T(960,640,'$'+v.toFixed(1)+'B',{fs:300,a:'middle',cls:'A',c:C.red});
+ if(ev.top!=null) s+=G(`<rect x="-640" y="-60" width="1280" height="120" rx="20" fill="#0f1a30" stroke="${C.yel}" stroke-width="5"/>${T(0,18,'#1 most-reported text scam: fake bank alerts',{fs:44,a:'middle',w:800})}`,`translate(960,820) scale(${pop(t,ev.top)})`,fade(t,ev.top,.1));
+ s+=T(60,1040,'Source: U.S. Federal Trade Commission (FTC)',{fs:26,c:C.mut,w:500});return s;};
+S.checklist=(t,d,p,ev)=>{let s=bgNavy();const g=p.good;
+ s+=G(T(220,180,(g?'✅ ':'🚩 ')+p.title,{fs:96,cls:'A',c:g?'#3ddc84':C.wh}),'',fade(t,.1));
+ p.items.forEach((it,i)=>{const a=ev['i'+i]??(0.5+i*1.2);if(t<a)return;const act=t>a&&t<(ev['i'+(i+1)]??d+1);
+  s+=G(`<rect x="-20" y="-60" width="1500" height="120" rx="24" fill="${act?(g?'#0c3a22':'#3a0d15'):'#0f1a30'}" stroke="${act?(g?C.grn:C.red):'#24365a'}" stroke-width="${act?6:3}"/><circle cx="70" cy="0" r="42" fill="${g?C.grn:C.red}"/>${T(70,18,String(i+1),{fs:50,a:'middle',cls:'A'})}${T(140,18,it,{fs:46,w:700})}${!g&&act?`<g transform="translate(1420,0) rotate(${Math.sin(t*8)*10})"><line x1="0" y1="40" x2="0" y2="-50" stroke="#ddd" stroke-width="6"/><path d="M0 -50 L60 -35 L0 -15Z" fill="${C.red}"/></g>`:''}`,`translate(${210+80*(1-E(P(t,a,a+.3)))},${320+i*140})`,fade(t,a,.2))});
+ return s;};
+S.report=(t,d,p,ev)=>{let s=bgNavy();
+ [['ReportFraud.ftc.gov',ev.u0??.4,300],['ic3.gov',ev.u1??2,640]].forEach(([u,a,y])=>{if(t<a-0.2)return;s+=G(`<rect x="-640" y="-110" width="1280" height="220" rx="22" fill="#f4f6fb"/><rect x="-640" y="-110" width="1280" height="60" rx="22" fill="#dfe4ee"/><circle cx="-600" cy="-80" r="10" fill="#ff5f57"/><circle cx="-570" cy="-80" r="10" fill="#febc2e"/><circle cx="-540" cy="-80" r="10" fill="#28c840"/>
+  <rect x="-560" y="-10" width="1120" height="80" rx="40" fill="#fff" stroke="#c9d1e0" stroke-width="3"/>${T(-520,45,'🔒 '+typeOn(u,t,a,18)+(Math.floor(t*2)%2?'|':''),{fs:44,c:C.navy,w:700})}`,`translate(960,${y}) scale(${pop(t,a-.2)})`,1,'filter="url(#sh)"')});
+ if(ev.pw!=null) s+=pill(960,920,'Then change your passwords 🔑',C.blue,pop(t,ev.pw),fade(t,ev.pw,.1),42);return s;};
+S.share=(t,d,p,ev)=>{let s=bgNavy();
+ s+=phoneBig(560,560,0.85,`<rect x="-235" y="-430" width="470" height="900" rx="10" fill="#0a0e16"/>${T(0,-340,'Family 👨‍👩‍👧',{fs:34,a:'middle',w:800})}<g transform="translate(0,-120)"><rect x="-200" y="-120" width="400" height="240" rx="20" fill="#1b2a44"/>${T(0,10,'▶',{fs:90,a:'middle',c:C.red})}${T(0,100,'Scam Anatomy',{fs:26,a:'middle',c:C.mut,w:700})}</g>`);
+ const fam=[['Mom',1150,330,'#e07a5f'],['Grandpa',1550,430,'#3d5a80'],['Aunt Sue',1300,760,'#8e7dbe']];
+ fam.forEach((f,i)=>{const a=(ev.send??.6)+i*0.6;if(t<a)return;const k=E(P(t,a,a+.5));s+=`<g transform="translate(${760+(f[1]-760)*k},${440+(f[2]-440)*k})"><circle r="24" fill="${C.yel}"/></g>`;
+  if(k>=1)s+=G(person(0,60,0.7,f[3],t)+T(0,140,f[0],{fs:40,a:'middle',w:800})+`<path d="M60 -150 C40 -175 0 -165 20 -130 L60 -100 L100 -130 C120 -165 80 -175 60 -150Z" fill="${C.red}" transform="translate(0,${-10*Math.sin(t*4)})"/>`,`translate(${f[1]},${f[2]}) scale(${pop(t,a+.5)})`,1)});
+ return s;};
+S.next=(t,d,p,ev)=>{let s=bgNavy();for(let i=0;i<3;i++){const x=560+i*400;s+=G(person(0,0,1.2,'#1d2433',t+i,false)+T(0,-150,'?',{fs:110,a:'middle',cls:'A',c:C.yel}),`translate(${x},860) scale(${pop(t,.3+i*.3)})`,1)}
+ s+=G(T(960,200,'NEXT ON SCAM ANATOMY',{fs:44,a:'middle',c:C.yel,w:800})+T(960,370,'MONEY MULES',{fs:180,a:'middle',cls:'A',c:C.red}),'',fade(t,.1));return s;};
+S.endscreen=(t,d,p,ev)=>{let s=bgNavy();s+=T(960,200,'SCAM <tspan fill="#E63946">ANATOMY</tspan>',{fs:120,a:'middle',cls:'A'})+T(960,270,'How scams work. How to stop them.',{fs:40,a:'middle',c:'#c6d0e2',w:600});
+ s+=`<rect x="200" y="380" width="760" height="428" rx="20" fill="none" stroke="#24365a" stroke-width="4" stroke-dasharray="16 12"/><circle cx="1400" cy="594" r="200" fill="none" stroke="#24365a" stroke-width="4" stroke-dasharray="16 12"/>`;return s;};
+S.chapter=(t,d,p)=>chapterCard(t,d,p.n,p.title);
+
+// ---------- driver ----------
+let SHOT=null;
+window.setup=shot=>{SHOT=shot};
+window.frame=t=>{const sh=SHOT;const fn=S[sh.scene];let s=fn(t,sh.dur,sh.p||{},sh.ev||{});
+ if(sh.trans==='wipe') s+=wipeIn(t);else if(sh.trans==='flash') s+=flashIn(t);else if(sh.trans==='glitch') s+=glitchIn(t);
+ document.getElementById('root').innerHTML=s;};
+document.fonts.ready.then(()=>{window.DONE=true});
+</script></body></html>
