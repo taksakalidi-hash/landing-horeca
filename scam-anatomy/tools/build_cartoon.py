@@ -69,7 +69,7 @@ PLAN = {
  38: ("next", {}, {}, "glitch"),
  27: ("costumes", {"mode": "intro"}, {"c0": "different costumes"}, "glitch"),
  28: ("costumes", {"mode": "cards"}, {"c0": "package", "c1": "Amazon", "c2": "government"}, "wipe"),
- 29: ("costumes", {"mode": "chips"}, {"e0": "Scare", "e1": "call you", "e2": "get the code", "e3": "move your money"}, None),
+ 29: ("costumes", {"mode": "chips"}, {"e0": "Scare", "e1": "call you", "e2": "get the code", "e3": "move your money"}, "glitch"),
  33: ("quiz", {}, {"pause": "PAUSE_START", "resume": "PAUSE_END", "f0": "REVEAL+0", "f1": "REVEAL+0.5", "f2": "REVEAL+1.0", "f3": "REVEAL+1.5"}, "wipe"),
 }
 INSERT = {5: [("anim", "intro-3d"), ("chapter", 1, "THE TEXT")], 10: [("chapter", 2, "THE CALL"), ("anim", "ringing-phone-3d")],
@@ -187,7 +187,7 @@ def add_sfx(at_frame, name, g=.8):
 for idx, text in enumerate(paras):
     for ins in INSERT.get(idx, []):
         if ins[0] == "anim":
-            n = anim_frames(ins[1]); segs.append(("anim", ins[1], n))
+            n = anim_frames(ins[1]) - (2 if ins[1] == "alert-transition-3d" else 0); segs.append(("anim", ins[1], n))
             add_sfx(frame, {"intro-3d": "whoosh", "ringing-phone-3d": "ring", "alert-transition-3d": "impact"}[ins[1]], .9)
         else:
             n = 2 * FPS; sid = f"c{ins[1]}"; chapters[ins[2].replace("|", " ")] = frame / FPS
@@ -244,8 +244,10 @@ print("total", TOTAL / FPS, "s; jobs", len(jobs), flush=True)
 # outgoing half of each wipe: the shot before a wipe-in covers itself at its end
 byid = {j["id"]: j for j in jobs}
 for (k1, n1, _), (k2, n2, _) in zip(segs, segs[1:]):
-    if k1 == "seg" and k2 == "seg" and byid[n2]["shot"].get("trans") == "wipe":
-        byid[n1]["shot"]["transOut"] = "wipe"
+    if k1 == "seg" and (k2 == "anim" or byid[n2]["shot"].get("trans") == "wipe"):
+        byid[n1]["shot"]["transOut"] = "wipe"      # cover the 2D shot before a wipe-in or a 3D clip
+    if k1 == "anim" and k2 == "seg" and byid[n2]["shot"].get("trans") in ("wipe", None):
+        byid[n2]["shot"]["trans"] = "flash"        # 3D clip -> 2D: flash instead of a half wipe
 # ---------------- render (parallel workers) ----------------
 W = 4; buckets = [[] for _ in range(W)]; loads = [0] * W
 for j in sorted(jobs, key=lambda j: -j["frames"]):
