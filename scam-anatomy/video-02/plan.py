@@ -47,6 +47,7 @@ SHOTS = [
  ("Moving money for criminals", ("law", {"env": "court"}, {"title": 0.2, "close": "Banks close", "report": "report them", "charges": "federal charges"}, "wipe")),
  ("And it's not rare", ("stat", {"env": "news", "ticker": "U.S. LAW ENFORCEMENT TARGETS MONEY MULES IN ANNUAL CRACKDOWN  •  FAKE JOB OFFERS USED TO RECRUIT", "value": 4000, "int": 1, "prefix": "", "suffix": "+",
      "label": "SUSPECTED MONEY MULES · ONE U.S. CRACKDOWN", "top": "Warning letters · frozen accounts · charges", "src": "Source: U.S. Department of Justice, Money Mule Initiative"}, {"top": "suspected money"}, "wipe")),
+ ("And here's what most people", ("trace", {"env": "map"}, {"n0": 0, "n1": 0, "n2": 0, "n3": 0, "fog": 0, "last": "last real name"}, "wipe")),
  ("For Tyler, the consequences", ("checklist", {"env": "pad", "title": "What Tyler lost", "items": ["Bank account closed", "Flagged: hard to open a new account", "Had to pay the commission back"]},
      {"i0": "closed his account", "i1": "flagged", "i2": "pay it back"}, "wipe")),
  ("And Linda?", ("romance", {"from": "Captain Mike", "smile": -1, "brow": 1, "noHearts": 1, "vanish": 1, "msgs": [{"who": "in", "txt": ["Good night, my love ❤️"], "at": -1},
