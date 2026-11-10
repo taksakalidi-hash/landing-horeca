@@ -88,6 +88,7 @@ HIGHLIGHT = ["NO", "$18,400", "$1,249", "482913", "$15.9 billion", "code", "secu
 N_PARAS = 39
 CHAPTER_MARKS = {24: "Why the bank said no", 27: "Same scam, different costumes", 30: "Why it works", 33: "Quick test + 5 red flags", 38: "Next: money mules"}
 HEART_IDX = {17}
+CHAPTER_ENV = False
 LONG_PAUSE = {4, 38}
 PLAN_FILE = os.path.join(VDIR, "plan.py")
 if os.path.exists(PLAN_FILE):
@@ -202,7 +203,7 @@ for idx, text in enumerate(paras):
             add_sfx(frame, {"intro-3d": "whoosh", "ringing-phone-3d": "ring", "alert-transition-3d": "impact"}.get(ins[1], "whoosh"), .9)
         else:
             n = 2 * FPS; sid = f"c{ins[1]}"; chapters[ins[2].replace("|", " ")] = frame / FPS
-            jobs.append({"id": sid, "frames": n, "shot": {"scene": "chapter", "dur": 2, "p": {"n": ins[1], "title": ins[2]}, "trans": "wipe"}}); segs.append(("seg", sid, n))
+            jobs.append({"id": sid, "frames": n, "shot": {"scene": "chapter", "dur": 2, "p": {"n": ins[1], "title": ins[2], "env": CHAPTER_ENV}, "trans": "wipe"}}); segs.append(("seg", sid, n))
             add_sfx(frame, "whoosh", .9); add_sfx(frame + 8, "stamp", .6)
         frame += n
     special = {}
@@ -214,7 +215,9 @@ for idx, text in enumerate(paras):
     voiced = len(a) / SR; pause = .45 if idx not in LONG_PAUSE else .9
     if special: pause = 3.2
     n = int(math.ceil((voiced + pause) * FPS)); d = n / FPS
-    scene, p, ev, trans = PLAN[idx]
+    entry = PLAN[idx]
+    parts = entry if isinstance(entry, list) else [tuple(entry) + (0,)]
+    scene, p, ev, trans = parts[0][:4]
     def evt(v):
         if isinstance(v, str) and special and v.split("+")[0] in special:
             b_, _, o_ = v.partition("+"); return special[b_] + (float(o_) if o_ else 0)
@@ -222,12 +225,24 @@ for idx, text in enumerate(paras):
     evr = {k: evt(v) for k, v in ev.items()}
     pr = resolve(p, text, voiced)
     sid = f"p{idx:02d}"
-    jobs.append({"id": sid, "frames": n, "shot": {"scene": scene, "dur": d, "p": pr, "ev": evr, "trans": trans}}); segs.append(("seg", sid, n))
+    if len(parts) == 1:
+        jobs.append({"id": sid, "frames": n, "shot": {"scene": scene, "dur": d, "p": pr, "ev": evr, "trans": trans}}); segs.append(("seg", sid, n))
+    else:
+        starts = [0] + [int(round(kw_time(text, pt[4], voiced) * FPS)) for pt in parts[1:]] + [n]
+        evr, pr = {}, {}
+        for k_, pt in enumerate(parts):
+            f0, f1 = starts[k_], starts[k_ + 1]; off = f0 / FPS
+            e_ = {kk: evt(vv) for kk, vv in pt[2].items()}
+            for kk, vv in e_.items(): evr[f"{kk}_{k_}"] = vv
+            jid = sid if k_ == 0 else f"{sid}{'abcdefg'[k_]}"
+            jobs.append({"id": jid, "frames": f1 - f0, "shot": {"scene": pt[0], "dur": (f1 - f0) / FPS, "p": resolve(pt[1], text, voiced),
+                         "ev": {kk: vv - off for kk, vv in e_.items()}, "trans": pt[3]}})
+            segs.append(("seg", jid, f1 - f0))
     audio.append((frame, a, 1.0, "voice"))
     if trans: add_sfx(frame, TRANS_SFX[trans], .7)
     for k, v in evr.items():
         if v is None or v < 0: continue
-        key = k if k in SFX_FOR else re.sub(r"\d+$", "", k)
+        k2 = re.sub(r"_\d+$", "", k); key = k2 if k2 in SFX_FOR else re.sub(r"\d+$", "", k2)
         add_sfx(frame + int(v * FPS), SFX_FOR.get(key), .7)
     for m in pr.get("msgs", []) if isinstance(pr, dict) else []:
         if isinstance(m.get("at"), (int, float)) and m["at"] >= 0: add_sfx(frame + int(m["at"] * FPS), "ding", .6)
