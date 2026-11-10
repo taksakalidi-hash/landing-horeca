@@ -13,6 +13,9 @@ SHORTS = [
     ("short4-one-text", ["p00", "p01", "p02"], "ONE TEXT.|$18,400 GONE", "Don't reply to this"),
 ]
 
+SF = os.path.join(VDIR, "shorts.py")
+if os.path.exists(SF): exec(open(SF, encoding="utf-8").read())
+
 def dur(f):
     return float(subprocess.check_output(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", f]).decode())
 starts, t = {}, 0.0

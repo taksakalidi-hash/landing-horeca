@@ -16,7 +16,6 @@ os.makedirs(SEG, exist_ok=True)
 
 md = open(os.path.join(VDIR, "script.md"), encoding="utf-8").read().split("## Чистый текст")[0]
 paras = [m.group(1).strip() for l in md.splitlines() if (m := re.match(r"^\| (.+?) \| (.+?) \|$", l)) and not l.startswith(("| EN", "|---"))]
-assert len(paras) == 39, len(paras)
 
 # ---------------- shot plan ----------------
 ALERT = ['FRAUD ALERT: Did you attempt', 'a purchase of $1,249.99?', 'Reply YES or NO']
@@ -78,13 +77,23 @@ TENSE = set(range(17, 24))
 SFX_FOR = {"buzz": "buzz", "bubble": "ding", "reply": "pop", "spin": "tick", "balance": "drain", "gone": "impact", "ring": "ring", "shield": "pop", "crack": "glass",
            "stamp": "stamp", "think": "pop", "m": "blip", "k": "blip", "c": "tick", "sold": "stamp", "digits": "blip", "open": "unlock", "access": "success", "press": "click",
            "sent": "cash", "fall": "impact", "say": "type", "n": "whoosh_s", "heart": "pop", "tested": "pop", "i": "pop", "u": "type", "pw": "pop", "send": "whoosh_s",
-           "top": "pop", "f": "stamp", "e": "pop", "pause": "tick", "resume": "ding", "down": "whoosh_d", "nolink": "pop", "l": "pop", "code": "type", "key": "pop", "write": "type", "voice": "synth", "fake": "ding", "tag": "pop", "dTalk": None, "smirk": None, "type": "type"}
+           "top": "pop", "notif": "ding", "money": "cash", "cash": "type", "keep": "pop", "last": "stamp", "fog": "whoosh_d", "sell": "pop", "bad": "stamp", "frozen": "glass", "letter": "whoosh_s", "k": "stamp", "close": "pop", "report": "pop", "charges": "impact", "title": "pop", "reveal": "glitch", "fbi": "impact", "sal": "blip", "rem": "blip", "exp": "blip", "now": "blip", "hl": "tick", "label": "pop", "shock": "impact", "f": "stamp", "e": "pop", "pause": "tick", "resume": "ding", "down": "whoosh_d", "nolink": "pop", "l": "pop", "code": "type", "key": "pop", "write": "type", "voice": "synth", "fake": "ding", "tag": "pop", "dTalk": None, "smirk": None, "type": "type"}
 TRANS_SFX = {"wipe": "whoosh", "glitch": "glitch", "flash": "impact"}
 TTS_FIX = [("FTC", "F.T.C."), ("Mrs. R.", "Missus R."), ("Mrs. R", "Missus R")]
 CAP_FIX = [("one thousand, two hundred and forty-nine dollars", "$1,249"), ("eighteen thousand, four hundred dollars", "$18,400"), ("4-8-2-9-1-3", "482913"),
            ("fifteen point nine billion dollars", "$15.9 billion"), ("ReportFraud dot F-T-C dot gov, and I-C-3 dot gov", "ReportFraud.ftc.gov and ic3.gov")]
 HIGHLIGHT = ["NO", "$18,400", "$1,249", "482913", "$15.9 billion", "code", "secure account", "caller ID can lie", "never", "red flags", "spoofing", "money mule",
              "hang up", "AI", "authorized payment", "trust"]
+
+N_PARAS = 39
+CHAPTER_MARKS = {24: "Why the bank said no", 27: "Same scam, different costumes", 30: "Why it works", 33: "Quick test + 5 red flags", 38: "Next: money mules"}
+HEART_IDX = {17}
+LONG_PAUSE = {4, 38}
+PLAN_FILE = os.path.join(VDIR, "plan.py")
+if os.path.exists(PLAN_FILE):
+    exec(open(PLAN_FILE, encoding="utf-8").read())   # per-video overrides: PLAN, INSERT, TENSE, N_PARAS, CHAPTER_MARKS, ...
+assert len(paras) == N_PARAS, (len(paras), N_PARAS)
+assert sorted(PLAN) == list(range(N_PARAS)), sorted(set(range(N_PARAS)) - set(PLAN))
 
 # ---------------- audio synth ----------------
 rng = np.random.default_rng(5)
@@ -165,6 +174,8 @@ def tts(text):
 
 def kw_time(text, key, voiced):
     if isinstance(key, (int, float)): return float(key)
+    m_ = re.match(r"^(.*)\+(\d+(?:\.\d+)?)$", key)
+    if m_: return kw_time(text, m_.group(1), voiced) + float(m_.group(2))
     i = text.lower().find(key.lower())
     if i < 0: print("WARN keyword not found:", key, "|", text[:60]); return voiced * .5
     return voiced * i / len(text)
@@ -188,7 +199,7 @@ for idx, text in enumerate(paras):
     for ins in INSERT.get(idx, []):
         if ins[0] == "anim":
             n = anim_frames(ins[1]) - (2 if ins[1] == "alert-transition-3d" else 0); segs.append(("anim", ins[1], n))
-            add_sfx(frame, {"intro-3d": "whoosh", "ringing-phone-3d": "ring", "alert-transition-3d": "impact"}[ins[1]], .9)
+            add_sfx(frame, {"intro-3d": "whoosh", "ringing-phone-3d": "ring", "alert-transition-3d": "impact"}.get(ins[1], "whoosh"), .9)
         else:
             n = 2 * FPS; sid = f"c{ins[1]}"; chapters[ins[2].replace("|", " ")] = frame / FPS
             jobs.append({"id": sid, "frames": n, "shot": {"scene": "chapter", "dur": 2, "p": {"n": ins[1], "title": ins[2]}, "trans": "wipe"}}); segs.append(("seg", sid, n))
@@ -200,7 +211,7 @@ for idx, text in enumerate(paras):
         a = np.concatenate([A1, np.zeros(int(gap * SR), np.float32), A2]); special = {"PAUSE_START": len(A1) / SR, "PAUSE_END": len(A1) / SR + gap, "REVEAL": len(a) / SR + .2}
     else:
         a = tts(text)
-    voiced = len(a) / SR; pause = .45 if idx not in (4, 38) else .9
+    voiced = len(a) / SR; pause = .45 if idx not in LONG_PAUSE else .9
     if special: pause = 3.2
     n = int(math.ceil((voiced + pause) * FPS)); d = n / FPS
     scene, p, ev, trans = PLAN[idx]
@@ -221,7 +232,7 @@ for idx, text in enumerate(paras):
     for m in pr.get("msgs", []) if isinstance(pr, dict) else []:
         if isinstance(m.get("at"), (int, float)) and m["at"] >= 0: add_sfx(frame + int(m["at"] * FPS), "ding", .6)
     if idx in TENSE: tense_ranges.append((frame, frame + n))
-    if idx == 17: audio.append((frame, heartbeat(d), .8, "fx"))
+    if idx in HEART_IDX: audio.append((frame, heartbeat(d), .8, "fx"))
     # captions
     cap = text
     for x, y in CAP_FIX: cap = cap.replace(x, y)
@@ -233,8 +244,7 @@ for idx, text in enumerate(paras):
     tot = sum(len(c) for c in chunks); t0 = frame / FPS
     for c in chunks:
         dd = voiced * len(c) / tot; caps.append((t0, t0 + dd, c)); t0 += dd
-    if idx in (27, 30, 33, 38): chapters[{27: "Same scam, different costumes", 30: "Why it works", 33: "Quick test + 5 red flags", 38: "Next: money mules"}[idx]] = frame / FPS
-    if idx == 24: chapters["Why the bank said no"] = frame / FPS
+    if idx in CHAPTER_MARKS: chapters[CHAPTER_MARKS[idx]] = frame / FPS
     frame += n
 jobs.append({"id": "end", "frames": 15 * FPS, "shot": {"scene": "endscreen", "dur": 15, "p": {}, "ev": {}, "trans": "wipe"}}); segs.append(("seg", "end", 15 * FPS))
 add_sfx(frame, "whoosh", .7); frame += 15 * FPS
