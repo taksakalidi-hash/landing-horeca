@@ -59,7 +59,7 @@ SHOTS = [
      {"pause": "PAUSE_START", "resume": "PAUSE_END", "f0": "REVEAL+0", "f1": "REVEAL+0.4", "f2": "REVEAL+0.8", "f3": "REVEAL+1.2", "f4": "REVEAL+1.6"}, "wipe")),
  ("So here are the five red flags", ("checklist", {"env": "board", "title": "5 red flags of a mule job", "items": ["Big pay for a job you didn't apply for", "Money lands in YOUR account",
      "You forward it: crypto / gift cards", "You keep a percentage", "Urgent, chat-only"]}, {"i0": "One:", "i1": "Two:", "i2": "Three:", "i3": "Four:", "i4": "five:"}, "wipe")),
- ("And if someone asks", ("costumes", {"env": "stage", "mode": "intro", "icons": [["❤️", "LOVE"], ["💼", "JOB"], ["🤝", "FAVOR"]]}, {"c0": "same scam"}, "glitch")),
+ ("And if someone asks", ("costumes", {"env": "stage", "mode": "intro", "icons": [["❤️", "LOVE"], ["💼", "JOB"], ["🤝", "FAVOR"]]}, {"c0": "out of"}, "glitch")),
  ("So how do you check", ("checklist", {"env": "board", "good": 1, "title": "The 5-minute job check", "items": ["Search: company + \"scam\"", "Video call + written contract", "Follow the money"]},
      {"i0": "check if", "i1": "three quick", "i2": "five minutes"}, "wipe")),
  ("Test one", ("laptop", {"env": "desk", "kind": "search", "q": "GlobalPay Solutions scam", "results": [

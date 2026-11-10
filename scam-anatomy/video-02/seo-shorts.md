@@ -4,20 +4,29 @@
 | # | EN | RU |
 |---|---|---|
 | ⭐ 1 | This "Remote Job" Turns You Into a Criminal (Money Mules Explained) | Эта «удалённая работа» делает тебя преступником (денежные мулы) |
-| 2 | He Took a Remote Job. Then the FBI Knocked. | Он взял удалённую работу. Потом постучало ФБР |
+| 2 | He Took a Remote Job. Then Federal Agents Knocked. | Он взял удалённую работу. Потом постучали федеральные агенты |
 | 3 | Where Stolen Money Goes (And Who Gets Caught) | Куда уходят украденные деньги (и кого ловят) |
 | 4 | The Job Offer You Should Never Accept | Предложение работы, которое нельзя принимать |
 
 **Рекомендую №1.** В нём есть знакомое всем «удалённая работа», страх («станешь преступником») и поисковый запрос «money mules explained». Превью **A**: «THIS JOB MADE HIM A CRIMINAL».
 
-## Описание (вставить целиком; главы — после сборки ниже)
+## Описание (вставить целиком)
 ```
 A friendly recruiter. A remote job. $3,500 a month for "payment processing." It sounds perfect, until you realize you're moving stolen money for scammers.
 
 This is how money mule scams work, step by step: the fake job, the deposit, the Bitcoin ATM, and the knock on the door. Plus the 5 red flags of a money mule job, and what to do if you're already involved.
 
 CHAPTERS
-{CHAPTERS}
+0:00 He never stole anything. Then federal agents knocked.
+0:49 Part 1: The job
+1:56 Part 2: The task
+3:09 Part 3: The other mules
+4:11 Part 4: The knock
+5:33 Quick test: would you take this job?
+5:47 5 red flags of a money mule job
+6:21 The 5-minute job check
+7:16 Already involved? Do this
+7:40 Next: the AI voice scam
 
 IF YOU'RE ALREADY INVOLVED
 1. Stop moving money immediately.
@@ -56,5 +65,6 @@ money mule, money mules explained, money mule scam, fake remote job, work from h
 | short2-dream-job-trap | The Dream Job Is a Trap #shorts | Работа мечты — это ловушка |
 | short3-he-kept-1840 | He Kept $1,840. Then This Happened… #shorts | Он оставил себе $1840. А потом… |
 | short4-captain-mike | She Said Yes to "Captain Mike" #shorts | Она сказала «да» «капитану Майку» |
+| short5-is-this-job-real | Is This Job Real? 3 Tests in 5 Minutes #shorts | Настоящая ли работа? 3 проверки за 5 минут |
 
 Описание каждого Short: `Full story on the channel → Scam Anatomy. Share this with someone looking for a job. #scam #jobscam #moneymule`
