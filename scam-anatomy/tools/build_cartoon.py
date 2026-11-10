@@ -319,7 +319,7 @@ def hl(c):
     return c
 ass = ["[Script Info]", "ScriptType: v4.00+", "PlayResX: 1920", "PlayResY: 1080", "", "[V4+ Styles]",
        "Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding",
-       "Style: Cap,Inter,60,&H00FFFFFF,&H00FFFFFF,&H00000000,&H64000000,1,0,0,0,100,100,0,0,1,5,2,2,160,160,48,1", "", "[Events]",
+       "Style: Cap,Inter,58,&H00FFFFFF,&H00FFFFFF,&H4020130B,&H4020130B,1,0,0,0,100,100,0,0,3,10,0,2,160,160,44,1", "", "[Events]",
        "Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text"]
 srt = []
 for i, (a_, b_, c) in enumerate(caps):

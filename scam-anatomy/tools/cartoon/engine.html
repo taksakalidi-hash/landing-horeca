@@ -189,7 +189,7 @@ function bgWhiteboard(){return `<rect width="1920" height="1080" fill="#1c2a44"/
 function bgLegalPad(){let s=`<rect width="1920" height="1080" fill="#6b4a32"/>${speckle(120,1920,1080,['#5d3f2a','#7a573c'],5,8)}<g transform="translate(960,560) rotate(-2)" filter="url(#sh)"><rect x="-640" y="-470" width="1280" height="960" fill="#fff6b8"/><rect x="-640" y="-470" width="1280" height="70" fill="#c0392b"/>`;
  for(let i=0;i<16;i++)s+=`<line x1="-640" y1="${-360+i*56}" x2="640" y2="${-360+i*56}" stroke="#9cc3e8" stroke-width="2"/>`;
  return s+`<line x1="-520" y1="-400" x2="-520" y2="490" stroke="#e8908a" stroke-width="3"/></g><g transform="translate(1660,820) rotate(-35)"><rect x="-12" y="-170" width="24" height="300" rx="6" fill="${C.yel}"/><path d="M-12 130 L0 170 L12 130Z" fill="#e8c9a0"/></g>`}
-function bgStickyWall(){return `<rect width="1920" height="1080" fill="#e9e4da"/><rect x="0" y="0" width="1920" height="1080" fill="url(#darkVig)" opacity=".35"/><rect x="0" y="960" width="1920" height="120" fill="#cfc7b8"/>`}
+function bgStickyWall(){return `<rect width="1920" height="1080" fill="#1c2a44"/>${speckle(300,1920,1080,['#22324f','#18243b'],41,4)}<rect width="1920" height="1080" fill="url(#darkVig)" opacity=".5"/>`}
 function sticky(x,y,rot,col,inner,k=1){return `<g transform="translate(${x},${y}) rotate(${rot}) scale(${k})" filter="url(#sh)"><rect x="-230" y="-230" width="460" height="460" fill="${col}"/><path d="M-230 190 L-190 230 L-230 230Z" fill="#000" opacity=".08"/><rect x="-60" y="-250" width="120" height="40" fill="#fff" opacity=".55" transform="rotate(-4)"/>${inner}</g>`}
 function bgNews(t,ticker){let s=`<defs><linearGradient id="newsG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0a1f44"/><stop offset="1" stop-color="#14306a"/></linearGradient></defs><rect width="1920" height="1080" fill="url(#newsG)"/>`;
  for(let i=0;i<9;i++)s+=`<path d="M960 -100 L${-400+i*340} 1080 L${-300+i*340} 1080Z" fill="#fff" opacity=".025"/>`;
@@ -213,7 +213,7 @@ function bgDesk(){return `<rect width="1920" height="1080" fill="#7a5235"/>${spe
  <g transform="translate(220,880) rotate(20)"><rect x="-10" y="-150" width="20" height="300" rx="8" fill="#1d2a5a"/><rect x="-10" y="-150" width="20" height="40" fill="#c9ced8"/></g>`}
 function bgCafe(t){let s=`<defs><radialGradient id="cafeG" cx="50%" cy="40%" r="80%"><stop offset="0" stop-color="#1c2a4a"/><stop offset="1" stop-color="#0a0f1c"/></radialGradient></defs><rect width="1920" height="1080" fill="url(#cafeG)"/>`;
  SEED=21;for(let i=0;i<26;i++){const x=rnd()*1920,y=rnd()*700,r=30+rnd()*80;s+=`<circle cx="${x}" cy="${y+Math.sin(t*.5+i)*6}" r="${r}" fill="${['#FFD166','#ffe7a8','#9cc3ff','#E63946'][i%4]}" opacity="${.08+rnd()*.14}"/>`}
- return s+`<rect x="0" y="820" width="1920" height="260" fill="#3b2f2f"/><rect x="0" y="820" width="1920" height="14" fill="#4e3d3d"/><g transform="translate(1500,780)"><path d="M-70 0 h140 l-16 120 h-108z" fill="#f4f1de"/><ellipse cx="0" cy="0" rx="70" ry="16" fill="#5a3418"/></g>`}
+ return s+`<rect x="0" y="820" width="1920" height="260" fill="#3b2f2f"/><rect x="0" y="820" width="1920" height="14" fill="#4e3d3d"/>`}
 function bgBus(t){let s=`<rect width="1920" height="1080" fill="#14161f"/><rect x="0" y="140" width="1920" height="380" fill="#0a0c14"/>`;
  for(let i=0;i<10;i++){const x=((i*260-t*700)%2600+2600)%2600-300;s+=`<rect x="${x}" y="${220+(i%3)*70}" width="${120+(i%4)*60}" height="10" rx="5" fill="${['#ffd166','#ff8a4c','#9cc3ff'][i%3]}" opacity=".7"/>`}
  for(let i=0;i<4;i++)s+=`<rect x="${i*500-20}" y="130" width="40" height="400" fill="#232633"/>`;
@@ -398,7 +398,7 @@ S.checklist=(t,d,p,ev)=>{if(p.env==='board'||p.env==='pad'){let s=envBg(p,t);con
   if(B&&!p.good) row+=`<path d="M${x0+W+140} ${y-40} l26 26 m0 -26 l-26 26" stroke="${C.red}" stroke-width="8" stroke-linecap="round" opacity="${E(P(t,a+.6,a+.9))}"/>`;
   s+=B?row:G(row,'translate(960,560) rotate(-2)',1)});
  return s;}
- if(p.env==='sticky'){let s=bgStickyWall();s+=G(T(960,150,p.title,{fs:96,a:'middle',cls:'A',c:C.navy}),'',fade(t,.1));
+ if(p.env==='sticky'){let s=bgStickyWall();s+=G(T(960,150,p.title,{fs:96,a:'middle',cls:'A',c:'#fff'}),'',fade(t,.1));
   const cols=['#ffe873','#ff9fb4','#a6e3a1'];p.items.forEach((it,i)=>{const a=ev['i'+i]??(0.5+i);if(t<a)return;const words=it.split(' ');let lines=[''];words.forEach(w=>{if((lines[lines.length-1]+' '+w).length>16)lines.push(w);else lines[lines.length-1]=(lines[lines.length-1]+' '+w).trim()});
    s+=sticky(420+i*540,560+(i%2)*40,(i-1)*4,cols[i%3],TH(0,-150,String(i+1),{fs:90,a:'middle',c:C.red})+lines.map((l,j)=>TH(0,-40+j*70,l,{fs:62,a:'middle',c:'#1d2a5a'})).join(''),pop(t,a))});return s;}
  let s=envBg(p,t);const g=p.good;
@@ -446,12 +446,12 @@ S.costumes=(t,d,p,ev)=>{let s=envBg(p,t);
  return s;};
 S.quiz=(t,d,p,ev)=>{let s=envBg(p,t);const pa=ev.pause??1,re=ev.resume??4;
  const msg=p.msg||['PARCEL NOTICE: Your package is','on hold due to an unpaid fee','of $1.99. Pay within 24 hours:','parcel-help.example.com'];
- if(p.env)s+=hand(640,900,-4);s+=phoneBig(640,560,0.95,`<rect x="-235" y="-430" width="470" height="900" rx="10" fill="#0a0e16"/><circle cx="0" cy="-370" r="34" fill="#46526a"/>${T(0,-357,'?',{fs:34,a:'middle',w:800})}${T(0,-310,p.from||'+1 (555) 010-7731',{fs:22,a:'middle',c:C.mut,w:600})}
-  <rect x="-215" y="-260" width="430" height="${msg.length*40+60}" rx="28" fill="#26303f"/>${msg.map((l,i)=>T(-198,-210+i*40,l,{fs:23,w:600,c:i===(p.linkLine??3)?'#6aa5ff':C.wh})).join('')}`);
+ if(p.big){const L=msg.length;s+=G(`<rect x="0" y="0" width="880" height="${150+L*64}" rx="30" fill="#26303f" stroke="#3a4a6b" stroke-width="4"/><circle cx="70" cy="70" r="40" fill="#46526a"/>${T(70,84,'?',{fs:40,a:'middle',w:800})}${T(130,62,p.from||'',{fs:34,w:800})}${T(130,100,'Text message · now',{fs:24,c:C.mut,w:600})}${msg.map((l,i)=>T(40,190+i*64,l,{fs:40,w:600})).join('')}`,'translate(100,'+(540-(150+L*64)/2)+')',fade(t,.05),'filter="url(#sh)"')}else{if(p.env)s+=hand(640,900,-4);s+=phoneBig(640,560,0.95,`<rect x="-235" y="-430" width="470" height="900" rx="10" fill="#0a0e16"/><circle cx="0" cy="-370" r="34" fill="#46526a"/>${T(0,-357,'?',{fs:34,a:'middle',w:800})}${T(0,-310,p.from||'+1 (555) 010-7731',{fs:22,a:'middle',c:C.mut,w:600})}
+  <rect x="-215" y="-260" width="430" height="${msg.length*40+60}" rx="28" fill="#26303f"/>${msg.map((l,i)=>T(-198,-210+i*40,l,{fs:23,w:600,c:i===(p.linkLine??3)?'#6aa5ff':C.wh})).join('')}`);}
  if(t>pa&&t<re+0.3){const left=Math.max(0,re-t),tot=re-pa;const fr=left/tot;
-  s+=G(`<circle r="150" fill="#0f1a30" stroke="#24365a" stroke-width="18"/><circle r="150" fill="none" stroke="${C.yel}" stroke-width="18" stroke-dasharray="${942*fr} 942" transform="rotate(-90)"/>${T(0,40,Math.ceil(left),{fs:130,a:'middle',cls:'A'})}${T(0,250,'⏸ PAUSE & COUNT',{fs:54,a:'middle',cls:'A',c:C.yel})}`,`translate(1400,480) scale(${pop(t,pa)})`,fade(t,pa,.1)*(1-fade(t,re,.3)));}
+  s+=G(`<circle r="150" fill="#0f1a30" stroke="#24365a" stroke-width="18"/><circle r="150" fill="none" stroke="${C.yel}" stroke-width="18" stroke-dasharray="${942*fr} 942" transform="rotate(-90)"/>${T(0,40,Math.ceil(left),{fs:130,a:'middle',cls:'A'})}${T(0,250,'⏸ PAUSE & COUNT',{fs:54,a:'middle',cls:'A',c:C.yel})}`,`translate(${p.big?1500:1400},480) scale(${pop(t,pa)})`,fade(t,pa,.1)*(1-fade(t,re,.3)));}
  const flags=(p.flags||['Unknown number','Tiny "fee" to pay','Urgency: 24 hours','Strange link']).map((f,i)=>[f,[-330,-250,-170,-90,-10][i]]);
- const FS=flags.length>4?160:200;flags.forEach((f,i)=>{const a=ev['f'+i];if(a==null||t<a)return;const fy=170+i*FS;s+=G(`<rect x="0" y="-38" width="560" height="76" rx="38" fill="${C.red}"/>${T(30,14,'🚩 '+f[0],{fs:36,w:800})}`,`translate(1050,${fy}) scale(${pop(t,a)})`,1,'filter="url(#sh)"')+`<line x1="1050" y1="${fy}" x2="${860}" y2="${330+i*40}" stroke="${C.red}" stroke-width="5" opacity="${fade(t,a)}"/>`});
+ const FS=flags.length>4?160:200;flags.forEach((f,i)=>{const a=ev['f'+i];if(a==null||t<a)return;const fy=170+i*FS;s+=G(`<rect x="0" y="-38" width="560" height="76" rx="38" fill="${C.red}"/>${T(30,14,'🚩 '+f[0],{fs:36,w:800})}`,`translate(${p.big?1100:1050},${fy}) scale(${pop(t,a)})`,1,'filter="url(#sh)"')+`<line x1="${p.big?1100:1050}" y1="${fy}" x2="${p.big?980:860}" y2="${p.big?(540-(150+msg.length*64)/2+180+i*64):330+i*40}" stroke="${C.red}" stroke-width="5" opacity="${fade(t,a)}"/>`});
  const lastF='f'+(flags.length-1);if(ev[lastF]!=null&&t>ev[lastF]+.4) s+=pill(1330,flags.length>4?960:980,flags.length+' RED FLAGS',C.navy,pop(t,ev[lastF]+.4),1,52);
  return s;};
 
@@ -509,7 +509,7 @@ S.laptop=(t,d,p,ev)=>{let s=envBg(p,t);const z=1+0.04*E(t/d);
   if(rev>0) inner+=`<rect x="-760" y="-360" width="380" height="740" fill="${C.red}" opacity="${.18*Math.abs(Math.sin(t*8))*rev}"/>`;}
  s+=p.env?`<g transform="${sc(960,540,z)}"><g transform="translate(960,500) scale(.86)" filter="url(#sh)"><rect x="-800" y="-460" width="1600" height="880" rx="34" fill="#1b1e26"/>${inner}<path d="M-900 420 L900 420 L960 480 L-960 480Z" fill="#b9c0cc"/><rect x="-140" y="420" width="280" height="16" rx="8" fill="#9aa2ae"/></g></g>`:`<g transform="${sc(960,560,z)}"><g transform="translate(960,560)" filter="url(#sh)">${inner}</g></g>`;
  if(p.stampTxt&&ev.stamp!=null) s+=stamp(p.kind==='form'?1180:1440,p.kind==='form'?640:800,p.stampTxt,1.5-0.5*pop(t,ev.stamp,.3),fade(t,ev.stamp,.08),C.red,-8,p.stampFs||80);
- if(p.fbi&&ev.fbi!=null) s+=G(`<rect x="-520" y="-80" width="1040" height="160" rx="20" fill="${C.navy}" stroke="${C.yel}" stroke-width="6"/>${T(0,-12,'⚠️ FBI WARNING',{fs:52,a:'middle',cls:'A',c:C.yel})}${T(0,46,'Fake work-from-home jobs are used to recruit money mules',{fs:30,a:'middle',w:700})}`,`translate(960,${880}) scale(${pop(t,ev.fbi)})`,fade(t,ev.fbi,.1),'filter="url(#sh)"');
+ if(p.fbi&&ev.fbi!=null) s+=G(`<rect x="-520" y="-80" width="1040" height="160" rx="20" fill="${C.navy}" stroke="${C.yel}" stroke-width="6"/>${T(0,-12,'⚠️ FBI WARNING',{fs:52,a:'middle',cls:'A',c:C.yel})}${T(0,46,'Fake work-from-home jobs are used to recruit money mules',{fs:30,a:'middle',w:700})}`,`translate(960,${p.env?140:880}) scale(${pop(t,ev.fbi)})`,fade(t,ev.fbi,.1),'filter="url(#sh)"');
  return s;};
 S.atm=(t,d,p,ev)=>{let s=`<rect width="1920" height="1080" fill="#0a0d1a"/><rect x="0" y="780" width="1920" height="300" fill="#1a1d2a"/>`;
  s+=`<rect x="0" y="120" width="1920" height="70" fill="#c0392b"/>${T(960,172,'GAS · SNACKS · OPEN 24H',{fs:44,a:'middle',cls:'A',c:'#fff'})}<rect x="0" y="190" width="1920" height="590" fill="#141a2e"/>`;
@@ -547,10 +547,11 @@ S.romance=(t,d,p,ev)=>{const z=(p.zoom||1)*(1+0.04*E(t/d));let s=`<g transform="
   s+=`<g transform="translate(${x+w/2},${y+h/2}) scale(${k}) translate(${-(x+w/2)},${-(y+h/2)})" filter="url(#sh)"><rect x="${x}" y="${y}" width="${w}" height="${h}" rx="24" fill="${m.who==='in'?'#fff':'#ff8fa3'}"/>${m.txt.map((l,i)=>T(x+24,y+48+i*44,l,{fs:30,w:700,c:C.navy})).join('')}</g>`;y+=h+18});
  if(p.from){const del=ev.del!=null&&t>ev.del;s+=G(`<circle r="46" fill="${del?'#555':'#4a5d3a'}"/>${T(0,16,del?'?':'🎖️',{fs:46,a:'middle'})}${T(70,-6,del?'User not found':p.from,{fs:36,w:900,c:del?'#aaa':'#fff'})}${T(70,32,del?'account deleted':'online',{fs:24,c:del?C.red:'#3ddc84',w:700})}`,'translate(1220,150)',fade(t,.1))}
  if(p.vanish&&ev.del!=null) s+=`<rect x="1170" y="210" width="720" height="600" fill="#3b2b2b" opacity="${.85*E(P(t,ev.del,ev.del+.8))}"/>`+(t>ev.del+.4?stamp(1500,520,'GONE',1.4-0.4*pop(t,ev.del+.4,.3),1,C.red,-8,110):'');
+ if(p.label0&&(ev.label==null||t<ev.label)) s+=pill(760,160,p.label0,C.red,1,1,46);
  if(p.label&&ev.label!=null) s+=pill(760,160,p.label,C.red,pop(t,ev.label),fade(t,ev.label,.1),46);
  return s;};
 S.recruit=(t,d,p,ev)=>{let s=envBg(p,t);
- if(p.env)s+=hand(620,900,-4);s+=phoneBig(620,560,.95,`<rect x="-235" y="-430" width="470" height="900" rx="10" fill="#111"/><rect x="-235" y="-430" width="470" height="80" fill="#1d1d1d"/>${T(0,-378,'📸 feed',{fs:30,a:'middle',w:800})}
+ if(p.env)s+=hand(620,860,-4);s+=phoneBig(620,520,.82,`<rect x="-235" y="-430" width="470" height="900" rx="10" fill="#111"/><rect x="-235" y="-430" width="470" height="80" fill="#1d1d1d"/>${T(0,-378,'📸 feed',{fs:30,a:'middle',w:800})}
   <rect x="-210" y="-320" width="420" height="420" rx="10" fill="#2fb36b"/>${T(0,-160,'💸 EASY',{fs:64,a:'middle',cls:'A'})}${T(0,-80,'MONEY',{fs:64,a:'middle',cls:'A'})}${T(0,-10,'$500/week from your phone',{fs:24,a:'middle',w:800})}${T(0,40,'DM me "INFO" 🔥',{fs:28,a:'middle',w:900,c:C.yel})}
   ${T(-210,150,'❤️ 2,341   💬 418',{fs:26,w:700})}${T(-210,200,'Just need your bank account 😉',{fs:24,w:600,c:'#ccc'})}`);
  if(ev.sell!=null) s+=G(`<rect x="-380" y="-130" width="760" height="260" rx="24" fill="#f4f6fb"/>${T(-340,-60,'🏦 Selling my bank login',{fs:38,c:C.navy,w:900})}${T(-340,0,'Username + password + card',{fs:32,c:'#5b6475',w:600})}${T(-340,80,'$300',{fs:72,c:C.red,w:900})}`,`translate(1400,420) rotate(3) scale(${pop(t,ev.sell)})`,fade(t,ev.sell,.1),'filter="url(#sh)"');
