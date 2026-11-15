@@ -62,9 +62,9 @@ money mule, money mules explained, money mule scam, fake remote job, work from h
 | Файл | Название | Перевод |
 |---|---|---|
 | short1-would-you-take-this-job | Would You Take This Job? 🚩 #shorts | Ты бы взял эту работу? |
-| short2-dream-job-trap | The Dream Job Is a Trap #shorts | Работа мечты — это ловушка |
-| short3-he-kept-1840 | He Kept $1,840. Then This Happened… #shorts | Он оставил себе $1840. А потом… |
-| short4-captain-mike | She Said Yes to "Captain Mike" #shorts | Она сказала «да» «капитану Майку» |
+| short2-dream-job-trap | Dream Job… or a Trap? 👀 #shorts | Работа мечты… или ловушка? |
+| short3-he-kept-1840 | He Kept $1,840. Then Who Knocked? 🚪 #shorts | Он оставил себе $1840. А потом кто постучал? |
+| short4-captain-mike | Would You Do This for Love? ❤️ #shorts | Ты бы сделал это ради любви? |
 | short5-is-this-job-real | Is This Job Real? 3 Tests in 5 Minutes #shorts | Настоящая ли работа? 3 проверки за 5 минут |
 
 Описание каждого Short: `Full story on the channel → Scam Anatomy. Share this with someone looking for a job. #scam #jobscam #moneymule`
