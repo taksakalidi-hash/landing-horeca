@@ -12,7 +12,38 @@
 
 ## Описание (вставить целиком)
 ```
-CHAPTERS_PLACEHOLDER
+A phone call from her grandson. He's crying, he's been arrested, and he needs bail money now. Except it wasn't him. It was his voice, cloned by AI.
+
+This is how the AI voice clone scam works, step by step: the panicked call, the fake lawyer, the courier at the door, and how scammers copy a voice from a few seconds of video. Plus the 5 red flags, the one question that stops the scam cold, and why every family needs a safe word.
+
+CHAPTERS
+0:00 Her grandson called. It wasn't him.
+0:57 Part 1: The call
+2:05 Part 2: The lawyer
+3:10 Part 3: The courier
+4:11 Part 4: How they cloned his voice
+5:39 Quick test: what would you do?
+6:14 5 red flags of a voice clone scam
+6:49 The question that stops it
+7:02 Your family safe word
+7:29 If it already happened
+8:12 Next: the toll text scam
+
+IF IT ALREADY HAPPENED
+1. Call your bank right away.
+2. Call the police.
+3. Report it: https://reportfraud.ftc.gov and https://www.ic3.gov
+
+SOURCES
+- FTC consumer alert: scammers use AI to enhance family emergency schemes
+- FBI public service announcement on AI-enabled fraud (family code word recommendation)
+- FBI IC3 Elder Fraud Report
+
+Rose's and Jake's story is a composite based on real cases. Names and details are changed. This channel is for education and protection only.
+
+Previous episode: This "Remote Job" Turns You Into a Criminal (Money Mules Explained)
+
+#aiscam #scam #scamawareness
 ```
 
 ## Теги
