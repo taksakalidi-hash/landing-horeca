@@ -9,15 +9,17 @@ text{font-family:InterB,sans-serif}.A{font-family:Anton,Impact,sans-serif}
 </style></head>
 <body><svg id="sv" width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
 <defs>
- <radialGradient id="vig" cx="50%" cy="45%" r="75%"><stop offset=".55" stop-color="#5a3d22" stop-opacity="0"/><stop offset="1" stop-color="#5a3d22" stop-opacity=".22"/></radialGradient>
- <linearGradient id="taupe" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#DCC5AF"/><stop offset="1" stop-color="#C7AB93"/></linearGradient>
+ <radialGradient id="vig" cx="50%" cy="45%" r="75%"><stop offset=".55" stop-color="#0B1320" stop-opacity="0"/><stop offset="1" stop-color="#0B1320" stop-opacity=".2"/></radialGradient>
+ <linearGradient id="taupe" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D3DCEB"/><stop offset="1" stop-color="#BCC8DC"/></linearGradient>
+ <radialGradient id="navyBg" cx="50%" cy="40%" r="80%"><stop offset="0" stop-color="#2E4675"/><stop offset="1" stop-color="#16233F"/></radialGradient>
+ <radialGradient id="lamp" cx="50%" cy="0%" r="100%"><stop offset="0" stop-color="#FFD166" stop-opacity=".5"/><stop offset="1" stop-color="#FFD166" stop-opacity="0"/></radialGradient>
  <linearGradient id="edgeSh" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#3b2a1a" stop-opacity="0"/><stop offset="1" stop-color="#3b2a1a" stop-opacity=".35"/></linearGradient>
  <filter id="soft"><feGaussianBlur stdDeviation="8"/></filter>
 </defs>
 <g id="root"></g></svg><div id="paper"></div>
 <script>
 // ---------- palette & helpers ----------
-const K={cream:'#FBF3DC',ink:'#1D4E4A',teal:'#2A7F78',tealD:'#1F625D',mint:'#9FD8C9',mintL:'#CDEDE3',face:'#FFF9EE',gold:'#F4B731',goldD:'#D8901A',coral:'#E8684C',brown:'#5B4030',hair:'#6B4430',bill:'#9BD3A3',billD:'#5E9E6B',smoke:'#B9AA9B',taupeInk:'#4B3628',suit:'#2E3A44'};
+const K={cream:'#F4F1EA',ink:'#0B1320',teal:'#1D3461',tealD:'#142647',mint:'#A9C4EE',mintL:'#D6E2F5',face:'#FFF8EE',gold:'#FFD166',goldD:'#E9A23B',coral:'#E63946',brown:'#5B4030',hair:'#6B4430',bill:'#9BD3A3',billD:'#5E9E6B',smoke:'#C2C8D3',taupeInk:'#0B1320',suit:'#2B2F3A',green:'#2FA36B',grey:'#C9CED6'};
 const cl=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
 const E=x=>{x=cl(x);return 1-Math.pow(1-x,3)};
 const EIO=x=>{x=cl(x);return x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2};
@@ -41,7 +43,7 @@ function arrowHead(x,y,ang,c=K.ink,s=1){return G(`<path d="M-26,-16 L0,0 L-26,16
 
 // ---------- backgrounds ----------
 function bg(kind='cream'){
- const f=kind==='taupe'?'url(#taupe)':kind==='mint'?'#DDEFE5':kind==='peach'?'#F8E2CF':K.cream;
+ const f={taupe:'url(#taupe)',mint:'#D6E2F5',blue:'#D6E2F5',peach:'#F8D9DA',red:'#F8D9DA',yellow:'#FCEAB4',navy:'url(#navyBg)',cream:K.cream,white:K.cream}[kind]||K.cream;
  return `<rect x="-200" y="-200" width="2320" height="1480" fill="${f}"/><rect x="-200" y="-200" width="2320" height="1480" fill="url(#vig)"/>`}
 function groundShadow(x,y,w=110,op=.13){return `<ellipse cx="${R(x)}" cy="${R(y)}" rx="${w}" ry="${w*.15}" fill="${K.ink}" opacity="${op}"/>`}
 
@@ -80,6 +82,11 @@ function guy(o){
   <path d="M-40,-408 L-8,-300 M40,-408 L8,-300" stroke="${ink}" stroke-width="6" fill="none"/>
   ${o.badge?`<circle cx="-52" cy="-330" r="13" fill="${K.gold}" stroke="${ink}" stroke-width="4"/>`:''}
   <circle cx="0" cy="-262" r="6" fill="${ink}"/><circle cx="0" cy="-222" r="6" fill="${ink}"/>`;
+ }else if(bodyKind==='cardigan'){
+  torso=`<path d="M-92,-160 L-80,-368 Q-77,-404 -44,-408 L44,-408 Q77,-404 80,-368 L92,-160 Q92,-146 78,-146 L-78,-146 Q-92,-146 -92,-160Z" fill="${col}" stroke="${ink}" stroke-width="7" stroke-linejoin="round"/>
+  <path d="M-34,-408 L0,-330 L34,-408Z" fill="${col2}" stroke="${ink}" stroke-width="5" stroke-linejoin="round"/><path d="M0,-330 L0,-150" stroke="${ink}" stroke-width="5"/>
+  <circle cx="-14" cy="-290" r="6" fill="${K.gold}" stroke="${ink}" stroke-width="3"/><circle cx="-14" cy="-240" r="6" fill="${K.gold}" stroke="${ink}" stroke-width="3"/><circle cx="-14" cy="-190" r="6" fill="${K.gold}" stroke="${ink}" stroke-width="3"/>
+  <path d="M-70,-210 h40 v34 h-40Z M30,-210 h40 v34 h-40Z" fill="none" stroke="${ink}" stroke-width="4" opacity=".6"/>`;
  }else if(bodyKind==='dress'){
   torso=`<path d="M-70,-404 Q-40,-414 0,-414 Q40,-414 70,-404 L84,-300 L120,-146 L-120,-146 L-84,-300Z" fill="${col}" stroke="${ink}" stroke-width="7" stroke-linejoin="round"/>
   <path d="M-36,-412 Q0,-372 36,-412" fill="${K.face}" stroke="${ink}" stroke-width="5"/>`;
@@ -97,6 +104,8 @@ function guy(o){
  if(hair==='messy')hd+=`<path d="M-84,-18 Q-96,-104 -30,-116 Q10,-134 52,-112 Q96,-96 86,-20 Q74,-62 44,-66 L52,-88 L22,-66 L12,-92 L-6,-64 Q-50,-74 -84,-18Z" fill="${hc}" stroke="${ink}" stroke-width="6" stroke-linejoin="round"/>`;
  if(hair==='neat')hd+=`<path d="M-84,-14 Q-90,-108 0,-112 Q90,-108 84,-14 Q76,-62 20,-70 Q-10,-58 -40,-66 Q-74,-60 -84,-14Z" fill="${hc}" stroke="${ink}" stroke-width="6" stroke-linejoin="round"/>`;
  if(hair==='bob')hd+=`<path d="M-84,-10 Q-90,-110 0,-112 Q86,-108 86,-10 Q60,-70 10,-66 Q-40,-80 -84,-10Z" fill="${hc}" stroke="${ink}" stroke-width="6" stroke-linejoin="round"/>`;
+ if(hair==='bun')hd+=`<circle cx="0" cy="-118" r="40" fill="${hc}" stroke="${ink}" stroke-width="6"/><path d="M-86,-6 Q-92,-104 0,-108 Q92,-104 86,-6 Q70,-64 0,-66 Q-70,-64 -86,-6Z" fill="${hc}" stroke="${ink}" stroke-width="6" stroke-linejoin="round"/><path d="M-40,-90 Q0,-74 40,-90" stroke="${ink}" stroke-width="3" fill="none" opacity=".5"/>`;
+ if(hair==='cap')hd+=`<path d="M-86,-20 Q-88,-112 0,-114 Q88,-112 86,-20Z" fill="${o.capC||K.coral}" stroke="${ink}" stroke-width="6"/><path d="M40,-30 Q120,-34 150,-14 Q100,-6 40,-18Z" fill="${o.capC||K.coral}" stroke="${ink}" stroke-width="6" stroke-linejoin="round"/>`;
  if(hair==='bald')hd+=`<path d="M-80,-30 Q-70,-60 -50,-40 M80,-30 Q70,-60 50,-40" stroke="${hc}" stroke-width="12" fill="none" stroke-linecap="round"/>`;
  // eyes
  const lx=(o.look||0)*12,ly=(o.lookY||0)*8,bl=o.closed?0:blink(t,o.bo||0);
@@ -106,6 +115,8 @@ function guy(o){
  // brows
  const bw=o.brow||0; // +1 worried, -1 angry
  if(!o.shades)hd+=`<path d="M-48,${-34-bw*2} L-14,${-34+bw*-8}" stroke="${ink}" stroke-width="6" stroke-linecap="round" transform="rotate(${bw*-10},-30,-34)"/><path d="M14,${-34+bw*-8} L48,${-34-bw*2}" stroke="${ink}" stroke-width="6" stroke-linecap="round" transform="rotate(${bw*10},30,-34)"/>`;
+ if(o.glasses)hd+=`<circle cx="-30" cy="-4" r="24" fill="#fff" fill-opacity=".25" stroke="${ink}" stroke-width="5"/><circle cx="30" cy="-4" r="24" fill="#fff" fill-opacity=".25" stroke="${ink}" stroke-width="5"/><path d="M-6,-6 Q0,-12 6,-6 M-54,-8 L-80,-14 M54,-8 L80,-14" stroke="${ink}" stroke-width="5" fill="none"/>`;
+ if(o.tears){const u=(t*1.6)%1;hd+=`<path d="M-34,${R(14+u*50)} q-9,16 0,22 q9,-6 0,-22Z M34,${R(14+((u+.5)%1)*50)} q-9,16 0,22 q9,-6 0,-22Z" fill="#8fd0ef" stroke="${ink}" stroke-width="3"/>`}
  hd+=`<path d="M2,8 Q14,24 0,30" stroke="${ink}" stroke-width="5" fill="none" stroke-linecap="round"/>`;
  hd+=`<ellipse cx="-50" cy="30" rx="14" ry="8" fill="${K.coral}" opacity=".25"/><ellipse cx="50" cy="30" rx="14" ry="8" fill="${K.coral}" opacity=".25"/>`;
  const m=o.mouth||'smile';const tk=o.talk?Math.abs(Math.sin(t*13))*(.5+.5*Math.sin(t*4.1)):0;
@@ -114,8 +125,11 @@ function guy(o){
  if(m==='flat')hd+=`<path d="M-20,56 L20,56" stroke="${ink}" stroke-width="6" stroke-linecap="round"/>`;
  if(m==='frown')hd+=`<path d="M-24,62 Q0,46 24,62" stroke="${ink}" stroke-width="6" fill="none" stroke-linecap="round"/>`;
  if(m==='o')hd+=`<ellipse cx="0" cy="58" rx="13" ry="${16+tk*4}" fill="${ink}"/>`;
+ if(m==='smirk')hd+=`<path d="M-24,56 Q4,64 28,44" stroke="${ink}" stroke-width="6" fill="none" stroke-linecap="round"/>`;
+ if(m==='relief')hd+=`<path d="M-22,52 Q0,64 22,52" stroke="${ink}" stroke-width="6" fill="none" stroke-linecap="round"/><path d="M-40,-50 Q-30,-56 -18,-50" stroke="${ink}" stroke-width="4" fill="none"/>`;
  if(m==='strain')hd+=`<path d="M-26,56 L-13,50 L0,58 L13,50 L26,56" stroke="${ink}" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`;
  if(o.sweat){const sy=((t*1.3)%1);hd+=`<path d="M92,${-40+sy*60} q-12,22 0,30 q12,-8 0,-30Z" fill="#8fd0ef" stroke="${ink}" stroke-width="3" opacity="${R((1-sy)*100)/100}"/>`}
+ if(o.headset)hd+=`<path d="M-88,0 Q-96,-120 0,-122 Q96,-120 88,0" fill="none" stroke="${ink}" stroke-width="9"/><rect x="-100" y="-20" width="24" height="44" rx="10" fill="${ink}"/><path d="M-88,22 Q-80,70 -30,70" fill="none" stroke="${ink}" stroke-width="6"/><circle cx="-26" cy="70" r="9" fill="${ink}"/>`;
  if(o.halo>0)hd+=G(`<ellipse cx="0" cy="-150" rx="70" ry="18" fill="none" stroke="${K.gold}" stroke-width="12"/><ellipse cx="0" cy="-150" rx="70" ry="18" fill="none" stroke="${K.goldD}" stroke-width="3"/>`,`translate(0,${R(Math.sin(t*3)*6)}) ${sc(0,-150,o.halo)}`);
  up+=G(hd,`translate(0,${hy}) rotate(${R(tilt)})`);
  // arms on top
@@ -265,12 +279,23 @@ function pageTrans(prev,cur,t){const p=EIO(t/TP);const e=2350-p*(2350+800);
  const clip=`M${R(e+340)},-60 L2600,-60 L2600,1140 L${R(e-340)},1140Z`;
  // the edge line through (e+340,-60)->(e-340,1140); hand grips at y=540 -> x = e
  const ang=Math.atan2(1200,-680)*180/Math.PI;
- const sleeve=`<path d="M${R(e+30)},560 L${R(e+2600)},1500" stroke="${K.ink}" stroke-width="96" stroke-linecap="round"/><path d="M${R(e+30)},560 L${R(e+2600)},1500" stroke="${K.teal}" stroke-width="78" stroke-linecap="round"/><path d="M${R(e+70)},540 L${R(e+40)},600" stroke="#fff" stroke-width="30" stroke-linecap="round"/>`;
+ const sleeve=`<path d="M${R(e+30)},560 L${R(e+2600)},1500" stroke="${K.ink}" stroke-width="96" stroke-linecap="round"/><path d="M${R(e+30)},560 L${R(e+2600)},1500" stroke="${K.teal}" stroke-width="78" stroke-linecap="round"/><path d="M${R(e+70)},540 L${R(e+40)},600" stroke="${K.coral}" stroke-width="30" stroke-linecap="round"/>`;
  const glove=G(`<ellipse cx="0" cy="0" rx="56" ry="46" fill="#fff" stroke="${K.ink}" stroke-width="7"/><path d="M-46,-24 Q-74,-20 -70,4 M-50,2 Q-78,8 -70,30 M-40,24 Q-60,44 -40,52" fill="#fff" stroke="${K.ink}" stroke-width="7" stroke-linecap="round"/>`,`translate(${R(e-10)},545) rotate(-12)`);
  return base+`<path d="${clip}" transform="translate(-34,0)" fill="url(#edgeSh)" opacity=".8" filter="url(#soft)"/><clipPath id="pcl"><path d="${clip}"/></clipPath><g clip-path="url(#pcl)">${body}</g><path d="M${R(e+340)},-60 L${R(e-340)},1140" stroke="${K.ink}" stroke-width="6"/>`+sleeve+glove}
+function irisTrans(prev,cur,t){const p=EIO(t/TP);const r=p*1250;
+ return renderShot(prev,prev.dur+t)+`<clipPath id="icl"><circle cx="960" cy="540" r="${R(r)}"/></clipPath><g clip-path="url(#icl)">${renderShot(cur,t)}</g><circle cx="960" cy="540" r="${R(r)}" fill="none" stroke="${K.ink}" stroke-width="12"/><circle cx="960" cy="540" r="${R(r+14)}" fill="none" stroke="${K.gold}" stroke-width="10"/>`}
+function slideTrans(prev,cur,t){const p=EIO(t/TP);const x=1920*(1-p);
+ return G(renderShot(prev,prev.dur+t),`translate(${R(-1920*p*.35)},0)`)+G(renderShot(cur,t),`translate(${R(x)},0)`)+`<path d="M${R(x)},0 V1080" stroke="${K.ink}" stroke-width="8"/>`}
+function puffTrans(prev,cur,t){const T2=1.0;const u=t/T2;let o=u<.5?renderShot(prev,prev.dur+t):renderShot(cur,t);
+ const k=Math.sin(Math.PI*cl(u));let pf='';for(let i=0;i<14;i++){const a=i*2.4,rr=200+((i*53)%140);pf+=`<circle cx="${R(960+Math.cos(a)*(120+i*40))}" cy="${R(540+Math.sin(a)*(90+i*22))}" r="${R(rr*k*1.25)}" fill="${K.smoke}" stroke="#9aa3b2" stroke-width="6"/>`}
+ return o+pf}
 window.setup=sh=>{SH=sh};
 window.frame=t=>{let out;
- if(SH.trans==='page'&&SH.prev&&t<TP)out=pageTrans(SH.prev,SH,t);else out=renderShot(SH,t);
+ if(SH.trans==='page'&&SH.prev&&t<TP)out=pageTrans(SH.prev,SH,t);
+ else if(SH.trans==='iris'&&SH.prev&&t<TP)out=irisTrans(SH.prev,SH,t);
+ else if(SH.trans==='slide'&&SH.prev&&t<TP)out=slideTrans(SH.prev,SH,t);
+ else if(SH.trans==='puff'&&SH.prev&&t<1.0)out=puffTrans(SH.prev,SH,t);
+ else out=renderShot(SH,t);
  document.getElementById('root').innerHTML=out};
 document.fonts.load('40px Anton').then(()=>document.fonts.load('40px InterB')).then(()=>{const im=new Image();im.onload=()=>{window.DONE=true};im.src='paper.png'});
-</script></body></html>
+</script><script src="paper_scenes.js"></script></body></html>

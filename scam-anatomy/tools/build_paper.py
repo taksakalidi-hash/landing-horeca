@@ -19,7 +19,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 NAME = os.path.splitext(os.path.basename(PLAN))[0]
 OUT = os.path.join(VDIR, "final-paper"); TMP = os.path.join(OUT, "tmp-" + NAME); SEG = os.path.join(TMP, "seg")
 os.makedirs(SEG, exist_ok=True)
-G = {}; exec(open(PLAN, encoding="utf-8").read(), G)
+G = {"VDIR": VDIR}; exec(open(PLAN, encoding="utf-8").read(), G)
 LINES = G["LINES"]; GAP = G.get("GAP", 0.45); TTS_FIX = G.get("TTS_FIX", [])
 HIGHLIGHT = G.get("HIGHLIGHT", [])
 rng = np.random.default_rng(7)
@@ -64,6 +64,24 @@ def sfx(name):
         return out
     if name == "uhoh":
         t = tt(.7); f = np.where(t < .3, 392, 311); return .25 * np.sin(2 * np.pi * np.cumsum(f) / SR) * (np.sin(np.pi * np.clip(t / .3, 0, 1)) * (t < .3) + np.sin(np.pi * np.clip((t - .3) / .4, 0, 1)) * (t >= .3))
+    if name == "click": return sfx("tick") * 1.3
+    if name == "ring":
+        t = tt(1.6); return .18 * (np.sin(2 * np.pi * 440 * t) + np.sin(2 * np.pi * 480 * t)) * ((t % .8) < .5) * (.6 + .4 * np.sign(np.sin(2 * np.pi * 18 * t)))
+    if name == "success":
+        out = np.zeros(int(1.0 * SR))
+        for k, f in enumerate([523, 659, 784, 1047]):
+            s0 = int(k * .1 * SR); t = tt(.5); out[s0:s0 + len(t)] += .25 * np.sin(2 * np.pi * f * t) * envd(.5, 6)
+        return out
+    if name == "glitch":
+        n = int(.4 * SR); x = rng.standard_normal(n); x = np.repeat(x[::40], 40)[:n]; return .3 * x * ((np.arange(n) // 1500) % 2)
+    if name == "heart":
+        out = np.zeros(int(2.0 * SR)); t = tt(.18); beat = np.sin(2 * np.pi * 55 * t) * envd(.18, 18)
+        for s_ in np.arange(0, 1.8, .6):
+            for o_, g_ in ((0, 1), (.2, .7)):
+                i = int((s_ + o_) * SR); out[i:i + len(beat)] += .6 * g_ * beat
+        return out
+    if name == "send":
+        t = tt(.35); return .25 * np.sin(2 * np.pi * np.cumsum(500 + 1500 * t / .35) / SR) * envd(.35, 6)
     raise KeyError(name)
 
 def pluck(f, d, a=.996):
@@ -138,7 +156,7 @@ for i, s in enumerate(shots):
     for k, v in s["ev"].items():
         ev[k] = at_(v) if isinstance(v, str) else v
     s["evr"] = ev
-    if s["trans"] == "page": audio.append((s["abs"], sfx("whoosh"), .7, "fx"))
+    if s["trans"]: audio.append((s["abs"], sfx("whoosh"), .7, "fx"))
     fx = s["fx"] or {}
     items = fx.items() if isinstance(fx, dict) else fx
     for k, name in items:
@@ -156,7 +174,10 @@ for i, s in enumerate(shots):
         pv = shots[i - 1]; sh["prev"] = {"scene": pv["scene"], "p": pv["p"], "ev": pv["evr"], "dur": pv["dur"], "cam": pv["p"].get("cam")}
     jobs.append({"id": f"s{i:03d}", "shot": sh, "frames": s["frames"]})
 json.dump(jobs, open(os.path.join(TMP, "shots.json"), "w"), indent=1)
+json.dump([{"text": a, "start": b_, "dur": c_} for a, b_, c_ in LT], open(os.path.join(TMP, "lines.json"), "w"), indent=1)
 
+if os.environ.get("DRY"):
+    print("dry run", round(TOTAL, 1), "s", len(jobs), "shots"); sys.exit(0)
 # ---------- render ----------
 for f in os.listdir(SEG):
     os.remove(os.path.join(SEG, f))
@@ -186,11 +207,11 @@ sf.write(os.path.join(TMP, "mix.wav"), mix, SR)
 def ts(t): h, r = divmod(t, 3600); m, s = divmod(r, 60); return f"{int(h)}:{int(m):02d}:{s:05.2f}"
 def hl(c):
     for k in sorted(HIGHLIGHT, key=len, reverse=True):
-        c = re.sub(r"(?<![\w$])(" + re.escape(k) + r")(?![\w])", r"{\\c&H4C68E8&}\1{\\c&H4A4E1D&}", c)
+        c = re.sub(r"(?<![\w$])(" + re.escape(k) + r")(?![\w])", r"{\\c&H66D1FF&}\1{\\c&HFFFFFF&}", c)
     return c
 ass = ["[Script Info]", "ScriptType: v4.00+", "PlayResX: 1920", "PlayResY: 1080", "", "[V4+ Styles]",
        "Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding",
-       "Style: Cap,Inter,62,&H004A4E1D,&H004A4E1D,&H10DCF3FB,&H10DCF3FB,1,0,0,0,100,100,0,0,3,14,0,2,160,160,40,1", "", "[Events]",
+       "Style: Cap,Inter,58,&H00FFFFFF,&H00FFFFFF,&H4020130B,&H4020130B,1,0,0,0,100,100,0,0,3,10,0,2,160,160,40,1", "", "[Events]",
        "Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text"]
 for a, b, c in caps: ass.append(f"Dialogue: 0,{ts(a)},{ts(b)},Cap,,0,0,0,,{hl(c)}")
 open(os.path.join(TMP, "cap.ass"), "w").write("\n".join(ass))
