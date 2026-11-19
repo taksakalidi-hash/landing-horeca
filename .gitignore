@@ -7,3 +7,4 @@ scam-anatomy/**/final-paper/
 scam-anatomy/tests/comic/seg/
 scam-anatomy/tests/comic/*.mp4
 scam-anatomy/tests/comic/mix.wav
+scam-anatomy/tests/comic/jobs.json
