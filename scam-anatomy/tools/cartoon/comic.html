@@ -1,0 +1,86 @@
+<!doctype html><html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:Anton;src:url('../fonts/Anton-Regular.ttf')}
+@font-face{font-family:InterB;src:url('../fonts/Inter-Bold.otf')}
+@font-face{font-family:InterR;src:url('../fonts/Inter-Regular.otf')}
+html,body{margin:0;background:#000;overflow:hidden;width:1920px;height:1080px}
+svg{display:block}
+</style></head><body>
+<svg id="sv" width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+<defs>
+ <radialGradient id="warm" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#FFC66B" stop-opacity=".55"/><stop offset="1" stop-color="#FFC66B" stop-opacity="0"/></radialGradient>
+ <radialGradient id="cold" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#BFE6FF" stop-opacity=".6"/><stop offset="1" stop-color="#BFE6FF" stop-opacity="0"/></radialGradient>
+ <radialGradient id="vig" cx="50%" cy="50%" r="72%"><stop offset=".55" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".55"/></radialGradient>
+ <filter id="blur3"><feGaussianBlur stdDeviation="3"/></filter>
+</defs>
+<g id="root"></g></svg>
+<script>
+const cl=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const E=x=>{x=cl(x);return 1-Math.pow(1-x,3)};
+const EIO=x=>{x=cl(x);return x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2};
+const BK=x=>{x=cl(x);const c=2.2;return 1+(c+1)*Math.pow(x-1,3)+c*Math.pow(x-1,2)};
+const P=(t,a,b)=>cl((t-a)/(b-a));
+const R=n=>Math.round(n*10)/10;
+const S=2.0625;                    // source(1024) -> image(2112) scale
+const IMG=(n)=>`<image href="../../tests/comic/${n}.jpg" x="0" y="0" width="2112" height="1188"/>`;
+// camera: focus point fx,fy in image coords, zoom z
+function cam(inner,fx,fy,z,shx=0,shy=0){fx=cl(fx,960/z,2112-960/z);fy=cl(fy,540/z,1188-540/z);return `<g transform="translate(${R(960+shx)},${R(540+shy)}) scale(${R(z*1000)/1000}) translate(${R(-fx)},${R(-fy)})">${inner}</g>`}
+function rain(t,op=.35,speed=1700,n=160,seed=1){let d='';for(let i=0;i<n;i++){const x0=((i*7919*seed)%2400)-200,y0=((i*104729)%1400);const sp=speed*(.8+((i*31)%10)/25);const y=((y0+t*sp)%1400)-160;const x=x0-y*.12;d+=`M${R(x)},${R(y)} l${R(-9)},${R(60)} `}return `<path d="${d}" stroke="#CFE3FF" stroke-width="2" stroke-linecap="round" opacity="${op}"/>`}
+function vo(){return ''}
+// ---- shots ----
+function street(t){// t from 0
+ const u=EIO(P(t,0,5.6));const z=1.0+u*.22;const fx=1056+(1650-1056)*u*.75,fy=594+(608-594)*u;
+ const fl=.85+.15*Math.sin(t*9)*Math.sin(t*3.1);
+ let o=IMG('street');
+ o+=`<ellipse cx="1650" cy="608" rx="${R(260*fl)}" ry="${R(200*fl)}" fill="url(#warm)"/>`;
+ o+=`<ellipse cx="1020" cy="340" rx="160" ry="140" fill="url(#warm)" opacity=".6"/>`;
+ // puddle ripples
+ for(let i=0;i<5;i++){const a=((t*.9+i*.37)%1);o+=`<ellipse cx="${R([380,520,900,700,1150][i])}" cy="${R([1110,1060,1150,1010,1090][i])}" rx="${R(10+a*60)}" ry="${R(3+a*16)}" fill="none" stroke="#CFE3FF" stroke-width="2" opacity="${R((1-a)*.5*100)/100}"/>`}
+ return cam(o,fx,fy,z)+rain(t,.35)+rain(t+.3,.18,2300,120,3)}
+function kitchen(t){
+ const u=EIO(P(t,0,6));const z=1.06+u*.2;const fx=1056+(900-1056)*u,fy=594+(470-594)*u;
+ const tb=1.2;const buzz=t>tb&&t<tb+1.4;const sh=buzz?Math.sin(t*70)*3:0;
+ let o=IMG('kitchen');
+ const glow=.75+.25*Math.sin(t*2)+(t>tb?.35*Math.exp(-(t-tb)*1.2):0);
+ o+=`<ellipse cx="1340" cy="700" rx="240" ry="200" fill="url(#cold)" opacity="${R(glow*100)/100}"/>`;
+ o+=`<ellipse cx="815" cy="400" rx="240" ry="260" fill="url(#cold)" opacity="${R(glow*.55*100)/100}"/>`;
+ // rain only in window
+ o+=`<clipPath id="win"><rect x="1430" y="210" width="410" height="340"/></clipPath><g clip-path="url(#win)">${rain(t,.5,1300,90,5).replace('opacity','opacity')}</g>`;
+ if(buzz){const k=(t-tb);for(let i=0;i<3;i++){const a=((k*2.2+i/3)%1);o+=`<path d="M${R(1250-a*60)},${R(640-a*50)} q${R(-30-a*20)},70 0,${R(140+a*100)} M${R(1430+a*60)},${R(640-a*50)} q${R(30+a*20)},70 0,${R(140+a*100)}" fill="none" stroke="#FFD166" stroke-width="7" stroke-linecap="round" opacity="${R((1-a)*100)/100}"/>`}}
+ return cam(o,fx,fy,z,sh,sh*.5)}
+// SMS overlay on the phone screen (design space 300x600 mapped by affine)
+const A=[0.4917*S,-0.1*S,0.0875*S,0.5417*S,400*S,125*S];
+function sms(t,a){if(t<a)return'';const k=BK(P(t,a,a+.45));
+ const lines=['UNPAID TOLL NOTICE:','You have an outstanding','toll balance of $3.95.','Pay now to avoid a $50','late fee:'];
+ let tx='';const typed=Math.floor((t-a-.4)*55);let left=typed;
+ lines.forEach((L,i)=>{if(left<=0)return;const s=L.slice(0,left);left-=L.length;tx+=`<text x="26" y="${118+i*24}" font-family="InterR" font-size="17.5" fill="#111">${s.replace(/\$/g,'$')}</text>`});
+ if(left>0)tx+=`<text x="26" y="${118+lines.length*24}" font-family="InterR" font-size="17.5" fill="#1a6fe0" text-decoration="underline">${'ezdrive-tolls.example.com'.slice(0,left)}</text>`;
+ return `<g transform="matrix(${A.map(v=>R(v*1000)/1000).join(',')})">
+  <rect x="6" y="18" width="288" height="44" fill="#F2F4F7" opacity=".95"/><circle cx="150" cy="34" r="11" fill="#9aa3b2"/><text x="150" y="58" font-family="InterR" font-size="11" text-anchor="middle" fill="#333">+1 (555) 014-7302</text>
+  <g transform="translate(14,${R(78+(1-k)*20)}) scale(1,${R(k*100)/100})"><rect x="0" y="0" width="262" height="${lines.length*24+48}" rx="16" fill="#E9E9EB"/></g>
+  <g opacity="${R(cl(k)*100)/100}">${tx}</g></g>`}
+function phoneShot(t){
+ const u=EIO(P(t,0,7));const z=1.02+u*.16;const fx=1056+(1030-1056)*u,fy=594+(470-594)*u;
+ let o=IMG('phone')+sms(t,.6);
+ o+=`<ellipse cx="1050" cy="560" rx="420" ry="520" fill="url(#cold)" opacity=".25"/>`;
+ o+=`<clipPath id="win2"><rect x="1500" y="180" width="560" height="470"/></clipPath><g clip-path="url(#win2)">${rain(t,.45,1300,90,7)}</g>`;
+ return cam(o,fx,fy,z)}
+function label(x,y,s,t,a,fs,c){if(t<a)return'';const k=BK(P(t,a,a+.45));return `<g transform="translate(${x},${y}) scale(${R(k*100)/100})"><text x="0" y="0" text-anchor="middle" font-family="Anton" font-size="${fs}" fill="${c}" stroke="#0B1320" stroke-width="14" paint-order="stroke" stroke-linejoin="round" letter-spacing="2">${s}</text></g>`}
+// ---- timeline ----
+const T1=5.4,T2=11.2,END=19.8;
+window.setup=()=>{};
+window.frame=t=>{let o='';
+ if(t<T1+.6)o+=street(t);
+ if(t>T1-.0&&t<T2+.5){const a=E(P(t,T1,T1+.6));o+=`<g opacity="${R(a*100)/100}">${kitchen(t-T1)}</g>`}
+ if(t>T2){const a=P(t,T2,T2+.35);// whip: slide in from right with blur feel
+  o+=`<g transform="translate(${R((1-EIO(a))*1920)},0)">${phoneShot(t-T2)}</g>`;
+  if(a<1)o+=`<rect x="${R((1-EIO(a))*1920-40)}" y="0" width="80" height="1080" fill="#000" opacity=".5" filter="url(#blur3)"/>`}
+ o+=`<rect width="1920" height="1080" fill="url(#vig)"/>`;
+ // titles
+ if(t<4.6)o+=label(960,160,'11:47 PM',t,.6,104,'#FFD166');
+ if(t>T2+3.4&&t<END-1.6)o+=label(1480,330,'$3.95?',t,T2+3.4,130,'#FFD166');
+ if(t>T2+5.7&&t<END-1.6)o+=label(1480,470,"IT'S A SCAM.",t,T2+5.7,100,'#E63946');
+ if(t>END-1.6){const a=E(P(t,END-1.6,END-1.1));o+=`<rect width="1920" height="1080" fill="#0B1320" opacity="${R(a*.75*100)/100}"/>`+label(960,500,'NEXT EPISODE',t,END-1.4,90,'#FFD166')+label(960,640,'THE TOLL TEXT SCAM',t,END-1.2,120,'#FFFFFF')}
+ document.getElementById('root').innerHTML=o};
+Promise.all([document.fonts.load('40px Anton'),document.fonts.load('20px InterR')]).then(()=>Promise.all(['street','kitchen','phone'].map(n=>new Promise(r=>{const i=new Image();i.onload=r;i.src='../../tests/comic/'+n+'.jpg'})))).then(()=>{window.DONE=true});
+</script></body></html>

@@ -4,3 +4,6 @@ scam-anatomy/*/final-cartoon/
 scam-anatomy/tools/cartoon/node_modules
 scam-anatomy/video-02/final-cartoon/
 scam-anatomy/**/final-paper/
+scam-anatomy/tests/comic/seg/
+scam-anatomy/tests/comic/*.mp4
+scam-anatomy/tests/comic/mix.wav
