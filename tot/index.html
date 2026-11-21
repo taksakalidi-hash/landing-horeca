@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<!--
+  Tot — редизайн главной tot.kz (концепт).
+  Факты (цифры, клиенты, сертификаты, контакты) взяты с текущего сайта.
+  Ответы в FAQ и описания этапов — черновик, согласовать с владельцем.
+-->
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tot — создание франшизы под ключ</title>
+<meta name="description" content="Создание франшизы по 197 пунктам за 45 часов. 65+ франшиз с 2017 года. Алматы, Казахстан.">
+<meta name="theme-color" content="#070B1F">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Manrope:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@1,500;1,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#070B1F;
+  --ink-2:#0C1333;
+  --navy:#1E2F6B;
+  --cobalt:#3B66FF;
+  --ice:#9DB4FF;
+  --paper:#F3F0E8;
+  --paper-2:#E8E3D6;
+  --text:#EEF0F8;
+  --muted:rgba(238,240,248,.62);
+  --line:rgba(238,240,248,.12);
+  --display:'Unbounded',system-ui,sans-serif;
+  --body:'Manrope',system-ui,sans-serif;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --r:22px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;overflow-x:clip}
+footer,.clients,.hscroll{overflow:hidden}
+body{background:var(--ink);color:var(--text);font-family:var(--body);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+.wrap{width:min(1240px,100% - 32px);margin-inline:auto}
+@media(min-width:760px){.wrap{width:min(1240px,100% - 80px)}}
+::selection{background:var(--cobalt);color:#fff}
+
+/* grain */
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:100;opacity:.06;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* progress + cursor glow */
+.progress{position:fixed;top:0;left:0;height:2px;width:100%;background:linear-gradient(90deg,var(--cobalt),var(--ice));transform-origin:0 50%;transform:scaleX(0);z-index:90}
+.glow{position:fixed;width:520px;height:520px;border-radius:50%;pointer-events:none;z-index:0;left:0;top:0;
+  background:radial-gradient(circle,rgba(59,102,255,.18),transparent 65%);transform:translate(-50%,-50%);opacity:0;transition:opacity .4s}
+@media(hover:hover){.glow{opacity:1}}
+
+/* nav */
+.nav{position:fixed;inset:0 0 auto;z-index:80;transition:background .35s,backdrop-filter .35s,border-color .35s;border-bottom:1px solid transparent}
+.nav.scrolled{background:rgba(7,11,31,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-color:var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:72px}
+.logo{display:flex;align-items:center;gap:8px;font-family:var(--serif);font-size:34px;font-weight:600;font-style:normal;letter-spacing:-.5px}
+.logo svg{width:34px;height:34px}
+.nav ul{display:none;list-style:none;gap:34px;font-size:14px;font-weight:600;letter-spacing:.02em}
+.nav ul a{opacity:.72;transition:opacity .2s}
+.nav ul a:hover{opacity:1}
+@media(min-width:980px){.nav ul{display:flex}}
+.btn{position:relative;display:inline-flex;align-items:center;gap:12px;padding:16px 26px;border-radius:999px;font-weight:700;font-size:15px;letter-spacing:.01em;overflow:hidden;isolation:isolate;transition:color .3s}
+.btn-primary{background:var(--cobalt);color:#fff;box-shadow:0 10px 40px -10px rgba(59,102,255,.7)}
+.btn-primary::before{content:"";position:absolute;inset:0;background:var(--paper);transform:translateY(101%);transition:transform .45s cubic-bezier(.7,0,.2,1);z-index:-1;border-radius:inherit}
+.btn-primary:hover{color:var(--ink)}
+.btn-primary:hover::before{transform:none}
+.btn-ghost{border:1px solid var(--line)}
+.btn-ghost:hover{border-color:var(--ice)}
+.btn .arr{display:inline-block;transition:transform .3s}
+.btn:hover .arr{transform:translateX(4px)}
+.nav .btn{padding:11px 20px;font-size:14px}
+.nav .btn span.long{display:none}
+@media(min-width:560px){.nav .btn span.long{display:inline}}
+
+/* hero */
+.hero{position:relative;min-height:100svh;display:flex;align-items:center;padding:120px 0 80px;overflow:hidden}
+.hero-bg{position:absolute;inset:0;z-index:-1;overflow:hidden}
+.orb{position:absolute;border-radius:50%;filter:blur(70px);opacity:.55}
+.orb.a{width:620px;height:620px;background:#2140c9;left:-180px;top:-160px}
+.orb.b{width:520px;height:520px;background:#0f1d5c;right:-120px;bottom:-200px}
+.orb.c{width:300px;height:300px;background:#5b7cff;right:30%;top:20%;opacity:.25}
+.gridlines{position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:80px 80px;mask-image:radial-gradient(ellipse at 50% 40%,#000 20%,transparent 75%);-webkit-mask-image:radial-gradient(ellipse at 50% 40%,#000 20%,transparent 75%);opacity:.5}
+.hero-grid{display:grid;gap:56px;align-items:center}
+@media(min-width:980px){.hero-grid{grid-template-columns:1.25fr .9fr}}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--ice)}
+.eyebrow::before{content:"";width:28px;height:1px;background:currentColor}
+.hero h1{font-family:var(--display);font-weight:800;font-size:clamp(38px,6.6vw,92px);line-height:.98;letter-spacing:-.035em;margin:22px 0 26px}
+.hero h1 .line{display:block;overflow:hidden;padding-bottom:.06em}
+.hero h1 .line > span{display:inline-block}
+.hero h1 em{font-family:var(--serif);font-style:italic;font-weight:500;letter-spacing:-.01em;color:var(--ice)}
+.num-hl{background:linear-gradient(100deg,#fff 10%,var(--ice) 60%,var(--cobalt));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p.lead{font-size:clamp(17px,1.5vw,20px);color:var(--muted);max-width:540px}
+.hero-cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:38px}
+.hero-photo{position:relative;justify-self:center;width:min(440px,100%)}
+.hero-photo .frame{position:relative;border-radius:200px 200px 28px 28px;overflow:hidden;aspect-ratio:712/744;background:#9aa7b8;box-shadow:0 40px 120px -30px rgba(0,0,0,.8)}
+.hero-photo .frame img{width:100%;height:115%;object-fit:cover;object-position:50% 20%}
+.hero-photo .ring{position:absolute;inset:-18px;border:1px solid var(--line);border-radius:220px 220px 40px 40px;pointer-events:none}
+.chip{position:absolute;display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:16px;background:rgba(12,19,51,.78);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--line);font-size:13px;line-height:1.25;box-shadow:0 20px 50px -20px rgba(0,0,0,.7)}
+.chip b{font-family:var(--display);font-size:22px;font-weight:800;color:#fff}
+.chip.c1{left:-26px;top:16%}
+.chip.c2{right:-20px;bottom:18%}
+.chip .dot{width:9px;height:9px;border-radius:50%;background:#3ddc84;box-shadow:0 0 0 4px rgba(61,220,132,.2)}
+@media(max-width:560px){.chip.c1{left:-6px}.chip.c2{right:-6px}}
+.scroll-hint{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:10px}
+.scroll-hint i{width:1px;height:44px;background:linear-gradient(var(--ice),transparent);animation:drip 2s infinite}
+@keyframes drip{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* marquee */
+.marquee{border-block:1px solid var(--line);background:var(--navy);overflow:hidden;padding:22px 0;white-space:nowrap}
+.marquee .track{display:inline-flex;gap:48px;animation:mq 28s linear infinite;font-family:var(--display);font-weight:600;font-size:clamp(20px,3vw,34px);letter-spacing:.02em;text-transform:uppercase}
+.marquee .track span{display:inline-flex;align-items:center;gap:48px}
+.marquee .track span::after{content:"✦";color:var(--ice);font-size:.6em}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+/* sections */
+section{position:relative;padding:clamp(90px,12vw,160px) 0}
+.sec-head{display:grid;gap:22px;margin-bottom:clamp(48px,6vw,80px)}
+@media(min-width:900px){.sec-head{grid-template-columns:1fr 1fr;align-items:end}}
+h2{font-family:var(--display);font-weight:800;font-size:clamp(32px,4.8vw,64px);line-height:1.02;letter-spacing:-.03em}
+h2 em{font-family:var(--serif);font-style:italic;font-weight:500;color:var(--ice);letter-spacing:-.01em}
+.sec-head p{color:var(--muted);max-width:480px;font-size:18px}
+.split .w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.08em}
+.split .w > span{display:inline-block}
+
+/* stats */
+.stats{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+@media(min-width:760px){.stats{grid-template-columns:repeat(4,1fr)}}
+.stat{background:var(--ink);padding:40px 30px 34px;position:relative;overflow:hidden}
+.stat::before{content:"";position:absolute;left:0;bottom:0;height:3px;width:100%;background:var(--cobalt);transform:scaleX(0);transform-origin:0;transition:transform 1.2s cubic-bezier(.2,.8,.2,1)}
+.stat.on::before{transform:none}
+.stat b{display:block;font-family:var(--display);font-weight:800;font-size:clamp(50px,6vw,82px);line-height:1;letter-spacing:-.04em}
+.stat b small{font-size:.5em;color:var(--ice);vertical-align:top}
+.stat > span{display:block;margin-top:18px;color:var(--muted);font-size:15px;max-width:220px}
+
+/* about */
+.about{display:grid;gap:50px}
+@media(min-width:900px){.about{grid-template-columns:1fr 1.1fr;align-items:center}}
+.about .quote{font-family:var(--serif);font-style:italic;font-size:clamp(28px,3.4vw,46px);line-height:1.15;color:#fff}
+.about .quote::before{content:"“";display:block;font-size:2.4em;line-height:.6;color:var(--cobalt)}
+.about p{color:var(--muted);font-size:18px}
+.about p + p{margin-top:16px}
+
+/* deliverables – stacked cards */
+.paper{background:var(--paper);color:var(--ink)}
+.paper h2 em{color:var(--navy)}
+.paper .sec-head p{color:rgba(7,11,31,.62)}
+.paper .eyebrow{color:var(--navy)}
+.stack{display:grid;gap:20px}
+.card{position:sticky;top:110px;background:#fff;border-radius:28px;padding:clamp(28px,4vw,52px);display:grid;gap:22px;border:1px solid rgba(7,11,31,.08);box-shadow:0 -20px 60px -30px rgba(7,11,31,.25);transform-origin:50% 0}
+@media(min-width:760px){.card{grid-template-columns:120px 1fr 1.1fr;align-items:start}}
+.card .n{font-family:var(--display);font-weight:800;font-size:56px;line-height:1;color:var(--cobalt);letter-spacing:-.04em}
+.card h3{font-family:var(--display);font-weight:600;font-size:clamp(22px,2.4vw,30px);line-height:1.12;letter-spacing:-.02em}
+.card p{color:rgba(7,11,31,.66);font-size:17px}
+.card .tag{display:inline-block;margin-top:14px;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--navy);padding:7px 12px;border-radius:999px;background:var(--paper)}
+.card:nth-child(1){top:100px}.card:nth-child(2){top:116px}.card:nth-child(3){top:132px}.card:nth-child(4){top:148px}.card:nth-child(5){top:164px}.card:nth-child(6){top:180px}
+
+/* process – horizontal */
+.hscroll{padding:0;height:auto}
+.hs-pin{min-height:100vh;display:flex;flex-direction:column;justify-content:center;overflow:hidden;padding:110px 0 60px}
+.hs-track{display:flex;gap:22px;padding-left:max(16px,(100vw - 1240px)/2);padding-right:40px;will-change:transform}
+.step{flex:0 0 min(84vw,420px);min-height:400px;border-radius:28px;padding:36px;background:linear-gradient(160deg,var(--ink-2),#0a1029);border:1px solid var(--line);display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+.step::after{content:"";position:absolute;width:260px;height:260px;border-radius:50%;right:-90px;top:-90px;background:radial-gradient(circle,rgba(59,102,255,.35),transparent 70%)}
+.step .k{font-family:var(--display);font-size:14px;letter-spacing:.18em;color:var(--ice)}
+.step h3{font-family:var(--display);font-weight:600;font-size:28px;line-height:1.1;letter-spacing:-.02em;margin:auto 0 16px}
+.step p{color:var(--muted);font-size:16px}
+.step.final{background:var(--cobalt);border-color:transparent}
+.step.final p{color:rgba(255,255,255,.85)}
+.step.final .k{color:#fff}
+.hs-bar{margin:44px auto 0;width:min(1240px,100% - 32px);height:2px;background:var(--line);border-radius:2px;overflow:hidden}
+.hs-bar i{display:block;height:100%;width:100%;background:var(--ice);transform:scaleX(0);transform-origin:0}
+@media(max-width:759px){.hs-track{overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding-bottom:10px;scrollbar-width:none}.hs-track::-webkit-scrollbar{display:none}.step{scroll-snap-align:start}.hs-bar{display:none}}
+
+/* clients */
+.clients{overflow:hidden}
+.logo-row{display:flex;white-space:nowrap;overflow:hidden;mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent)}
+.logo-row + .logo-row{margin-top:18px}
+.logo-row .lt{display:inline-flex;gap:18px;animation:mq 60s linear infinite;padding-right:18px}
+.logo-row.rev .lt{animation-direction:reverse;animation-duration:70s}
+.pill{display:inline-flex;align-items:center;gap:12px;padding:18px 28px;border-radius:999px;border:1px solid var(--line);font-family:var(--display);font-weight:600;font-size:clamp(16px,1.8vw,22px);letter-spacing:-.01em;color:rgba(238,240,248,.86);transition:background .3s,color .3s,border-color .3s}
+.pill::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--cobalt)}
+.pill:hover{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+.clients-note{margin-top:46px;color:var(--muted);text-align:center;font-size:15px}
+
+/* videos */
+.videos{display:grid;gap:20px}
+@media(min-width:900px){.videos{grid-template-columns:1.4fr 1fr;grid-template-rows:1fr 1fr}.videos .v:first-child{grid-row:span 2}}
+.v{position:relative;border-radius:var(--r);overflow:hidden;min-height:240px;padding:28px;display:flex;flex-direction:column;justify-content:flex-end;border:1px solid var(--line);background:var(--ink-2);isolation:isolate}
+.v .bg{position:absolute;inset:0;z-index:-1;transition:transform .8s cubic-bezier(.2,.8,.2,1)}
+.v:hover .bg{transform:scale(1.06)}
+.v .bg.g1{background:radial-gradient(circle at 70% 30%,#3b66ff,transparent 55%),radial-gradient(circle at 20% 90%,#1e2f6b,transparent 60%),#0a1029}
+.v .bg.g2{background:radial-gradient(circle at 30% 20%,#7a5cff,transparent 55%),#0a1029}
+.v .bg.g3{background:radial-gradient(circle at 80% 70%,#1fa2ff,transparent 55%),#0a1029}
+.v .play{width:68px;height:68px;border-radius:50%;background:#fff;color:var(--ink);display:grid;place-items:center;margin-bottom:auto;transition:transform .4s}
+.v:hover .play{transform:scale(1.12)}
+.v .play svg{width:22px;margin-left:4px}
+.v small{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--ice);font-weight:700;margin-top:30px}
+.v h3{font-family:var(--display);font-weight:600;font-size:clamp(20px,2.2vw,30px);line-height:1.15;letter-spacing:-.02em;margin-top:10px}
+.v:first-child h3{font-size:clamp(24px,3vw,42px)}
+
+/* founder */
+.founder{display:grid;gap:56px}
+@media(min-width:980px){.founder{grid-template-columns:.9fr 1.1fr}}
+.founder-photo{position:sticky;top:110px;align-self:start;border-radius:28px;overflow:hidden;aspect-ratio:712/744}
+.founder-photo img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.05);transition:filter 1s}
+.founder-photo:hover img{filter:none}
+.founder-photo figcaption{position:absolute;left:20px;right:20px;bottom:20px;padding:18px 20px;border-radius:18px;background:rgba(7,11,31,.72);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--line)}
+.founder-photo figcaption b{display:block;font-family:var(--display);font-size:20px}
+.founder-photo figcaption span{color:var(--muted);font-size:14px}
+.timeline{list-style:none;position:relative;border-left:1px solid var(--line);margin-top:40px}
+.timeline li{position:relative;padding:0 0 30px 32px}
+.timeline li::before{content:"";position:absolute;left:-6px;top:8px;width:11px;height:11px;border-radius:50%;background:var(--ink);border:2px solid var(--cobalt)}
+.timeline time{font-family:var(--display);font-size:13px;letter-spacing:.14em;color:var(--ice)}
+.timeline b{display:block;font-size:19px;font-weight:700;margin:4px 0 2px;line-height:1.3}
+.timeline span{color:var(--muted);font-size:15px}
+.tl-fill{position:absolute;left:-1px;top:0;width:1px;height:100%;background:var(--cobalt);transform:scaleY(0);transform-origin:top}
+
+/* services */
+.services{display:grid;gap:20px}
+@media(min-width:900px){.services{grid-template-columns:1fr 1fr}}
+.svc{border-radius:28px;padding:clamp(30px,4vw,50px);min-height:340px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden;border:1px solid rgba(7,11,31,.1);transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.svc:hover{transform:translateY(-6px)}
+.svc.dark{background:var(--ink);color:var(--text)}
+.svc.light{background:#fff;color:var(--ink)}
+.svc h3{font-family:var(--display);font-weight:800;font-size:clamp(30px,3.6vw,48px);letter-spacing:-.03em;line-height:1}
+.svc ul{list-style:none;display:flex;flex-wrap:wrap;gap:10px;margin-top:30px}
+.svc li{padding:9px 16px;border-radius:999px;font-size:14px;font-weight:600;border:1px solid currentColor;opacity:.8}
+.svc .big{position:absolute;right:-20px;bottom:-60px;font-family:var(--display);font-weight:800;font-size:220px;line-height:1;opacity:.06;pointer-events:none}
+
+/* blog */
+.posts{display:grid;gap:20px}
+@media(min-width:900px){.posts{grid-template-columns:repeat(3,1fr)}}
+.post{border-radius:var(--r);border:1px solid rgba(7,11,31,.12);padding:30px;min-height:260px;display:flex;flex-direction:column;justify-content:space-between;background:var(--paper);transition:background .3s,color .3s}
+.post:hover{background:var(--ink);color:var(--text)}
+.post small{font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--cobalt)}
+.post h3{font-family:var(--display);font-weight:600;font-size:22px;line-height:1.2;letter-spacing:-.02em;margin-top:18px}
+.post .more{margin-top:30px;font-weight:700;font-size:14px}
+
+/* faq */
+.faq{display:grid;gap:50px}
+@media(min-width:980px){.faq{grid-template-columns:.8fr 1.2fr}}
+.qa{border-top:1px solid var(--line)}
+.qa:last-child{border-bottom:1px solid var(--line)}
+.qa button{width:100%;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:28px 0;text-align:left;font-family:var(--display);font-weight:600;font-size:clamp(17px,1.8vw,22px);letter-spacing:-.01em;line-height:1.3}
+.qa .pm{flex:0 0 44px;height:44px;border-radius:50%;border:1px solid var(--line);position:relative;transition:background .3s,transform .4s}
+.qa .pm::before,.qa .pm::after{content:"";position:absolute;left:50%;top:50%;width:14px;height:1.5px;background:currentColor;transform:translate(-50%,-50%)}
+.qa .pm::after{transform:translate(-50%,-50%) rotate(90deg);transition:transform .4s}
+.qa.open .pm{background:var(--cobalt);border-color:var(--cobalt)}
+.qa.open .pm::after{transform:translate(-50%,-50%) rotate(0)}
+.qa .ans{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s cubic-bezier(.2,.8,.2,1)}
+.qa.open .ans{grid-template-rows:1fr}
+.qa .ans > div{overflow:hidden}
+.qa .ans p{color:var(--muted);padding:0 60px 28px 0;font-size:17px}
+
+/* cta */
+.cta{position:relative;overflow:hidden;border-radius:36px;padding:clamp(40px,7vw,100px);background:radial-gradient(circle at 85% 10%,#5b7cff,transparent 45%),radial-gradient(circle at 0% 100%,#0f1d5c,transparent 55%),var(--navy);display:grid;gap:48px}
+@media(min-width:980px){.cta{grid-template-columns:1.1fr .9fr;align-items:center}}
+.cta h2{font-size:clamp(28px,5.4vw,76px);overflow-wrap:anywhere;hyphens:auto}
+.cta p{color:rgba(255,255,255,.78);font-size:18px;margin-top:20px;max-width:460px}
+form.lead{display:grid;gap:14px}
+form.lead label{display:block;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.7);margin-bottom:8px}
+form.lead input,form.lead select{width:100%;padding:17px 20px;border-radius:16px;border:1px solid rgba(255,255,255,.2);background:rgba(7,11,31,.35);color:#fff;font:inherit;font-size:16px;outline:none;transition:border-color .2s,background .2s;appearance:none;-webkit-appearance:none}
+form.lead select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='white' fill='none' stroke-width='1.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 20px center}
+form.lead select option{color:#000}
+form.lead input:focus,form.lead select:focus{border-color:#fff;background:rgba(7,11,31,.5)}
+form.lead input::placeholder{color:rgba(255,255,255,.4)}
+form.lead .btn{justify-content:center;margin-top:8px;background:#fff;color:var(--ink);box-shadow:none}
+form.lead .btn::before{background:var(--ink)}
+form.lead .btn:hover{color:#fff}
+form.lead small{color:rgba(255,255,255,.6);font-size:13px}
+
+/* footer */
+footer{padding:100px 0 40px;border-top:1px solid var(--line)}
+.f-big{font-family:var(--serif);font-style:italic;font-size:clamp(70px,16vw,240px);line-height:.9;letter-spacing:-.03em;color:transparent;-webkit-text-stroke:1px rgba(238,240,248,.25);margin-bottom:60px;white-space:nowrap}
+.f-grid{display:grid;gap:40px}
+@media(min-width:900px){.f-grid{grid-template-columns:1.4fr 1fr 1fr 1fr}}
+.f-grid h4{font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ice);margin-bottom:18px}
+.f-grid ul{list-style:none;display:grid;gap:10px;color:var(--muted);font-size:15px}
+.f-grid a:hover{color:#fff}
+.f-contact a{display:block;font-family:var(--display);font-weight:600;font-size:clamp(22px,2.6vw,32px);letter-spacing:-.02em;line-height:1.3}
+.f-contact address{font-style:normal;color:var(--muted);margin-top:16px}
+.socials{display:flex;gap:10px;margin-top:24px}
+.socials a{width:48px;height:48px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;transition:background .3s,border-color .3s}
+.socials a:hover{background:var(--cobalt);border-color:var(--cobalt)}
+.socials svg{width:20px;height:20px}
+.f-bottom{margin-top:70px;padding-top:26px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;color:var(--muted);font-size:13px}
+
+/* floating wa */
+.fab{position:fixed;right:18px;bottom:18px;z-index:70;width:60px;height:60px;border-radius:50%;background:#25D366;display:grid;place-items:center;box-shadow:0 14px 40px -10px rgba(37,211,102,.7);transform:scale(0);transition:transform .4s cubic-bezier(.2,1.4,.4,1)}
+.fab.show{transform:scale(1)}
+.fab svg{width:30px;height:30px;fill:#fff}
+
+/* reveal base (works without JS too) */
+.js .rv{opacity:0;transform:translateY(40px)}
+@media (prefers-reduced-motion:reduce){
+  .js .rv{opacity:1;transform:none}
+  .marquee .track,.logo-row .lt{animation:none}
+  *{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+<div class="glow" aria-hidden="true"></div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="feather" viewBox="0 0 64 64">
+    <circle cx="32" cy="32" r="30" fill="currentColor"/>
+    <path d="M44 8c-9 4-17 13-21 25-2 6-3 12-3 18l-4 9 2 1 4-8c6-1 11-4 15-9 6-8 9-18 8-29 0-3-1-5-1-7z" fill="#070B1F"/>
+    <path d="M42 12C35 22 28 34 22 52" stroke="currentColor" stroke-width="1.2" fill="none"/>
+  </symbol>
+</svg>
+
+<!-- NAV -->
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a href="#top" class="logo" aria-label="Tot — на главную">Tot <svg><use href="#feather"/></svg></a>
+    <ul>
+      <li><a href="#value">Что вы получите</a></li>
+      <li><a href="#process">Процесс</a></li>
+      <li><a href="#cases">Проекты</a></li>
+      <li><a href="#founder">Основатель</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+    <a href="#lead" class="btn btn-primary magnetic"><span><span class="long">Бесплатная </span>консультация</span><span class="arr">→</span></a>
+  </div>
+</header>
+
+<main id="top">
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg" aria-hidden="true">
+    <div class="orb a"></div><div class="orb b"></div><div class="orb c"></div>
+    <div class="gridlines"></div>
+  </div>
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow hero-fade">Франчайзинг с 2017 года · Алматы</span>
+      <h1>
+        <span class="line"><span>Создание франшизы</span></span>
+        <span class="line"><span>по <span class="num-hl">197</span> пунктам</span></span>
+        <span class="line"><span>за <span class="num-hl">45</span> <em>часов</em></span></span>
+      </h1>
+      <p class="lead hero-fade">По мировым стандартам, под ключ, с гарантией результата. Превращаем ваш бизнес в систему, которую можно продавать и масштабировать.</p>
+      <div class="hero-cta hero-fade">
+        <a href="#lead" class="btn btn-primary magnetic">Получить консультацию <span class="arr">→</span></a>
+        <a href="#process" class="btn btn-ghost">Как мы работаем</a>
+      </div>
+    </div>
+    <div class="hero-photo">
+      <div class="ring" aria-hidden="true"></div>
+      <div class="frame"><img src="assets/founder.jpg" alt="Алимжан Бахавдинов, основатель Tot" id="heroImg" width="712" height="744"></div>
+      <div class="chip c1"><b>65+</b><span>франшиз<br>разработано</span></div>
+      <div class="chip c2"><span class="dot"></span><span>Алимжан Бахавдинов<br><span style="color:var(--muted)">основатель Tot</span></span></div>
+    </div>
+  </div>
+  <div class="scroll-hint" aria-hidden="true">скролл<i></i></div>
+</section>
+
+<div class="marquee" aria-hidden="true">
+  <div class="track">
+    <span>Бренд</span><span>Система</span><span>Успех</span><span>Создание франшизы</span><span>Масштаб</span>
+    <span>Бренд</span><span>Система</span><span>Успех</span><span>Создание франшизы</span><span>Масштаб</span>
+  </div>
+</div>
+
+<!-- STATS -->
+<section id="numbers">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="eyebrow rv">Опыт в цифрах</span><h2 class="split" style="margin-top:18px">Не обещания. <em>Факты.</em></h2></div>
+      <p class="rv">Девятый год мы упаковываем бизнесы Казахстана во франшизы: от кофеен и барбершопов до детских центров и сетей процедурных кабинетов.</p>
+    </div>
+    <div class="stats">
+      <div class="stat rv"><b><span class="count" data-to="65">0</span><small>+</small></b><span>франшиз реально разработано с 2017 года</span></div>
+      <div class="stat rv"><b><span class="count" data-to="2355">0</span></b><span>часов консультаций по франчайзингу и бизнесу</span></div>
+      <div class="stat rv"><b><span class="count" data-to="205">0</span></b><span>проектов, в которых мы принимали участие</span></div>
+      <div class="stat rv"><b><span class="count" data-to="197">0</span></b><span>пунктов в стандарте упаковки франшизы</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section style="padding-top:0">
+  <div class="wrap about">
+    <p class="quote split">Ваш бренд должен получить внимание, которого заслуживает.</p>
+    <div>
+      <p class="rv">Tot — полный набор инструментов для развития и продвижения бизнеса: от логотипа до запуска франшизы. С 2017 года команда участвовала в сотнях проектов: брендинг, фото и видео, обучающие семинары, разработка и SEO-оптимизация сайтов.</p>
+      <p class="rv">Форматы работы гибкие и подстраиваются под задачу и бюджет. Вы получаете не стопку документов, а работающую систему, которую франчайзи может повторить в любом городе.</p>
+      <a href="#founder" class="btn btn-ghost rv" style="margin-top:30px">Подробнее о компании <span class="arr">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- VALUE -->
+<section class="paper" id="value">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="eyebrow rv">Результат</span><h2 class="split" style="margin-top:18px">Что вы получите, создав франшизу <em>с нами</em></h2></div>
+      <p class="rv">Шесть блоков, из которых складывается франшиза, готовая к продаже. Каждый разрабатывается под ваш бизнес, без шаблонов.</p>
+    </div>
+    <div class="stack">
+      <article class="card"><div class="n">01</div><h3>Глубокий анализ рынка и конкурентов</h3><div><p>Всесторонний анализ рынка и детальное изучение ключевых конкурентов. Находим, в чём преимущество именно вашей франшизы.</p><span class="tag">Стратегия</span></div></article>
+      <article class="card"><div class="n">02</div><h3>Комплексная юридическая защита</h3><div><p>Защита товарного знака и правильное юридическое оформление отношений с франчайзи: договор, регистрация, права на бренд.</p><span class="tag">Право</span></div></article>
+      <article class="card"><div class="n">03</div><h3>Индивидуальный франчайзинговый пакет</h3><div><p>На встречах разрабатываем полное и понятное руководство по стандартам вашего бизнеса. Франчайзи откроет точку без звонков вам каждые пять минут.</p><span class="tag">Стандарты</span></div></article>
+      <article class="card"><div class="n">04</div><h3>Концепция и расчёт стоимости франшизы</h3><div><p>Детальная концепция с понятной системой цен: паушальный взнос, роялти, чёткий регламент взаимодействия сторон.</p><span class="tag">Экономика</span></div></article>
+      <article class="card"><div class="n">05</div><h3>Финансовая модель на 3 года</h3><div><p>Модель, которая считает доходы и расходы франчайзи. Главный аргумент на переговорах с инвестором.</p><span class="tag">Финансы</span></div></article>
+      <article class="card"><div class="n">06</div><h3>Эффективные маркетинговые материалы</h3><div><p>Презентации, коммерческие предложения и рекламные инструменты, чтобы франшизу покупали.</p><span class="tag">Продажи</span></div></article>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS (horizontal) -->
+<section class="hscroll" id="process">
+  <div class="hs-pin">
+    <div class="wrap sec-head" style="margin-bottom:46px">
+      <div><span class="eyebrow">Процесс</span><h2 style="margin-top:18px">45 часов от идеи <em>до системы</em></h2></div>
+      <p>Работаем встречами, каждая заканчивается готовым результатом. Вы видите прогресс и участвуете в каждом решении.</p>
+    </div>
+    <div class="hs-track">
+      <div class="step"><span class="k">ЭТАП 01</span><h3>Диагностика</h3><p>Разбираем бизнес-модель и проверяем, готов ли бизнес к тиражированию. Если нет, говорим честно и показываем, что доработать.</p></div>
+      <div class="step"><span class="k">ЭТАП 02</span><h3>Рынок и позиционирование</h3><p>Анализ конкурентов, портрет франчайзи, уникальное предложение.</p></div>
+      <div class="step"><span class="k">ЭТАП 03</span><h3>Концепция и экономика</h3><p>Паушальный взнос, роялти, финансовая модель на 3 года.</p></div>
+      <div class="step"><span class="k">ЭТАП 04</span><h3>Стандарты и бренд-бук</h3><p>Операционные регламенты, требования к точке, обучение персонала.</p></div>
+      <div class="step"><span class="k">ЭТАП 05</span><h3>Юридическая упаковка</h3><p>Товарный знак, договор коммерческой концессии, приложения.</p></div>
+      <div class="step final"><span class="k">ФИНАЛ</span><h3>Франшиза готова к продаже</h3><p>Презентация, маркетинг-кит, размещение в каталогах франшиз.</p></div>
+    </div>
+    <div class="hs-bar"><i></i></div>
+  </div>
+</section>
+
+<!-- CLIENTS -->
+<section class="clients" id="cases">
+  <div class="wrap sec-head">
+    <div><span class="eyebrow rv">Реализованные проекты</span><h2 class="split" style="margin-top:18px">Проекты, которыми <em>мы гордимся</em></h2></div>
+    <p class="rv">Еда, красота, образование, ритейл, сервис. Бренды, которые уже прошли через Tot.</p>
+  </div>
+  <div class="logo-row"><div class="lt" data-row="1"></div></div>
+  <div class="logo-row rev"><div class="lt" data-row="2"></div></div>
+  <div class="logo-row"><div class="lt" data-row="3"></div></div>
+  <p class="clients-note wrap rv">и ещё десятки брендов из 205 проектов</p>
+</section>
+
+<!-- VIDEOS -->
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="eyebrow rv">Реальные отзывы</span><h2 class="split" style="margin-top:18px">Живые истории <em>наших клиентов</em></h2></div>
+      <p class="rv">23 полных интервью с владельцами брендов на YouTube-канале «Tot Алимжан по франшизам».</p>
+    </div>
+    <div class="videos">
+      <a class="v rv" href="https://www.youtube.com/results?search_query=Tot+Алимжан+Франчайзинг+в+СНГ+ошибки" target="_blank" rel="noopener"><div class="bg g1"></div><span class="play"><svg viewBox="0 0 20 24"><path d="M0 0l20 12L0 24z" fill="currentColor"/></svg></span><small>Подкаст</small><h3>Франчайзинг в СНГ: ошибки, успехи и почему франшиза — это не легко</h3></a>
+      <a class="v rv" href="https://www.youtube.com/results?search_query=Tot+Алимжан+ТМ+Барбершоп+Таир+Марасулов" target="_blank" rel="noopener"><div class="bg g2"></div><span class="play"><svg viewBox="0 0 20 24"><path d="M0 0l20 12L0 24z" fill="currentColor"/></svg></span><small>Интервью · 2024</small><h3>ТМ Барбершоп: Таир Марасулов и Вячеслав Мельников</h3></a>
+      <a class="v rv" href="https://www.youtube.com/results?search_query=Tot+Алимжан+франшиза+ARU+ANA" target="_blank" rel="noopener"><div class="bg g3"></div><span class="play"><svg viewBox="0 0 20 24"><path d="M0 0l20 12L0 24z" fill="currentColor"/></svg></span><small>Интервью</small><h3>Франшиза ARU ANA: Асхат Абжанов и Асель Канатова</h3></a>
+    </div>
+    <div style="text-align:center;margin-top:40px" class="rv"><a class="btn btn-ghost" href="https://www.youtube.com/results?search_query=Tot+Алимжан+по+франшизам" target="_blank" rel="noopener">Все интервью на YouTube <span class="arr">↗</span></a></div>
+  </div>
+</section>
+
+<!-- FOUNDER -->
+<section id="founder" style="background:var(--ink-2)">
+  <div class="wrap founder">
+    <figure class="founder-photo rv">
+      <img src="assets/founder.jpg" alt="Алимжан Бахавдинов" loading="lazy" width="712" height="744">
+      <figcaption><b>Алимжан Бахавдинов</b><span>Основатель Tot · ментор, консультант по франчайзингу</span></figcaption>
+    </figure>
+    <div>
+      <span class="eyebrow rv">Подтверждение качества</span>
+      <h2 class="split" style="margin-top:18px">Учится сам, <em>чтобы учить</em> других</h2>
+      <p class="rv" style="color:var(--muted);font-size:18px;margin-top:22px;max-width:560px">Спикер и участник международных выставок франшиз, в том числе в Дубае. Ментор акселерационных программ для стартапов. Регулярно обучается у лучших экспертов по продажам, маркетингу и консалтингу.</p>
+      <ol class="timeline" id="timeline">
+        <span class="tl-fill" aria-hidden="true"></span>
+        <li class="rv"><time>2024</time><b>«Большие продажи» и «Дорогие продажи и дожим»</b><span>KARADA, Университет продаж</span></li>
+        <li class="rv"><time>2023</time><b>«Маркетинг без бюджета, который нужен сейчас»</b><span>Игорь Манн</span></li>
+        <li class="rv"><time>2022</time><b>Маркетинг и продажи консалтинговых услуг</b><span>Европейский банк реконструкции и развития (EBRD)</span></li>
+        <li class="rv"><time>2022</time><b>Бизнес-тренинг «Техники эффективного мышления»</b><span>TEAM</span></li>
+        <li class="rv"><time>2021</time><b>Аргументация, коучинг, фасилитация · Построение отдела продаж</b><span>EBRD · Стокгольмская школа экономики · IBS Consulting Group</span></li>
+        <li class="rv"><time>2020</time><b>Мастер-класс по эффективности команды</b><span>Visotsky Consulting</span></li>
+        <li class="rv"><time>2019–2020</time><b>«Бастау Бизнес» и «Бизнес-Школа»</b><span>НПП «Атамекен»</span></li>
+        <li class="rv"><time>Ментор</time><b>Благодарность за менторство в акселерации стартапов</b><span>Бизнес-инкубатор MOST</span></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="paper">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="eyebrow rv">Экосистема Tot</span><h2 class="split" style="margin-top:18px">Наши дополнительные <em>сервисы</em></h2></div>
+      <p class="rv">Всё, что нужно бренду после упаковки франшизы, в одних руках.</p>
+    </div>
+    <div class="services">
+      <div class="svc dark rv"><span class="big">M</span><div><span class="eyebrow">01</span><h3 style="margin-top:20px">Tot Media</h3></div><ul><li>Фотосъёмка</li><li>Видеосъёмка</li><li>Монтаж роликов</li></ul></div>
+      <div class="svc light rv"><span class="big">Mk</span><div><span class="eyebrow">02</span><h3 style="margin-top:20px">Tot Marketing</h3></div><ul><li>Разработка сайтов</li><li>SEO-оптимизация</li><li>Offline-маркетинг</li><li>Каталог франшиз</li></ul></div>
+    </div>
+
+    <div class="sec-head" style="margin-top:clamp(90px,10vw,140px)">
+      <div><span class="eyebrow rv">Блог</span><h2 class="split" style="margin-top:18px">Всё о франшизе: <em>идеи и советы</em></h2></div>
+      <p class="rv">Новости и лайфхаки из мира франчайзинга и бизнеса. С уважением, команда Tot.</p>
+    </div>
+    <div class="posts">
+      <a class="post rv" href="#"><div><small>О франчайзинге</small><h3>За что ваш клиент платит на самом деле: за функцию или за мурашки?</h3></div><span class="more">Читать →</span></a>
+      <a class="post rv" href="#"><div><small>Фишки и нюансы</small><h3>Вы учите партнёра строить бизнес или растите будущего конкурента?</h3></div><span class="more">Читать →</span></a>
+      <a class="post rv" href="#"><div><small>Новости</small><h3>Выставка франчайзинга в Казахстане: как это было</h3></div><span class="more">Читать →</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="wrap faq">
+    <div>
+      <span class="eyebrow rv">Решаем ваши сомнения</span>
+      <h2 class="split" style="margin-top:18px">Частые <em>вопросы</em></h2>
+      <p class="rv" style="color:var(--muted);margin-top:22px;max-width:380px">Не нашли свой вопрос? Напишите в WhatsApp, ответим лично.</p>
+      <a class="btn btn-ghost rv" style="margin-top:26px" href="https://wa.me/77054485848" target="_blank" rel="noopener">Задать вопрос <span class="arr">→</span></a>
+    </div>
+    <div class="qa-list">
+      <div class="qa rv"><button aria-expanded="false">Из чего состоит франшиза?<span class="pm"></span></button><div class="ans"><div><p>Франшиза — это право работать под вашим брендом по вашей системе. Её основа: товарный знак, стандарты работы (операционное руководство), финансовая модель, договор и программа обучения и поддержки франчайзи.</p></div></div></div>
+      <div class="qa rv"><button aria-expanded="false">Какие основные элементы включает франчайзинговый пакет?<span class="pm"></span></button><div class="ans"><div><p>Анализ рынка, концепция и расчёт стоимости франшизы, финансовая модель на 3 года, руководство по стандартам, юридический пакет и маркетинговые материалы для продажи франшизы.</p></div></div></div>
+      <div class="qa rv"><button aria-expanded="false">Сколько времени занимает создание франшизы?<span class="pm"></span></button><div class="ans"><div><p>Наш стандарт: 197 пунктов за 45 часов совместной работы. Календарный срок зависит от того, как часто вы готовы встречаться и как быстро собираете данные по бизнесу.</p></div></div></div>
+      <div class="qa rv"><button aria-expanded="false">Можно ли продавать франшизу без регистрации товарного знака?<span class="pm"></span></button><div class="ans"><div><p>Без зарегистрированного знака вы рискуете брендом: передавать по договору то, что юридически вам не принадлежит, нельзя. Поможем подать заявку параллельно с упаковкой.</p></div></div></div>
+      <div class="qa rv"><button aria-expanded="false">Нужно ли регистрировать товарный знак до создания франшизы?<span class="pm"></span></button><div class="ans"><div><p>Подать заявку лучше как можно раньше: регистрация занимает время, а работу над франшизой можно вести параллельно. К моменту продажи знак должен быть защищён.</p></div></div></div>
+      <div class="qa rv"><button aria-expanded="false">Как понять, что мой бизнес готов к франчайзингу?<span class="pm"></span></button><div class="ans"><div><p>Бизнес должен стабильно приносить прибыль, процессы должны повторяться без вашего ручного участия, а продукт — быть интересен в других городах. Это мы проверяем на бесплатной консультации.</p></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="lead" style="padding-top:0">
+  <div class="wrap">
+    <div class="cta rv">
+      <div>
+        <span class="eyebrow" style="color:#fff">Франшиза с нуля</span>
+        <h2 class="split" style="margin-top:18px">Оставьте заявку и получите <em style="color:#fff">бесплатную</em> консультацию</h2>
+        <p>Разберём ваш бизнес, оценим, готов ли он к франчайзингу, и покажем план упаковки. Без обязательств.</p>
+      </div>
+      <form class="lead" id="leadForm">
+        <div><label for="f-name">Имя</label><input id="f-name" name="name" required placeholder="Как к вам обращаться"></div>
+        <div><label for="f-biz">Ваш бизнес</label><input id="f-biz" name="biz" required placeholder="Кофейня, барбершоп, студия…"></div>
+        <div><label for="f-stage">Сколько точек сейчас</label>
+          <select id="f-stage" name="stage"><option>1 точка</option><option>2–5 точек</option><option>Больше 5 точек</option><option>Пока идея</option></select></div>
+        <button class="btn btn-primary" type="submit">Отправить в WhatsApp <span class="arr">→</span></button>
+        <small>Нажимая кнопку, вы соглашаетесь с политикой обработки персональных данных.</small>
+      </form>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="f-big" aria-hidden="true">Tot — франшиза</div>
+    <div class="f-grid">
+      <div class="f-contact">
+        <h4>Контакты</h4>
+        <a href="tel:+77054485848">+7 705 448 58 48</a>
+        <a href="mailto:work@tot.kz">work@tot.kz</a>
+        <address>Республика Казахстан, г. Алматы,<br>ул. Саяна Шаймерденова, 32В, 2 этаж</address>
+        <div class="socials">
+          <a href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
+          <a href="https://www.tiktok.com/" target="_blank" rel="noopener" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 5.8A4.3 4.3 0 0 1 15.5 3h-3.1v12.4a2.6 2.6 0 1 1-2.6-2.6c.3 0 .5 0 .8.1V9.7a5.7 5.7 0 1 0 4.9 5.7V9.1a7.4 7.4 0 0 0 4.3 1.4V7.4a4.3 4.3 0 0 1-3.2-1.6z"/></svg></a>
+          <a href="https://www.youtube.com/results?search_query=Tot+Алимжан+по+франшизам" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .5 12 31 31 0 0 0 1 16.8a3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1 31 31 0 0 0 .5-4.8 31 31 0 0 0-.5-4.8zM9.8 15V9l5.8 3-5.8 3z"/></svg></a>
+          <a href="https://2gis.kz/almaty/search/Саяна%20Шаймерденова%2032в" target="_blank" rel="noopener" aria-label="2ГИС"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg></a>
+        </div>
+      </div>
+      <div><h4>Компания</h4><ul><li><a href="#founder">Основатель</a></li><li><a href="#top">О компании</a></li><li><a href="#value">Разработка франшизы</a></li><li><a href="#lead">Стать частью команды</a></li></ul></div>
+      <div><h4>Франчайзинг</h4><ul><li><a href="#value">Упаковка франшизы</a></li><li><a href="#cases">Кейсы и отзывы</a></li><li><a href="#faq">Регистрация товарного знака</a></li><li><a href="#faq">Договор франшизы</a></li><li><a href="#lead">Продажа франшизы</a></li><li><a href="#cases">Каталог франшиз</a></li></ul></div>
+      <div><h4>Доп. услуги</h4><ul><li>Фото- и видеосъёмка</li><li>Монтаж роликов</li><li>Разработка сайтов</li><li>SEO-оптимизация</li><li>Offline-маркетинг</li></ul></div>
+    </div>
+    <div class="f-bottom"><span>© 2017–<span id="yr">2026</span> ИП «Tot». Создание франшиз по мировым стандартам.</span><a href="#">Политика обработки персональных данных</a></div>
+  </div>
+</footer>
+
+<a class="fab" id="fab" href="https://wa.me/77054485848" target="_blank" rel="noopener" aria-label="Написать в WhatsApp"><svg viewBox="0 0 24 24"><path d="M17.5 14.4c-.3-.1-1.8-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.4-.5.3-.5v-.5c-.1-.1-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5 2.5 1 3 .8 3.6.8.5-.1 1.8-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.2-.3-.3-.6-.4zM12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2z"/></svg></a>
+
+<script src="assets/vendor/gsap.min.js"></script>
+<script src="assets/vendor/ScrollTrigger.min.js"></script>
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var hasGsap = !!(window.gsap && window.ScrollTrigger);
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  /* clients */
+  var rows = [
+    ['ТМ Barber Shop','Тамшылар','Seendicat','TI Detailing','Ali Pack Fast','Mazbol Perfumes','ICU','Санти','Светолюкс','Каникулы Off-Line','Teams Education','Anna Anna'],
+    ['Чудо Товар','El Eat Buket','Rayal','Bast Transform','Биохакинг','Империя вкуса','Fruitwave','Искусство','Barakat Burger','Ramen House','Halal Beauty','Vostok Shop'],
+    ['Azalika Store','NIKA','ПЦН Күзет','Optimus KZ','Хлебипирог','ECO TON','B.A. Shop','Qazaq Grill','Pro Master','Zadari.kz','SK Boxing','Healthy Meal','Lombardini','AIG Partners','Buter Bro','Miss Korea','Алем','Белорусские продукты','SMG']
+  ];
+  document.querySelectorAll('.logo-row .lt').forEach(function(el){
+    var list = rows[+el.dataset.row-1];
+    var html = list.map(function(n){return '<span class="pill">'+n+'</span>'}).join('');
+    el.innerHTML = html + html; // seamless loop
+  });
+
+  /* FAQ */
+  document.querySelectorAll('.qa button').forEach(function(b){
+    b.addEventListener('click', function(){
+      var qa = b.parentElement, open = qa.classList.toggle('open');
+      b.setAttribute('aria-expanded', open);
+    });
+  });
+
+  /* lead form -> WhatsApp */
+  document.getElementById('leadForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var f = e.target;
+    var msg = 'Здравствуйте! Хочу бесплатную консультацию по созданию франшизы.\nИмя: '+f.name.value+'\nБизнес: '+f.biz.value+'\nТочек: '+f.stage.value;
+    window.open('https://wa.me/77054485848?text='+encodeURIComponent(msg), '_blank');
+  });
+
+  /* nav + fab + progress (no gsap needed) */
+  var nav = document.getElementById('nav'), fab = document.getElementById('fab'), prog = document.querySelector('.progress');
+  function onScroll(){
+    var y = window.scrollY, h = document.documentElement.scrollHeight - innerHeight;
+    nav.classList.toggle('scrolled', y > 30);
+    fab.classList.toggle('show', y > innerHeight * .8);
+    prog.style.transform = 'scaleX(' + (h > 0 ? y / h : 0) + ')';
+  }
+  addEventListener('scroll', onScroll, {passive:true}); onScroll();
+
+  /* cursor glow + magnetic */
+  var glow = document.querySelector('.glow');
+  if (matchMedia('(hover:hover)').matches && !reduce){
+    addEventListener('mousemove', function(e){ glow.style.left = e.clientX+'px'; glow.style.top = e.clientY+'px'; }, {passive:true});
+    document.querySelectorAll('.magnetic').forEach(function(m){
+      m.addEventListener('mousemove', function(e){
+        var r = m.getBoundingClientRect();
+        m.style.transform = 'translate('+(e.clientX-r.left-r.width/2)*.25+'px,'+(e.clientY-r.top-r.height/2)*.35+'px)';
+      });
+      m.addEventListener('mouseleave', function(){ m.style.transform=''; });
+    });
+  }
+
+  function countUp(el){
+    var to = +el.dataset.to;
+    if (reduce || !hasGsap){ el.textContent = to; return; }
+    var o = {v:0};
+    gsap.to(o, {v:to, duration:2, ease:'power3.out', onUpdate:function(){ el.textContent = Math.round(o.v); }});
+  }
+
+  if (!hasGsap || reduce){
+    document.querySelectorAll('.count').forEach(function(c){ c.textContent = c.dataset.to; });
+    document.querySelectorAll('.stat').forEach(function(s){ s.classList.add('on'); });
+    return;
+  }
+
+  document.documentElement.classList.add('js');
+  gsap.registerPlugin(ScrollTrigger);
+
+  /* split headings into words */
+  document.querySelectorAll('.split').forEach(function(h){
+    var walk = function(node){
+      Array.prototype.slice.call(node.childNodes).forEach(function(n){
+        if (n.nodeType === 3){
+          var frag = document.createDocumentFragment();
+          n.textContent.split(/(\s+)/).forEach(function(part){
+            if (!part) return;
+            if (/^\s+$/.test(part)){ frag.appendChild(document.createTextNode(part)); return; }
+            var w = document.createElement('span'); w.className='w';
+            var i = document.createElement('span'); i.textContent = part;
+            w.appendChild(i); frag.appendChild(w);
+          });
+          n.parentNode.replaceChild(frag, n);
+        } else if (n.nodeType === 1){ walk(n); }
+      });
+    };
+    walk(h);
+    gsap.from(h.querySelectorAll('.w > span'), {yPercent:110, rotate:4, duration:1, ease:'power4.out', stagger:.05,
+      scrollTrigger:{trigger:h, start:'top 85%'}});
+  });
+
+  /* hero intro */
+  var tl = gsap.timeline({defaults:{ease:'power4.out'}});
+  tl.from('.hero h1 .line > span', {yPercent:120, duration:1.2, stagger:.12})
+    .from('.hero-fade', {y:30, opacity:0, duration:.9, stagger:.1}, '-=.8')
+    .from('.hero-photo .frame', {clipPath:'inset(100% 0 0 0 round 200px 200px 28px 28px)', duration:1.4, ease:'expo.inOut'}, 0.2)
+    .from('.hero-photo .ring', {scale:.8, opacity:0, duration:1.2}, '-=.8')
+    .from('.chip', {y:30, opacity:0, scale:.9, duration:.8, stagger:.15, ease:'back.out(1.6)'}, '-=.6')
+    .from('.nav', {y:-80, opacity:0, duration:.8}, 0.1);
+
+  gsap.to('.chip.c1', {y:-14, duration:3, yoyo:true, repeat:-1, ease:'sine.inOut'});
+  gsap.to('.chip.c2', {y:12, duration:3.6, yoyo:true, repeat:-1, ease:'sine.inOut'});
+
+  /* hero parallax */
+  gsap.to('#heroImg', {yPercent:-12, ease:'none', scrollTrigger:{trigger:'.hero', start:'top top', end:'bottom top', scrub:true}});
+  gsap.to('.orb.a', {y:200, ease:'none', scrollTrigger:{trigger:'.hero', start:'top top', end:'bottom top', scrub:true}});
+  gsap.to('.hero h1', {y:-80, opacity:.2, ease:'none', scrollTrigger:{trigger:'.hero', start:'center center', end:'bottom top', scrub:true}});
+
+  /* generic reveal */
+  ScrollTrigger.batch('.rv', {start:'top 88%', onEnter:function(b){
+    gsap.to(b, {opacity:1, y:0, duration:1, ease:'power3.out', stagger:.08, overwrite:true});
+  }});
+
+  /* stats */
+  document.querySelectorAll('.stat').forEach(function(s){
+    ScrollTrigger.create({trigger:s, start:'top 85%', once:true, onEnter:function(){
+      s.classList.add('on'); countUp(s.querySelector('.count'));
+    }});
+  });
+
+  /* stacked cards: shrink previous */
+  var cards = gsap.utils.toArray('.card');
+  cards.forEach(function(c, i){
+    if (i === cards.length - 1) return;
+    gsap.to(c, {scale:.92 + i*.01, opacity:.55, ease:'none',
+      scrollTrigger:{trigger:cards[i+1], start:'top 80%', end:'top 25%', scrub:true}});
+  });
+
+  /* horizontal process (desktop) */
+  ScrollTrigger.matchMedia({
+    '(min-width: 760px)': function(){
+      var track = document.querySelector('.hs-track');
+      var dist = function(){ return track.scrollWidth - innerWidth; };
+      gsap.to(track, {x:function(){ return -dist(); }, ease:'none',
+        scrollTrigger:{trigger:'.hs-pin', start:'top top', end:function(){ return '+=' + dist(); }, pin:true, scrub:1, invalidateOnRefresh:true}});
+      gsap.to('.hs-bar i', {scaleX:1, ease:'none',
+        scrollTrigger:{trigger:'.hs-pin', start:'top top', end:function(){ return '+=' + dist(); }, scrub:true}});
+    }
+  });
+
+  /* timeline fill */
+  gsap.to('.tl-fill', {scaleY:1, ease:'none', scrollTrigger:{trigger:'#timeline', start:'top 70%', end:'bottom 60%', scrub:true}});
+
+  /* footer big text */
+  gsap.from('.f-big', {xPercent:-15, ease:'none', scrollTrigger:{trigger:'footer', start:'top bottom', end:'bottom bottom', scrub:true}});
+
+  /* marquee speed reacts to scroll velocity */
+  var mqs = document.querySelectorAll('.marquee .track, .logo-row .lt');
+  ScrollTrigger.create({onUpdate:function(self){
+    var v = Math.min(Math.abs(self.getVelocity())/600, 4);
+    mqs.forEach(function(m){ m.getAnimations().forEach(function(a){ a.playbackRate = 1 + v; }); });
+  }});
+
+  addEventListener('load', function(){ ScrollTrigger.refresh(); });
+})();
+</script>
+</body>
+</html>
