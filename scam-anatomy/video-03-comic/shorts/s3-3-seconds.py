@@ -1,0 +1,22 @@
+exec(open(VDIR + "/shorts/_common.py").read())
+LINES = [
+ ("Three seconds. That's all a scammer needs to clone your voice.",
+  [{"at": 0, "img": "06", "cam": [[.5, .42, 1.05], [.5, .42, 1.15]], "fx": {"glitch": [["clone", "clone+0.5"]]},
+    "ov": [{"t": "label", "at": .05, "text": "3 SECONDS", "sub": "OF YOUR VOICE", "x": 540, "y": 300, "fs": 170, "c": Y, "subc": W}],
+    "sfx": [(.05, "impact", .8), ("clone", "glitch", .5)]}], o(N, pre=.2)),
+ ("One birthday video. One public post.",
+  [{"at": 0, "img": "05", "trans": "whip", "cam": [[.2, .5, 1.0], [.3, .5, 1.0]],
+    "ov": [{"t": "label", "at": "public", "text": "PUBLIC = RISK", "x": 540, "y": 330, "fs": 130, "c": R}], "sfx": [("public", "pop")]}], N),
+ ("Then they call your grandma, crying, in your voice.",
+  [{"at": 0, "img": "02", "trans": "fade", "cam": [[.47, .4, 1.0], [.47, .4, 1.1]],
+    "ov": [{"t": "bubble", "at": "crying", "kind": "phone", "lines": ["Grandma, it's me…"], "x": 330, "y": 520, "fs": 48}],
+    "sfx": [(0, "ring1", .5)]}], N),
+ ("It sounds exactly like you. And panic hides every small mistake.",
+  [{"at": 0, "img": "12", "trans": "fade", "cam": [[.5, .4, 1.0], [.5, .4, 1.08]],
+    "ov": [{"t": "label", "at": "panic", "text": "PANIC HIDES", "sub": "THE MISTAKES", "x": 540, "y": 300, "fs": 130, "subc": Y}],
+    "sfx": [("panic", "heart", .7)]}], N),
+ ("Make your videos private. Send this to your family.",
+  [{"at": 0, "img": "34", "trans": "fade", "cam": [[.5, .45, 1.0], [.5, .45, 1.1]],
+    "ov": [{"t": "label", "at": .1, "text": "GO PRIVATE", "x": 540, "y": 330, "fs": 150, "c": Y, "until": "Send this"}, END("Send this")],
+    "sfx": [(.1, "pop"), ("Send this", "send")]}], o(N, post=1.6)),
+]

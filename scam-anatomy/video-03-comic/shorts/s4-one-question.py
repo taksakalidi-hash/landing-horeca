@@ -1,0 +1,22 @@
+exec(open(VDIR + "/shorts/_common.py").read())
+LINES = [
+ ("There's one question an AI voice can't answer.",
+  [{"at": 0, "img": "06", "cam": [[.5, .42, 1.05], [.5, .42, 1.15]],
+    "ov": [{"t": "label", "at": .05, "text": "THE ONE QUESTION", "sub": "AI CAN'T ANSWER", "x": 540, "y": 300, "fs": 120, "subc": Y}],
+    "sfx": [(.05, "impact", .8)]}], o(N, pre=.2)),
+ ("Scammers can copy how your grandson sounds. Not what he remembers.",
+  [{"at": 0, "img": "08", "trans": "fade", "cam": [[.45, .45, 1.0], [.45, .45, 1.1]], "fx": {"grade": "warm", "dream": 1},
+    "ov": [{"t": "label", "at": "Not what", "text": "NOT HIS MEMORIES", "x": 540, "y": 330, "fs": 120, "c": Y}], "sfx": [("Not what", "pop")]}], N),
+ ("Ask: what did we eat last Thanksgiving? A clone will freeze.",
+  [{"at": 0, "img": "25", "trans": "fade", "cam": [[.38, .45, 1.0], [.46, .45, 1.06]], "fx": {"glitch": [["freeze", "freeze+0.8"]]},
+    "ov": [{"t": "bubble", "at": "what did", "kind": "say", "lines": ["What did we eat", "last Thanksgiving?"], "x": 300, "y": 300, "fs": 48},
+           {"t": "bubble", "at": "freeze", "kind": "phone", "lines": ["uh… t-turkey? kzzt—"], "x": 360, "y": 560, "fs": 44}],
+    "sfx": [("what did", "pop"), ("freeze", "glitch", .6)]}], N),
+ ("Even better: pick a family safe word tonight. No word, not family.",
+  [{"at": 0, "img": "33", "trans": "fade", "cam": [[.5, .5, 1.0], [.5, .5, 1.08]], "fx": {"grade": "warm", "dust": .3},
+    "ov": [{"t": "redact", "at": "safe word", "x": 260, "y": 330},
+           {"t": "label", "at": "No word", "text": "NO WORD = NOT FAMILY", "x": 540, "y": 1240, "fs": 90, "c": R}],
+    "sfx": [("safe word", "pop"), ("No word", "hit", .6)]}], N),
+ ("Follow for more ways to protect your family.",
+  [{"at": 0, "img": "33", "trans": "fade", "cam": [[.5, .5, 1.0], [.5, .5, 1.08]], "fx": {"grade": "warm"}, "ov": [END(.1)], "sfx": [(.1, "pop")]}], o(N, post=1.6)),
+]
