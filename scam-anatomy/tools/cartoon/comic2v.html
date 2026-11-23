@@ -71,7 +71,7 @@ function effects(sh,t,hb){const f=sh.p.fx||{};let o='';
 
 // ---------- overlays ----------
 function label(o,t){if(t<o.at)return'';const k=pop(t,o.at,.42);const wob=Math.sin((t-o.at)*2.6)*.8;const fs=o.fs||110;
- return G(TX(0,0,o.text,{fs,c:o.c||C.wh,sw:o.sw||18,ls:o.ls||2})+(o.sub?TX(0,fs*.62,o.sub,{fs:fs*.38,c:o.subc||C.yel,sw:10,f:'Anton'}):''),`translate(${o.x},${o.y}) rotate(${(o.rot||0)+wob}) scale(${R(k*100)/100})`,until(t,o))}
+ return G(TX(0,0,o.text,{fs,c:o.c||C.wh,sw:o.sw||18,ls:o.ls||2})+(o.sub?TX(0,fs*.9,o.sub,{fs:fs*.62,c:o.subc||C.yel,sw:10,f:'Anton'}):''),`translate(${o.x},${o.y}) rotate(${(o.rot||0)+wob}) scale(${R(k*100)/100})`,until(t,o))}
 function stamp(o,t){if(t<o.at)return'';const u=P(t,o.at,o.at+.22);const k=1+(1-E(u))*1.3;const c=o.c||C.red;const fs=o.fs||70;const w=o.text.length*fs*.52+70;
  return G(`<rect x="${-w/2}" y="${-fs*.88}" width="${w}" height="${fs*1.32}" rx="12" fill="${C.navy}" fill-opacity=".55" stroke="${c}" stroke-width="10"/>`+TX(0,fs*.3,o.text,{fs,c,st:false,ls:4}),`translate(${o.x},${o.y}) rotate(${o.rot??-7}) scale(${R(k*100)/100})`,E(u)*until(t,o))}
 function bubble(o,t){if(t<o.at)return'';const k=pop(t,o.at,.35);const fs=o.fs||40,lh=fs*1.38;const L=o.lines;const w=o.w||Math.max(...L.map(s=>s.length))*fs*.54+80;const h=L.length*lh+44;

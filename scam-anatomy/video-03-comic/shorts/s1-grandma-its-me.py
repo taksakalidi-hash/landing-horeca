@@ -3,7 +3,7 @@ LINES = [
  ("Grandma, it's me. I'm in jail. Please, don't tell Mom.",
   [{"at": 0, "img": "02", "cam": [[.47, .4, 1.0], [.47, .38, 1.12]], "fx": {"grade": "cold"},
     "ov": [{"t": "label", "at": .05, "text": "GRANDMA,", "sub": "IT'S ME…", "x": 540, "y": 300, "fs": 140, "subc": Y},
-           {"t": "bubble", "at": .15, "kind": "phone", "lines": ["Grandma, it's me.", "I'm in jail…"], "x": 300, "y": 520, "fs": 46}],
+           {"t": "bubble", "at": .15, "kind": "phone", "lines": ["Grandma, it's me.", "I'm in jail…"], "x": 330, "y": 800, "fs": 46}],
     "sfx": [(0, "ring1", .6)]}], o(JAKE, pre=.6, sniffs=[.5])),
  ("Rose sent nine thousand dollars in twenty minutes.",
   [{"at": 0, "img": "03", "trans": "whip", "cam": [[.35, .45, 1.0], [.5, .45, 1.08]], "fx": {"rain": .3},
