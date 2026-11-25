@@ -1,0 +1,204 @@
+<title>Библиотека промптов</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=JetBrains+Mono:wght@400&display=swap">
+<style>
+/* Layout: sticky search bar + category chips, then a responsive grid of prompt cards */
+:root {
+  --bg: #f5f6f4; --surface: #ffffff; --fg: #1b2420; --muted: #5d6b64;
+  --line: #dde3df; --accent: #1f7a5a; --accent-soft: #e2f1ea; --on-accent: #ffffff;
+  --star: #c98a12;
+  --font-ui: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #121715; --surface: #1a211e; --fg: #e6ece9; --muted: #95a39c;
+  --line: #2a3430; --accent: #4cc293; --accent-soft: #1f3a2f; --on-accent: #0d1a14; --star: #f0b43c; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #121715; --surface: #1a211e; --fg: #e6ece9; --muted: #95a39c;
+  --line: #2a3430; --accent: #4cc293; --accent-soft: #1f3a2f; --on-accent: #0d1a14; --star: #f0b43c; color-scheme: dark }
+
+body { background: var(--bg); color: var(--fg); font-family: var(--font-ui); font-size: 15px; line-height: 1.5; }
+.wrap { max-width: 1120px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+header.top { padding-block: 28px 8px; }
+h1 { font-size: 1.75rem; font-weight: 800; margin: 0; letter-spacing: -0.01em; text-wrap: balance; }
+.sub { color: var(--muted); margin: 4px 0 0; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+.bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); padding-block: 12px; border-bottom: 1px solid var(--line); }
+.row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+#q { flex: 1 1 240px; min-width: 0; font: inherit; padding: 10px 14px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); color: var(--fg); }
+#q:focus, button:focus-visible, textarea:focus, input:focus, select:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+button { font: inherit; cursor: pointer; }
+.btn { padding: 10px 14px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); color: var(--fg); font-weight: 600; }
+.btn.primary { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+.chips { display: flex; gap: 6px; overflow-x: auto; padding-top: 10px; scrollbar-width: thin; }
+.chip { flex: 0 0 auto; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); background: transparent; color: var(--fg); font-size: 0.875rem; font-weight: 500; white-space: nowrap; }
+.chip .n { color: var(--muted); font-variant-numeric: tabular-nums; margin-left: 4px; }
+.chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.chip[aria-pressed="true"] .n { color: inherit; opacity: .75; }
+main { padding-block: 20px 48px; }
+.count { color: var(--muted); font-size: 0.875rem; margin-bottom: 12px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.card-head { display: flex; gap: 8px; align-items: flex-start; }
+.card h3 { font-size: 1rem; font-weight: 700; margin: 0; flex: 1; min-width: 0; }
+.cat { font-size: 0.7rem; text-transform: uppercase; letter-spacing: .06em; color: var(--accent); font-weight: 700; }
+.mine { color: var(--star); }
+.text { font-family: var(--font-mono); font-size: 0.8rem; line-height: 1.55; color: var(--muted); white-space: pre-wrap; overflow-wrap: anywhere; margin: 0; flex: 1; }
+.text mark { background: var(--accent-soft); color: var(--fg); border-radius: 3px; padding: 0 2px; }
+.actions { display: flex; gap: 6px; }
+.actions .btn { padding: 7px 12px; font-size: 0.85rem; }
+.star { border: none; background: none; font-size: 1.15rem; line-height: 1; color: var(--line); padding: 2px; }
+.star[aria-pressed="true"] { color: var(--star); }
+.empty { text-align: center; color: var(--muted); padding: 48px 0; }
+dialog { border: 1px solid var(--line); border-radius: 14px; background: var(--surface); color: var(--fg); width: min(560px, calc(100vw - 32px)); padding: 20px; }
+dialog::backdrop { background: rgb(0 0 0 / .45); }
+dialog h2 { margin: 0 0 12px; font-size: 1.2rem; }
+.field { display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px; }
+.field label { font-size: 0.85rem; font-weight: 600; }
+.field input, .field select, .field textarea { font: inherit; padding: 9px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--fg); }
+.field textarea { min-height: 140px; resize: vertical; font-family: var(--font-mono); font-size: 0.85rem; }
+.hint { color: var(--muted); font-size: 0.8rem; margin: 0 0 12px; }
+.toast { position: fixed; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--fg); color: var(--bg); padding: 10px 16px; border-radius: 10px; font-weight: 600; opacity: 0; transition: opacity .2s; pointer-events: none; }
+.toast.show { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .toast { transition: none; } }
+</style>
+
+<header class="top wrap">
+  <h1>Библиотека промптов</h1>
+  <p class="sub">Выбери категорию, найди промпт, скопируй и подставь своё вместо [скобок].</p>
+</header>
+
+<div class="bar">
+  <div class="wrap">
+    <div class="row">
+      <input id="q" type="search" placeholder="Поиск: рецепт, резюме, reels…" autocomplete="off">
+      <button class="btn" id="favBtn" aria-pressed="false">★ Избранное</button>
+      <button class="btn primary" id="addBtn">+ Свой промпт</button>
+    </div>
+    <div class="chips" id="chips" role="toolbar" aria-label="Категории"></div>
+  </div>
+</div>
+
+<main class="wrap">
+  <div class="count" id="count"></div>
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty" hidden>Ничего не нашлось. Попробуй другое слово или добавь свой промпт.</div>
+</main>
+
+<dialog id="dlg">
+  <form id="addForm" method="dialog">
+    <h2>Новый промпт</h2>
+    <p class="hint">Сохранится в этом браузере. Чтобы промпт попал в общую базу, попроси Claude добавить его.</p>
+    <div class="field"><label for="fTitle">Название</label><input id="fTitle" required maxlength="80"></div>
+    <div class="field"><label for="fCat">Категория</label><select id="fCat"></select></div>
+    <div class="field"><label for="fText">Текст промпта</label><textarea id="fText" required placeholder="Используй [квадратные скобки] для того, что нужно подставлять"></textarea></div>
+    <div class="row" style="justify-content:flex-end">
+      <button type="button" class="btn" id="cancelBtn">Отмена</button>
+      <button type="submit" class="btn primary">Сохранить</button>
+    </div>
+  </form>
+</dialog>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="prompts.js"></script>
+<script>
+(function () {
+  var CATS = window.CATEGORIES || [];
+  var BASE = (window.PROMPTS || []).map(function (p, i) { return Object.assign({ id: "b" + i }, p); });
+  var store = {
+    get: function (k, d) { try { var v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
+    set: function (k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+  };
+  var mine = store.get("pl-mine", []);
+  var favs = new Set(store.get("pl-favs", []));
+  var state = { cat: "all", q: "", favOnly: false };
+  var catName = {}; CATS.forEach(function (c) { catName[c.id] = c.name; });
+
+  var $ = function (id) { return document.getElementById(id); };
+  function all() { return mine.concat(BASE); }
+  function esc(s) { return s.replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  function hl(s) {
+    var t = esc(s).replace(/\[[^\]]+\]/g, function (m) { return "<mark>" + m + "</mark>"; });
+    return t;
+  }
+
+  function renderChips() {
+    var list = all(), counts = { all: list.length, mine: mine.length };
+    list.forEach(function (p) { counts[p.cat] = (counts[p.cat] || 0) + 1; });
+    var items = [{ id: "all", name: "Все" }].concat(mine.length ? [{ id: "mine", name: "Мои" }] : [], CATS);
+    $("chips").innerHTML = items.map(function (c) {
+      return '<button class="chip" data-cat="' + c.id + '" aria-pressed="' + (state.cat === c.id) + '">' + esc(c.name) + '<span class="n">' + (counts[c.id] || 0) + "</span></button>";
+    }).join("");
+  }
+
+  function filtered() {
+    var q = state.q.trim().toLowerCase();
+    return all().filter(function (p) {
+      if (state.cat === "mine" && !p.mine) return false;
+      if (state.cat !== "all" && state.cat !== "mine" && p.cat !== state.cat) return false;
+      if (state.favOnly && !favs.has(p.id)) return false;
+      if (!q) return true;
+      return (p.title + " " + p.text + " " + (p.tags || "") + " " + (catName[p.cat] || "")).toLowerCase().indexOf(q) !== -1;
+    });
+  }
+
+  function renderGrid() {
+    var list = filtered();
+    $("count").textContent = "Промптов: " + list.length;
+    $("empty").hidden = list.length > 0;
+    $("grid").innerHTML = list.map(function (p) {
+      return '<article class="card">' +
+        '<div class="card-head"><div style="flex:1;min-width:0"><div class="cat">' + esc(catName[p.cat] || "") + (p.mine ? ' <span class="mine">· мой</span>' : "") + "</div>" +
+        "<h3>" + esc(p.title) + "</h3></div>" +
+        '<button class="star" data-fav="' + p.id + '" aria-pressed="' + favs.has(p.id) + '" aria-label="В избранное">★</button></div>' +
+        '<p class="text">' + hl(p.text) + "</p>" +
+        '<div class="actions"><button class="btn primary" data-copy="' + p.id + '">Копировать</button>' +
+        (p.mine ? '<button class="btn" data-del="' + p.id + '">Удалить</button>' : "") + "</div></article>";
+    }).join("");
+  }
+
+  function render() { renderChips(); renderGrid(); }
+
+  var toastT;
+  function toast(msg) { var t = $("toast"); t.textContent = msg; t.classList.add("show"); clearTimeout(toastT); toastT = setTimeout(function () { t.classList.remove("show"); }, 1600); }
+
+  function copy(p, btn) {
+    function fallback() {
+      var ta = document.createElement("textarea"); ta.value = p.text; document.body.appendChild(ta); ta.select();
+      var ok = false; try { ok = document.execCommand("copy"); } catch (e) {}
+      ta.remove(); toast(ok ? "Скопировано" : "Выдели текст и скопируй вручную");
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(p.text).then(function () { toast("Скопировано"); }, fallback);
+    } else fallback();
+  }
+
+  $("chips").addEventListener("click", function (e) { var b = e.target.closest("[data-cat]"); if (!b) return; state.cat = b.dataset.cat; render(); });
+  $("q").addEventListener("input", function (e) { state.q = e.target.value; renderGrid(); });
+  $("favBtn").addEventListener("click", function () { state.favOnly = !state.favOnly; this.setAttribute("aria-pressed", state.favOnly); renderGrid(); });
+  $("grid").addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b) return;
+    var byId = function (id) { return all().find(function (p) { return p.id === id; }); };
+    if (b.dataset.copy) copy(byId(b.dataset.copy), b);
+    if (b.dataset.fav) { var id = b.dataset.fav; favs.has(id) ? favs.delete(id) : favs.add(id); store.set("pl-favs", Array.from(favs)); renderGrid(); }
+    if (b.dataset.del) {
+      if (b.dataset.confirm) { mine = mine.filter(function (p) { return p.id !== b.dataset.del; }); store.set("pl-mine", mine); if (!mine.length && state.cat === "mine") state.cat = "all"; render(); toast("Удалено"); }
+      else { b.dataset.confirm = "1"; b.textContent = "Точно удалить?"; }
+    }
+  });
+
+  $("fCat").innerHTML = CATS.map(function (c) { return '<option value="' + c.id + '">' + esc(c.name) + "</option>"; }).join("");
+  $("addBtn").addEventListener("click", function () { if (state.cat !== "all" && state.cat !== "mine") $("fCat").value = state.cat; $("dlg").showModal(); });
+  $("cancelBtn").addEventListener("click", function () { $("dlg").close(); });
+  $("addForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var title = $("fTitle").value.trim(), text = $("fText").value.trim();
+    if (!title || !text) return;
+    mine.unshift({ id: "m" + Date.now(), cat: $("fCat").value, title: title, text: text, tags: "", mine: true });
+    store.set("pl-mine", mine); this.reset(); $("dlg").close(); render(); toast("Промпт сохранён");
+  });
+
+  render();
+})();
+</script>
