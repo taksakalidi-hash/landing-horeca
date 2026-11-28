@@ -189,10 +189,11 @@ SC.check=(t,b)=>{bd();const rules=[['track','TRACK WHERE MONEY GOES'],['pay','PA
  tlabelBox(t,b.t0+.15,960,110,'YOUR CHECKLIST',70,INK,YEL);
  rules.forEach(([k,s],i)=>{const t0=b.T(k);const y=230+i*112;if(t<Math.min(t0-.2,b.t0+.4+i*.15))return;at(560,y,pop(t,Math.min(t0-.2,b.t0+.4+i*.15)),0,()=>{rr(-20,-46,920,92,14);sh('#fff',6);txt((i+1)+'. '+s,20,4,48,INK,'Anton','left')});check(t,t0+.3,1580,y,1.1)})};
 
-SC.check2=(t,b)=>{bd();const tp=b.T('pick'),tt=b.T('template'),tc=b.T('pinned');
- tlabelBox(t,b.t0+.2,960,200,'PICK ONE. DO IT TODAY.',90,RED,'#fff');doodle(t,'sheet',760,620,1.6,tt-.2);burst(t,tt,1260,520,150,GRN,'FREE','TEMPLATE',.1);
- if(t>tc){tlabelBox(t,tc,1260,820,'PINNED COMMENT ↓',64,INK,'#fff')}};
-
+SC.check2=(t,b)=>{bd();const tc=b.T('comments');
+ tlabelBox(t,b.t0+.2,960,200,'PICK ONE. DO IT TODAY.',90,RED,'#fff');
+ const k=pop(t,tc-.1);if(k>0){const[bx,by]=boil(t);at(960+bx,600+by,k,0,()=>{rr(-380,-150,760,300,40);sh('#fff',8);X.beginPath();X.moveTo(-200,145);X.lineTo(-260,240);X.lineTo(-120,145);sh('#fff',8);X.fillStyle='#fff';X.fillRect(-215,130,110,20);
+  txt('WHICH RULE ARE YOU',0,-50,64,INK);txt('STARTING WITH? 1–7',0,40,64,RED)})}
+ for(let i=0;i<7;i++){const t0=tc+.4+i*.1,kk=pop(t,t0);if(kk<=0)continue;at(330+i*210,920,kk,0,()=>{ell(0,0,50,50);sh(i===0?GRN:'#fff',6);txt(String(i+1),0,4,56,i===0?'#fff':INK)})}};
 SC.end=(t,b)=>{X.drawImage(NAVYBG,0,0);const k=pop(t,b.t0+.2);
  at(960,250,k,-.02,()=>{txt('NEXT TIME',0,0,60,YEL)});tlabelBox(t,b.T('scammers')-.2,960,420,'HOW SCAMMERS ROB SMART PEOPLE',80,RED,'#fff');
  tlabelBox(t,b.T('question'),960,580,'+ THE ONE QUESTION THAT STOPS THEM',50,'#fff',INK);

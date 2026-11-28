@@ -56,7 +56,7 @@ LINES = [
  n("You only put in seventy-two thousand. The rest is compound interest. Nothing is guaranteed, markets go up and down, but time is your most powerful tool.", "snow"),
  # outro
  n("So here's your checklist. Track where your money goes. Pay yourself first. Build an emergency fund. Kill expensive debt. Convert prices into hours. Save half of every raise. And let your money grow.", "check"),
- n("Don't do all seven this week. Pick one, and do it today. A free money template with all seven rules is in the pinned comment.", "check2"),
+ n("Don't do all seven this week. Pick one, and do it today. Then tell me in the comments: which rule are you starting with?", "check2"),
  n("Next time on Money With Penny: how scammers steal money from smart people, and the one question that stops them.", "end"),
 ]
 SFX = [("forty", "pop", .6), ("million", "kaching", .8), ("nothing", "slide_down", .6), ("where", "boing", .6), ("seven", "pop", .6), ("four", "stamp", .6),
@@ -67,4 +67,4 @@ SFX = [("forty", "pop", .6), ("million", "kaching", .8), ("nothing", "slide_down
  ("twenty", "stamp", .7, 1), ("bigger", "roar", .6), ("fortyfour", "clock", .5), ("fourteen", "kaching", .6), ("eighteen", "pop", .6), ("saved", "success", .7), ("highest", "slide_up", .6),
  ("sneakers", "pop", .6), ("hours", "clock", .6, 1), ("shoes", "boing", .6), ("subscriptions", "scribble", .6), ("forgot", "snip", .5),
  ("lifestyle", "slide_down", .6), ("snip", "snip", .9), ("half", "coins", .6), ("inflation", "melt", .7), ("compound", "success", .6), ("checklist", "pop", .6),
- ("template", "kaching", .6), ("scammers", "glitch", .7)]
+ ("comments", "pop", .6), ("scammers", "glitch", .7)]

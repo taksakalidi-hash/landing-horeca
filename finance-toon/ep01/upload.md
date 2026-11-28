@@ -30,8 +30,6 @@ YouTube Studio → «Создать» → «Загрузить видео» → 
 ```
 Most people earn over a million dollars in their lifetime and still end up with almost nothing. Here are 7 simple money rules, with real numbers and one action you can take today for each.
 
-Free money template (budget, 50/30/20, emergency fund, debt calculator): link in the pinned comment.
-
 Chapters:
 0:00 Why most people end up broke
 0:25 Rule 1: Know where your money goes
@@ -77,10 +75,10 @@ personal finance, money rules, how to save money, budgeting for beginners, 50/30
 ## Шаг 10. Закреплённый комментарий
 После публикации оставь комментарий и закрепи его (три точки → «Закрепить»):
 ```
-📊 FREE Money Template (budget tracker, 50/30/20, emergency fund, debt payoff, "hours of life" calculator):
-[LINK]
-
 Which rule are you starting with today? Comment the number 1–7 👇
+
+Mine is #2: the automatic transfer. Set it up once, never think about it again.
+
+Next episode: how scammers steal money from smart people. Subscribe so you don't miss it. 🐷
 ```
-Перевод: «Бесплатный шаблон… Какое правило начнёшь сегодня? Напиши номер 1–7».
-Вместо [LINK] нужна ссылка на шаблон. Её пришлю, как только решим, с какого Google-аккаунта открыть доступ.
+Перевод: «С какого правила начнёшь сегодня? Напиши номер 1–7. Моё — №2, автоперевод: настроил один раз и больше не думаешь. Следующий выпуск — как мошенники крадут деньги у умных людей. Подпишись, чтобы не пропустить.»
