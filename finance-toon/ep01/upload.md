@@ -60,7 +60,7 @@ Chapters:
 3:43 Rule 6: Don't let spending climb with income
 4:09 Rule 7: Let your money grow
 4:53 Your 7-step checklist
-5:17 Next episode
+5:16 Next episode
 
 This video is for education and entertainment only, not financial advice. Numbers are examples; your situation may differ.
 
