@@ -1,7 +1,7 @@
 # Money With Penny, серия 1: загрузка на YouTube
 
 Файлы:
-- видео: `finance-toon/ep01/out/ep01.mp4` (5:27, я присылал его в чат);
+- видео: `Money With Penny 01 - 7 Money Rules.mp4` (последняя версия, которую я прислал);
 - обложка: `finance-toon/ep01/thumbnail.jpg`.
 
 ## Шаг 0. Новый канал (один раз)
@@ -11,9 +11,29 @@ YouTube Studio → «Настройка канала» → «Брендинг» 
 
 Это отдельная тема, не Scam Anatomy, поэтому нужен свой канал.
 1. YouTube → аватарка → «Настройки» → «Создать канал» → «Использовать другое название».
-2. Название: **Money With Penny**. Описание канала:
+2. Название: **Money With Penny**. Описание канала (копировать):
 ```
-Money explained with cartoons. Every episode: simple rules, real numbers, and one thing you can do today. New episodes every week.
+Money is simple when someone finally explains it.
+
+Money With Penny is a cartoon show about personal finance and the economy. Penny is a sarcastic piggy bank. Dave is a tired office guy who keeps making the same money mistakes most of us make. Together they break down how money really works, with real numbers and zero boring lectures.
+
+What you'll learn here:
+💰 How to save money on any salary
+📊 Budgeting, emergency funds and getting out of debt
+📈 Investing basics and compound interest, explained simply
+🏦 How banks, credit cards and interest rates actually work
+🌍 The economy: inflation, recessions, prices, and why everything costs more
+🚨 Money traps and scams, and how to avoid them
+
+Every episode ends with a simple checklist you can use right away.
+
+New episode every week. Subscribe and let Penny fix your finances, one rule at a time.
+
+Educational entertainment only. Not financial advice.
+```
+Ключевые слова канала:
+```
+personal finance, money tips, how to save money, budgeting, financial literacy, investing for beginners, economy explained, inflation explained, credit card debt, compound interest, money cartoon, Money With Penny
 ```
 3. Аватарка и шапка: позже сделаю, пока можно без них.
 
