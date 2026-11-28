@@ -1,0 +1,153 @@
+{
+ "TH": {
+  "src": "/root/.claude/uploads/e92eea85-b565-5666-b9ab-222243bdc2f7/6db9b30b-image.jpg",
+  "style": false,
+  "blur": []
+ },
+ "H1": {
+  "src": "/root/.claude/uploads/e92eea85-b565-5666-b9ab-222243bdc2f7/ed77777a-image.jpg",
+  "style": false,
+  "blur": []
+ },
+ "H2": {
+  "src": "/root/.claude/uploads/e92eea85-b565-5666-b9ab-222243bdc2f7/7df37430-image.jpg",
+  "style": false,
+  "blur": []
+ },
+ "D1": {
+  "src": "/root/.claude/uploads/e92eea85-b565-5666-b9ab-222243bdc2f7/b4af9162-image.jpg",
+  "style": false,
+  "blur": []
+ },
+ "D2": {
+  "src": "/root/.claude/uploads/e92eea85-b565-5666-b9ab-222243bdc2f7/83b154d4-image.jpg",
+  "style": false,
+  "blur": []
+ },
+ "D3": {
+  "src": "/root/.claude/uploads/e92eea85-b565-5666-b9ab-222243bdc2f7/49a0096c-image.jpg",
+  "style": false,
+  "blur": []
+ },
+ "D4": {
+  "src": "/root/.claude/uploads/e92eea85-b565-5666-b9ab-222243bdc2f7/0d680fd9-image.jpg",
+  "style": false,
+  "blur": []
+ },
+ "M1": {
+  "src": "/root/.claude/uploads/e92eea85-b565-5666-b9ab-222243bdc2f7/8e1531d2-image.jpg",
+  "style": true,
+  "blur": []
+ },
+ "M2": {
+  "src": "/root/.claude/uploads/e92eea85-b565-5666-b9ab-222243bdc2f7/039e08c2-image.jpg",
+  "style": false,
+  "blur": []
+ },
+ "M3": {
+  "src": "/root/.claude/uploads/e92eea85-b565-5666-b9ab-222243bdc2f7/2526ee99-image.jpg",
+  "style": true,
+  "blur": []
+ },
+ "M4": {
+  "src": "/root/.claude/uploads/e92eea85-b565-5666-b9ab-222243bdc2f7/bb77e580-image.jpg",
+  "style": true,
+  "blur": [
+   [
+    0.22,
+    0.5,
+    0.46,
+    0.94
+   ]
+  ]
+ },
+ "HA1": {
+  "src": "/root/.claude/uploads/e92eea85-b565-5666-b9ab-222243bdc2f7/41597b8b-image.jpg",
+  "style": true,
+  "blur": []
+ },
+ "HA2": {
+  "src": "/root/.claude/uploads/e92eea85-b565-5666-b9ab-222243bdc2f7/c8ecb5fe-image.jpg",
+  "style": false,
+  "blur": []
+ },
+ "HA3": {
+  "src": "/root/.claude/uploads/e92eea85-b565-5666-b9ab-222243bdc2f7/73459210-image.jpg",
+  "style": true,
+  "blur": [
+   [
+    0.04,
+    0.07,
+    0.46,
+    0.78
+   ]
+  ]
+ },
+ "HA4": {
+  "src": "/root/.claude/uploads/e92eea85-b565-5666-b9ab-222243bdc2f7/79b4ff23-image.jpg",
+  "style": true,
+  "blur": []
+ },
+ "P1": {
+  "src": "/root/.claude/uploads/e92eea85-b565-5666-b9ab-222243bdc2f7/e401fa58-image.jpg",
+  "style": true,
+  "blur": [
+   [
+    0.89,
+    0.06,
+    0.99,
+    0.27
+   ]
+  ]
+ },
+ "P2": {
+  "src": "/root/.claude/uploads/e92eea85-b565-5666-b9ab-222243bdc2f7/7583efd1-image.jpg",
+  "style": true,
+  "blur": []
+ },
+ "P3": {
+  "src": "/root/.claude/uploads/e92eea85-b565-5666-b9ab-222243bdc2f7/688541fc-image.jpg",
+  "style": true,
+  "blur": []
+ },
+ "P4": {
+  "src": "/root/.claude/uploads/e92eea85-b565-5666-b9ab-222243bdc2f7/45aa1a3d-image.jpg",
+  "style": true,
+  "blur": []
+ },
+ "T1": {
+  "src": "/root/.claude/uploads/e92eea85-b565-5666-b9ab-222243bdc2f7/06ea2a98-image.jpg",
+  "style": true,
+  "blur": []
+ },
+ "T2": {
+  "src": "/root/.claude/uploads/e92eea85-b565-5666-b9ab-222243bdc2f7/f1317ece-image.jpg",
+  "style": true,
+  "blur": []
+ },
+ "T3": {
+  "src": "/root/.claude/uploads/e92eea85-b565-5666-b9ab-222243bdc2f7/142f0609-image.jpg",
+  "style": true,
+  "blur": []
+ },
+ "T4": {
+  "src": "/root/.claude/uploads/e92eea85-b565-5666-b9ab-222243bdc2f7/6ad7fc83-image.jpg",
+  "style": true,
+  "blur": []
+ },
+ "T5": {
+  "src": "/root/.claude/uploads/e92eea85-b565-5666-b9ab-222243bdc2f7/b13e462f-image.jpg",
+  "style": true,
+  "blur": []
+ },
+ "W1": {
+  "src": "/root/.claude/uploads/e92eea85-b565-5666-b9ab-222243bdc2f7/73c84713-image.jpg",
+  "style": true,
+  "blur": []
+ },
+ "W2": {
+  "src": "/root/.claude/uploads/e92eea85-b565-5666-b9ab-222243bdc2f7/0b73afd0-image.jpg",
+  "style": true,
+  "blur": []
+ }
+}
