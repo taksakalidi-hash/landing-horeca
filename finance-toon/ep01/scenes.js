@@ -197,4 +197,4 @@ SC.end=(t,b)=>{X.drawImage(NAVYBG,0,0);const k=pop(t,b.t0+.2);
  at(960,250,k,-.02,()=>{txt('NEXT TIME',0,0,60,YEL)});tlabelBox(t,b.T('scammers')-.2,960,420,'HOW SCAMMERS ROB SMART PEOPLE',80,RED,'#fff');
  tlabelBox(t,b.T('question'),960,580,'+ THE ONE QUESTION THAT STOPS THEM',50,'#fff',INK);
  const k2=pop(t,b.end.start+b.end.dur-.6);if(k2>0)at(960,800,k2,0,()=>{rr(-230,-55,460,110,20);sh(RED,6);txt('SUBSCRIBE',0,4,64,'#fff')});
- txt('BROKE BY FRIDAY',960,980,44,'#fff');penny(t,1620,900,1.0,[[b.t0,'happy']])};
+ txt('MONEY WITH PENNY',960,980,44,'#fff');penny(t,1620,900,1.0,[[b.t0,'happy']])};

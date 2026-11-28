@@ -1,13 +1,17 @@
-# Broke by Friday, серия 1: загрузка на YouTube
+# Money With Penny, серия 1: загрузка на YouTube
 
 Файлы:
 - видео: `finance-toon/ep01/out/ep01.mp4` (5:27, я присылал его в чат);
 - обложка: `finance-toon/ep01/thumbnail.jpg`.
 
 ## Шаг 0. Новый канал (один раз)
+Название канала: **Money With Penny**. Псевдоним (handle): **@MoneyWithPenny**. Если он занят, бери @MoneyWithPennyTV.
+Аватарка: `finance-toon/brand/avatar-800.jpg`. Шапка: `finance-toon/brand/banner-2560x1440.jpg`.
+YouTube Studio → «Настройка канала» → «Брендинг» → загрузи «Фото профиля» и «Баннер». Потом «Основные сведения» → название и псевдоним.
+
 Это отдельная тема, не Scam Anatomy, поэтому нужен свой канал.
 1. YouTube → аватарка → «Настройки» → «Создать канал» → «Использовать другое название».
-2. Название: **Broke by Friday**. Описание канала:
+2. Название: **Money With Penny**. Описание канала:
 ```
 Money explained with cartoons. Every episode: simple rules, real numbers, and one thing you can do today. New episodes every week.
 ```

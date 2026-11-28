@@ -57,7 +57,7 @@ LINES = [
  # outro
  n("So here's your checklist. Track where your money goes. Pay yourself first. Build an emergency fund. Kill expensive debt. Convert prices into hours. Save half of every raise. And let your money grow.", "check"),
  n("Don't do all seven this week. Pick one, and do it today. A free money template with all seven rules is in the pinned comment.", "check2"),
- n("Next time on Broke by Friday: how scammers steal money from smart people, and the one question that stops them.", "end"),
+ n("Next time on Money With Penny: how scammers steal money from smart people, and the one question that stops them.", "end"),
 ]
 SFX = [("forty", "pop", .6), ("million", "kaching", .8), ("nothing", "slide_down", .6), ("where", "boing", .6), ("seven", "pop", .6), ("four", "stamp", .6),
  ("guess", "pop2", .5), ("hundreds", "stamp", .6), ("coffee", "pop", .5), ("housing", "pop2", .6), ("car", "pop2", .6), ("food", "pop2", .6),

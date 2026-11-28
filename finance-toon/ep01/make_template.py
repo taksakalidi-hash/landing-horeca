@@ -1,4 +1,4 @@
-"""Free 'Broke by Friday' money template (pinned-comment giveaway). python3 make_template.py out.xlsx"""
+"""Free 'Money With Penny' money template (pinned-comment giveaway). python3 make_template.py out.xlsx"""
 import sys
 from openpyxl import Workbook
 from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
@@ -27,7 +27,7 @@ def inp(c, fmt=None):
 
 # 0 Start
 ws = wb.active; ws.title = "Start Here"; ws.sheet_view.showGridLines = False; ws.column_dimensions["B"].width = 95
-rows = [("BROKE BY FRIDAY: FREE MONEY TEMPLATE", T), ("Yellow cells = type your numbers. Everything else calculates itself.", B), ("", None),
+rows = [("MONEY WITH PENNY: FREE MONEY TEMPLATE", T), ("Yellow cells = type your numbers. Everything else calculates itself.", B), ("", None),
         ("1. Spending Tracker: log every expense for 30 days (Rule 1).", None),
         ("2. Monthly Budget: your income split with the 50/30/20 rule + pay yourself first (Rules 2 & 6).", None),
         ("3. Emergency Fund: your 3 to 6 month target and progress (Rule 3).", None),
