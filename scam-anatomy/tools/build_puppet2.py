@@ -156,6 +156,6 @@ for p in ps: p.wait()
 open(os.path.join(seg, "list.txt"), "w").write("".join(f"file 'p{k}.mp4'\n" for k in range(NW)))
 name = G.get("NAME", "out")
 subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-f", "concat", "-safe", "0", "-i", os.path.join(seg, "list.txt"), "-i", os.path.join(OUT, "mix.wav"),
-                "-c:v", "libx264", "-preset", "medium", "-crf", "20", "-pix_fmt", "yuv420p", "-af", "loudnorm=I=-14:TP=-1.5:LRA=11", "-c:a", "aac", "-b:a", "160k",
+                "-c:v", "libx264", "-preset", "medium", "-crf", "20", "-pix_fmt", "yuv420p", "-af", "loudnorm=I=-13:TP=-1.5:LRA=11", "-c:a", "aac", "-b:a", "160k",
                 "-shortest", "-movflags", "+faststart", os.path.join(OUT, name + ".mp4")], check=True)
 print("done", os.path.join(OUT, name + ".mp4"), round(TOTAL, 2), "s")

@@ -74,7 +74,7 @@ SC.bear=(t,b)=>{const tm=b.T('mosquito'),tb=b.T('bear'),tdv=L(b,1).start;
  bubble(t,tdv,null,600,380,330,170,'A BEAR?!',140,110,60)};
 
 SC.sort=(t,b)=>{bd();const tn=b.T('needs'),tw=b.T('wants'),ty=b.T('why'),tb=b.T('banking'),t10=b.T('ten'),tf=b.T('finds');
- doodle(t,'phone',300,560,1.25,tb);if(t>tb+.2){txt('LAST MONTH',300,420,26,INK,'InterB');for(let i=0;i<6;i++){X.fillStyle=i%2?'#c9d8e2':'#9fb8c9';X.fillRect(235,450+i*42,130,24)}}
+ tlabelBox(t,b.t0+.15,960,110,'DO THIS TODAY',64,RED,'#fff');doodle(t,'phone',300,560,1.25,b.t0+.3);if(t>b.t0+.5){txt('LAST MONTH',300,420,26,INK,'InterB');for(let i=0;i<6;i++){X.fillStyle=i%2?'#c9d8e2':'#9fb8c9';X.fillRect(235,450+i*42,130,24)}}
  const cols=[[tn,'NEEDS',GRN,['RENT','GROCERIES','BUS PASS']],[tw,'WANTS','#3d7fb0',['MOVIES','DINNER OUT','NEW HOODIE']],[ty,'WHY DID I BUY THAT?!',RED,['3AM ORDER','GOLD PHONE CASE','4TH STREAMING']]];
  cols.forEach(([t0,name,c,items],i)=>{const x=760+i*420;const k=pop(t,t0);if(k<=0)return;at(x,230,k,i===2?.03:-.02,()=>{X.font=(i===2?40:58)+'px Anton';const w=Math.max(300,X.measureText(name).width+40);rr(-w/2,-45,w,90,12);sh(c,0);txt(name,0,3,i===2?40:58,'#fff')});
   items.forEach((it,j)=>{const s=t0+.35+j*.3;const e=eout((t-s)/.45);if(e<=0)return;const x0=300,y0=560,x1=x,y1=380+j*110;const xx=lerp(x0,x1,e),yy=lerp(y0,y1,e)-Math.sin(e*Math.PI)*120;at(xx,yy,.6+.4*e,0,()=>{rr(-170,-38,340,76,14);sh('#fff',6);txt(it,0,3,40,INK)})})});
@@ -105,7 +105,7 @@ SC.count=(t,b)=>{bd();const t10=b.T('ten'),t3=b.T('three'),t36=b.T('six'),ta=b.T
   txt('ON A $3,000 PAYCHECK',960,820,52,INK)}
  else{doodle(t,'calendar',480,520,1.4,ta);check(t,ta+.6,480,540,2.2);tlabelBox(t,ta+.3,1200,380,'SET UP 1 AUTO-TRANSFER',62,INK,'#fff');burst(t,t50,1200,640,140,GRN,'$50','COUNTS',.08);tlabelBox(t,b.T('habit'),1200,880,'HABIT > AMOUNT',62,RED,'#fff')}};
 
-SC.car=(t,b)=>{bd();const tc=b.T('broken'),tde=b.T('dentist'),tj=b.T('lost'),tcc=b.T('credit'),tp=L(b,1).start;
+SC.car=(t,b)=>{bd();tlabelBox(t,b.t0+.15,960,110,'LIFE THROWS ROCKS',66,INK,'#fff');const tc=b.T('broken'),tde=b.T('dentist'),tj=b.T('lost'),tcc=b.T('credit'),tp=L(b,1).start;
  const items=[[tc,'car',400,'$1,400'],[tde,'tooth',960,'$800'],[tj,'box',1520,'NO JOB']];
  items.forEach(([t0,nm,x,pr],i)=>{const k=pop(t,t0);if(k<=0)return;const[bx,by]=boil(t);at(x+bx,440+by,k*1.45,0,()=>{if(nm==='car')D.car();else if(nm==='tooth'){X.beginPath();X.moveTo(-60,-70);X.quadraticCurveTo(0,-100,60,-70);X.quadraticCurveTo(80,0,50,90);X.lineTo(20,20);X.lineTo(-20,20);X.lineTo(-50,90);X.quadraticCurveTo(-80,0,-60,-70);sh('#fff',7)}else{rr(-100,-70,200,140,8);sh('#d9a066',7);X.beginPath();X.moveTo(-100,-30);X.lineTo(100,-30);sh(null,5)}});
   burst(t,t0+.25,x+130,250,90,RED,pr,'',.15);if(nm==='car'&&t>t0+.3){for(let j=0;j<5;j++){const k2=((t*1.3+j*.2)%1);X.globalAlpha=1-k2;ell(x-150-k2*60,470-k2*120,30+k2*40,24+k2*30);sh('#ddd',5);X.globalAlpha=1}}});
@@ -148,11 +148,11 @@ SC.hours=(t,b)=>{bd();const tp=b.T('price'),t20=b.T('twenty'),t2=b.T('two'),t10=
  if(t>td)bubble(t,td,null,1200,170,380,150,'FOR SHOES?!',290,40,52)};
 
 SC.subs=(t,b)=>{bd();const tw=b.T('wait'),ts=b.T('subscriptions');
- if(t<ts-.3){doodle(t,'calendar',700,520,1.6,b.t0+.2);for(let i=0;i<20;i++){const s=tw+.1+i*.06;if(t<s)continue;const r=Math.floor(i/5),c=i%5;X.beginPath();X.moveTo(700+(-90+c*38)*1.6-4,520+(-40+r*36)*1.6);X.lineTo(700+(-90+c*38+26)*1.6,520+(-40+r*36+24)*1.6);sh(null,6,RED)}
+ if(t<Math.min(ts-.3,L(b,1).start)){doodle(t,'calendar',700,520,1.6,b.t0+.2);for(let i=0;i<20;i++){const s=tw+.1+i*.06;if(t<s)continue;const r=Math.floor(i/5),c=i%5;X.beginPath();X.moveTo(700+(-90+c*38)*1.6-4,520+(-40+r*36)*1.6);X.lineTo(700+(-90+c*38+26)*1.6,520+(-40+r*36+24)*1.6);sh(null,6,RED)}
   tlabelBox(t,tw,1300,420,'WAIT 30 DAYS',80,INK,'#fff');tlabelBox(t,b.T('remember'),1300,640,'STILL WANT IT?',64,GRN,'#fff')}
- else{tlabelBox(t,ts-.2,960,150,'FORGOTTEN SUBSCRIPTIONS',66,INK,'#fff');
+ else{tlabelBox(t,Math.min(ts-.2,L(b,1).start),960,150,'FORGOTTEN SUBSCRIPTIONS',66,INK,'#fff');
   const it=[['STREAMFLIX',15.99],['MUSICLY',10.99],['CLOUD+',9.99],['FITAPP (NEVER OPENED)',14.99],['NEWS PLUS',12.99]];let sum=0;
-  it.forEach(([n,p],i)=>{const s=ts+.2+i*.35,y=300+i*110;if(t<s)return;at(960,y,pop(t,s),0,()=>{rr(-430,-42,860,84,12);sh('#fff',6);txt(n,-400,3,44,INK,'Anton','left');txt('$'+p+'/mo',400,3,44,RED,'Anton','right')});
+  it.forEach(([n,p],i)=>{const s=Math.min(ts,L(b,1).start+.5)+.2+i*.35,y=300+i*110;if(t<s)return;at(960,y,pop(t,s),0,()=>{rr(-430,-42,860,84,12);sh('#fff',6);txt(n,-400,3,44,INK,'Anton','left');txt('$'+p+'/mo',400,3,44,RED,'Anton','right')});
    const sc=b.T('forgot')+i*.25;strike(t,sc,560,y,1360);if(t>sc)sum+=p});
   if(sum>0){txt('SAVED: $'+Math.round(sum*12)+' / YEAR',960,900,70,GRN)}}};
 
@@ -179,18 +179,18 @@ SC.melt=(t,b)=>{bd();const t3=b.T('three'),t10=b.T('ten'),ty=b.T('years'),tp=L(b
  if(t>tp){penny(t,1450,950,1.2,[[tp,'smug']])}};
 
 SC.snow=(t,b)=>{bd();const t2=b.T('two'),t30=b.T('thirty'),t72=b.T('seventy'),tc=b.T('compound'),tg=b.T('guaranteed');
- tlabelBox(t,t2-.2,620,150,'$200/MONTH · ~7%/YEAR',60,INK,'#fff');
+ tlabelBox(t,b.t0+.2,620,150,'$200/MONTH · ~7%/YEAR',60,INK,'#fff');
  const items=[];for(let y=0;y<=30;y+=5){const c=200*12*y,fv=y?200*((Math.pow(1+.07/12,y*12)-1)/(.07/12)):0;items.push({parts:[[c,'#3d7fb0'],[Math.max(0,fv-c),YEL]],label:y+'Y',top:y===30?'$244K':''})}
- bars(t,t2+.6,170,900,items,250000,600,120,55);
+ bars(t,Math.min(t2,b.t0+1.5),170,900,items,250000,600,120,55);
  if(t>t72-.1){tlabelBox(t,t72-.1,1610,420,'YOU PUT IN $72K',52,'#3d7fb0','#fff');tlabelBox(t,tc,1610,560,'GROWTH ~$172K',52,'#c08a00','#fff')}
  if(t>tg-.2)txt('ILLUSTRATION ONLY · NOT A GUARANTEE',1610,690,26,INK,'InterB')};
 
 SC.check=(t,b)=>{bd();const rules=[['track','TRACK WHERE MONEY GOES'],['pay','PAY YOURSELF FIRST'],['build','BUILD AN EMERGENCY FUND'],['kill','KILL EXPENSIVE DEBT'],['convert','CONVERT PRICES INTO HOURS'],['save','SAVE HALF OF EVERY RAISE'],['let','LET YOUR MONEY GROW']];
  tlabelBox(t,b.t0+.15,960,110,'YOUR CHECKLIST',70,INK,YEL);
- rules.forEach(([k,s],i)=>{const t0=b.T(k);const y=230+i*112;if(t<t0-.2)return;at(560,y,pop(t,t0-.2),0,()=>{rr(-20,-46,920,92,14);sh('#fff',6);txt((i+1)+'. '+s,20,4,48,INK,'Anton','left')});check(t,t0+.3,1580,y,1.1)})};
+ rules.forEach(([k,s],i)=>{const t0=b.T(k);const y=230+i*112;if(t<Math.min(t0-.2,b.t0+.4+i*.15))return;at(560,y,pop(t,Math.min(t0-.2,b.t0+.4+i*.15)),0,()=>{rr(-20,-46,920,92,14);sh('#fff',6);txt((i+1)+'. '+s,20,4,48,INK,'Anton','left')});check(t,t0+.3,1580,y,1.1)})};
 
 SC.check2=(t,b)=>{bd();const tp=b.T('pick'),tt=b.T('template'),tc=b.T('pinned');
- tlabelBox(t,tp-.1,960,200,'PICK ONE. DO IT TODAY.',90,RED,'#fff');doodle(t,'sheet',760,620,1.6,tt-.2);burst(t,tt,1260,520,150,GRN,'FREE','TEMPLATE',.1);
+ tlabelBox(t,b.t0+.2,960,200,'PICK ONE. DO IT TODAY.',90,RED,'#fff');doodle(t,'sheet',760,620,1.6,tt-.2);burst(t,tt,1260,520,150,GRN,'FREE','TEMPLATE',.1);
  if(t>tc){tlabelBox(t,tc,1260,820,'PINNED COMMENT ↓',64,INK,'#fff')}};
 
 SC.end=(t,b)=>{X.drawImage(NAVYBG,0,0);const k=pop(t,b.t0+.2);
